@@ -1,3 +1,13 @@
+        /* ===== ÍCONOS PERSONALIZADOS (IMAGEN) ===== */
+        .custom-icon-img {
+            width: 1em;
+            height: 1em;
+            object-fit: cover;
+            border-radius: 4px;
+            vertical-align: -0.15em;
+            display: inline-block;
+        }
+
         /* ===== RESTO DEL CSS ===== */
         * {
             box-sizing: border-box;

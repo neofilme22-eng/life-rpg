@@ -225,7 +225,7 @@
 
                         html += `
                     <div class="rune-card ${isCompleted ? 'completed' : ''}">
-                        <div class="rune-icon">${icon}</div>
+                        <div class="rune-icon">${renderIconHTML(icon, '💠')}</div>
                         <div class="rune-card-header">
                             <h4 class="rune-title">${runa.title}</h4>
                             <span class="rune-level-badge">✦ Nv.${prog.level}</span>

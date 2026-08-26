@@ -760,6 +760,8 @@
                         </div>
                         <input type="text" id="config-event-tasks" placeholder="Tareas (separadas por coma)..."
                             style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
+                        <input type="text" id="config-event-icon" placeholder="Ícono (emoji o URL de imagen, opcional)"
+                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
                         <div class="config-actions" style="margin-top:6px;">
                             <button class="action-btn success" onclick="createEventFromConfig()"
                                 style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success); padding:6px 16px;">➕
@@ -838,6 +840,8 @@
                         </div>
                         <input type="text" id="shop-create-desc" placeholder="Descripción..."
                             style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
+                        <input type="text" id="shop-create-icon" placeholder="Ícono (emoji o URL de imagen, opcional)"
+                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
                         <div class="config-actions" style="margin-top:6px;">
                             <button class="action-btn success" onclick="createShopItem()"
                                 style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success);">🛒
@@ -891,6 +895,7 @@
     <!-- ===== SCRIPT COMPLETO ===== -->
     <!-- ============================================================ -->
 
+    <script src="js/icon-utils.js"></script>
     <script src="js/config.js"></script>
     <script src="js/ui-feedback.js"></script>
     <script src="js/settings.js"></script>

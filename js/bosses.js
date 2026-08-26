@@ -42,7 +42,7 @@
                             saveGame();
                             checkAndUnlockTrophies();
 
-                            showToast('👹 ¡BOSS DERROTADO! ' + boss.icon + ' ' + boss.name + ' +' + expGain + ' EXP, +' + goldGain + ' ORO', 'success', 'Boss');
+                            showToast('👹 ¡BOSS DERROTADO! ' + renderIconHTML(boss.icon, '👹') + ' ' + boss.name + ' +' + expGain + ' EXP, +' + goldGain + ' ORO', 'success', 'Boss');
                         }
 
                         function renderBosses() {
@@ -154,7 +154,7 @@
                                 card.innerHTML = `
                     <div class="boss-header">
                         <div>
-                            <h3 class="boss-name">${boss.icon} ${boss.name}</h3>
+                            <h3 class="boss-name">${renderIconHTML(boss.icon, '👹')} ${boss.name}</h3>
                         </div>
                         <span class="boss-status">${statusText}</span>
                     </div>
@@ -229,7 +229,7 @@
 
                                 html += `
                     <div class="bestiary-card">
-                        <span class="bestiary-icon">${boss.icon || '👹'}</span>
+                        <span class="bestiary-icon">${renderIconHTML(boss.icon, '👹')}</span>
                         <div class="bestiary-name">${boss.name}</div>
                         <br>
                         <div class="bestiary-date">Derrotado el ${dateStr}</div>

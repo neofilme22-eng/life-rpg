@@ -12,7 +12,7 @@
 
                                 if (mascota) {
                                     var icon = mascota.icon || '🐾';
-                                    petEmoji.textContent = icon;
+                                    petEmoji.innerHTML = renderIconHTML(icon, '🐾');
                                     var level = player.level;
                                     petLevel.textContent = 'Nv. ' + level;
 

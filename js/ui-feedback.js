@@ -41,7 +41,7 @@
             }
 
             function showModal(icon, title, message, confirmText, callback, isDanger) {
-                document.getElementById('modal-icon').textContent = icon || '⚠️';
+                document.getElementById('modal-icon').innerHTML = renderIconHTML(icon, '⚠️');
                 document.getElementById('modal-title').textContent = title || 'Confirmar';
                 document.getElementById('modal-message').textContent = message || '¿Estás seguro?';
 

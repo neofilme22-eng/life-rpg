@@ -133,7 +133,7 @@
 
                         var html = '';
                         events.forEach(function (evt) {
-                            var icon = '⚡';
+                            var icon = renderIconHTML(evt.icon, '⚡');
                             var startStr = 'Sin fecha';
                             if (evt.start) {
                                 var d = new Date(evt.start);
@@ -265,7 +265,7 @@
 
                         var html = '';
                         mazmorras.forEach(function (evt) {
-                            var icon = '🏰';
+                            var icon = renderIconHTML(evt.icon, '🏰');
 
                             var statusMap = {
                                 'pending': { text: '⏳ Pendiente', cls: 'pending' },
@@ -652,6 +652,7 @@
                         var durationInput = document.getElementById('config-event-duration');
                         var levelInput = document.getElementById('config-event-level');
                         var tasksInput = document.getElementById('config-event-tasks');
+                        var iconInput = document.getElementById('config-event-icon');
 
                         var title = titleInput ? titleInput.value.trim() : '';
                         var type = typeSelect ? typeSelect.value : 'event';
@@ -660,6 +661,7 @@
                         var duration = parseInt(durationInput ? durationInput.value : 3) || 3;
                         var levelRequired = parseInt(levelInput ? levelInput.value : 1) || 1;
                         var tasksRaw = tasksInput ? tasksInput.value.trim() : '';
+                        var customIcon = (iconInput ? iconInput.value.trim() : '') || '';
 
                         if (!title) {
                             showToast('Ingresa un nombre.', 'warning', 'Error');
@@ -677,6 +679,7 @@
                             id: 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
                             title: title,
                             type: type,
+                            icon: customIcon || null,
                             start: start,
                             duration: duration,
                             levelRequired: levelRequired,
@@ -702,6 +705,7 @@
                         if (durationInput) durationInput.value = '3';
                         if (levelInput) levelInput.value = '1';
                         if (tasksInput) tasksInput.value = '';
+                        if (iconInput) iconInput.value = '';
 
                         var periodoTexto = {
                             'once': 'Una vez',
@@ -851,6 +855,7 @@
                                         id: 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
                                         title: s.title || 'Evento sin nombre',
                                         type: s.type || 'event',
+                                        icon: s.icon || null,
                                         start: s.start || null,
                                         duration: s.duration || 3,
                                         levelRequired: s.levelRequired || 1,

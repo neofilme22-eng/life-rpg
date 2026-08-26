@@ -75,7 +75,7 @@
 
                                     html += `
                     <div class="inv-item">
-                        <span class="inv-icon">${icon}</span>
+                        <span class="inv-icon">${renderIconHTML(icon, '📦')}</span>
                         <div class="inv-name">${name} ${isEquipped ? '✅' : ''}</div>
                         <div class="inv-type">${type}</div>
                         ${healthInfo}
@@ -98,7 +98,7 @@
                                     if (item) {
                                         var icon = item.icon || '📦';
                                         var name = item.name || 'Objeto';
-                                        contentEl.innerHTML = '<span class="slot-icon">' + icon + '</span><span>' + name + '</span>';
+                                        contentEl.innerHTML = '<span class="slot-icon">' + renderIconHTML(icon, '📦') + '</span><span>' + name + '</span>';
                                     } else {
                                         contentEl.innerHTML = '<span class="slot-empty">Vacío</span>';
                                     }

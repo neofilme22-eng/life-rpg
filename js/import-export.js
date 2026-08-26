@@ -366,6 +366,7 @@
                                                             desc: item.desc || "Item de tienda",
                                                             category: item.category || "upgrade",
                                                             price: item.price || 50,
+                                                            icon: item.icon || null,
                                                             maxPurchases: item.maxPurchases || 999,
                                                             effect: item.effect || { type: 'exp_boost', value: 5 }
                                                         };
@@ -398,6 +399,7 @@
                                     var effectSelect = document.getElementById('shop-create-effect');
                                     var effectValueInput = document.getElementById('shop-create-effect-value');
                                     var descInput = document.getElementById('shop-create-desc');
+                                    var iconInput = document.getElementById('shop-create-icon');
 
                                     var name = nameInput ? nameInput.value.trim() : '';
                                     var price = parseInt(priceInput ? priceInput.value : 50) || 50;
@@ -405,6 +407,7 @@
                                     var effectType = effectSelect ? effectSelect.value : 'exp_boost';
                                     var effectValue = parseInt(effectValueInput ? effectValueInput.value : 5) || 5;
                                     var desc = (descInput ? descInput.value.trim() : '') || 'Item personalizado.';
+                                    var customIcon = (iconInput ? iconInput.value.trim() : '') || '';
 
                                     if (!name) {
                                         showToast('Ingresa un nombre para el item.', 'warning', 'Error');
@@ -428,6 +431,7 @@
                                         desc: desc,
                                         category: category,
                                         price: price,
+                                        icon: customIcon || null,
                                         maxPurchases: category === 'pet' ? 1 : 999,
                                         effect: effectMap[effectType] || { type: 'exp_boost', value: 5 }
                                     };
@@ -438,6 +442,7 @@
 
                                     if (nameInput) nameInput.value = '';
                                     if (priceInput) priceInput.value = '50';
+                                    if (iconInput) iconInput.value = '';
                                     if (descInput) descInput.value = '';
 
                                     showToast('🛒 ¡Item "' + name + '" creado en la tienda!', 'success', 'Tienda');

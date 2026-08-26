@@ -21,7 +21,7 @@
                                         var mascota = player.equipment.mascota;
                                         if (mascota) {
                                             var icon = mascota.icon || '🐾';
-                                            petEmoji.textContent = icon;
+                                            petEmoji.innerHTML = renderIconHTML(icon, '🐾');
                                             petLevel.textContent = 'Nv. ' + player.level;
                                             var healthPercent = Math.round((player.petHealth / player.petMaxHealth) * 100);
                                             if (healthPercent < 30) {

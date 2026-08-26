@@ -114,7 +114,7 @@
                                     card.className = 'trophy-card ' + (isUnlocked ? 'unlocked' : 'locked');
 
                                     card.innerHTML = `
-                    <div class="trophy-icon">${trophy.icon}</div>
+                    <div class="trophy-icon">${renderIconHTML(trophy.icon, '🏆')}</div>
                     <div class="trophy-name">${trophy.name}</div>
                     <div class="trophy-desc">${trophy.desc}</div>
                     <div class="trophy-status">${isUnlocked ? ' Desbloqueado' : ' Bloqueado'}</div>

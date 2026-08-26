@@ -96,7 +96,7 @@
 
                                 card.innerHTML = `
                     <div class="shop-item-header">
-                        <span class="shop-item-name">${item.name}</span>
+                        <span class="shop-item-name">${item.icon ? renderIconHTML(item.icon, '') + ' ' : ''}${item.name}</span>
                         <span class="shop-item-price">🟡 ${item.price}</span>
                     </div>                    
                     <div class="shop-item-category">${categoryLabel}</div>
@@ -195,6 +195,10 @@
                                 equipable = false;
                                 slot = null;
                                 icon = '🎁';
+                            }
+
+                            if (item.icon) {
+                                icon = item.icon;
                             }
 
                             var invItem = {
