@@ -1,0 +1,237 @@
+        /* ===== SISTEMA DE TOAST ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 380px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: auto;
+            cursor: default;
+            border-left: 3px solid var(--gold);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
+        }
+
+        .toast.info {
+            border-left-color: var(--primary);
+        }
+
+        .toast .toast-title {
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .toast .toast-message {
+            opacity: 0.7;
+            font-size: 0.8rem;
+        }
+
+        /* ===== SISTEMA DE MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 99998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: linear-gradient(145deg, #1a1a2a, #0f0f1a);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 16px;
+            padding: 30px 32px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 8px 60px rgba(0, 0, 0, 0.6);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .modal-box .modal-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .modal-box .modal-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .modal-box .modal-message {
+            text-align: center;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.95rem;
+            margin: 12px 0 20px 0;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .modal-box .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-box .modal-actions button {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .modal-box .modal-actions .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .modal-box .modal-actions .modal-btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .modal-box .modal-actions .modal-btn-confirm {
+            background: linear-gradient(145deg, #d97706, #fbbf24);
+            color: #0f172a;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .modal-box .modal-actions .modal-btn-confirm:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.2);
+        }
+
+        .modal-box .modal-actions .modal-btn-confirm.danger {
+            background: var(--danger);
+            color: white;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .modal-box .modal-actions .modal-btn-confirm.danger:hover {
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: scale(0.9) translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== ANIMACIÓN DE SACUDIDA POR DAÑO ===== */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10% {
+                transform: translateX(-8px) rotate(-0.5deg);
+            }
+
+            20% {
+                transform: translateX(8px) rotate(0.5deg);
+            }
+
+            30% {
+                transform: translateX(-6px);
+            }
+
+            40% {
+                transform: translateX(6px);
+            }
+
+            50% {
+                transform: translateX(-4px);
+            }
+
+            60% {
+                transform: translateX(4px);
+            }
+
+            70% {
+                transform: translateX(-2px);
+            }
+
+            80% {
+                transform: translateX(2px);
+            }
+
+            90% {
+                transform: translateX(-1px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+

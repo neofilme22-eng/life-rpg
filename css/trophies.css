@@ -1,0 +1,144 @@
+        /* ===== TROFEOS ===== */
+        .trophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .trophy-card {
+            background: linear-gradient(145deg, #111827, #0a0f1a);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+            min-height: 160px;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .trophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(255, 255, 255, 0.02), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .trophy-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .trophy-card>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .trophy-card:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .trophy-card.unlocked {
+            border-color: rgba(251, 191, 36, 0.15);
+            background: linear-gradient(145deg, #1a1508, #0f0b04);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.02), inset 0 0 60px rgba(251, 191, 36, 0.02);
+        }
+
+        .trophy-card.unlocked::before {
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(251, 191, 36, 0.04), transparent 50%);
+        }
+
+        .trophy-card.unlocked::after {
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.06), transparent);
+        }
+
+        .trophy-card.unlocked .trophy-icon {
+            filter: none;
+            opacity: 1;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.15);
+        }
+
+        .trophy-card.unlocked .trophy-name {
+            color: var(--gold);
+        }
+
+        .trophy-card.unlocked .trophy-status {
+            background: rgba(251, 191, 36, 0.08);
+            color: var(--gold);
+            border: 1px solid rgba(251, 191, 36, 0.08);
+        }
+
+        .trophy-card.locked {
+            opacity: 0.6;
+        }
+
+        .trophy-card.locked .trophy-icon {
+            filter: grayscale(1) brightness(0.4);
+            opacity: 0.5;
+            font-size: 2rem;
+        }
+
+        .trophy-card.locked .trophy-name {
+            color: #4a4a5a;
+        }
+
+        .trophy-card.locked .trophy-desc {
+            color: #3a3a4a;
+        }
+
+        .trophy-card.locked .trophy-status {
+            background: rgba(255, 255, 255, 0.02);
+            color: #4a4a5a;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .trophy-icon {
+            font-size: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .trophy-name {
+            font-weight: bold;
+            font-size: 0.95rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .trophy-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0.7;
+        }
+
+        .trophy-status {
+            font-size: 0.65rem;
+            font-weight: bold;
+            margin-top: 2px;
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+

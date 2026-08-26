@@ -1,0 +1,308 @@
+        /* ===== FLOCK ===== */
+        .flock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .flock-card {
+            background: linear-gradient(145deg, #1a0a1a, #0f050f);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            border-radius: 12px;
+            padding: 16px 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .flock-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(244, 114, 182, 0.04), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .flock-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(244, 114, 182, 0.08), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .flock-card:hover {
+            border-color: rgba(244, 114, 182, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(244, 114, 182, 0.05);
+        }
+
+        .flock-card>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .flock-card .flock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .flock-card .flock-id {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            opacity: 0.4;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .flock-card .flock-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .flock-card .flock-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            margin: 8px 0 6px 0;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .flock-card .flock-info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .flock-card .flock-info-item strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .flock-card .flock-info-item .decay-warning {
+            color: var(--danger);
+            font-weight: bold;
+            animation: blink-warning 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink-warning {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .flock-card .flock-status-select {
+            width: 100%;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+        }
+
+        .flock-card .flock-status-select:focus {
+            outline: none;
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.05);
+        }
+
+        .flock-card .flock-status-select option {
+            background: #0f172a;
+            color: var(--text);
+        }
+
+        .flock-card .flock-interaction-select {
+            width: 100%;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 4px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+        }
+
+        .flock-card .flock-interaction-select:focus {
+            outline: none;
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.05);
+        }
+
+        .flock-card .flock-interaction-select option {
+            background: #0f172a;
+            color: var(--text);
+        }
+
+        .flock-card .flock-streak-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            color: var(--romance);
+            background: rgba(244, 114, 182, 0.12);
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(244, 114, 182, 0.1);
+        }
+
+        .flock-card .flock-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .flock-card .flock-actions button {
+            flex: 1;
+            min-width: 60px;
+            padding: 5px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .flock-card .flock-actions button:hover:not(:disabled) {
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .flock-card .flock-actions button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .flock-card .flock-actions button.interact-btn {
+            background: rgba(244, 114, 182, 0.08);
+            border-color: rgba(244, 114, 182, 0.15);
+            color: var(--romance);
+        }
+
+        .flock-card .flock-actions button.interact-btn:hover:not(:disabled) {
+            background: rgba(244, 114, 182, 0.15);
+            border-color: rgba(244, 114, 182, 0.3);
+        }
+
+        .flock-card .flock-actions button.delete-btn:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+
+        .flock-card .flock-event-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #0f172a;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            animation: pulse-gold 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-gold {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .flock-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .flock-form .form-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .flock-form .form-row input,
+        .flock-form .form-row select {
+            flex: 1;
+            min-width: 120px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.9rem;
+        }
+
+        .flock-form .form-row input:focus,
+        .flock-form .form-row select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .flock-form .form-row select option {
+            background: #0f172a;
+            color: var(--text);
+        }
+

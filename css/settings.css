@@ -1,0 +1,351 @@
+        /* ===== CONFIGURACIÓN ===== */
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .config-card {
+            background: linear-gradient(145deg, #111827, #0a0f1a);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .config-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(255, 255, 255, 0.02), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .config-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .config-card>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .config-card:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .config-card .config-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            opacity: 0.5;
+            font-weight: 300;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .config-card .config-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0.6;
+            margin-bottom: 8px;
+        }
+
+        .config-card .config-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .config-card .config-actions button {
+            padding: 5px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .config-card .config-actions button:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .config-card .config-actions button.danger-btn:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+
+        .config-card .config-actions button.success-btn:hover {
+            border-color: rgba(34, 197, 94, 0.3);
+            color: var(--success);
+        }
+
+        .config-card .config-select,
+        .config-card select,
+        select.config-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+        .config-card .config-select:hover,
+        .config-card select:hover,
+        select.config-select:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.07);
+        }
+
+        .config-card .config-select:focus,
+        .config-card select:focus,
+        select.config-select:focus {
+            outline: none;
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.05);
+        }
+
+        .config-card .config-select option,
+        .config-card select option,
+        select.config-select option {
+            background: #1a1a2e;
+            color: var(--text);
+            padding: 8px;
+        }
+
+        .config-card .config-input {
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            margin: 3px 0;
+        }
+
+        .config-card .config-input:focus {
+            outline: none;
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.05);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .config-card input[type="date"],
+        .config-card input[type="datetime-local"] {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            color-scheme: dark;
+            width: 100%;
+        }
+
+        .config-card input[type="date"]:focus,
+        .config-card input[type="datetime-local"]:focus {
+            outline: none;
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.05);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .config-card input[type="date"]::-webkit-calendar-picker-indicator,
+        .config-card input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.7);
+            cursor: pointer;
+        }
+
+        .config-card .config-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            margin: 3px 0;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .config-card .config-textarea:focus {
+            outline: none;
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.05);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .config-card .config-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 0;
+        }
+
+        .config-card .config-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .config-card .config-toggle label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            cursor: pointer;
+        }
+
+        .config-card .config-file-input {
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 3px 0;
+            text-align: center;
+        }
+
+        .config-card .config-file-input:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .config-card .config-file-input input[type="file"] {
+            display: none;
+        }
+
+        /* ===== FILTRO BAR ===== */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 6px 12px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-bar input:focus,
+        .filter-bar select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .filter-bar input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .filter-bar select option {
+            background: #0f172a;
+            color: var(--text);
+        }
+
+        /* ===== PAGINACIÓN ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .pagination button.active {
+            background: var(--primary);
+            color: #0f172a;
+            border-color: var(--primary);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .pagination .page-info {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0.6;
+        }
+

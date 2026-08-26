@@ -1,0 +1,344 @@
+        /* ===== BOSSES ===== */
+        .boss-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 4px 15px 4px;
+            margin-top: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(220, 38, 38, 0.3) transparent;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .boss-grid::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .boss-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+        }
+
+        .boss-grid::-webkit-scrollbar-thumb {
+            background: rgba(220, 38, 38, 0.3);
+            border-radius: 4px;
+        }
+
+        .boss-grid::-webkit-scrollbar-thumb:hover {
+            background: rgba(220, 38, 38, 0.5);
+        }
+
+        .boss-card {
+            min-width: 280px;
+            max-width: 320px;
+            flex-shrink: 0;
+            background: linear-gradient(145deg, #1a0a0a, #0f0505);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 12px;
+            padding: 18px 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .boss-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(220, 38, 38, 0.04), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .boss-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.08), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .boss-card:hover {
+            border-color: rgba(220, 38, 38, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.05);
+        }
+
+        .boss-card>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .boss-card.defeated {
+            border-color: rgba(34, 197, 94, 0.25);
+            background: linear-gradient(145deg, #0a1a0a, #050f05);
+        }
+
+        .boss-card.defeated::after {
+            background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.08), transparent);
+        }
+
+        .boss-card.defeated .boss-name {
+            color: var(--success);
+        }
+
+        .boss-card.defeated .boss-status {
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+        }
+
+        .boss-card.overdue {
+            border-color: rgba(220, 38, 38, 0.4);
+        }
+
+        .boss-card.overdue .boss-deadline {
+            color: var(--danger);
+            animation: blink-danger 1s ease-in-out infinite;
+        }
+
+        .boss-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .boss-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ef4444;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.05);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .boss-icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.1));
+        }
+
+        .boss-status {
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 12px;
+            border-radius: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.12);
+            align-self: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .boss-deadline {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 2px 0 10px 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .boss-deadline strong {
+            color: var(--text);
+        }
+
+        .boss-progress {
+            margin: 8px 0 6px 0;
+        }
+
+        .boss-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0.7;
+        }
+
+        .boss-progress-bar {
+            background: #1a1a2a;
+            border-radius: 4px;
+            height: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .boss-progress-bar .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .boss-card.defeated .boss-progress-bar .progress-fill {
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+        }
+
+        .boss-tasks {
+            margin-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 10px;
+            flex: 1;
+        }
+
+        .boss-task-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .boss-task-item.completed {
+            color: var(--success);
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .boss-task-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--success);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .boss-task-item input[type="checkbox"]:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .boss-task-item .task-label {
+            flex: 1;
+        }
+
+        .boss-reward {
+            font-size: 0.8rem;
+            color: var(--gold);
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .boss-reward span {
+            background: rgba(251, 191, 36, 0.06);
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(251, 191, 36, 0.06);
+        }
+
+        .boss-empty {
+            color: var(--text-muted);
+            opacity: 0.5;
+            text-align: center;
+            font-style: italic;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 30px 0;
+            grid-column: 1 / -1;
+            min-width: 100%;
+        }
+
+        /* ===== BESTIARIO ===== */
+        .bestiary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .bestiary-card {
+            background: linear-gradient(145deg, #1a0a0a, #0f0505);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 10px;
+            padding: 14px 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bestiary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(220, 38, 38, 0.04), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bestiary-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.08), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bestiary-card>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .bestiary-card:hover {
+            border-color: rgba(220, 38, 38, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.05);
+        }
+
+        .bestiary-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .bestiary-name {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--dungeon-red);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .bestiary-date {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            opacity: 0.5;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            margin-top: 2px;
+        }
+
+        .bestiary-empty {
+            color: var(--text-muted);
+            opacity: 0.5;
+            text-align: center;
+            grid-column: 1 / -1;
+            font-style: italic;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 20px 0;
+        }
+

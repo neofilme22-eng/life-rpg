@@ -1,0 +1,354 @@
+        /* ===== TIENDA ===== */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .shop-item {
+            border-radius: 12px;
+            padding: 16px 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .shop-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shop-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .shop-item>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .shop-item.purchased {
+            opacity: 0.7;
+        }
+
+        .shop-item.purchased .shop-item-name {
+            color: var(--success);
+        }
+
+        .shop-item.category-upgrade {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .shop-item.category-upgrade::before {
+            background: radial-gradient(ellipse at 20% 80%, rgba(56, 189, 248, 0.05), transparent 50%);
+        }
+
+        .shop-item.category-upgrade::after {
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.06), transparent);
+        }
+
+        .shop-item.category-upgrade:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06);
+        }
+
+        .shop-item.category-real {
+            background: linear-gradient(145deg, #1a0a0a, #0f0505);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+        }
+
+        .shop-item.category-real::before {
+            background: radial-gradient(ellipse at 20% 80%, rgba(251, 191, 36, 0.05), transparent 50%);
+        }
+
+        .shop-item.category-real::after {
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.06), transparent);
+        }
+
+        .shop-item.category-real:hover {
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 6px 24px rgba(251, 191, 36, 0.06);
+        }
+
+        .shop-item.category-consumable {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .shop-item.category-consumable::before {
+            background: radial-gradient(ellipse at 20% 80%, rgba(74, 106, 154, 0.15), transparent 50%);
+        }
+
+        .shop-item.category-consumable::after {
+            background: linear-gradient(90deg, transparent, rgba(74, 106, 154, 0.15), transparent);
+        }
+
+        .shop-item.category-consumable:hover {
+            border-color: #6a8aba;
+            box-shadow: 0 6px 24px rgba(74, 106, 154, 0.15);
+        }
+
+        .shop-item.category-pet {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .shop-item.category-pet::before {
+            background: radial-gradient(ellipse at 20% 80%, rgba(74, 106, 154, 0.15), transparent 50%);
+        }
+
+        .shop-item.category-pet::after {
+            background: linear-gradient(90deg, transparent, rgba(74, 106, 154, 0.15), transparent);
+        }
+
+        .shop-item.category-pet:hover {
+            border-color: #6a8aba;
+            box-shadow: 0 6px 24px rgba(74, 106, 154, 0.15);
+        }
+
+        .shop-item.category-arma {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .shop-item.category-arma::before {
+            background: radial-gradient(ellipse at 20% 80%, rgba(74, 106, 154, 0.15), transparent 50%);
+        }
+
+        .shop-item.category-arma::after {
+            background: linear-gradient(90deg, transparent, rgba(74, 106, 154, 0.15), transparent);
+        }
+
+        .shop-item.category-arma:hover {
+            border-color: #6a8aba;
+            box-shadow: 0 6px 24px rgba(74, 106, 154, 0.15);
+        }
+
+        .shop-item.category-armadura {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .shop-item.category-armadura::before {
+            background: radial-gradient(ellipse at 20% 80%, rgba(74, 106, 154, 0.15), transparent 50%);
+        }
+
+        .shop-item.category-armadura::after {
+            background: linear-gradient(90deg, transparent, rgba(74, 106, 154, 0.15), transparent);
+        }
+
+        .shop-item.category-armadura:hover {
+            border-color: #6a8aba;
+            box-shadow: 0 6px 24px rgba(74, 106, 154, 0.15);
+        }
+
+        .shop-item.category-reliquia {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .shop-item.category-reliquia::before {
+            background: radial-gradient(ellipse at 20% 80%, rgba(74, 106, 154, 0.15), transparent 50%);
+        }
+
+        .shop-item.category-reliquia::after {
+            background: linear-gradient(90deg, transparent, rgba(74, 106, 154, 0.15), transparent);
+        }
+
+        .shop-item.category-reliquia:hover {
+            border-color: #6a8aba;
+            box-shadow: 0 6px 24px rgba(74, 106, 154, 0.15);
+        }
+
+        .shop-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .shop-item-name {
+            font-weight: bold;
+            font-size: 1rem;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            flex: 1;
+        }
+
+        .shop-item-price {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--gold);
+            background: rgba(251, 191, 36, 0.08);
+            padding: 3px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(251, 191, 36, 0.08);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            white-space: nowrap;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .shop-item-category {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0.5;
+            margin-top: 2px;
+        }
+
+        .shop-item.category-upgrade .shop-item-category {
+            color: var(--primary);
+        }
+
+        .shop-item.category-real .shop-item-category {
+            color: var(--gold);
+        }
+
+        .shop-item.category-consumable .shop-item-category {
+            color: var(--success);
+        }
+
+        .shop-item.category-pet .shop-item-category {
+            color: var(--romance);
+        }
+
+        .shop-item.category-arma .shop-item-category {
+            color: #6a8aba;
+        }
+
+        .shop-item.category-armadura .shop-item-category {
+            color: #6aaa6a;
+        }
+
+        .shop-item.category-reliquia .shop-item-category {
+            color: #aa6aba;
+        }
+
+        .shop-item-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            flex: 1;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0.7;
+            line-height: 1.4;
+            min-height: 36px;
+        }
+
+        .shop-item .purchase-count {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            opacity: 0.4;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            margin: 2px 0;
+        }
+
+        .shop-buy-btn {
+            background: linear-gradient(145deg, #d97706, #fbbf24);
+            color: #0f172a;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 7px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            margin-top: 6px;
+            width: 100%;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            box-shadow: 0 2px 12px rgba(251, 191, 36, 0.08);
+        }
+
+        .shop-buy-btn:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15);
+        }
+
+        .shop-buy-btn:disabled {
+            background: #1e293b;
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .shop-buy-btn.purchased-btn {
+            background: transparent;
+            color: var(--success);
+            border: 1px solid var(--success);
+            box-shadow: none;
+        }
+
+        .shop-category-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .shop-cat-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .shop-cat-btn.active {
+            background: var(--primary);
+            color: #0f172a;
+            border-color: var(--primary);
+        }
+
+        .shop-cat-btn:hover:not(.active) {
+            border-color: rgba(255, 255, 255, 0.12);
+            color: var(--text);
+        }
+
+        .shop-gold-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            color: var(--gold);
+            background: rgba(251, 191, 36, 0.06);
+            padding: 6px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(251, 191, 36, 0.06);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .shop-gold-display span {
+            font-size: 1.3rem;
+        }
+

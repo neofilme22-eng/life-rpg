@@ -1,0 +1,360 @@
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .two-col-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .two-col-grid .section-box .rune-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logbook-entry-header .entry-summary {
+                white-space: normal;
+                font-size: 0.6rem;
+                min-width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-card-full {
+                grid-column: span 1;
+            }
+
+            .inventory-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .inventory-divider-vertical {
+                flex-direction: row;
+                padding: 10px 0;
+                min-height: unset;
+            }
+
+            .inventory-divider-vertical .line {
+                min-height: unset;
+                height: 2px;
+                min-width: 40px;
+                width: auto;
+                flex: 1;
+                background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.15), transparent);
+            }
+
+            .equipment-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pet-container {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+            }
+
+            .pet-container .pet-emoji {
+                font-size: 2.4rem;
+            }
+
+            .pet-container .pet-bubble {
+                bottom: 55px;
+                min-width: 120px;
+                font-size: 0.7rem;
+                right: -10px;
+            }
+
+            .pet-container .pet-bubble::after {
+                right: 20px;
+            }
+
+            .pet-container .pet-level {
+                font-size: 0.5rem;
+                padding: 0px 8px;
+            }
+
+            .toast-container {
+                bottom: 80px;
+                right: 15px;
+                max-width: 300px;
+            }
+
+            .modal-box {
+                padding: 24px 20px;
+                margin: 15px;
+            }
+
+            .event-card {
+                min-width: 240px;
+                max-width: 280px;
+            }
+
+            .boss-card {
+                min-width: 240px;
+                max-width: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .section-box {
+                padding: 14px;
+            }
+
+            .hud-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .attributes-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+
+            .attr-item {
+                padding: 6px 4px;
+            }
+
+            .attr-item .attr-value {
+                font-size: 0.9rem;
+            }
+
+            .attr-item .attr-name {
+                font-size: 0.5rem;
+            }
+
+            .attr-item .attr-icon-small {
+                font-size: 0.8rem;
+            }
+
+            .hud-main-content .hud-value {
+                font-size: 1.3rem;
+            }
+
+            .tabs {
+                gap: 4px;
+            }
+
+            .tab-btn {
+                padding: 6px 10px;
+                font-size: 0.7rem;
+            }
+
+            .rune-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .rune-card {
+                padding: 10px 8px;
+            }
+
+            .rune-title {
+                font-size: 0.7rem;
+            }
+
+            .rune-level-badge {
+                font-size: 0.5rem;
+                padding: 1px 6px;
+            }
+
+            .rune-info-row {
+                font-size: 0.55rem;
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+            }
+
+            .rune-icon {
+                font-size: 1.3rem;
+            }
+
+            .rune-channel-btn {
+                font-size: 0.6rem;
+                padding: 4px 8px;
+            }
+
+            .rune-card-header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .rune-title {
+                text-align: center;
+            }
+
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .boss-grid {
+                gap: 10px;
+            }
+
+            .shop-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trophy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bestiary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pomodoro-display {
+                font-size: 2.8rem;
+            }
+
+            .variant-btn {
+                font-size: 0.65rem;
+                padding: 4px 12px;
+            }
+
+            .sanctuary-title {
+                font-size: 1rem;
+            }
+
+            .sanctuary-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .flock-form .form-row {
+                flex-direction: column;
+            }
+
+            .flock-form .form-row input,
+            .flock-form .form-row select {
+                min-width: unset;
+            }
+
+            .flock-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logbook-entry-header {
+                flex-wrap: wrap;
+            }
+
+            .logbook-entry-header .entry-left {
+                flex-wrap: wrap;
+            }
+
+            .logbook-entry-header .entry-summary {
+                font-size: 0.55rem;
+                white-space: normal;
+            }
+
+            .daily-mission-form {
+                flex-direction: column;
+            }
+
+            .daily-mission-form input,
+            .daily-mission-form button {
+                width: 100%;
+            }
+
+            .two-col-grid .section-box .rune-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .inventory-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .equipment-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .equip-slot {
+                min-height: 90px;
+                padding: 10px 8px;
+            }
+
+            .equip-slot .slot-item .slot-icon {
+                font-size: 1.4rem;
+            }
+
+            .pet-container {
+                bottom: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .pet-container .pet-emoji {
+                font-size: 2rem;
+            }
+
+            .pet-container .pet-bubble {
+                bottom: 45px;
+                min-width: 100px;
+                font-size: 0.65rem;
+                right: -5px;
+                padding: 6px 10px;
+            }
+
+            .pet-container .pet-bubble::after {
+                right: 15px;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 6px solid rgba(15, 23, 42, 0.92);
+            }
+
+            .pet-container .pet-level {
+                font-size: 0.45rem;
+                padding: 0px 6px;
+                bottom: -2px;
+            }
+
+            .toast-container {
+                bottom: 60px;
+                right: 10px;
+                max-width: 260px;
+            }
+
+            .toast {
+                padding: 10px 14px;
+                font-size: 0.8rem;
+            }
+
+            .modal-box {
+                padding: 20px 16px;
+            }
+
+            .modal-box .modal-actions {
+                flex-direction: column;
+            }
+
+            .modal-box .modal-actions button {
+                width: 100%;
+            }
+
+            .event-card {
+                min-width: 200px;
+                max-width: 240px;
+            }
+
+            .boss-card {
+                min-width: 200px;
+                max-width: 240px;
+            }
+        }

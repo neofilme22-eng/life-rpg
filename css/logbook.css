@@ -1,0 +1,153 @@
+        /* ===== BITÁCORA ===== */
+        .logbook-entry {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .logbook-entry:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .logbook-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.3s ease;
+            flex-wrap: wrap;
+            min-height: 36px;
+        }
+
+        .logbook-entry-header:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .logbook-entry-header .entry-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .logbook-entry-header .entry-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .logbook-entry-header .entry-title {
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .logbook-entry-header .entry-summary {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            opacity: 0.7;
+            flex: 2;
+            min-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logbook-entry-header .entry-toggle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            padding: 0 4px;
+        }
+
+        .logbook-entry-header .entry-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .logbook-entry-body {
+            padding: 0 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .logbook-entry-body.open {
+            padding: 0 12px 6px 12px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .logbook-entry-body .log-detail {
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 2px 4px;
+        }
+
+        .logbook-entry-body .log-detail:last-child {
+            border-bottom: none;
+        }
+
+        .logbook-entry-body .log-time {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            opacity: 0.4;
+            min-width: 40px;
+        }
+
+        .logbook-entry-body .log-icon {
+            font-size: 0.8rem;
+        }
+
+        .logbook-entry-body .log-text {
+            color: var(--text);
+            flex: 1;
+            font-size: 0.8rem;
+        }
+
+        .logbook-entry-body .log-rewards {
+            font-size: 0.65rem;
+            color: var(--gold);
+            white-space: nowrap;
+        }
+
+        .logbook-entry-body .log-rewards .exp {
+            color: var(--accent);
+        }
+
+        .logbook-entry-body .log-rewards .gold {
+            color: var(--gold);
+        }
+
+        .logbook-entry-body .log-rewards .attr {
+            color: var(--success);
+        }
+
+        .logbook-empty {
+            text-align: center;
+            color: var(--text-muted);
+            opacity: 0.5;
+            font-style: italic;
+            padding: 30px 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+

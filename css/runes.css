@@ -1,0 +1,113 @@
+        /* ===== RUNAS ===== */
+        .rune-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .rune-card {
+            background: linear-gradient(145deg, #0a1a2a, #05101f);
+            border: 2px solid #1a3a5a;
+            border-radius: 10px;
+            padding: 12px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .rune-card:hover {
+            border-color: var(--sky-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2);
+        }
+
+        .rune-card.completed {
+            border-color: var(--sky-blue);
+            background: linear-gradient(145deg, #0a1a2a, #05101f);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.08);
+        }
+
+        .rune-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0px;
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .rune-card:hover .rune-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .rune-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 4px;
+        }
+
+        .rune-title {
+            margin: 0;
+            color: var(--sky-blue);
+            font-size: 0.8rem;
+            font-weight: bold;
+            line-height: 1.1;
+            flex-grow: 1;
+            text-align: left;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .rune-level-badge {
+            font-size: 0.6rem;
+            color: var(--sky-blue);
+            font-weight: bold;
+            background: rgba(56, 189, 248, 0.12);
+            padding: 1px 8px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            white-space: nowrap;
+        }
+
+        .rune-info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            width: 100%;
+            padding: 1px 2px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .rune-info-row .rune-streak {
+            color: var(--sky-blue);
+        }
+
+        .rune-info-row .rune-exp {
+            color: var(--accent);
+        }
+
+        .rune-card .progress-container {
+            background: #1a2a3a;
+            width: 100%;
+            height: 4px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .rune-card .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0ea5e9, #7dd3fc);
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+

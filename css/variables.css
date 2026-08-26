@@ -1,0 +1,42 @@
+        @import url('https://fonts.googleapis.com/css2?family=Georgia&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #38bdf8;
+            --accent: #a855f7;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --rune-cyan: #06b6d4;
+            --rune-border: #2dd4bf;
+            --gold: #fbbf24;
+            --gold-dark: #d97706;
+            --gold-glow: rgba(251, 191, 36, 0.15);
+            --boss-red: #dc2626;
+            --sky-blue: #7dd3fc;
+            --sky-dark: #0ea5e9;
+            --sky-glow: rgba(56, 189, 248, 0.15);
+            --sanctuary-gold: #fbbf24;
+            --sanctuary-gold-dark: #d97706;
+            --sanctuary-silver: #e2e8f0;
+            --sanctuary-white: #f8fafc;
+            --sanctuary-glow: rgba(251, 191, 36, 0.15);
+            --hud-border: rgba(251, 191, 36, 0.15);
+            --hud-glow: rgba(251, 191, 36, 0.05);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-glow-start: rgba(251, 191, 36, 0.02);
+            --card-glow-end: rgba(56, 189, 248, 0.02);
+            --romance: #ec4899;
+            --social: #8b5cf6;
+            --work: #f59e0b;
+            --family: #22c55e;
+            --event-gold: #fbbf24;
+            --event-purple: #a855f7;
+            --event-blue: #38bdf8;
+            --dungeon-red: #dc2626;
+            --dungeon-orange: #f59e0b;
+        }
+
