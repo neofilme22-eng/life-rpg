@@ -200,6 +200,7 @@
             <button class="tab-btn" onclick="switchTab('tab-flock')">👥 Party</button>
             <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
             <button class="tab-btn" onclick="switchTab('tab-logbook')">📜 Diario</button>
+            <button class="tab-btn" onclick="switchTab('tab-story')">📖 Historia</button>
             <button class="tab-btn" onclick="switchTab('tab-shop')">🏪 Tienda</button>
             <button class="tab-btn" onclick="switchTab('tab-trophies')">🏆 Trofeos</button>
             <button class="tab-btn" onclick="switchTab('tab-stats')">📊 Estadísticas</button>
@@ -633,6 +634,25 @@
             </div>
         </div>
 
+        <!-- ========== PESTAÑA MODO HISTORIA ========== -->
+        <div id="tab-story" class="tab-content">
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Modo Historia — La Ciudad Gris</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <p style="color:var(--text-muted); font-size:0.8rem; font-family:'Georgia','Times New Roman',serif; margin:0 0 10px 0;">
+                    Los capítulos se desbloquean solos a medida que avanzás de verdad: subir de nivel, derrotar
+                    bosses, crear runas, fortalecer vínculos. No hay nada que hacer acá salvo seguir jugando tu
+                    propia historia — y, cuando quieras, leerla.
+                </p>
+                <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+                    <span id="story-progress" style="font-size:0.75rem; color:var(--text-muted);"></span>
+                </div>
+                <div id="story-container"></div>
+            </div>
+        </div>
+
         <!-- ========== PESTAÑA CONFIGURACIÓN ========== -->
         <div id="tab-config" class="tab-content">
             <div class="section-box">
@@ -903,6 +923,7 @@
     <script src="js/hud.js"></script>
     <script src="js/tabs.js"></script>
     <script src="js/logbook.js"></script>
+    <script src="js/story.js"></script>
     <script src="js/runes.js"></script>
     <script src="js/daily-missions.js"></script>
     <script src="js/dlc-missions.js"></script>

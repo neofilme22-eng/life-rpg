@@ -62,6 +62,10 @@
                         if (player.petMaxHealth === undefined) player.petMaxHealth = 100;
                         if (player.gameOver === undefined) player.gameOver = false;
                         if (player.lastRuneReset === undefined) player.lastRuneReset = null;
+                        if (!player.storyChapters) player.storyChapters = [];
+                        if (!player.storyRead) player.storyRead = [];
+                        if (player.lastActiveDate === undefined) player.lastActiveDate = null;
+                        if (player.lastZeroMissionDayPenalty === undefined) player.lastZeroMissionDayPenalty = null;
                     } catch (e) {
                         console.error("Error al cargar la partida:", e);
                         player = JSON.parse(JSON.stringify(defaultPlayer));

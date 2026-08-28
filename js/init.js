@@ -53,6 +53,8 @@
 
                                     loadGame();
 
+                                    checkInactivityDamage();
+
                                     cleanOldDailyMissions();
 
                                     if (player.rawRunes && player.rawRunes.length > 0) {
@@ -106,6 +108,7 @@
 
                                     setTimeout(function () {
                                         checkAndUnlockTrophies();
+                                        checkStoryUnlocks();
                                     }, 500);
 
                                     setTimeout(function () {

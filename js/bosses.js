@@ -58,7 +58,7 @@
                                     boss.vencido = true;
                                     updated = true;
                                     addLogEntry('boss', '⏰ Boss "' + boss.name + '" vencido', 'El tiempo se agotó', 0, 0, null);
-                                    applyDamage(20, 'Boss vencido', 10);
+                                    applyDamage(30, 'Boss vencido', 15);
                                 }
                             });
 

@@ -75,6 +75,7 @@
                 updateHUD();
                 saveGame();
                 setTimeout(checkAndUnlockTrophies, 100);
+                setTimeout(checkStoryUnlocks, 150);
                 updatePet();
             }
 

@@ -48,4 +48,36 @@
                                     saveGame();
                                 }
 
+                                function checkInactivityDamage() {
+                                    if (player.gameOver) return;
+
+                                    var todayStr = new Date().toISOString().split('T')[0];
+
+                                    if (!player.lastActiveDate) {
+                                        player.lastActiveDate = todayStr;
+                                        saveGame();
+                                        return;
+                                    }
+
+                                    if (player.lastActiveDate === todayStr) return;
+
+                                    var lastDate = new Date(player.lastActiveDate + 'T00:00:00');
+                                    var today = new Date(todayStr + 'T00:00:00');
+                                    var diffDays = Math.round((today - lastDate) / (1000 * 60 * 60 * 24));
+
+                                    var graceDays = 1;
+                                    if (diffDays > graceDays) {
+                                        var inactiveDays = diffDays - graceDays;
+                                        var damageAmount = Math.min(60, inactiveDays * 10);
+                                        var petDamage = Math.min(30, inactiveDays * 5);
+
+                                        applyDamage(damageAmount, diffDays + ' días sin abrir el juego', petDamage);
+                                        addLogEntry('damage', '🌧️ La ciudad no te esperó: ' + diffDays + ' días sin aparecer', '-' + damageAmount + ' HP', 0, 0, null);
+                                        showToast('🌧️ Estuviste ' + diffDays + ' días sin jugar. La rutina te pasó factura: -' + damageAmount + ' HP', 'error', 'Inactividad');
+                                    }
+
+                                    player.lastActiveDate = todayStr;
+                                    saveGame();
+                                }
+
                                 // ============================================================

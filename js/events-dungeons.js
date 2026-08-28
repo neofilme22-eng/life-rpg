@@ -64,6 +64,25 @@
                                         showToast('⏰ Evento "' + evt.title + '" finalizado. +' + expGain + ' EXP, +' + goldGain + ' ORO', 'info', 'Evento');
                                     }
                                 }
+
+                                if (evt.type === 'dungeon' && evt.status === 'active' && evt.endTime) {
+                                    var endDate = new Date(evt.endTime);
+                                    if (now > endDate) {
+                                        var completadas = evt.taskStatus.filter(function (s) { return s; }).length;
+                                        var total = evt.tasks.length;
+                                        var porcentaje = total > 0 ? completadas / total : 0;
+
+                                        evt.status = 'finished';
+                                        evt.finishedAt = Date.now();
+
+                                        var damageAmount = Math.max(8, Math.ceil(25 * (1 - porcentaje)));
+                                        var petDamage = Math.ceil(damageAmount / 2);
+
+                                        applyDamage(damageAmount, 'Mazmorra "' + evt.title + '" expiró sin completar', petDamage);
+                                        addLogEntry('dungeon', '⏰ Mazmorra "' + evt.title + '" expiró', completadas + '/' + total + ' tareas', 0, 0, null);
+                                        showToast('⏰ Mazmorra "' + evt.title + '" expiró sin completar. -' + damageAmount + ' HP', 'error', 'Mazmorra');
+                                    }
+                                }
                             });
 
                             guardarEventos();

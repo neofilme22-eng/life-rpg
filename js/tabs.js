@@ -30,6 +30,7 @@
                 }
                 if (tabId === 'tab-shop') renderShop();
                 if (tabId === 'tab-logbook') renderLogbook();
+                if (tabId === 'tab-story') renderStory();
                 if (tabId === 'tab-flock') renderFlock();
                 if (tabId === 'tab-inventory') renderInventory();
                 if (tabId === 'tab-runas') {

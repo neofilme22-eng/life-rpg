@@ -169,7 +169,7 @@
                                             var expGain = Math.floor(elapsed / 2) + 2;
                                             gainRewards(expGain, 1, 'mente', 'pomodoro', '⏭️ Sesión interrumpida', elapsed + ' minutos');
                                             showToast('⏭️ Sesión interrumpida después de ' + elapsed + ' min. +' + expGain + ' EXP', 'warning', 'Santuario');
-                                            applyDamage(5, 'Sesión de enfoque incompleta', 3);
+                                            applyDamage(8, 'Sesión de enfoque incompleta', 5);
                                         }
                                         isBreak = true;
                                         timer = variant.break * 60;

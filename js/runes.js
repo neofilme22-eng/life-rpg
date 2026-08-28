@@ -101,8 +101,8 @@
                         player.lastRuneReset = todayStr;
 
                         if (lostRunes.length > 0) {
-                            var damageAmount = lostRunes.length * 2;
-                            applyDamage(damageAmount, 'Pérdida automática de rachas de runas', lostRunes.length);
+                            var damageAmount = lostRunes.length * 3;
+                            applyDamage(damageAmount, 'Pérdida automática de rachas de runas', lostRunes.length * 2);
 
                             var msg = '📅 Nuevo día: ' + todayStr + '\n\n';
                             msg += '💔 ' + lostRunes.length + ' runa(s) perdieron su racha:\n';
@@ -175,8 +175,8 @@
                     player.lastRuneReset = todayStr;
 
                     if (lostRunes.length > 0) {
-                        var damageAmount = lostRunes.length * 2;
-                        applyDamage(damageAmount, 'Pérdida manual de rachas de runas', lostRunes.length);
+                        var damageAmount = lostRunes.length * 3;
+                        applyDamage(damageAmount, 'Pérdida manual de rachas de runas', lostRunes.length * 2);
 
                         var msg = '💔 ' + lostRunes.length + ' runa(s) perdieron su racha:\n';
                         lostRunes.forEach(function (r) {

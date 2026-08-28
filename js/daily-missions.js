@@ -149,9 +149,23 @@
                             m.penaltyApplied = true;
                             damageCount++;
                             changed = true;
-                            applyDamage(10, 'Misión diaria vencida: "' + m.title + '"', 5);
+                            applyDamage(15, 'Misión diaria vencida: "' + m.title + '"', 8);
                         }
                     });
+
+                    var todayStr = new Date().toISOString().split('T')[0];
+                    var todaysMissions = missions.filter(function (m) { return m.date === todayStr; });
+                    var zeroMissionDay = todaysMissions.length > 0 && todaysMissions.every(function (m) {
+                        return !m.completed && m.penaltyApplied;
+                    });
+
+                    if (zeroMissionDay && player.lastZeroMissionDayPenalty !== todayStr) {
+                        player.lastZeroMissionDayPenalty = todayStr;
+                        applyDamage(15, 'Día completo sin ninguna misión diaria completada', 8);
+                        addLogEntry('daily', '💀 Día perdido: ninguna misión diaria completada', '', 0, 0, null);
+                        showToast('💀 No completaste ninguna misión diaria hoy. Daño extra.', 'error', 'Misiones');
+                        saveGame();
+                    }
 
                     if (changed) {
                         saveDailyMissions(missions);

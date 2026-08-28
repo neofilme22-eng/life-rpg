@@ -20,7 +20,7 @@
                                         member.updatedAt = now;
 
                                         if (member.affinity < oldAffinity - 10) {
-                                            applyDamage(5, 'Pérdida de afinidad con ' + member.name, 3);
+                                            applyDamage(8, 'Pérdida de afinidad con ' + member.name, 5);
                                             addLogEntry('damage', '💔 Pérdida de afinidad con ' + member.name, '-' + totalDecay + '%', 0, 0, null);
                                         }
                                     }
@@ -166,7 +166,7 @@
                                     member.streak = (member.streak || 0) + 1;
                                 } else if (daysSinceLast > 1) {
                                     if (member.streak > 0) {
-                                        applyDamage(3, 'Pérdida de racha con ' + member.name, 2);
+                                        applyDamage(5, 'Pérdida de racha con ' + member.name, 3);
                                         addLogEntry('damage', '💔 Racha perdida con ' + member.name, member.streak + ' días de racha perdidos', 0, 0, null);
                                     }
                                     member.streak = 1;
@@ -241,7 +241,7 @@
                                     function () {
                                         addLogEntry('flock', '👤 ' + member.name + ' eliminado del círculo social', '', 0, 0, null);
                                         if (member.affinity > 50) {
-                                            applyDamage(5, 'Pérdida de ' + member.name + ' del círculo social', 3);
+                                            applyDamage(8, 'Pérdida de ' + member.name + ' del círculo social', 5);
                                         }
                                         player.flock = player.flock.filter(function (f) { return f.id !== id; });
                                         saveGame();
