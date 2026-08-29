@@ -64,8 +64,18 @@
                         if (player.lastRuneReset === undefined) player.lastRuneReset = null;
                         if (!player.storyChapters) player.storyChapters = [];
                         if (!player.storyRead) player.storyRead = [];
+                        if (!player.storyChoices) player.storyChoices = {};
                         if (player.lastActiveDate === undefined) player.lastActiveDate = null;
                         if (player.lastZeroMissionDayPenalty === undefined) player.lastZeroMissionDayPenalty = null;
+                        if (player.weeklyAttentionUsed === undefined) player.weeklyAttentionUsed = 0;
+                        if (player.weeklyAttentionWeekStart === undefined) player.weeklyAttentionWeekStart = null;
+                        if (player.dailyAttentionUsed === undefined) player.dailyAttentionUsed = 0;
+                        if (player.dailyAttentionDay === undefined) player.dailyAttentionDay = null;
+                        if (!player.flockArchive) player.flockArchive = [];
+                        if (player.missionExpPct === undefined) player.missionExpPct = 0;
+                        if (player.bossExpPct === undefined) player.bossExpPct = 0;
+                        if (player.missionGoldPct === undefined) player.missionGoldPct = 0;
+                        if (player.runeExpPct === undefined) player.runeExpPct = 0;
                     } catch (e) {
                         console.error("Error al cargar la partida:", e);
                         player = JSON.parse(JSON.stringify(defaultPlayer));

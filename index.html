@@ -197,6 +197,7 @@
             <button class="tab-btn active" onclick="switchTab('tab-runas')">💠 Principal</button>
             <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>
             <button class="tab-btn" onclick="switchTab('tab-bosses')">👹 Bosses</button>
+            <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
             <button class="tab-btn" onclick="switchTab('tab-flock')">👥 Party</button>
             <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
             <button class="tab-btn" onclick="switchTab('tab-logbook')">📜 Diario</button>
@@ -429,6 +430,32 @@
             </div>
         </div>
 
+        <!-- ========== PESTAÑA BATALLAS ========== -->
+        <div id="tab-battles" class="tab-content">
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Batallas — Arena de Champs</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <p style="color:var(--text-muted); font-size:0.8rem; font-family:'Georgia','Times New Roman',serif; margin:0 0 10px 0;">
+                    Cada oponente es un defecto propio, no un monstruo — y cada uno se combate con un atributo
+                    distinto: Timidez con Social, Procrastinación con Disciplina, Inseguridad con Mente, y así con los
+                    ocho. El daño que recibís en combate impacta tu HP real de la partida, ganes o pierdas — no es un
+                    sandbox seguro.
+                </p>
+
+                <div id="battle-player-stats" class="battle-player-stats"></div>
+
+                <div id="arena-controls" class="arena-controls"></div>
+
+                <div id="battle-log-container" class="battle-log-container">
+                    <div class="battle-log-empty">Elegí un champ y tocá "Pelear" para ver el resultado acá.</div>
+                </div>
+
+                <div id="battles-champ-container" class="champ-grid"></div>
+            </div>
+        </div>
+
         <!-- ========== PESTAÑA CÍRCULO SOCIAL ========== -->
         <div id="tab-flock" class="tab-content">
             <div class="section-box">
@@ -443,9 +470,21 @@
                             style="color: var(--text-muted); font-size: 0.9rem; font-family:'Georgia','Times New Roman',serif;">
                             <span id="flock-count"></span>
                         </span>
+                        <button class="action-btn small" onclick="setFlockView('compare')" id="flock-view-toggle-btn">📊 Comparar</button>
+                        <button class="action-btn small" onclick="setFlockView('archive')" id="flock-archive-toggle-btn">🗄️ Eliminados</button>
                     </div>
                 </div>
                 <br>
+
+                <div class="flock-attention-budget">
+                    <div class="flock-attention-label">
+                        <span>🔋 Batería Social</span>
+                        <span id="flock-attention-text"></span>
+                    </div>
+                    <div class="flock-attention-bar-track">
+                        <div class="flock-attention-bar-fill" id="flock-attention-bar-fill"></div>
+                    </div>
+                </div>
 
                 <div class="flock-form">
                     <div class="form-row">
@@ -456,10 +495,9 @@
                     </div>
                 </div>
 
-                <div id="flock-container" class="flock-grid">
-                    <div class="logbook-empty" style="grid-column: 1 / -1; text-align: center;">Aún no hay personas en
-                        tu círculo social. ¡Comienza a agregar a tu círculo social!</div>
-                </div>
+                <div id="flock-container" class="flock-grid"></div>
+                <div id="flock-compare-container" class="flock-compare-container" style="display:none;"></div>
+                <div id="flock-archive-container" class="flock-compare-container" style="display:none;"></div>
             </div>
         </div>
 
@@ -642,9 +680,9 @@
                     <span class="section-ornament"></span>
                 </div>
                 <p style="color:var(--text-muted); font-size:0.8rem; font-family:'Georgia','Times New Roman',serif; margin:0 0 10px 0;">
-                    Los capítulos se desbloquean solos a medida que avanzás de verdad: subir de nivel, derrotar
-                    bosses, crear runas, fortalecer vínculos. No hay nada que hacer acá salvo seguir jugando tu
-                    propia historia — y, cuando quieras, leerla.
+                    Temporada 1, 20 capítulos. Se desbloquean solos a medida que avanzás de verdad: subir de nivel,
+                    derrotar bosses, crear runas, fortalecer vínculos. En un par de capítulos clave vas a tener que
+                    tomar una decisión que cambia cómo sigue la trama — elegí con cuidado, no se puede deshacer.
                 </p>
                 <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
                     <span id="story-progress" style="font-size:0.75rem; color:var(--text-muted);"></span>
@@ -929,6 +967,7 @@
     <script src="js/dlc-missions.js"></script>
     <script src="js/events-dungeons.js"></script>
     <script src="js/bosses.js"></script>
+    <script src="js/battles.js"></script>
     <script src="js/shop.js"></script>
     <script src="js/inventory.js"></script>
     <script src="js/pet.js"></script>

@@ -24,24 +24,50 @@
                                     addLogEntry('damage', logMsg, 'Fuente: ' + source, 0, 0, null);
 
                                     if (player.equipment && player.equipment.mascota && player.petHealth <= 0) {
-                                        var petName = player.equipment.mascota.name || 'Mascota';
-                                        player.equipment.mascota = null;
-                                        var petIndex = player.inventory.findIndex(function (i) { return i.equipped === true && i.slot === 'mascota'; });
-                                        if (petIndex !== -1) {
-                                            player.inventory.splice(petIndex, 1);
+                                        var mascotaItem = player.equipment.mascota;
+                                        var isPhoenix = mascotaItem.species === 'fenix' && !mascotaItem.phoenixUsed;
+
+                                        if (isPhoenix) {
+                                            mascotaItem.phoenixUsed = true;
+                                            player.petHealth = Math.ceil(player.petMaxHealth * 0.5);
+                                            addLogEntry('damage', '🔥 ¡' + mascotaItem.name + ' renació de sus cenizas!', 'Recuperó la mitad de su HP (una sola vez)', 0, 0, null);
+                                            showToast('🔥 ¡' + mascotaItem.name + ' estaba por morir, pero renació solo! (esto no vuelve a pasar con esta mascota)', 'success', 'Mascota');
+                                        } else {
+                                            var petName = mascotaItem.name || 'Mascota';
+                                            player.equipment.mascota = null;
+                                            var petIndex = player.inventory.findIndex(function (i) { return i.equipped === true && i.slot === 'mascota'; });
+                                            if (petIndex !== -1) {
+                                                player.inventory[petIndex].equipped = false;
+                                                player.inventory[petIndex].dead = true;
+                                            }
+                                            addLogEntry('damage', '💔 ¡' + petName + ' ha muerto!', 'Necesitas una Pluma de Fénix para revivirla.', 0, 0, null);
+                                            showToast('💔 ¡' + petName + ' ha muerto! Necesitas una "Pluma de Fénix" de la tienda para revivirla.', 'error', 'Mascota');
                                         }
-                                        addLogEntry('damage', '💔 ¡' + petName + ' ha muerto!', 'Necesitas un Polvo de Estrellas para revivirla.', 0, 0, null);
-                                        showToast('💔 ¡' + petName + ' ha muerto! Necesitas un "Polvo de Estrellas" de la tienda para revivirla.', 'error', 'Mascota');
+
                                         updatePet();
                                         renderInventory();
                                         saveGame();
                                     }
 
                                     if (player.hp <= 0) {
-                                        player.hp = 0;
-                                        player.gameOver = true;
-                                        addLogEntry('damage', '💀 GAME OVER', 'El héroe ha caído...', 0, 0, null);
-                                        showGameOverScreen();
+                                        var reliquia = player.equipment ? player.equipment.reliquia : null;
+                                        var hasSecondChance = reliquia && reliquia.effect && reliquia.effect.type === 'second_chance';
+
+                                        if (hasSecondChance) {
+                                            player.hp = 1;
+                                            player.equipment.reliquia = null;
+                                            var reliquiaIndex = player.inventory.findIndex(function (i) { return i.equipped === true && i.slot === 'reliquia'; });
+                                            if (reliquiaIndex !== -1) {
+                                                player.inventory.splice(reliquiaIndex, 1);
+                                            }
+                                            addLogEntry('damage', '🕊️ ¡Segunda Oportunidad activada!', 'Sobreviviste con 1 HP. La reliquia se rompió.', 0, 0, null);
+                                            showToast('🕊️ Tu Segunda Oportunidad se rompió, pero te salvó: seguís con 1 HP.', 'success', 'Segunda Oportunidad');
+                                        } else {
+                                            player.hp = 0;
+                                            player.gameOver = true;
+                                            addLogEntry('damage', '💀 GAME OVER', 'El héroe ha caído...', 0, 0, null);
+                                            showGameOverScreen();
+                                        }
                                     }
 
                                     updateHUD();

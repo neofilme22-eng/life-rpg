@@ -264,8 +264,24 @@
                                     player.hp = player.hp + effect.value;
                                     break;
                                 case 'weapon':
+                                    player.attributes.fuerza = (player.attributes.fuerza || 1) + effect.value;
                                     break;
                                 case 'armor':
+                                    player.attributes.disciplina = (player.attributes.disciplina || 1) + effect.value;
+                                    break;
+                                case 'mission_exp_pct':
+                                    player.missionExpPct = (player.missionExpPct || 0) + effect.value;
+                                    break;
+                                case 'boss_exp_pct':
+                                    player.bossExpPct = (player.bossExpPct || 0) + effect.value;
+                                    break;
+                                case 'mission_gold_pct':
+                                    player.missionGoldPct = (player.missionGoldPct || 0) + effect.value;
+                                    break;
+                                case 'rune_exp_pct':
+                                    player.runeExpPct = (player.runeExpPct || 0) + effect.value;
+                                    break;
+                                case 'second_chance':
                                     break;
                                 case 'heal':
                                     player.hp = Math.min(player.maxHp, player.hp + effect.value);
@@ -277,6 +293,9 @@
                                 case 'real_reward':
                                     break;
                                 case 'pet_item':
+                                    if (item.species && PET_PERSONALITIES[item.species] && PET_PERSONALITIES[item.species].buff) {
+                                        applyPetBuff(PET_PERSONALITIES[item.species].buff);
+                                    }
                                     break;
                                 default:
                                     break;
@@ -284,6 +303,64 @@
 
                             updateHUD();
                             saveGame();
+                        }
+
+                        function applyPetBuff(buff) {
+                            if (!buff) return;
+
+                            switch (buff.type) {
+                                case 'exp_boost':
+                                    player.expBoost = (player.expBoost || 0) + buff.value;
+                                    break;
+                                case 'gold_boost':
+                                    player.goldBoost = (player.goldBoost || 0) + buff.value;
+                                    break;
+                                case 'rune_bonus':
+                                    player.runeBonus = (player.runeBonus || 0) + buff.value;
+                                    break;
+                                case 'hp_boost':
+                                    player.maxHp = player.maxHp + buff.value;
+                                    player.hp = player.hp + buff.value;
+                                    break;
+                                case 'attr_boost':
+                                    if (player.attributes[buff.attr] !== undefined) {
+                                        player.attributes[buff.attr] += buff.value;
+                                    }
+                                    break;
+                                case 'phoenix_revive':
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        function removePetBuff(buff) {
+                            if (!buff) return;
+
+                            switch (buff.type) {
+                                case 'exp_boost':
+                                    player.expBoost = Math.max(0, (player.expBoost || 0) - buff.value);
+                                    break;
+                                case 'gold_boost':
+                                    player.goldBoost = Math.max(0, (player.goldBoost || 0) - buff.value);
+                                    break;
+                                case 'rune_bonus':
+                                    player.runeBonus = Math.max(0, (player.runeBonus || 0) - buff.value);
+                                    break;
+                                case 'hp_boost':
+                                    player.maxHp = Math.max(100, player.maxHp - buff.value);
+                                    if (player.hp > player.maxHp) player.hp = player.maxHp;
+                                    break;
+                                case 'attr_boost':
+                                    if (player.attributes[buff.attr] !== undefined) {
+                                        player.attributes[buff.attr] = Math.max(1, player.attributes[buff.attr] - buff.value);
+                                    }
+                                    break;
+                                case 'phoenix_revive':
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
 
                         // ============================================================

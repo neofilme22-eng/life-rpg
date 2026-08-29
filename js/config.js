@@ -47,8 +47,18 @@
             lastRuneReset: null,
             storyChapters: [],
             storyRead: [],
+            storyChoices: {},
             lastActiveDate: null,
-            lastZeroMissionDayPenalty: null
+            lastZeroMissionDayPenalty: null,
+            weeklyAttentionUsed: 0,
+            weeklyAttentionWeekStart: null,
+            dailyAttentionUsed: 0,
+            dailyAttentionDay: null,
+            flockArchive: [],
+            missionExpPct: 0,
+            bossExpPct: 0,
+            missionGoldPct: 0,
+            runeExpPct: 0
         };
 
         // ============================================================
@@ -56,28 +66,32 @@
             // ============================================================
 
             const SHOP_ITEMS_DEFAULT = [
-                { id: 'sword_wood', name: '🗡️ Espada de Madera', desc: 'Una espada básica para principiantes. +2 de daño.', category: 'arma', price: 50, maxPurchases: 1, effect: { type: 'weapon', value: 2 }, slot: 'arma' },
-                { id: 'sword_iron', name: '⚔️ Espada de Hierro', desc: 'Una espada robusta de hierro. +5 de daño.', category: 'arma', price: 120, maxPurchases: 1, effect: { type: 'weapon', value: 5 }, slot: 'arma' },
-                { id: 'sword_steel', name: '🗡️ Espada de Acero', desc: 'Una espada afilada de acero. +10 de daño.', category: 'arma', price: 250, maxPurchases: 1, effect: { type: 'weapon', value: 10 }, slot: 'arma' },
-                { id: 'bow_elven', name: '🏹 Arco Élfico', desc: 'Un arco ligero y preciso. +8 de daño.', category: 'arma', price: 200, maxPurchases: 1, effect: { type: 'weapon', value: 8 }, slot: 'arma' },
-                { id: 'staff_magic', name: '🪄 Bastón Mágico', desc: 'Un bastón que canaliza energía arcana. +12 de daño.', category: 'arma', price: 300, maxPurchases: 1, effect: { type: 'weapon', value: 12 }, slot: 'arma' },
-                { id: 'dagger_shadow', name: '🗡️ Daga Sombría', desc: 'Una daga ligera y letal. +6 de daño.', category: 'arma', price: 160, maxPurchases: 1, effect: { type: 'weapon', value: 6 }, slot: 'arma' },
-                { id: 'axe_battle', name: '🪓 Hacha de Batalla', desc: 'Un hacha pesada que causa gran daño. +15 de daño.', category: 'arma', price: 350, maxPurchases: 1, effect: { type: 'weapon', value: 15 }, slot: 'arma' },
-                { id: 'armor_leather', name: '🛡️ Armadura de Cuero', desc: 'Armadura ligera de cuero. +2 de defensa.', category: 'armadura', price: 60, maxPurchases: 1, effect: { type: 'armor', value: 2 }, slot: 'armadura' },
-                { id: 'armor_chain', name: '🛡️ Cota de Malla', desc: 'Armadura de malla resistente. +5 de defensa.', category: 'armadura', price: 150, maxPurchases: 1, effect: { type: 'armor', value: 5 }, slot: 'armadura' },
-                { id: 'armor_plate', name: '🛡️ Armadura de Placas', desc: 'Armadura completa de placas de acero. +10 de defensa.', category: 'armadura', price: 300, maxPurchases: 1, effect: { type: 'armor', value: 10 }, slot: 'armadura' },
-                { id: 'armor_mithril', name: '🛡️ Armadura de Mithril', desc: 'Una armadura legendaria de mithril. +15 de defensa.', category: 'armadura', price: 500, maxPurchases: 1, effect: { type: 'armor', value: 15 }, slot: 'armadura' },
-                { id: 'armor_scale', name: '🛡️ Armadura de Escamas', desc: 'Armadura hecha con escamas de dragón. +8 de defensa.', category: 'armadura', price: 220, maxPurchases: 1, effect: { type: 'armor', value: 8 }, slot: 'armadura' },
-                { id: 'armor_robe', name: '🛡️ Túnica Arcana', desc: 'Túnica tejida con hilos mágicos. +6 de defensa.', category: 'armadura', price: 180, maxPurchases: 1, effect: { type: 'armor', value: 6 }, slot: 'armadura' },
-                { id: 'armor_bone', name: '🛡️ Armadura de Hueso', desc: 'Armadura creada con huesos de bestias ancestrales. +12 de defensa.', category: 'armadura', price: 400, maxPurchases: 1, effect: { type: 'armor', value: 12 }, slot: 'armadura' },
-                { id: 'exp_boost_1', name: '💫 Reliquia de Experiencia', desc: 'Ganas +5 EXP extra por cada misión completada', category: 'reliquia', price: 50, maxPurchases: 1, effect: { type: 'exp_boost', value: 5 }, slot: 'reliquia' },
-                { id: 'exp_boost_2', name: '💫 Reliquia de Sabiduría', desc: 'Ganas +10 EXP extra por cada misión completada', category: 'reliquia', price: 120, maxPurchases: 1, effect: { type: 'exp_boost', value: 10 }, slot: 'reliquia' },
-                { id: 'gold_boost', name: '🟡 Reliquia de la Fortuna', desc: 'Ganas +5 ORO extra por cada misión completada', category: 'reliquia', price: 80, maxPurchases: 1, effect: { type: 'gold_boost', value: 5 }, slot: 'reliquia' },
-                { id: 'rune_bonus', name: '🔮 Reliquia de la Disciplina', desc: 'Las runas dan +3 EXP extra al canalizarlas', category: 'reliquia', price: 100, maxPurchases: 1, effect: { type: 'rune_bonus', value: 3 }, slot: 'reliquia' },
-                { id: 'hp_boost', name: '❤️ Reliquia de Vitalidad', desc: 'Aumenta tu HP máximo en +20', category: 'reliquia', price: 150, maxPurchases: 1, effect: { type: 'hp_boost', value: 20 }, slot: 'reliquia' },
-                { id: 'hp_potion', name: '❤️ Poción de Vida', desc: 'Restaura 50 HP al personaje', category: 'consumable', price: 30, maxPurchases: 999, effect: { type: 'heal', value: 50 } },
-                { id: 'attr_point', name: '⭐ Punto de Atributo', desc: 'Aumenta 1 punto en el atributo que elijas', category: 'consumable', price: 40, maxPurchases: 999, effect: { type: 'attr_point', value: 1 } },
-                { id: 'revive_pet', name: '💫 Polvo de Estrellas', desc: 'Revive a tu mascota si ha fallecido.', category: 'consumable', price: 200, maxPurchases: 999, effect: { type: 'revive_pet', value: 1 } },
+                { id: 'weapon_dagger', name: '🗡️ Daga Herrumbrada', desc: 'Una daga vieja y desgastada, pero filosa. +1 Fuerza mientras esté equipada.', category: 'arma', price: 40, maxPurchases: 1, effect: { type: 'weapon', value: 1 }, slot: 'arma' },
+                { id: 'weapon_shortsword', name: '⚔️ Espada Corta', desc: 'Ligera y fácil de manejar. +2 Fuerza mientras esté equipada.', category: 'arma', price: 90, maxPurchases: 1, effect: { type: 'weapon', value: 2 }, slot: 'arma' },
+                { id: 'weapon_axe', name: '🪓 Hacha de Leñador', desc: 'Pesada, pero brutal en manos firmes. +3 Fuerza mientras esté equipada.', category: 'arma', price: 160, maxPurchases: 1, effect: { type: 'weapon', value: 3 }, slot: 'arma' },
+                { id: 'weapon_longsword', name: '🗡️ Espada Larga Élfica', desc: 'Forjada con una precisión que ya no se ve. +4 Fuerza mientras esté equipada.', category: 'arma', price: 260, maxPurchases: 1, effect: { type: 'weapon', value: 4 }, slot: 'arma' },
+                { id: 'weapon_greatsword', name: '⚔️ Mandoble de Guerra', desc: 'Requiere ambas manos y toda tu determinación. +6 Fuerza mientras esté equipada.', category: 'arma', price: 420, maxPurchases: 1, effect: { type: 'weapon', value: 6 }, slot: 'arma' },
+                { id: 'weapon_dawnblade', name: '🌅 Hoja del Alba Eterna', desc: 'Se dice que brilla más fuerte cuanto más constante sos. +8 Fuerza mientras esté equipada.', category: 'arma', price: 650, maxPurchases: 1, effect: { type: 'weapon', value: 8 }, slot: 'arma' },
+                { id: 'armor_rags', name: '🥋 Túnica Raída', desc: 'Apenas protege, pero es un comienzo. +1 Disciplina mientras esté equipada.', category: 'armadura', price: 40, maxPurchases: 1, effect: { type: 'armor', value: 1 }, slot: 'armadura' },
+                { id: 'armor_leather', name: '🛡️ Peto de Cuero Curtido', desc: 'Resistente sin sacrificar movilidad. +2 Disciplina mientras esté equipada.', category: 'armadura', price: 90, maxPurchases: 1, effect: { type: 'armor', value: 2 }, slot: 'armadura' },
+                { id: 'armor_chain', name: '🛡️ Cota de Malla', desc: 'Cada anilla es una decisión sostenida. +3 Disciplina mientras esté equipada.', category: 'armadura', price: 160, maxPurchases: 1, effect: { type: 'armor', value: 3 }, slot: 'armadura' },
+                { id: 'armor_plate', name: '🛡️ Armadura de Placas', desc: 'Pesada, sólida, confiable. +4 Disciplina mientras esté equipada.', category: 'armadura', price: 260, maxPurchases: 1, effect: { type: 'armor', value: 4 }, slot: 'armadura' },
+                { id: 'armor_sacred', name: '✨ Armadura Sagrada', desc: 'Bendecida por quienes ya cruzaron su propia niebla. +6 Disciplina mientras esté equipada.', category: 'armadura', price: 420, maxPurchases: 1, effect: { type: 'armor', value: 6 }, slot: 'armadura' },
+                { id: 'armor_aegis', name: '🛡️ Égida del Monje Eterno', desc: 'La armadura de quien nunca deja de intentarlo. +8 Disciplina mientras esté equipada.', category: 'armadura', price: 650, maxPurchases: 1, effect: { type: 'armor', value: 8 }, slot: 'armadura' },
+                { id: 'potion_small', name: '❤️ Poción', desc: 'Restaura 20 HP al personaje.', category: 'consumable', price: 15, maxPurchases: 999, effect: { type: 'heal', value: 20 } },
+                { id: 'potion_mega', name: '❤️ Mega Poción', desc: 'Restaura 50 HP al personaje.', category: 'consumable', price: 40, maxPurchases: 999, effect: { type: 'heal', value: 50 } },
+                { id: 'potion_hyper', name: '❤️ Hiper Poción', desc: 'Restaura 100 HP al personaje.', category: 'consumable', price: 90, maxPurchases: 999, effect: { type: 'heal', value: 100 } },
+                { id: 'elixir', name: '💖 Elixir', desc: 'Restaura por completo tu HP.', category: 'consumable', price: 160, maxPurchases: 999, effect: { type: 'heal_full', value: 0 } },
+                { id: 'attr_point', name: '⭐ Punto de Atributo', desc: 'Aumenta 1 punto en el atributo que elijas.', category: 'consumable', price: 200, maxPurchases: 999, effect: { type: 'attr_point', value: 1 } },
+                { id: 'pet_treat', name: '🍖 Golosina Animal', desc: 'Restaura 30 HP a tu mascota.', category: 'consumable', price: 25, maxPurchases: 999, effect: { type: 'pet_heal', value: 30 } },
+                { id: 'phoenix_feather', name: '🪶 Pluma de Fénix', desc: 'Revive a tu mascota si ha fallecido.', category: 'consumable', price: 220, maxPurchases: 999, effect: { type: 'revive_pet', value: 1 } },
+                { id: 'battery_recharge', name: '🔋 Recarga de Batería', desc: 'Restaura por completo tu Batería Social de hoy.', category: 'consumable', price: 60, maxPurchases: 999, effect: { type: 'restore_attention', value: 1 } },
+                { id: 'exp_boost_1', name: '💫 Reliquia de Experiencia', desc: 'Ganas 5% EXP extra por cada misión completada.', category: 'reliquia', price: 150, maxPurchases: 1, effect: { type: 'mission_exp_pct', value: 5 }, slot: 'reliquia' },
+                { id: 'boss_slayer', name: '💀 Mata Bosses', desc: 'Ganas 10% EXP extra por cada boss derrotado.', category: 'reliquia', price: 220, maxPurchases: 1, effect: { type: 'boss_exp_pct', value: 10 }, slot: 'reliquia' },
+                { id: 'gold_boost', name: '🟡 Reliquia de la Fortuna', desc: 'Ganas 5% ORO extra por cada misión completada.', category: 'reliquia', price: 150, maxPurchases: 1, effect: { type: 'mission_gold_pct', value: 5 }, slot: 'reliquia' },
+                { id: 'rune_bonus', name: '🔮 Reliquia de la Disciplina', desc: 'Las runas dan 3% EXP extra al canalizarlas.', category: 'reliquia', price: 130, maxPurchases: 1, effect: { type: 'rune_exp_pct', value: 3 }, slot: 'reliquia' },
+                { id: 'hp_boost', name: '❤️ Reliquia de Vitalidad', desc: 'Aumenta tu HP máximo en +20.', category: 'reliquia', price: 180, maxPurchases: 1, effect: { type: 'hp_boost', value: 20 }, slot: 'reliquia' },
+                { id: 'second_chance', name: '🕊️ Segunda Oportunidad', desc: 'Sobrevive al Game Over: te deja con 1 HP. Uso único, luego se rompe.', category: 'reliquia', price: 400, maxPurchases: 1, effect: { type: 'second_chance', value: 1 }, slot: 'reliquia' },
                 { id: 'delivery', name: '🍕 Delivery', desc: '¡Date un gusto! Pide tu comida favorita a domicilio', category: 'real', price: 80, maxPurchases: 999, effect: { type: 'real_reward', value: '🍕 Pedir delivery' } },
                 { id: 'cinema', name: '🎬 Cine', desc: 'Ve al cine a ver esa película que tanto esperas', category: 'real', price: 100, maxPurchases: 999, effect: { type: 'real_reward', value: '🎬 Ir al cine' } },
                 { id: 'clothes', name: '👕 Ropa Nueva', desc: 'Date un capricho y compra ropa nueva que te guste', category: 'real', price: 150, maxPurchases: 999, effect: { type: 'real_reward', value: '👕 Comprar ropa nueva' } },
@@ -88,12 +102,88 @@
                 { id: 'concert', name: '🎵 Concierto', desc: 'Compra una entrada para ver a tu artista favorito', category: 'real', price: 180, maxPurchases: 999, effect: { type: 'real_reward', value: '🎵 Ir a un concierto' } },
                 { id: 'hobby', name: '🎨 Material de Hobby', desc: 'Compra materiales para tu hobby favorito', category: 'real', price: 100, maxPurchases: 999, effect: { type: 'real_reward', value: '🎨 Comprar materiales de hobby' } },
                 { id: 'dessert', name: '🧁 Postre Especial', desc: 'Date un capricho dulce, ¡te lo mereces!', category: 'real', price: 40, maxPurchases: 999, effect: { type: 'real_reward', value: '🧁 Comer un postre especial' } },
-                { id: 'pet_dog', name: '🐶 Perro Fiel', desc: 'Un compañero leal que te sigue a todas partes.', category: 'pet', price: 150, maxPurchases: 1, effect: { type: 'pet_item', value: '🐶' } },
-                { id: 'pet_cat', name: '🐱 Gato Misterioso', desc: 'Un gato enigmático que te da suerte.', category: 'pet', price: 180, maxPurchases: 1, effect: { type: 'pet_item', value: '🐱' } },
-                { id: 'pet_dragon', name: '🐲 Dragón Pequeño', desc: 'Un dragón que escupe chispas de sabiduría.', category: 'pet', price: 250, maxPurchases: 1, effect: { type: 'pet_item', value: '🐲' } },
-                { id: 'pet_fox', name: '🦊 Zorro Astuto', desc: 'Un zorro inteligente que te ayuda a encontrar tesoros.', category: 'pet', price: 200, maxPurchases: 1, effect: { type: 'pet_item', value: '🦊' } },
-                { id: 'pet_owl', name: '🦉 Búho Sabio', desc: 'Un búho que te susurra conocimientos antiguos.', category: 'pet', price: 220, maxPurchases: 1, effect: { type: 'pet_item', value: '🦉' } }
+                { id: 'pet_cat', name: '🐱 Gato', desc: 'Independiente y observador. No hace lo que le pedís, hace lo que quiere — y aun así se queda.', category: 'pet', price: 150, maxPurchases: 1, species: 'gato', effect: { type: 'pet_item', value: '🐱' } },
+                { id: 'pet_dog', name: '🐶 Perro', desc: 'Leal y entusiasta. Cree en vos incluso los días en que vos no.', category: 'pet', price: 150, maxPurchases: 1, species: 'perro', effect: { type: 'pet_item', value: '🐶' } },
+                { id: 'pet_owl', name: '🦉 Búho', desc: 'Sabio y calmado. Casi no dice nada, pero cuando lo hace, conviene escuchar.', category: 'pet', price: 180, maxPurchases: 1, species: 'buho', effect: { type: 'pet_item', value: '🦉' } },
+                { id: 'pet_panda', name: '🐼 Panda', desc: 'Tranquilo y paciente. Se mueve despacio porque sabe que no hace falta apurarse.', category: 'pet', price: 200, maxPurchases: 1, species: 'panda', effect: { type: 'pet_item', value: '🐼' } },
+                { id: 'pet_fox', name: '🦊 Zorro', desc: 'Astuto y juguetón. Siempre encuentra el atajo — a veces literal, a veces no.', category: 'pet', price: 180, maxPurchases: 1, species: 'zorro', effect: { type: 'pet_item', value: '🦊' } },
+                { id: 'pet_crow', name: '🐦‍⬛ Cuervo', desc: 'Misterioso y observador. Parece que sabe algo que vos todavía no.', category: 'pet', price: 160, maxPurchases: 1, species: 'cuervo', effect: { type: 'pet_item', value: '🐦‍⬛' } },
+                { id: 'pet_raccoon', name: '🦝 Mapache', desc: 'Curioso y travieso. Le interesa todo, sobre todo lo que no debería tocar.', category: 'pet', price: 170, maxPurchases: 1, species: 'mapache', effect: { type: 'pet_item', value: '🦝' } },
+                { id: 'pet_dragon', name: '🐲 Dragón', desc: 'Orgulloso y poderoso. No sigue a cualquiera — y aun así te sigue a vos.', category: 'pet', price: 350, maxPurchases: 1, species: 'dragon', effect: { type: 'pet_item', value: '🐲' } },
+                { id: 'pet_phoenix', name: '🔥 Fénix', desc: 'Renace de las cenizas. Literalmente: cuando debería morir, a veces elige no hacerlo.', category: 'pet', price: 400, maxPurchases: 1, species: 'fenix', effect: { type: 'pet_item', value: '🔥' } }
             ];
+
+            const PET_PERSONALITIES = {
+                gato: {
+                    name: 'Gato',
+                    trait: 'Independiente y observador',
+                    animation: 'pet-anim-bounce',
+                    messages: ['🐱 Ya te vi. No hace falta que lo repitas.', '🐱 Hago esto porque quiero, no porque me llamaste.', '🐱 ...', '🐱 Está bien. Un ratito nada más.', '🐱 Vos seguí. Yo miro desde acá.'],
+                    lowHealthMsg: '🐱 Necesito una siesta larga.'
+                },
+                perro: {
+                    name: 'Perro',
+                    trait: 'Leal y entusiasta',
+                    animation: 'pet-anim-wiggle',
+                    messages: ['🐶 ¡Sabía que ibas a volver!', '🐶 ¡Vamos, vamos, vamos!', '🐶 ¡Sos mi persona favorita!', '🐶 ¡Hoy también, siempre!', '🐶 ¡Guau! ¡Buen trabajo, en serio!'],
+                    lowHealthMsg: '🐶 Necesito que me cuides un poco...',
+                    buff: { type: 'exp_boost', value: 1 }
+                },
+                buho: {
+                    name: 'Búho',
+                    trait: 'Sabio y calmado',
+                    animation: 'pet-anim-pulse',
+                    messages: ['🦉 Cada repetición cuenta más de lo que pensás.', '🦉 Estás construyendo algo, aunque no se note hoy.', '🦉 La paciencia también es una habilidad.', '🦉 Bien. Otra vez mañana.'],
+                    lowHealthMsg: '🦉 Hasta la sabiduría necesita descanso.',
+                    buff: { type: 'rune_bonus', value: 2 }
+                },
+                panda: {
+                    name: 'Panda',
+                    trait: 'Tranquilo y paciente',
+                    animation: 'pet-anim-pulse',
+                    messages: ['🐼 Sin apuro. Así también se llega.', '🐼 Un paso. Después el otro.', '🐼 Estoy bien acá, cerca tuyo.', '🐼 Todo va a su tiempo.'],
+                    lowHealthMsg: '🐼 Bajemos el ritmo un poco.',
+                    buff: { type: 'hp_boost', value: 10 }
+                },
+                zorro: {
+                    name: 'Zorro',
+                    trait: 'Astuto y juguetón',
+                    animation: 'pet-anim-bounce',
+                    messages: ['🦊 Encontré un atajo. No preguntes cómo.', '🦊 ¿Jugamos o trabajamos? Digo... lo mismo, ¿no?', '🦊 Esto va a salir bien. Confiá.', '🦊 ¡Ja! Te lo dije.'],
+                    lowHealthMsg: '🦊 Hasta yo me canso de correr.',
+                    buff: { type: 'gold_boost', value: 2 }
+                },
+                cuervo: {
+                    name: 'Cuervo',
+                    trait: 'Misterioso y observador',
+                    animation: 'pet-anim-wiggle',
+                    messages: ['🐦‍⬛ Ya vi cómo termina esto. Va bien.', '🐦‍⬛ Seguí. Yo aviso si algo cambia.', '🐦‍⬛ Nada se te escapa cuando yo miro.', '🐦‍⬛ Interesante elección, la de hoy.'],
+                    lowHealthMsg: '🐦‍⬛ Hasta los cuervos necesitan sombra.'
+                },
+                mapache: {
+                    name: 'Mapache',
+                    trait: 'Curioso y travieso',
+                    animation: 'pet-anim-bounce',
+                    messages: ['🦝 ¿Qué es esto? ¿Puedo tocarlo?', '🦝 Encontré algo brillante. No preguntes qué.', '🦝 ¡Otra vez, otra vez!', '🦝 Me distraje, pero volví.'],
+                    lowHealthMsg: '🦝 Necesito guardar energía un rato.'
+                },
+                dragon: {
+                    name: 'Dragón',
+                    trait: 'Orgulloso y poderoso',
+                    animation: 'pet-anim-pulse',
+                    messages: ['🐲 No sigo a cualquiera. A vos, sí.', '🐲 Esto apenas me exige esfuerzo. Bien hecho igual.', '🐲 Seguí así y vamos a llegar lejos.', '🐲 Hoy estuviste a la altura.'],
+                    lowHealthMsg: '🐲 Hasta el fuego necesita apagarse un rato.',
+                    buff: { type: 'attr_boost', attr: 'fuerza', value: 1 }
+                },
+                fenix: {
+                    name: 'Fénix',
+                    trait: 'Renace de las cenizas',
+                    animation: 'pet-anim-glow',
+                    messages: ['🔥 Lo que se apaga, puede volver a encenderse.', '🔥 Cada caída tiene una vuelta, si la elegís.', '🔥 No temo terminar. Sé que puedo empezar de nuevo.', '🔥 Seguimos, con o sin cenizas.'],
+                    lowHealthMsg: '🔥 Todavía no. Todavía puedo más.',
+                    buff: { type: 'phoenix_revive' }
+                }
+            };
 
             let SHOP_ITEMS = JSON.parse(JSON.stringify(SHOP_ITEMS_DEFAULT));
 
@@ -109,6 +199,7 @@
             };
 
             const FLOCK_STATUSES = [
+                { id: 'match', label: '💘 Match (sin hablar)' },
                 { id: 'unknown', label: '❓ Desconocida' },
                 { id: 'encounter', label: '👋 Encuentro' },
                 { id: 'known', label: '🤝 Conocida' },
@@ -116,6 +207,8 @@
                 { id: 'romance', label: '❤️ Interés Romántico' },
                 { id: 'partner', label: '💞 Pareja' }
             ];
+
+            const DAILY_ATTENTION_BUDGET = 6;
 
             const INTERACTION_TYPES = [
                 { id: 'charla', label: '💬 Charla', affinityMin: 3, affinityMax: 8, exp: 5, gold: 2 },
@@ -149,7 +242,8 @@
                 daily: '📋',
                 inventory: '🎒',
                 damage: '💔',
-                story: '📖'
+                story: '📖',
+                battle: '⚔️'
             };
 
             const BASE_TROPHY_DEFINITIONS = [
@@ -189,7 +283,6 @@
             let trophyCurrentPage = 1;
             let trophyItemsPerPage = 8;
             let petBubbleTimeout = null;
-            let petClickCount = 0;
             let modalCallback = null;
             let currentEventFilter = 'all';
             let dailyCheckInterval = null;

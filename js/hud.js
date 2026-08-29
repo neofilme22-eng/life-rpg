@@ -49,6 +49,15 @@
                 var totalExp = Math.floor((expGain + (player.expBoost || 0)) * mult.exp);
                 var totalGold = Math.floor((goldGain + (player.goldBoost || 0)) * mult.gold);
 
+                if (logType === 'daily' || logType === 'mission') {
+                    if (player.missionExpPct) totalExp += Math.round(totalExp * (player.missionExpPct / 100));
+                    if (player.missionGoldPct) totalGold += Math.round(totalGold * (player.missionGoldPct / 100));
+                } else if (logType === 'boss') {
+                    if (player.bossExpPct) totalExp += Math.round(totalExp * (player.bossExpPct / 100));
+                } else if (logType === 'rune') {
+                    if (player.runeExpPct) totalExp += Math.round(totalExp * (player.runeExpPct / 100));
+                }
+
                 player.exp += totalExp;
                 player.gold += totalGold;
 

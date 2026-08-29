@@ -62,6 +62,20 @@
                                         var goldGain = Math.floor((evt.goldReward || 10) * (0.3 + 0.4 * porcentaje));
                                         gainRewards(expGain, goldGain, 'social', 'event', '⏰ Evento "' + evt.title + '" finalizado', completadas + '/' + total + ' tareas');
                                         showToast('⏰ Evento "' + evt.title + '" finalizado. +' + expGain + ' EXP, +' + goldGain + ' ORO', 'info', 'Evento');
+
+                                        if (evt.flockMemberId) {
+                                            var relatedMember = player.flock.find(function (f) { return f.id === evt.flockMemberId; });
+                                            if (relatedMember) {
+                                                var dateBonus = Math.max(3, Math.round(12 * (0.3 + 0.4 * porcentaje)));
+                                                relatedMember.affinity = Math.min(100, relatedMember.affinity + dateBonus);
+                                                relatedMember.lastInteraction = Date.now();
+                                                relatedMember.updatedAt = Date.now();
+                                                relatedMember.awaitingResponse = false;
+                                                relatedMember.awaitingSince = null;
+                                                relatedMember.noResponseFlag = false;
+                                                addLogEntry('flock', '📅 Cita con ' + relatedMember.name + ' completada', '+' + dateBonus + '% afinidad', 0, 0, null);
+                                            }
+                                        }
                                     }
                                 }
 
@@ -405,15 +419,32 @@
                                 return;
                             }
 
-                            // ============================================================
-                            // NUEVA VALIDACIÓN: No permitir tareas si el evento no ha comenzado
-                            // ============================================================
-
                             // Si el evento ya finalizó, no se puede hacer nada
-                            if (evt.status === 'finished') {
+                            if (evt.status === 'finished' || evt.status === 'completed') {
                                 showToast('Este evento ya finalizó.', 'warning', 'Evento');
                                 return;
                             }
+
+                            // ============================================================
+                            // Las mazmorras SOLO permiten marcar tareas si fueron iniciadas
+                            // explícitamente con el botón "Iniciar Mazmorra" — no se activan
+                            // solas por fecha como los eventos.
+                            // ============================================================
+                            if (evt.type === 'dungeon') {
+                                if (evt.status !== 'active') {
+                                    showToast('Primero tenés que iniciar la mazmorra con el botón "⚔️ Iniciar Mazmorra".', 'warning', 'Mazmorra');
+                                    return;
+                                }
+
+                                evt.taskStatus[taskIndex] = !evt.taskStatus[taskIndex];
+                                guardarEventos();
+                                renderEvents();
+                                return;
+                            }
+
+                            // ============================================================
+                            // NUEVA VALIDACIÓN: No permitir tareas si el evento no ha comenzado
+                            // ============================================================
 
                             // Verificar si la fecha de inicio ya llegó
                             if (evt.start) {

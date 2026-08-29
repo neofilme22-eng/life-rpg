@@ -8,6 +8,327 @@
             display: inline-block;
         }
 
+        /* ===== PARTY: PRESUPUESTO DE ATENCIÓN SEMANAL ===== */
+        .flock-attention-budget {
+            margin-bottom: 14px;
+        }
+
+        .flock-attention-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            margin-bottom: 4px;
+        }
+
+        .flock-attention-bar-track {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+        }
+
+        .flock-attention-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--success);
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        /* ===== PARTY: INSIGNIAS DE ESTADO ===== */
+        .flock-flag-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin: 4px 0;
+        }
+
+        .flock-flag-badge.awaiting {
+            background: rgba(250, 204, 21, 0.15);
+            color: #facc15;
+            border: 1px solid rgba(250, 204, 21, 0.3);
+        }
+
+        .flock-flag-badge.no-response {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* ===== PARTY: BOTÓN SECUNDARIO Y FORM DE CITA ===== */
+        .flock-secondary-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 6px 10px;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .flock-secondary-btn:hover {
+            color: var(--text);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .flock-date-form {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .flock-date-form input {
+            flex: 1;
+            min-width: 140px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 6px 8px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.75rem;
+        }
+
+        .flock-date-form .flock-secondary-btn {
+            width: auto;
+            margin-top: 0;
+            white-space: nowrap;
+        }
+
+        /* ===== PARTY: BANDERAS ===== */
+        .flock-flags-toggle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-top: 8px;
+            padding: 4px 0;
+        }
+
+        .flock-flags-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .flock-flags-panel.open {
+            max-height: 300px;
+        }
+
+        .flock-flag-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.72rem;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .flock-flag-remove {
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 0 4px;
+        }
+
+        .flock-flag-remove:hover {
+            color: var(--danger, #ef4444);
+        }
+
+        .flock-flag-add {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .flock-flag-add input {
+            flex: 1;
+            min-width: 100px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 4px 8px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.72rem;
+        }
+
+        .flock-flag-btn {
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-muted);
+        }
+
+        .flock-flag-btn.red:hover {
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+        }
+
+        .flock-flag-btn.green:hover {
+            border-color: rgba(74, 222, 128, 0.4);
+            color: #4ade80;
+        }
+
+        /* ===== PARTY: VISTA COMPARATIVA ===== */
+        .flock-compare-container {
+            overflow-x: auto;
+        }
+
+        .flock-compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .flock-compare-table th {
+            text-align: left;
+            padding: 8px 10px;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+        }
+
+        .flock-compare-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            white-space: nowrap;
+        }
+
+        .flock-compare-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* ===== PESTAÑA BATALLAS ===== */
+        .battle-player-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+        }
+
+        .battle-stat-item {
+            color: var(--text-muted);
+        }
+
+        .arena-controls {
+            margin-bottom: 14px;
+        }
+
+        .arena-streak {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .battle-log-container {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 16px;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .battle-log-empty {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .battle-log-header {
+            font-weight: bold;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .battle-log-header.won {
+            color: var(--success);
+        }
+
+        .battle-log-header.lost {
+            color: var(--danger, #ef4444);
+        }
+
+        .battle-log-line {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 2px 0;
+        }
+
+        .champ-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .champ-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .champ-card.locked {
+            opacity: 0.5;
+        }
+
+        .champ-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .champ-icon {
+            font-size: 1.4rem;
+        }
+
+        .champ-name {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .champ-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .champ-counter-label {
+            font-size: 0.68rem;
+            color: var(--accent, #facc15);
+            margin-bottom: 6px;
+        }
+
+        .champ-locked-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
         /* ===== MODO HISTORIA ===== */
         .story-card {
             background: rgba(255, 255, 255, 0.03);
@@ -81,8 +402,40 @@
         }
 
         .story-card.open .story-body {
-            max-height: 500px;
+            max-height: 700px;
             padding: 0 14px 14px 14px;
+        }
+
+        .story-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .story-choice-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.8rem;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .story-choice-btn:hover {
+            border-color: var(--accent, #facc15);
+            background: rgba(250, 204, 21, 0.06);
+        }
+
+        .story-choice-made {
+            margin-top: 14px;
+            font-size: 0.75rem;
+            color: var(--accent, #facc15);
+            font-style: italic;
         }
 
         /* ===== RESTO DEL CSS ===== */

@@ -28,7 +28,8 @@
                                     petContainer.style.transform = 'scale(' + Math.min(scale, 1.6) + ')';
 
                                     if (player.petHealth < player.petMaxHealth * 0.3) {
-                                        showPetBubble('💔 ¡Mi salud está muy baja!');
+                                        var personality = mascota.species && PET_PERSONALITIES[mascota.species];
+                                        showPetBubble(personality ? personality.lowHealthMsg : '💔 ¡Mi salud está muy baja!');
                                     }
 
                                 } else {
@@ -65,40 +66,29 @@
                                 }
 
                                 if (player.petHealth < player.petMaxHealth * 0.3) {
-                                    showPetBubble('💔 ¡Necesito un descanso!');
+                                    var lowPersonality = player.equipment.mascota.species && PET_PERSONALITIES[player.equipment.mascota.species];
+                                    showPetBubble(lowPersonality ? lowPersonality.lowHealthMsg : '💔 ¡Necesito un descanso!');
                                     return;
                                 }
 
-                                var messages = [
-                                    '🐾 ¡Me alegra verte!',
-                                    '🐾 ¿Listo para la batalla?',
-                                    '🐾 ¡Eres mi héroe!',
-                                    '🐾 ¡Vamos a por todas!',
-                                    '🐾 ¡Eres increíble!',
-                                    '🐾 ¡Nunca te rindas!',
-                                    '🐾 ¡Tú puedes con todo!',
-                                    '🐾 ¡Eres un verdadero héroe!',
-                                    '🐾 ¡Guau! ¡Buen trabajo!'
-                                ];
+                                var species = player.equipment.mascota.species;
+                                var personality = species && PET_PERSONALITIES[species];
+                                var messages = personality ? personality.messages : ['🐾 ¡Me alegra verte!', '🐾 ¡Vamos a por todas!'];
+                                var animationName = personality ? personality.animation : 'pet-anim-bounce';
 
-                                petClickCount++;
-                                if (petClickCount % 5 === 0) {
-                                    var bonusExp = 2 + Math.floor(player.level / 3);
-                                    gainRewards(bonusExp, 0, null, 'inventory', '🐾 Mascota te ha dado ánimos', '+' + bonusExp + ' EXP');
-                                    showPetBubble('🌟 ¡+' + bonusExp + ' EXP por tu energía!');
-                                } else {
-                                    var randomMsg = messages[Math.floor(Math.random() * messages.length)];
-                                    showPetBubble(randomMsg);
-                                }
+                                var randomMsg = messages[Math.floor(Math.random() * messages.length)];
+                                showPetBubble(randomMsg);
 
                                 var petContainer = document.getElementById('pet-container');
                                 petContainer.style.animation = 'none';
                                 setTimeout(function () {
                                     petContainer.style.animation = 'pet-float 3s ease-in-out infinite';
-                                    petContainer.style.transform = 'scale(1.2)';
+                                    petContainer.classList.remove('pet-anim-bounce', 'pet-anim-wiggle', 'pet-anim-pulse', 'pet-anim-glow');
+                                    void petContainer.offsetWidth;
+                                    petContainer.classList.add(animationName);
                                     setTimeout(function () {
-                                        petContainer.style.transform = 'scale(1)';
-                                    }, 300);
+                                        petContainer.classList.remove(animationName);
+                                    }, 600);
                                 }, 50);
                             }
 

@@ -28,6 +28,7 @@
                     renderBosses();
                     renderBestiary();
                 }
+                if (tabId === 'tab-battles') renderBattlesTab();
                 if (tabId === 'tab-shop') renderShop();
                 if (tabId === 'tab-logbook') renderLogbook();
                 if (tabId === 'tab-story') renderStory();
