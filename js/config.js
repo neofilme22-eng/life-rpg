@@ -32,7 +32,6 @@
             pomodoroSessions: 0,
             pomodoroFocusTime: 0,
             logbook: [],
-            flock: [],
             events: [],
             inventory: [],
             equipment: {
@@ -50,11 +49,6 @@
             storyChoices: {},
             lastActiveDate: null,
             lastZeroMissionDayPenalty: null,
-            weeklyAttentionUsed: 0,
-            weeklyAttentionWeekStart: null,
-            dailyAttentionUsed: 0,
-            dailyAttentionDay: null,
-            flockArchive: [],
             missionExpPct: 0,
             bossExpPct: 0,
             missionGoldPct: 0,
@@ -198,26 +192,6 @@
                 relaciones: "❤️ Relaciones"
             };
 
-            const FLOCK_STATUSES = [
-                { id: 'match', label: '💘 Match (sin hablar)' },
-                { id: 'unknown', label: '❓ Desconocida' },
-                { id: 'encounter', label: '👋 Encuentro' },
-                { id: 'known', label: '🤝 Conocida' },
-                { id: 'friend', label: '🤗 Amiga' },
-                { id: 'romance', label: '❤️ Interés Romántico' },
-                { id: 'partner', label: '💞 Pareja' }
-            ];
-
-            const DAILY_ATTENTION_BUDGET = 6;
-
-            const INTERACTION_TYPES = [
-                { id: 'charla', label: '💬 Charla', affinityMin: 3, affinityMax: 8, exp: 5, gold: 2 },
-                { id: 'profunda', label: '🧠 Conversación profunda', affinityMin: 6, affinityMax: 15, exp: 12, gold: 3 },
-                { id: 'juntada', label: '☕ Juntada', affinityMin: 5, affinityMax: 12, exp: 8, gold: 4 },
-                { id: 'beso', label: '👄 Beso', affinityMin: 8, affinityMax: 18, exp: 10, gold: 3 },
-                { id: 'sexo', label: '😈 Sexo', affinityMin: 12, affinityMax: 25, exp: 15, gold: 5 }
-            ];
-
             const VARIANTES = {
                 classic: { focus: 25, break: 5, label: 'Clásico', icon: '⏳' },
                 short: { focus: 15, break: 5, label: 'Rápido', icon: '⚡' },
@@ -234,7 +208,6 @@
                 boss: '👹',
                 dungeon: '🏰',
                 event: '🎉',
-                flock: '👠',
                 shop: '🛒',
                 level: '👑',
                 trophy: '🏆',

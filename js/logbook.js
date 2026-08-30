@@ -33,7 +33,7 @@
                         totalExp: expGain || 0,
                         totalGold: goldGain || 0,
                         expanded: false,
-                        counts: { missions: 0, runes: 0, flock: 0, dungeons: 0, events: 0, trophies: 0, actions: 1, inventory: 0, damage: 0 }
+                        counts: { missions: 0, runes: 0, dungeons: 0, events: 0, trophies: 0, actions: 1, inventory: 0, damage: 0 }
                     });
                     var day = player.logbook[player.logbook.length - 1];
                     updateCounts(day, type);
@@ -51,13 +51,12 @@
 
             function updateCounts(day, type) {
                 if (!day.counts) {
-                    day.counts = { missions: 0, runes: 0, flock: 0, dungeons: 0, events: 0, trophies: 0, actions: 0, inventory: 0, damage: 0 };
+                    day.counts = { missions: 0, runes: 0, dungeons: 0, events: 0, trophies: 0, actions: 0, inventory: 0, damage: 0 };
                 }
                 var countMap = {
                     'mission': 'missions',
                     'daily': 'missions',
                     'rune': 'runes',
-                    'flock': 'flock',
                     'dungeon': 'dungeons',
                     'event': 'events',
                     'trophy': 'trophies',
@@ -97,7 +96,7 @@
                 var html = '';
                 sorted.forEach(function (day) {
                     var isOpen = day.expanded || false;
-                    var counts = day.counts || { missions: 0, runes: 0, flock: 0, dungeons: 0, events: 0, trophies: 0, actions: 0, inventory: 0, damage: 0 };
+                    var counts = day.counts || { missions: 0, runes: 0, dungeons: 0, events: 0, trophies: 0, actions: 0, inventory: 0, damage: 0 };
 
                     var summaryParts = [];
                     if (day.totalExp > 0) summaryParts.push('⭐ ' + day.totalExp + ' EXP');
@@ -106,7 +105,6 @@
                     if (counts.damage > 0) summaryParts.push('💔 ' + counts.damage + ' DAÑO');
                     if (counts.missions > 0) summaryParts.push('📜 ' + counts.missions + ' MISIONES');
                     if (counts.runes > 0) summaryParts.push('💠 ' + counts.runes + ' RUNA' + (counts.runes > 1 ? 'S' : ''));
-                    if (counts.flock > 0) summaryParts.push('👤 ' + counts.flock + ' INTERACCIONE' + (counts.flock > 1 ? 'S' : ''));
                     if (counts.dungeons > 0) summaryParts.push('🏰 ' + counts.dungeons + ' MAZMORRA' + (counts.dungeons > 1 ? 'S' : ''));
                     if (counts.events > 0) summaryParts.push('🎉 ' + counts.events + ' EVENTO' + (counts.events > 1 ? 'S' : ''));
                     if (counts.trophies > 0) summaryParts.push('🏆 ' + counts.trophies + ' LOGRO' + (counts.trophies > 1 ? 'S' : ''));

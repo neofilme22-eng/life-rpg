@@ -228,19 +228,6 @@
                 font-size: 0.8rem;
             }
 
-            .flock-form .form-row {
-                flex-direction: column;
-            }
-
-            .flock-form .form-row input,
-            .flock-form .form-row select {
-                min-width: unset;
-            }
-
-            .flock-grid {
-                grid-template-columns: 1fr;
-            }
-
             .logbook-entry-header {
                 flex-wrap: wrap;
             }

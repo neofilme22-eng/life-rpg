@@ -18,7 +18,7 @@
             }
 
             // ============================================================
-            // ===== IMAGEN DE ENTIDAD (bosses, eventos, mazmorras, party) =====
+            // ===== IMAGEN DE ENTIDAD (bosses, eventos, mazmorras) =====
             // ============================================================
 
             function renderEntityImageBlock(imageUrl, fallbackIcon, altText, sizeClass) {

@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="css/logbook.css">
     <link rel="stylesheet" href="css/trophies.css">
     <link rel="stylesheet" href="css/settings.css">
-    <link rel="stylesheet" href="css/social.css">
     <link rel="stylesheet" href="css/events.css">
     <link rel="stylesheet" href="css/inventory.css">
     <link rel="stylesheet" href="css/pet.css">
@@ -198,7 +197,6 @@
             <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>
             <button class="tab-btn" onclick="switchTab('tab-bosses')">👹 Bosses</button>
             <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
-            <button class="tab-btn" onclick="switchTab('tab-flock')">👥 Party</button>
             <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
             <button class="tab-btn" onclick="switchTab('tab-logbook')">📜 Diario</button>
             <button class="tab-btn" onclick="switchTab('tab-story')">📖 Historia</button>
@@ -456,54 +454,6 @@
                 </div>
 
                 <div id="battles-champ-container" class="champ-grid"></div>
-            </div>
-        </div>
-
-        <!-- ========== PESTAÑA CÍRCULO SOCIAL ========== -->
-        <div id="tab-flock" class="tab-content">
-            <div class="section-box">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <div class="section-header" style="margin-bottom:0;">
-                        <span class="section-title">Tu Círculo Social</span>
-                        <span class="section-ornament"></span>
-                    </div>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <span
-                            style="color: var(--text-muted); font-size: 0.9rem; font-family:'Georgia','Times New Roman',serif;">
-                            <span id="flock-count"></span>
-                        </span>
-                        <button class="action-btn small" onclick="setFlockView('compare')" id="flock-view-toggle-btn">📊 Comparar</button>
-                        <button class="action-btn small" onclick="setFlockView('archive')" id="flock-archive-toggle-btn">🗄️ Eliminados</button>
-                    </div>
-                </div>
-                <br>
-
-                <div class="flock-attention-budget">
-                    <div class="flock-attention-label">
-                        <span>🔋 Batería Social</span>
-                        <span id="flock-attention-text"></span>
-                    </div>
-                    <div class="flock-attention-bar-track">
-                        <div class="flock-attention-bar-fill" id="flock-attention-bar-fill"></div>
-                    </div>
-                </div>
-
-                <div class="flock-form">
-                    <div class="form-row">
-                        <input type="text" id="flock-name" placeholder="Nombre de la persona..." maxlength="40">
-                    </div>
-                    <div class="form-row" style="margin-top:6px;">
-                        <input type="text" id="flock-image" placeholder="URL de foto (opcional)">
-                    </div>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button class="action-btn" onclick="addFlockMember()"> Añadir Persona</button>
-                    </div>
-                </div>
-
-                <div id="flock-container" class="flock-grid"></div>
-                <div id="flock-compare-container" class="flock-compare-container" style="display:none;"></div>
-                <div id="flock-archive-container" class="flock-compare-container" style="display:none;"></div>
             </div>
         </div>
 
@@ -944,7 +894,7 @@
                         <div
                             style="font-size:0.65rem; color:var(--text-muted); opacity:0.4; margin-top:4px; font-family:'Georgia','Times New Roman',serif;">
                             ⚠️ Esto eliminará TODOS los datos: personaje, runas, misiones, bosses, eventos, tienda,
-                            trofeos, party y diario.
+                            trofeos y diario.
                         </div>
                     </div>
                 </div>
@@ -982,7 +932,6 @@
     <script src="js/inventory.js"></script>
     <script src="js/pet.js"></script>
     <script src="js/trophies.js"></script>
-    <script src="js/social.js"></script>
     <script src="js/sanctuary.js"></script>
     <script src="js/pagination.js"></script>
     <script src="js/stats.js"></script>

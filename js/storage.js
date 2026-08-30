@@ -48,7 +48,6 @@
                         if (!player.pomodoroSessions) player.pomodoroSessions = 0;
                         if (!player.pomodoroFocusTime) player.pomodoroFocusTime = 0;
                         if (!player.logbook) player.logbook = [];
-                        if (!player.flock) player.flock = [];
                         if (!player.events) player.events = [];
                         if (!player.inventory) player.inventory = [];
                         if (!player.equipment) {
@@ -67,11 +66,6 @@
                         if (!player.storyChoices) player.storyChoices = {};
                         if (player.lastActiveDate === undefined) player.lastActiveDate = null;
                         if (player.lastZeroMissionDayPenalty === undefined) player.lastZeroMissionDayPenalty = null;
-                        if (player.weeklyAttentionUsed === undefined) player.weeklyAttentionUsed = 0;
-                        if (player.weeklyAttentionWeekStart === undefined) player.weeklyAttentionWeekStart = null;
-                        if (player.dailyAttentionUsed === undefined) player.dailyAttentionUsed = 0;
-                        if (player.dailyAttentionDay === undefined) player.dailyAttentionDay = null;
-                        if (!player.flockArchive) player.flockArchive = [];
                         if (player.missionExpPct === undefined) player.missionExpPct = 0;
                         if (player.bossExpPct === undefined) player.bossExpPct = 0;
                         if (player.missionGoldPct === undefined) player.missionGoldPct = 0;

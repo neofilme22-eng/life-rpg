@@ -52,13 +52,6 @@
                                         return sum + prog.level;
                                     }, 0) / totalRunas) : 0;
 
-                                    var totalPersonas = player.flock.length;
-                                    var afinidadPromedio = totalPersonas > 0 ? Math.round(player.flock.reduce(function (sum, f) { return sum + f.affinity; }, 0) / totalPersonas) : 0;
-                                    var personasConfianza5 = player.flock.filter(function (f) { return f.confidence >= 5; }).length;
-                                    var personasRomance = player.flock.filter(function (f) { return f.status === 'romance' || f.status === 'partner'; }).length;
-                                    var personasAmigas = player.flock.filter(function (f) { return f.status === 'friend'; }).length;
-                                    var interaccionesTotales = player.flock.reduce(function (sum, f) { return sum + (f.streak || 0); }, 0);
-
                                     var itemsComprados = player.purchasedItems.length;
                                     var oroGastado = player.totalSpent || 0;
 
@@ -285,21 +278,6 @@
                             <span class="stats-tag">Total rachas: ${runasStreakTotal}</span>
                             <span class="stats-tag">Runas: ${totalRunas}</span>
                         </div>
-                    </div>
-
-                    <div class="stats-card">
-                        <div class="stats-title">Círculo Social</div>
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <span class="stats-number">${totalPersonas}</span>
-                            <span style="color:var(--text-muted); opacity:0.4; font-size:0.9rem;">personas</span>
-                            <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;"> ${afinidadPromedio}% avg</span>
-                        </div>
-                        <div class="stats-row">
-                            ${personasRomance > 0 ? '<span class="stats-tag romance-tag">Romance: ' + personasRomance + '</span>' : ''}
-                            ${personasAmigas > 0 ? '<span class="stats-tag">Amigos: ' + personasAmigas + '</span>' : ''}
-                            <span class="stats-tag">Confianza 5: ${personasConfianza5}</span>
-                        </div>
-                        <div class="stats-sub">Interacciones totales: ${interaccionesTotales}</div>
                     </div>
 
                     <div class="stats-card">

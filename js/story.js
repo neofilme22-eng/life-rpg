@@ -56,9 +56,7 @@
                             icon: '🚋',
                             title: 'Nadie Cruza Solo esta Ciudad',
                             check: function (p) {
-                                return (p.flock || []).some(function (f) {
-                                    return f.status === 'friend' || f.status === 'romance' || f.status === 'partner';
-                                });
+                                return dungeonsCompletadasCount(p) >= 1;
                             },
                             text: 'Alguien empezó a caminar cerca. No de golpe — en esta ciudad nada pasa de golpe — sino de a poco, entre silencios compartidos y algún café que se enfrió sin que nadie lo notara. Siempre creíste que atravesar esto era cosa de un solo hombre, solo, con el cuello del abrigo levantado. Es mentira, o al menos no es la única verdad. A veces se cruza más fácil cuando alguien camina un paso atrás, sin apurarte, pero ahí.'
                         },

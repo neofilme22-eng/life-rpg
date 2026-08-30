@@ -8,207 +8,6 @@
             display: inline-block;
         }
 
-        /* ===== PARTY: PRESUPUESTO DE ATENCIÓN SEMANAL ===== */
-        .flock-attention-budget {
-            margin-bottom: 14px;
-        }
-
-        .flock-attention-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-family: 'Georgia', 'Times New Roman', serif;
-            margin-bottom: 4px;
-        }
-
-        .flock-attention-bar-track {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.06);
-            overflow: hidden;
-        }
-
-        .flock-attention-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--success);
-            transition: width 0.3s ease, background 0.3s ease;
-        }
-
-        /* ===== PARTY: INSIGNIAS DE ESTADO ===== */
-        .flock-flag-badge {
-            display: inline-block;
-            font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin: 4px 0;
-        }
-
-        .flock-flag-badge.awaiting {
-            background: rgba(250, 204, 21, 0.15);
-            color: #facc15;
-            border: 1px solid rgba(250, 204, 21, 0.3);
-        }
-
-        .flock-flag-badge.no-response {
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* ===== PARTY: BOTÓN SECUNDARIO Y FORM DE CITA ===== */
-        .flock-secondary-btn {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            padding: 6px 10px;
-            color: var(--text-muted);
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 0.75rem;
-            cursor: pointer;
-            margin-top: 6px;
-        }
-
-        .flock-secondary-btn:hover {
-            color: var(--text);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .flock-date-form {
-            display: flex;
-            gap: 6px;
-            margin-top: 6px;
-            flex-wrap: wrap;
-        }
-
-        .flock-date-form input {
-            flex: 1;
-            min-width: 140px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 6px;
-            padding: 6px 8px;
-            color: var(--text);
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 0.75rem;
-        }
-
-        .flock-date-form .flock-secondary-btn {
-            width: auto;
-            margin-top: 0;
-            white-space: nowrap;
-        }
-
-        /* ===== PARTY: BANDERAS ===== */
-        .flock-flags-toggle {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            margin-top: 8px;
-            padding: 4px 0;
-        }
-
-        .flock-flags-panel {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .flock-flags-panel.open {
-            max-height: 300px;
-        }
-
-        .flock-flag-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.72rem;
-            padding: 3px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .flock-flag-remove {
-            cursor: pointer;
-            color: var(--text-muted);
-            padding: 0 4px;
-        }
-
-        .flock-flag-remove:hover {
-            color: var(--danger, #ef4444);
-        }
-
-        .flock-flag-add {
-            display: flex;
-            gap: 4px;
-            margin-top: 6px;
-            flex-wrap: wrap;
-        }
-
-        .flock-flag-add input {
-            flex: 1;
-            min-width: 100px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 6px;
-            padding: 4px 8px;
-            color: var(--text);
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 0.72rem;
-        }
-
-        .flock-flag-btn {
-            border-radius: 6px;
-            padding: 4px 8px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text-muted);
-        }
-
-        .flock-flag-btn.red:hover {
-            border-color: rgba(239, 68, 68, 0.4);
-            color: #ef4444;
-        }
-
-        .flock-flag-btn.green:hover {
-            border-color: rgba(74, 222, 128, 0.4);
-            color: #4ade80;
-        }
-
-        /* ===== PARTY: VISTA COMPARATIVA ===== */
-        .flock-compare-container {
-            overflow-x: auto;
-        }
-
-        .flock-compare-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.75rem;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }
-
-        .flock-compare-table th {
-            text-align: left;
-            padding: 8px 10px;
-            color: var(--text-muted);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            white-space: nowrap;
-        }
-
-        .flock-compare-table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            white-space: nowrap;
-        }
-
-        .flock-compare-table tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
         /* ===== PESTAÑA BATALLAS ===== */
         .battle-player-stats {
             display: flex;
@@ -305,7 +104,20 @@
         }
 
         .champ-card.locked {
+            opacity: 0.6;
+        }
+
+        .champ-card.locked .champ-icon {
+            filter: grayscale(1) brightness(0.4);
             opacity: 0.5;
+        }
+
+        .champ-card.locked .champ-name {
+            color: #4a4a5a;
+        }
+
+        .champ-card.locked .entity-image-wrap {
+            filter: grayscale(1) brightness(0.6);
         }
 
         .champ-header {

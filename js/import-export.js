@@ -513,7 +513,6 @@
                                             renderShop();
                                             renderTrophies();
                                             renderLogbook();
-                                            renderFlock();
                                             renderEvents();
                                             renderInventory();
 
@@ -719,7 +718,6 @@
                                                 if (!player.pomodoroSessions) player.pomodoroSessions = 0;
                                                 if (!player.pomodoroFocusTime) player.pomodoroFocusTime = 0;
                                                 if (!player.logbook) player.logbook = [];
-                                                if (!player.flock) player.flock = [];
                                                 if (!player.events) player.events = [];
                                                 if (!player.inventory) player.inventory = [];
                                                 if (!player.equipment) player.equipment = { arma: null, armadura: null, reliquia: null, mascota: null };
@@ -742,7 +740,6 @@
                                                 renderShop();
                                                 renderTrophies();
                                                 renderLogbook();
-                                                renderFlock();
                                                 renderEvents();
                                                 renderInventory();
                                                 updatePet();

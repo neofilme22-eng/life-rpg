@@ -96,7 +96,6 @@
                                         renderShop();
                                         renderTrophies();
                                         renderLogbook();
-                                        renderFlock();
                                         renderEvents();
                                         renderInventory();
                                     }, 50);
