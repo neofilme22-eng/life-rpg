@@ -76,6 +76,19 @@
                         if (player.bossExpPct === undefined) player.bossExpPct = 0;
                         if (player.missionGoldPct === undefined) player.missionGoldPct = 0;
                         if (player.runeExpPct === undefined) player.runeExpPct = 0;
+
+                        // Migración: completar 'species' en mascotas guardadas antes de que
+                        // ese campo existiera, para que la personalidad funcione correctamente.
+                        function backfillPetSpecies(petObj) {
+                            if (!petObj || petObj.category !== 'pet' || petObj.species) return;
+                            var def = (typeof SHOP_ITEMS !== 'undefined' ? SHOP_ITEMS : SHOP_ITEMS_DEFAULT).find(function (s) { return s.id === petObj.id; });
+                            if (def && def.species) petObj.species = def.species;
+                        }
+
+                        if (player.inventory) {
+                            player.inventory.forEach(backfillPetSpecies);
+                        }
+                        backfillPetSpecies(player.equipment.mascota);
                     } catch (e) {
                         console.error("Error al cargar la partida:", e);
                         player = JSON.parse(JSON.stringify(defaultPlayer));

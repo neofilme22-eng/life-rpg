@@ -8,6 +8,7 @@
                                 if (member.awaitingSince === undefined) member.awaitingSince = null;
                                 if (member.noResponseFlag === undefined) member.noResponseFlag = false;
                                 if (!member.flags) member.flags = [];
+                                if (member.image === undefined) member.image = null;
                             }
 
                             function getCurrentDayStr() {
@@ -113,8 +114,10 @@
                                 }
 
                                 var nameInput = document.getElementById('flock-name');
+                                var imageInput = document.getElementById('flock-image');
 
                                 var name = nameInput ? nameInput.value.trim() : '';
+                                var image = (imageInput ? imageInput.value.trim() : '') || null;
 
                                 if (!name) {
                                     showToast('Ingresa un nombre para la persona.', 'warning', 'Círculo Social');
@@ -124,6 +127,7 @@
                                 var member = {
                                     id: 'flock_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
                                     name: name,
+                                    image: image,
                                     status: 'match',
                                     affinity: 20 + Math.floor(Math.random() * 30),
                                     confidence: 1,
@@ -143,6 +147,7 @@
                                 renderFlock();
 
                                 if (nameInput) nameInput.value = '';
+                                if (imageInput) imageInput.value = '';
                                 checkAndUnlockTrophies();
 
                                 addLogEntry('flock', '💘 ' + name + ' hizo match', '', 0, 0, null);
@@ -613,6 +618,8 @@
                                 ${hasStreak ? '<span class="flock-streak-badge">🔥 x' + streak + '</span>' : ''}
                             </div>
                         </div>
+
+                        ${renderEntityImageBlock(member.image, '👤', member.name)}
 
                         ${awaitingBadge}
 

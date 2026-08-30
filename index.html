@@ -440,8 +440,11 @@
                 <p style="color:var(--text-muted); font-size:0.8rem; font-family:'Georgia','Times New Roman',serif; margin:0 0 10px 0;">
                     Cada oponente es un defecto propio, no un monstruo — y cada uno se combate con un atributo
                     distinto: Timidez con Social, Procrastinación con Disciplina, Inseguridad con Mente, y así con los
-                    ocho. El daño que recibís en combate impacta tu HP real de la partida, ganes o pierdas — no es un
-                    sandbox seguro.
+                    ocho. El combate usa directamente tu HP real de la partida (no hay HP aparte para esto), y el
+                    orden de ataque no es estrictamente turno por turno: cada lado tiene chance de mantener la
+                    iniciativa y atacar de nuevo (hasta 3 veces seguidas) antes de que pase el turno. Cada golpe
+                    puede fallar, esquivarse, bloquearse, ser parry perfecto con contraataque, crítico, doble golpe y
+                    más — mirá el registro de cada pelea para ver cómo se decidió.
                 </p>
 
                 <div id="battle-player-stats" class="battle-player-stats"></div>
@@ -489,6 +492,9 @@
                 <div class="flock-form">
                     <div class="form-row">
                         <input type="text" id="flock-name" placeholder="Nombre de la persona..." maxlength="40">
+                    </div>
+                    <div class="form-row" style="margin-top:6px;">
+                        <input type="text" id="flock-image" placeholder="URL de foto (opcional)">
                     </div>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button class="action-btn" onclick="addFlockMember()"> Añadir Persona</button>
@@ -820,6 +826,8 @@
                             style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
                         <input type="text" id="config-event-icon" placeholder="Ícono (emoji o URL de imagen, opcional)"
                             style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
+                        <input type="text" id="config-event-image" placeholder="URL de foto grande (opcional)"
+                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
                         <div class="config-actions" style="margin-top:6px;">
                             <button class="action-btn success" onclick="createEventFromConfig()"
                                 style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success); padding:6px 16px;">➕
@@ -854,6 +862,8 @@
                         </div>
                         <input type="text" id="boss-create-tasks" placeholder="Tareas (separadas por coma)..."
                             style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
+                        <input type="text" id="boss-create-image" placeholder="URL de imagen (opcional)..."
+                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
                         <div class="config-actions" style="margin-top:6px;">
                             <button class="action-btn success" onclick="createBoss()"
                                 style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success);">👹

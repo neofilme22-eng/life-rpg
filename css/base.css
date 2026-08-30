@@ -275,6 +275,22 @@
             padding: 2px 0;
         }
 
+        .battle-log-line-in {
+            animation: battleLineIn 0.25s ease-out;
+        }
+
+        @keyframes battleLineIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .champ-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -307,6 +323,51 @@
             font-family: 'Georgia', 'Times New Roman', serif;
             font-weight: bold;
             font-size: 0.85rem;
+        }
+
+        .entity-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 110px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .entity-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .entity-image-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .entity-image-wrap.small {
+            height: 70px;
+        }
+
+        .entity-image-wrap.small .entity-image-fallback {
+            font-size: 1.6rem;
+        }
+
+        .champ-reward-label {
+            font-size: 0.72rem;
+            color: var(--gold, #facc15);
+            margin-bottom: 8px;
         }
 
         .champ-stats {

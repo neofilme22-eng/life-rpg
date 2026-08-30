@@ -251,6 +251,7 @@
                                                             id: bossId,
                                                             name: b.name || "Boss Sin Nombre",
                                                             icon: b.icon || "👹",
+                                                            image: b.image || null,
                                                             deadline: b.deadline || null,
                                                             tasks: b.tasks || [],
                                                             taskStatus: (b.tasks || []).map(function () { return false; }),
@@ -292,6 +293,7 @@
                                     var goldInput = document.getElementById('boss-create-gold');
                                     var deadlineInput = document.getElementById('boss-create-deadline');
                                     var tasksInput = document.getElementById('boss-create-tasks');
+                                    var imageInput = document.getElementById('boss-create-image');
 
                                     var name = nameInput ? nameInput.value.trim() : '';
                                     var icon = (iconInput ? iconInput.value.trim() : '') || '👹';
@@ -299,6 +301,7 @@
                                     var goldReward = parseInt(goldInput ? goldInput.value : 25) || 25;
                                     var deadline = deadlineInput ? deadlineInput.value : null;
                                     var tasksRaw = tasksInput ? tasksInput.value.trim() : '';
+                                    var customImage = (imageInput ? imageInput.value.trim() : '') || null;
 
                                     if (!name) {
                                         showToast('Ingresa un nombre para el boss.', 'warning', 'Error');
@@ -312,6 +315,7 @@
                                         id: bossId,
                                         name: name,
                                         icon: icon,
+                                        image: customImage,
                                         deadline: deadline,
                                         tasks: tasks,
                                         taskStatus: tasks.map(function () { return false; }),
@@ -333,6 +337,7 @@
                                     if (goldInput) goldInput.value = '25';
                                     if (deadlineInput) deadlineInput.value = '';
                                     if (tasksInput) tasksInput.value = '';
+                                    if (imageInput) imageInput.value = '';
 
                                     showToast('👹 ¡Boss "' + name + '" invocado con éxito!', 'success', 'Boss');
                                     checkAndUnlockTrophies();

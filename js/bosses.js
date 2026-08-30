@@ -158,6 +158,7 @@
                         </div>
                         <span class="boss-status">${statusText}</span>
                     </div>
+                    ${renderEntityImageBlock(boss.image, boss.icon, boss.name)}
                     ${deadlineHTML}
                     <div class="boss-progress">
                         <div class="boss-progress-info">
@@ -231,6 +232,7 @@
                     <div class="bestiary-card">
                         <span class="bestiary-icon">${renderIconHTML(boss.icon, '👹')}</span>
                         <div class="bestiary-name">${boss.name}</div>
+                        ${renderEntityImageBlock(boss.image, boss.icon, boss.name, 'small')}
                         <br>
                         <div class="bestiary-date">Derrotado el ${dateStr}</div>
                     </div>

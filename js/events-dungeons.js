@@ -265,6 +265,7 @@
                             <span class="event-title">${icon} ${evt.title}</span>
                             <span class="event-status-badge ${status.cls}">${status.text}</span>
                         </div>
+                        ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
                         <div class="event-meta">
                             <span>📅 ${startStr}</span>
                             <span>⏱️ ${evt.duration || 3}h</span>
@@ -297,6 +298,7 @@
                         }
 
                         var html = '';
+                        var hayMazmorraActiva = mazmorras.some(function (e) { return e.status === 'active'; });
                         mazmorras.forEach(function (evt) {
                             var icon = renderIconHTML(evt.icon, '🏰');
 
@@ -330,7 +332,7 @@
                                 tasksHTML = '<div class="event-tasks">';
                                 evt.tasks.forEach(function (task, index) {
                                     var isCompleted = evt.taskStatus[index] || false;
-                                    var disabled = evt.status === 'finished' || evt.status === 'completed' || player.gameOver;
+                                    var disabled = evt.status !== 'active' || player.gameOver;
                                     tasksHTML += `
                             <div class="event-task-item ${isCompleted ? 'completed' : ''}">
                                 <input type="checkbox" 
@@ -348,8 +350,9 @@
                             var actionsHTML = '';
 
                             if (evt.status === 'pending') {
-                                var puedeIniciar = player.level >= (evt.levelRequired || 1) && !player.gameOver;
-                                var textoBoton = puedeIniciar ? '🏰 Iniciar Mazmorra' : '🔒 Nivel ' + (evt.levelRequired || 1) + ' req.';
+                                var puedeIniciar = player.level >= (evt.levelRequired || 1) && !player.gameOver && !hayMazmorraActiva;
+                                var textoBoton = player.level < (evt.levelRequired || 1) ? '🔒 Nivel ' + (evt.levelRequired || 1) + ' req.' :
+                                    (hayMazmorraActiva ? '⏳ Otra mazmorra en curso' : '🏰 Iniciar Mazmorra');
                                 actionsHTML = `
                         <button class="start-btn" onclick="iniciarMazmorra('${evt.id}')" ${!puedeIniciar ? 'disabled' : ''}>
                             ${textoBoton}
@@ -378,6 +381,7 @@
                             <span class="event-title">${icon} ${evt.title}</span>
                             <span class="event-status-badge ${status.cls}">${status.text}</span>
                         </div>
+                        ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
                         <div class="event-meta">
                             <span>📋 Mazmorra</span>
                             <span>⏱️ ${evt.duration || 3}h</span>
@@ -422,23 +426,6 @@
                             // Si el evento ya finalizó, no se puede hacer nada
                             if (evt.status === 'finished' || evt.status === 'completed') {
                                 showToast('Este evento ya finalizó.', 'warning', 'Evento');
-                                return;
-                            }
-
-                            // ============================================================
-                            // Las mazmorras SOLO permiten marcar tareas si fueron iniciadas
-                            // explícitamente con el botón "Iniciar Mazmorra" — no se activan
-                            // solas por fecha como los eventos.
-                            // ============================================================
-                            if (evt.type === 'dungeon') {
-                                if (evt.status !== 'active') {
-                                    showToast('Primero tenés que iniciar la mazmorra con el botón "⚔️ Iniciar Mazmorra".', 'warning', 'Mazmorra');
-                                    return;
-                                }
-
-                                evt.taskStatus[taskIndex] = !evt.taskStatus[taskIndex];
-                                guardarEventos();
-                                renderEvents();
                                 return;
                             }
 
@@ -511,6 +498,12 @@
                         }
                         if (evt.status === 'finished' || evt.status === 'completed') return;
 
+                        if (evt.status !== 'active') {
+                            showToast('Primero tenés que iniciar la mazmorra con el botón "🏰 Iniciar Mazmorra".', 'warning', 'Mazmorra');
+                            renderEvents();
+                            return;
+                        }
+
                         evt.taskStatus[taskIndex] = !evt.taskStatus[taskIndex];
                         guardarEventos();
 
@@ -555,6 +548,12 @@
 
                         if (player.level < (evt.levelRequired || 1)) {
                             showToast('Necesitas nivel ' + evt.levelRequired + ' para esta mazmorra.', 'error', 'Mazmorra');
+                            return;
+                        }
+
+                        var otraActiva = eventosCache.find(function (e) { return e.type === 'dungeon' && e.status === 'active' && e.id !== id; });
+                        if (otraActiva) {
+                            showToast('Ya tenés "' + otraActiva.title + '" en progreso. Finalizala antes de iniciar otra mazmorra.', 'warning', 'Mazmorra');
                             return;
                         }
 
@@ -703,6 +702,7 @@
                         var levelInput = document.getElementById('config-event-level');
                         var tasksInput = document.getElementById('config-event-tasks');
                         var iconInput = document.getElementById('config-event-icon');
+                        var imageInput = document.getElementById('config-event-image');
 
                         var title = titleInput ? titleInput.value.trim() : '';
                         var type = typeSelect ? typeSelect.value : 'event';
@@ -712,6 +712,7 @@
                         var levelRequired = parseInt(levelInput ? levelInput.value : 1) || 1;
                         var tasksRaw = tasksInput ? tasksInput.value.trim() : '';
                         var customIcon = (iconInput ? iconInput.value.trim() : '') || '';
+                        var customImage = (imageInput ? imageInput.value.trim() : '') || null;
 
                         if (!title) {
                             showToast('Ingresa un nombre.', 'warning', 'Error');
@@ -730,6 +731,7 @@
                             title: title,
                             type: type,
                             icon: customIcon || null,
+                            image: customImage,
                             start: start,
                             duration: duration,
                             levelRequired: levelRequired,
@@ -756,6 +758,7 @@
                         if (levelInput) levelInput.value = '1';
                         if (tasksInput) tasksInput.value = '';
                         if (iconInput) iconInput.value = '';
+                        if (imageInput) imageInput.value = '';
 
                         var periodoTexto = {
                             'once': 'Una vez',
@@ -906,6 +909,7 @@
                                         title: s.title || 'Evento sin nombre',
                                         type: s.type || 'event',
                                         icon: s.icon || null,
+                                        image: s.image || null,
                                         start: s.start || null,
                                         duration: s.duration || 3,
                                         levelRequired: s.levelRequired || 1,

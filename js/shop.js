@@ -210,6 +210,7 @@
                                 equipable: equipable,
                                 type: type,
                                 slot: slot,
+                                species: item.species || null,
                                 equipped: false,
                                 effectType: item.effect ? item.effect.type : null,
                                 effectValue: item.effect ? item.effect.value : null,
