@@ -53,142 +53,65 @@
     </div>
 
     <div class="container">
-        <!-- ========== HUD DE PERSONAJE ========== -->
-        <div class="hud-grid">
-            <div class="hud-card">
-                <div class="hud-card-header">
-                    <span class="hud-title">Nivel y Fortuna</span>
-                    <span class="hud-ornament"></span>
-                </div>
-                <br>
-                <div class="hud-main-content">
-                    <span class="hud-value" id="hud-level">1</span>
-                    <span class="hud-label">Nv.</span>
-                    <span style="margin-left:auto; display:flex; align-items:center; gap:6px;">
-                        <span class="hud-value gold" id="hud-gold">0</span>
-                        <span class="hud-label">🟡</span>
-                    </span>
-                </div>
-            </div>
+        <!-- ========== PANEL DE PERSONAJE + RUNAS (DOS COLUMNAS) ========== -->
+        <div class="two-col-grid character-runes-grid">
 
-            <div class="hud-card">
-                <div class="hud-card-header">
-                    <span class="hud-title">Experiencia</span>
-                    <span class="hud-ornament"></span>
+            <!-- ===== IZQUIERDA: HUD COMPACTO + OCTÁGONO DE ATRIBUTOS ===== -->
+            <div class="attributes-card">
+                <div class="attributes-header">
+                    <span class="attr-title">Tu Personaje</span>
+                    <span class="attr-ornament"></span>
                 </div>
                 <br>
-                <div class="hud-main-content">
-                    <span class="hud-value exp" id="hud-exp">0</span>
-                    <span class="hud-label">/ <span id="hud-exp-max">100</span> EXP</span>
-                </div>
-                <div class="hud-progress">
-                    <div class="progress-track">
-                        <div class="progress-fill exp-fill" id="hud-exp-bar" style="width:0%;"></div>
+
+                <div class="hud-compact-row">
+                    <div class="hud-compact-item">
+                        <span class="hud-compact-label">Nv.</span>
+                        <span class="hud-compact-value" id="hud-level">1</span>
                     </div>
-                    <div class="progress-text">
-                        <span>Progreso</span>
-                        <span id="hud-exp-percent">0%</span>
+                    <div class="hud-compact-item">
+                        <span class="hud-compact-label">🟡</span>
+                        <span class="hud-compact-value gold" id="hud-gold">0</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="hud-card">
-                <div class="hud-card-header">
-                    <span class="hud-title">Vitalidad</span>
-                    <span class="hud-ornament"></span>
-                </div>
-                <br>
-                <div class="hud-main-content">
-                    <span class="hud-value hp" id="hud-hp">100</span>
-                    <span class="hud-label">/ <span id="hud-hp-max">100</span> HP</span>
-                    <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.3;"
-                        class="hud-sub">❤️</span>
-                </div>
-                <div class="hud-progress">
+                <div class="hud-compact-bar-block">
+                    <div class="hud-compact-bar-label">
+                        <span>❤️ HP</span>
+                        <span><span id="hud-hp">100</span> / <span id="hud-hp-max">100</span></span>
+                    </div>
                     <div class="progress-track">
                         <div class="progress-fill hp-fill" id="hud-hp-bar" style="width:100%;"></div>
                     </div>
-                    <div class="progress-text">
-                        <span>Salud</span>
-                        <span id="hud-hp-percent">100%</span>
-                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- ========== ATRIBUTOS ========== -->
-        <div class="attributes-card">
-            <div class="attributes-header">
-                <span class="attr-title">Los Ocho Pilares del Guerrero</span>
-                <span class="attr-ornament"></span>
+                <div class="hud-compact-bar-block">
+                    <div class="hud-compact-bar-label">
+                        <span>⭐ EXP</span>
+                        <span><span id="hud-exp">0</span> / <span id="hud-exp-max">100</span></span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill exp-fill" id="hud-exp-bar" style="width:0%;"></div>
+                    </div>
+                </div>
+
+                <div id="attribute-radar-container" class="attribute-radar-container"></div>
             </div>
-            <br>
-            <div class="attributes-grid">
-                <div class="attr-item">
-                    <span class="attr-icon-small">⚔️</span>
-                    <span class="attr-name">Fuerza</span>
-                    <span class="attr-value" id="attr-fuerza">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-fuerza-bar" style="width:10%;"></div>
-                    </div>
+
+            <!-- ===== DERECHA: RUNAS ACTIVAS ===== -->
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Runas Activas — Hábitos Permanentes</span>
+                    <span class="section-ornament"></span>
                 </div>
-                <div class="attr-item">
-                    <span class="attr-icon-small">🛡️</span>
-                    <span class="attr-name">Disciplina</span>
-                    <span class="attr-value" id="attr-disciplina">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-disciplina-bar" style="width:10%;"></div>
-                    </div>
-                </div>
-                <div class="attr-item">
-                    <span class="attr-icon-small">🧠</span>
-                    <span class="attr-name">Mente</span>
-                    <span class="attr-value" id="attr-mente">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-mente-bar" style="width:10%;"></div>
-                    </div>
-                </div>
-                <div class="attr-item">
-                    <span class="attr-icon-small">🎨</span>
-                    <span class="attr-name">Creatividad</span>
-                    <span class="attr-value" id="attr-creatividad">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-creatividad-bar" style="width:10%;"></div>
-                    </div>
-                </div>
-                <div class="attr-item">
-                    <span class="attr-icon-small">💼</span>
-                    <span class="attr-name">Carrera</span>
-                    <span class="attr-value" id="attr-carrera">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-carrera-bar" style="width:10%;"></div>
-                    </div>
-                </div>
-                <div class="attr-item">
-                    <span class="attr-icon-small">💰</span>
-                    <span class="attr-name">Finanzas</span>
-                    <span class="attr-value" id="attr-finanzas">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-finanzas-bar" style="width:10%;"></div>
-                    </div>
-                </div>
-                <div class="attr-item">
-                    <span class="attr-icon-small">👥</span>
-                    <span class="attr-name">Social</span>
-                    <span class="attr-value" id="attr-social">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-social-bar" style="width:10%;"></div>
-                    </div>
-                </div>
-                <div class="attr-item">
-                    <span class="attr-icon-small">❤️</span>
-                    <span class="attr-name">Relaciones</span>
-                    <span class="attr-value" id="attr-relaciones">1</span>
-                    <div class="attr-bar">
-                        <div class="attr-bar-fill" id="attr-relaciones-bar" style="width:10%;"></div>
-                    </div>
+                <br>
+                <div id="rune-container" class="rune-grid"></div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px;">
+                    <button class="action-btn warning" onclick="resetDailyRunes()"
+                        style="font-size:0.8rem; padding:6px 14px;"> Reiniciar Runas</button>
                 </div>
             </div>
+
         </div>
 
         <!-- ========== TABS ========== -->
@@ -208,43 +131,26 @@
 
         <!-- ========== PESTAÑA PANEL PRINCIPAL ========== -->
         <div id="tab-runas" class="tab-content active">
-            <div class="two-col-grid">
-                <!-- MISIONES DIARIAS -->
-                <div class="section-box">
-                    <div class="section-header">
-                        <span class="section-title">Misiones Diarias — Tareas del Día</span>
-                        <span class="section-ornament"></span>
-                    </div>
-                    <br>
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Misiones Diarias — Tareas del Día</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <br>
 
-                    <div class="daily-mission-form"
-                        style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); align-items:center;">
-                        <input type="text" id="daily-title" placeholder="Título de la misión..." maxlength="60"
-                            style="flex:3; min-width:180px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
-                        <input type="time" id="daily-time"
-                            style="flex:1; min-width:100px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
-                        <button class="action-btn" onclick="addDailyMission()"
-                            style="font-size:0.8rem; padding:6px 14px; flex:0 0 auto;">
-                            Agregar
-                        </button>
-                    </div>
-
-                    <div id="daily-mission-container" class="daily-mission-container"></div>
+                <div class="daily-mission-form"
+                    style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); align-items:center;">
+                    <input type="text" id="daily-title" placeholder="Título de la misión..." maxlength="60"
+                        style="flex:3; min-width:180px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
+                    <input type="time" id="daily-time"
+                        style="flex:1; min-width:100px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
+                    <button class="action-btn" onclick="addDailyMission()"
+                        style="font-size:0.8rem; padding:6px 14px; flex:0 0 auto;">
+                        Agregar
+                    </button>
                 </div>
 
-                <!-- RUNAS -->
-                <div class="section-box">
-                    <div class="section-header">
-                        <span class="section-title">Runas Activas — Hábitos Permanentes</span>
-                        <span class="section-ornament"></span>
-                    </div>
-                    <br>
-                    <div id="rune-container" class="rune-grid"></div>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px;">
-                        <button class="action-btn warning" onclick="resetDailyRunes()"
-                            style="font-size:0.8rem; padding:6px 14px;"> Reiniciar Runas</button>
-                    </div>
-                </div>
+                <div id="daily-mission-container" class="daily-mission-container"></div>
             </div>
 
             <!-- MISIONES DLC -->
@@ -446,6 +352,7 @@
                 </p>
 
                 <div id="battle-player-stats" class="battle-player-stats"></div>
+                <div id="battle-champ-stats" class="battle-player-stats battle-champ-stats"></div>
 
                 <div id="arena-controls" class="arena-controls"></div>
 

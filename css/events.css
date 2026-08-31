@@ -241,10 +241,36 @@
             font-weight: bold;
         }
 
-        .event-card .event-tasks {
-            margin-top: 8px;
+        .event-card .event-tasks-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px 0;
+            margin-top: 4px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
-            padding-top: 8px;
+        }
+
+        .event-card .event-tasks-chevron {
+            font-size: 0.7rem;
+            transition: transform 0.2s ease;
+        }
+
+        .event-card .event-tasks-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .event-card .event-tasks-panel.open {
+            max-height: 600px;
+        }
+
+        .event-card .event-tasks {
+            margin-top: 0;
+            padding-top: 4px;
         }
 
         .event-card .event-task-item {

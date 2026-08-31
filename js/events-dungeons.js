@@ -124,14 +124,24 @@
                                 });
                             }
 
-                            // Ordenar
+                            // Ordenar: primero por estado (activos primero), después por fecha más cercana
+                            function compareByDate(a, b) {
+                                var aTime = a.start ? new Date(a.start).getTime() : Infinity;
+                                var bTime = b.start ? new Date(b.start).getTime() : Infinity;
+                                return aTime - bTime;
+                            }
+
                             eventos.sort(function (a, b) {
                                 var order = { active: 0, pending: 1, finished: 2 };
-                                return (order[a.status] || 3) - (order[b.status] || 3);
+                                var statusDiff = (order[a.status] || 3) - (order[b.status] || 3);
+                                if (statusDiff !== 0) return statusDiff;
+                                return compareByDate(a, b);
                             });
                             mazmorras.sort(function (a, b) {
                                 var order = { active: 0, pending: 1, finished: 2, completed: 3 };
-                                return (order[a.status] || 4) - (order[b.status] || 4);
+                                var statusDiff = (order[a.status] || 4) - (order[b.status] || 4);
+                                if (statusDiff !== 0) return statusDiff;
+                                return compareByDate(a, b);
                             });
 
                             renderEventCards(eventContainer, eventos, 'event');
@@ -202,9 +212,11 @@
                             var total = evt.tasks.length;
                             var progress = total > 0 ? Math.round((completadas / total) * 100) : 0;
 
+                            var tasksToggleHTML = '';
                             var tasksHTML = '';
                             if (evt.tasks.length > 0) {
-                                tasksHTML = '<div class="event-tasks">';
+                                tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">▾</span></div>';
+                                tasksHTML = '<div class="event-tasks-panel" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
                                 evt.tasks.forEach(function (task, index) {
                                     var isCompleted = evt.taskStatus[index] || false;
 
@@ -242,7 +254,7 @@
                     </div>
                 `;
                                 });
-                                tasksHTML += '</div>';
+                                tasksHTML += '</div></div>';
                             }
 
                             html += `
@@ -257,9 +269,9 @@
                             <span>⏱️ ${evt.duration || 3}h</span>
                             <span>📋 Evento</span>
                             ${periodText}
-                            ${evt.tasks.length > 0 ? '<span>🎯 ' + completadas + '/' + total + ' tareas (' + progress + '%)</span>' : ''}
                         </div>
                         ${timerHTML}
+                        ${tasksToggleHTML}
                         ${tasksHTML}
                         <div class="event-reward">
                             <span>🏆 +${evt.expReward || 20} EXP, +${evt.goldReward || 10} ORO</span>
@@ -313,9 +325,11 @@
                             var total = evt.tasks.length;
                             var progress = total > 0 ? Math.round((completadas / total) * 100) : 0;
 
+                            var tasksToggleHTML = '';
                             var tasksHTML = '';
                             if (evt.tasks.length > 0) {
-                                tasksHTML = '<div class="event-tasks">';
+                                tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">▾</span></div>';
+                                tasksHTML = '<div class="event-tasks-panel" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
                                 evt.tasks.forEach(function (task, index) {
                                     var isCompleted = evt.taskStatus[index] || false;
                                     var disabled = evt.status !== 'active' || player.gameOver;
@@ -329,7 +343,7 @@
                             </div>
                         `;
                                 });
-                                tasksHTML += '</div>';
+                                tasksHTML += '</div></div>';
                             }
 
                             // Botones de acción para mazmorras
@@ -372,9 +386,9 @@
                             <span>📋 Mazmorra</span>
                             <span>⏱️ ${evt.duration || 3}h</span>
                             ${evt.levelRequired ? '<span>🏷️ Nivel ' + evt.levelRequired + ' req.</span>' : ''}
-                            ${evt.tasks.length > 0 ? '<span>🎯 ' + completadas + '/' + total + ' tareas (' + progress + '%)</span>' : ''}
                         </div>
                         ${timerHTML}
+                        ${tasksToggleHTML}
                         ${tasksHTML}
                         <div class="event-reward">
                             <span>🏆 +${evt.expReward || 20} EXP, +${evt.goldReward || 10} ORO</span>
@@ -396,6 +410,15 @@
                             });
                             renderEvents();
                         }
+
+                    function toggleEventTasksPanel(eventId) {
+                        var panel = document.getElementById('event-tasks-panel-' + eventId);
+                        var chevron = document.getElementById('event-tasks-chevron-' + eventId);
+                        if (!panel) return;
+
+                        var isOpen = panel.classList.toggle('open');
+                        if (chevron) chevron.textContent = isOpen ? '▴' : '▾';
+                    }
 
                     function toggleEventTask(eventId, taskIndex) {
                             if (player.gameOver) {

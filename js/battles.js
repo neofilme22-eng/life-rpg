@@ -242,7 +242,7 @@
                         return 0;
                     }
 
-                    function renderBattleLog(log, won, champ, onComplete) {
+                    function renderBattleLog(log, won, champ, champHpStart, onComplete) {
                         var container = document.getElementById('battle-log-container');
                         if (!container) return;
 
@@ -255,7 +255,15 @@
                         container.innerHTML = '<div class="battle-log-lines" id="battle-log-lines"></div>';
                         var linesEl = document.getElementById('battle-log-lines');
 
+                        var champStatsEl = document.getElementById('battle-champ-stats');
+                        if (champStatsEl) {
+                            champStatsEl.classList.add('visible');
+                            champStatsEl.innerHTML =
+                                '<div class="battle-stat-item">' + renderIconHTML(champ.icon, '⚔️') + ' ' + champ.name + ': <strong><span id="battle-live-champ-hp">' + champHpStart + '</span> / ' + champHpStart + '</strong> ❤️</div>';
+                        }
+
                         var liveHp = player.hp;
+                        var liveChampHp = champHpStart;
                         var index = 0;
 
                         function revealNext() {
@@ -288,6 +296,12 @@
                                 if (entry.delta < 0 && typeof shakeScreen === 'function') {
                                     shakeScreen();
                                 }
+                            }
+
+                            if (entry.target === 'champ' && entry.delta !== 0) {
+                                liveChampHp = Math.max(0, Math.min(champHpStart, liveChampHp + entry.delta));
+                                var champHpEl = document.getElementById('battle-live-champ-hp');
+                                if (champHpEl) champHpEl.textContent = liveChampHp;
                             }
 
                             index++;
@@ -327,7 +341,7 @@
 
                         renderBattlesTab();
 
-                        renderBattleLog(result.log, result.won, champ, function () {
+                        renderBattleLog(result.log, result.won, champ, champStats.hp, function () {
                             var damageTaken = applyBattleHpChange(result.finalPlayerHp, 'Combate contra ' + champ.name);
 
                             if (player.gameOver) {
@@ -405,7 +419,7 @@
 
                         renderBattlesTab();
 
-                        renderBattleLog(result.log, result.won, { name: champStats.name, icon: champ.icon }, function () {
+                        renderBattleLog(result.log, result.won, { name: champStats.name, icon: champ.icon }, champStats.hp, function () {
                             var damageTaken = applyBattleHpChange(result.finalPlayerHp, 'Arena: combate contra ' + champStats.name);
 
                             if (player.gameOver) {
@@ -498,6 +512,7 @@
                                 '<span class="champ-name">' + champ.name + '</span>' +
                                 '</div>' +
                                 '<div class="entity-image-wrap"><img src="' + champ.image + '" class="entity-image" data-fallback-icon="' + champ.icon + '" onerror="handleImageError(this)" alt="' + champ.name + '"></div>' +
+                                '<div class="champ-counter-label">🎯 Débil contra ' + ATTR_LABELS_SHORT[champ.counterAttr] + '</div>' +
                                 '<div class="champ-stats">' +
                                 '<span>❤️ ' + champ.hp + '</span>' +
                                 '<span>⚔️ ' + champ.attack + '</span>' +

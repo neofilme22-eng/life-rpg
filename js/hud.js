@@ -27,16 +27,81 @@
                 if (hpBarEl) hpBarEl.style.width = Math.min(100, hpPercent) + '%';
                 if (hpPercentEl) hpPercentEl.innerText = Math.round(Math.min(100, hpPercent)) + '%';
 
-                for (var key in player.attributes) {
-                    var el = document.getElementById('attr-' + key);
-                    if (el) el.innerText = player.attributes[key];
+                renderAttributeRadar();
+            }
 
-                    var barEl = document.getElementById('attr-' + key + '-bar');
-                    if (barEl) {
-                        var progress = Math.min(100, (player.attributes[key] / 20) * 100);
-                        barEl.style.width = progress + '%';
-                    }
+            var RADAR_ATTRS = [
+                { key: 'fuerza', icon: '⚔️' },
+                { key: 'disciplina', icon: '🛡️' },
+                { key: 'mente', icon: '🧠' },
+                { key: 'creatividad', icon: '🎨' },
+                { key: 'carrera', icon: '💼' },
+                { key: 'finanzas', icon: '💰' },
+                { key: 'social', icon: '👥' },
+                { key: 'relaciones', icon: '❤️' }
+            ];
+
+            function renderAttributeRadar() {
+                var container = document.getElementById('attribute-radar-container');
+                if (!container) return;
+
+                var values = RADAR_ATTRS.map(function (a) { return player.attributes[a.key] || 1; });
+                var maxRaw = Math.max.apply(null, values);
+                var maxValue = Math.max(10, Math.ceil((maxRaw * 1.25) / 5) * 5);
+
+                var size = 320;
+                var center = size / 2;
+                var maxRadius = 105;
+                var labelRadius = 138;
+
+                function pointAt(index, radius) {
+                    var angle = (Math.PI / 4) * index - Math.PI / 2;
+                    return {
+                        x: center + radius * Math.cos(angle),
+                        y: center + radius * Math.sin(angle)
+                    };
                 }
+
+                var ringsSVG = '';
+                [0.25, 0.5, 0.75, 1].forEach(function (pct) {
+                    var pts = [];
+                    for (var i = 0; i < 8; i++) {
+                        var p = pointAt(i, maxRadius * pct);
+                        pts.push(p.x.toFixed(1) + ',' + p.y.toFixed(1));
+                    }
+                    ringsSVG += '<polygon points="' + pts.join(' ') + '" class="radar-grid-ring" />';
+                });
+
+                var axesSVG = '';
+                for (var i = 0; i < 8; i++) {
+                    var p = pointAt(i, maxRadius);
+                    axesSVG += '<line x1="' + center + '" y1="' + center + '" x2="' + p.x.toFixed(1) + '" y2="' + p.y.toFixed(1) + '" class="radar-axis-line" />';
+                }
+
+                var dataPts = [];
+                var dotsSVG = '';
+                for (var i = 0; i < 8; i++) {
+                    var r = (values[i] / maxValue) * maxRadius;
+                    var p = pointAt(i, r);
+                    dataPts.push(p.x.toFixed(1) + ',' + p.y.toFixed(1));
+                    dotsSVG += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="3.5" class="radar-data-dot" />';
+                }
+                var dataSVG = '<polygon points="' + dataPts.join(' ') + '" class="radar-data-polygon" />';
+
+                var labelsSVG = '';
+                for (var i = 0; i < 8; i++) {
+                    var p = pointAt(i, labelRadius);
+                    var anchor = 'middle';
+                    if (p.x < center - 8) anchor = 'end';
+                    else if (p.x > center + 8) anchor = 'start';
+
+                    labelsSVG += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y - 5).toFixed(1) + '" class="radar-label-icon" text-anchor="' + anchor + '">' + RADAR_ATTRS[i].icon + '</text>';
+                    labelsSVG += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 11).toFixed(1) + '" class="radar-label-value" text-anchor="' + anchor + '">' + values[i] + '</text>';
+                }
+
+                container.innerHTML = '<svg viewBox="0 0 ' + size + ' ' + size + '" class="attribute-radar-svg">' +
+                    ringsSVG + axesSVG + dataSVG + dotsSVG + labelsSVG +
+                    '</svg>';
             }
 
             function gainRewards(expGain, goldGain, attrKey, logType, logTitle, logDetails) {

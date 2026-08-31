@@ -431,3 +431,100 @@
             width: 0%;
         }
 
+
+        /* ===== HUD COMPACTO (dentro del panel de personaje) ===== */
+        .hud-compact-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .hud-compact-item {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--hud-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hud-compact-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .hud-compact-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .hud-compact-value.gold {
+            color: var(--gold);
+        }
+
+        .hud-compact-bar-block {
+            margin-bottom: 10px;
+        }
+
+        .hud-compact-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            margin-bottom: 3px;
+        }
+
+        /* ===== OCTÁGONO DE ATRIBUTOS ===== */
+        .attribute-radar-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .attribute-radar-svg {
+            width: 100%;
+            max-width: 340px;
+            height: auto;
+        }
+
+        .radar-grid-ring {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 1;
+        }
+
+        .radar-axis-line {
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-width: 1;
+        }
+
+        .radar-data-polygon {
+            fill: rgba(168, 85, 247, 0.25);
+            stroke: var(--accent);
+            stroke-width: 2;
+            stroke-linejoin: round;
+            transition: all 0.4s ease;
+        }
+
+        .radar-data-dot {
+            fill: var(--primary);
+            stroke: var(--bg-color);
+            stroke-width: 1.5;
+        }
+
+        .radar-label-icon {
+            font-size: 13px;
+            fill: var(--text);
+        }
+
+        .radar-label-value {
+            font-size: 11px;
+            fill: var(--text-muted);
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
