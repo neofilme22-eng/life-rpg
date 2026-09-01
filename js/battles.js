@@ -2,14 +2,14 @@
                     // ============================================================
 
                     const CHAMPS = [
-                        { id: 'flaw_sedentarismo', name: 'Sedentarismo', icon: '🛋️', image: 'assets/champs/sedentarismo.jpg', counterAttr: 'fuerza', levelRequired: 1, hp: 40, attack: 6, defense: 2, expReward: 8, goldReward: 5 },
-                        { id: 'flaw_procrastinacion', name: 'Procrastinación', icon: '⏳', image: 'assets/champs/procrastinacion.jpg', counterAttr: 'disciplina', levelRequired: 3, hp: 60, attack: 9, defense: 4, expReward: 14, goldReward: 9 },
-                        { id: 'flaw_inseguridad', name: 'Inseguridad', icon: '🌀', image: 'assets/champs/inseguridad.jpg', counterAttr: 'mente', levelRequired: 5, hp: 85, attack: 13, defense: 6, expReward: 22, goldReward: 14 },
-                        { id: 'flaw_bloqueo', name: 'Bloqueo Creativo', icon: '🧊', image: 'assets/champs/bloqueo-creativo.jpg', counterAttr: 'creatividad', levelRequired: 8, hp: 130, attack: 15, defense: 12, expReward: 32, goldReward: 20 },
-                        { id: 'flaw_estancamiento', name: 'Estancamiento', icon: '🕳️', image: 'assets/champs/estancamiento.jpg', counterAttr: 'carrera', levelRequired: 11, hp: 150, attack: 20, defense: 10, expReward: 45, goldReward: 28 },
-                        { id: 'flaw_descontrol', name: 'Descontrol Financiero', icon: '💸', image: 'assets/champs/descontrol-financiero.jpg', counterAttr: 'finanzas', levelRequired: 14, hp: 170, attack: 24, defense: 12, expReward: 60, goldReward: 38 },
-                        { id: 'flaw_timidez', name: 'Timidez', icon: '🙈', image: 'assets/champs/timidez.jpg', counterAttr: 'social', levelRequired: 18, hp: 220, attack: 28, defense: 18, expReward: 80, goldReward: 50 },
-                        { id: 'flaw_apatia', name: 'Apatía', icon: '🌫️', image: 'assets/champs/apatia.jpg', counterAttr: 'relaciones', levelRequired: 22, hp: 280, attack: 34, defense: 22, expReward: 110, goldReward: 70 }
+                        { id: 'flaw_sedentarismo', name: 'Larva del Colchon', icon: '🌫️', image: 'assets/champs/sedentarismo.jpg', counterAttr: 'fuerza', levelRequired: 1, hp: 40, attack: 6, defense: 2, expReward: 8, goldReward: 5 },
+                        { id: 'flaw_procrastinacion', name: 'Tejedora de Mañanas', icon: '🌫️', image: 'assets/champs/procrastinacion.jpg', counterAttr: 'disciplina', levelRequired: 3, hp: 60, attack: 9, defense: 4, expReward: 14, goldReward: 9 },
+                        { id: 'flaw_inseguridad', name: 'Espectro del Espejo', icon: '🌫️', image: 'assets/champs/inseguridad.jpg', counterAttr: 'mente', levelRequired: 5, hp: 85, attack: 13, defense: 6, expReward: 22, goldReward: 14 },
+                        { id: 'flaw_bloqueo', name: 'Monolito Gris', icon: '🌫️', image: 'assets/champs/bloqueo-creativo.jpg', counterAttr: 'creatividad', levelRequired: 8, hp: 130, attack: 15, defense: 12, expReward: 32, goldReward: 20 },
+                        { id: 'flaw_estancamiento', name: 'Limo de Fango', icon: '🌫️', image: 'assets/champs/estancamiento.jpg', counterAttr: 'carrera', levelRequired: 11, hp: 150, attack: 20, defense: 10, expReward: 45, goldReward: 28 },
+                        { id: 'flaw_descontrol', name: 'Usurero del Arca', icon: '🌫️', image: 'assets/champs/descontrol-financiero.jpg', counterAttr: 'finanzas', levelRequired: 14, hp: 170, attack: 24, defense: 12, expReward: 60, goldReward: 38 },
+                        { id: 'flaw_timidez', name: 'Banshee Silenciosa', icon: '🌫️', image: 'assets/champs/timidez.jpg', counterAttr: 'social', levelRequired: 18, hp: 220, attack: 28, defense: 18, expReward: 80, goldReward: 50 },
+                        { id: 'flaw_apatia', name: 'Apath, el Vacío', icon: '🌫️', image: 'assets/champs/apatia.jpg', counterAttr: 'relaciones', levelRequired: 22, hp: 280, attack: 34, defense: 22, expReward: 110, goldReward: 70 }
                     ];
 
                     const ATTR_LABELS_SHORT = {
