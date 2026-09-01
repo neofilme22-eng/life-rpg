@@ -514,8 +514,7 @@
                             var locked = player.level < champ.levelRequired;
 
                             html += '<div class="champ-card ' + (locked ? 'locked' : '') + '">' +
-                                '<div class="champ-header">' +
-                                '<span class="champ-icon">' + renderIconHTML(champ.icon, '⚔️') + '</span>' +
+                                '<div class="champ-header">' +                                
                                 '<span class="champ-name">' + champ.name + '</span>' +
                                 '</div>' +
                                 '<div class="entity-image-wrap"><img src="' + champ.image + '" class="entity-image" data-fallback-icon="' + champ.icon + '" onerror="handleImageError(this)" alt="' + champ.name + '"></div>' +
