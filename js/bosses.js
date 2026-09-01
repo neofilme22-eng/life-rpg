@@ -154,7 +154,7 @@
                                 card.innerHTML = `
                     <div class="boss-header">
                         <div>
-                            <h3 class="boss-name">${renderIconHTML(boss.icon, '👹')} ${boss.name}</h3>
+                            <h3 class="boss-name"> ${boss.name}</h3>
                         </div>
                         <span class="boss-status">${statusText}</span>
                     </div>

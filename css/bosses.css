@@ -1,4 +1,4 @@
-        /* ===== BOSSES ===== */
+/* ===== BOSSES ===== */
         .boss-grid {
             display: flex;
             flex-wrap: nowrap;
@@ -255,6 +255,51 @@
             min-width: 100%;
         }
 
+        /* ===== IMÁGENES DE BOSSES - OCUPAN TODO EL ANCHO ===== */
+        
+        /* Contenedor de imagen en tarjetas de bosses - ocupa todo el ancho */
+        .boss-card .entity-image-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 8px -16px 12px -16px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0;
+            min-height: 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* Imagen dentro de tarjetas de bosses - ocupa todo el ancho */
+        .boss-card .entity-image-block img,
+        .boss-card .entity-image-block svg {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 4px;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .boss-card .entity-image-block img:hover,
+        .boss-card .entity-image-block svg:hover {
+            transform: scale(1.02);
+        }
+
+        /* Si prefieres que se vea toda la imagen sin recortar */
+        .boss-card .entity-image-block img.contain,
+        .boss-card .entity-image-block svg.contain {
+            object-fit: contain;
+        }
+
+        /* Si la imagen es un emoji o texto grande */
+        .boss-card .entity-image-block .boss-emoji {
+            font-size: 4rem;
+            line-height: 1;
+        }
+
         /* ===== BESTIARIO ===== */
         .bestiary-grid {
             display: grid;
@@ -342,3 +387,63 @@
             padding: 20px 0;
         }
 
+        /* ===== IMÁGENES EN BESTIARIO - OCUPAN TODO EL ANCHO ===== */
+        
+        /* Contenedor de imagen en bestiario */
+        .bestiary-card .entity-image-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 6px -12px 8px -12px;
+            padding: 6px;
+            background: rgba(0, 0, 0, 0.15);
+            min-height: 60px;
+        }
+
+        /* Imagen dentro de bestiario */
+        .bestiary-card .entity-image-block img,
+        .bestiary-card .entity-image-block svg {
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+            border-radius: 4px;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Emoji en bestiario */
+        .bestiary-card .entity-image-block .boss-emoji {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .boss-card .entity-image-block {
+                margin: 6px -12px 10px -12px;
+                min-height: 60px;
+            }
+            
+            .boss-card .entity-image-block img,
+            .boss-card .entity-image-block svg {
+                max-height: 150px;
+            }
+            
+            .bestiary-card .entity-image-block {
+                margin: 4px -8px 6px -8px;
+                min-height: 50px;
+            }
+            
+            .bestiary-card .entity-image-block img,
+            .bestiary-card .entity-image-block svg {
+                max-height: 80px;
+            }
+
+            .boss-card .entity-image-block .boss-emoji {
+                font-size: 3rem;
+            }
+
+            .bestiary-card .entity-image-block .boss-emoji {
+                font-size: 2.5rem;
+            }
+        }
