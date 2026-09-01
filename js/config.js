@@ -60,7 +60,7 @@
             // ============================================================
 
             const SHOP_ITEMS_DEFAULT = [
-                { id: 'weapon_dagger', name: '🗡️ Daga Herrumbrada', desc: 'Una daga vieja y desgastada, pero filosa. +1 Fuerza mientras esté equipada.', category: 'arma', price: 40, maxPurchases: 1, effect: { type: 'weapon', value: 1 }, slot: 'arma' },
+                { id: 'weapon_dagger', name: 'Daga Herrumbrada', icon: '🗡️', desc: 'Una daga vieja y desgastada, pero filosa. +1 Fuerza mientras esté equipada.', category: 'arma', price: 40, maxPurchases: 1, effect: { type: 'weapon', value: 1 }, slot: 'arma' },
                 { id: 'weapon_shortsword', name: '⚔️ Espada Corta', desc: 'Ligera y fácil de manejar. +2 Fuerza mientras esté equipada.', category: 'arma', price: 90, maxPurchases: 1, effect: { type: 'weapon', value: 2 }, slot: 'arma' },
                 { id: 'weapon_axe', name: '🪓 Hacha de Leñador', desc: 'Pesada, pero brutal en manos firmes. +3 Fuerza mientras esté equipada.', category: 'arma', price: 160, maxPurchases: 1, effect: { type: 'weapon', value: 3 }, slot: 'arma' },
                 { id: 'weapon_longsword', name: '🗡️ Espada Larga Élfica', desc: 'Forjada con una precisión que ya no se ve. +4 Fuerza mientras esté equipada.', category: 'arma', price: 260, maxPurchases: 1, effect: { type: 'weapon', value: 4 }, slot: 'arma' },
@@ -72,7 +72,7 @@
                 { id: 'armor_plate', name: '🛡️ Armadura de Placas', desc: 'Pesada, sólida, confiable. +4 Disciplina mientras esté equipada.', category: 'armadura', price: 260, maxPurchases: 1, effect: { type: 'armor', value: 4 }, slot: 'armadura' },
                 { id: 'armor_sacred', name: '✨ Armadura Sagrada', desc: 'Bendecida por quienes ya cruzaron su propia niebla. +6 Disciplina mientras esté equipada.', category: 'armadura', price: 420, maxPurchases: 1, effect: { type: 'armor', value: 6 }, slot: 'armadura' },
                 { id: 'armor_aegis', name: '🛡️ Égida del Monje Eterno', desc: 'La armadura de quien nunca deja de intentarlo. +8 Disciplina mientras esté equipada.', category: 'armadura', price: 650, maxPurchases: 1, effect: { type: 'armor', value: 8 }, slot: 'armadura' },
-                { id: 'potion_small', name: '❤️ Poción', desc: 'Restaura 20 HP al personaje.', category: 'consumable', price: 15, maxPurchases: 999, effect: { type: 'heal', value: 20 } },
+                { id: 'potion_small', name: 'Poción', icon:'❤️' ,desc: 'Restaura 20 HP al personaje.', category: 'consumable', price: 15, maxPurchases: 999, effect: { type: 'heal', value: 20 } },
                 { id: 'potion_mega', name: '❤️ Mega Poción', desc: 'Restaura 50 HP al personaje.', category: 'consumable', price: 40, maxPurchases: 999, effect: { type: 'heal', value: 50 } },
                 { id: 'potion_hyper', name: '❤️ Hiper Poción', desc: 'Restaura 100 HP al personaje.', category: 'consumable', price: 90, maxPurchases: 999, effect: { type: 'heal', value: 100 } },
                 { id: 'elixir', name: '💖 Elixir', desc: 'Restaura por completo tu HP.', category: 'consumable', price: 160, maxPurchases: 999, effect: { type: 'heal_full', value: 0 } },

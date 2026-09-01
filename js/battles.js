@@ -190,8 +190,8 @@
                         while (pWorking.hp > 0 && cWorking.hp > 0 && turn < maxTurns) {
                             var atk = attackerIsPlayer ? pWorking : cWorking;
                             var def = attackerIsPlayer ? cWorking : pWorking;
-                            var atkName = attackerIsPlayer ? 'Vos' : champStats.name;
-                            var defName = attackerIsPlayer ? champStats.name : 'Vos';
+                            var atkName = attackerIsPlayer ? 'Daniel' : champStats.name;
+                            var defName = attackerIsPlayer ? champStats.name : 'Daniel';
 
                             resolveSingleHit(atk, def, atkName, defName, attackerIsPlayer, log, true);
                             turn++;
@@ -242,74 +242,81 @@
                         return 0;
                     }
 
+                    
                     function renderBattleLog(log, won, champ, champHpStart, onComplete) {
-                        var container = document.getElementById('battle-log-container');
-                        if (!container) return;
+    var container = document.getElementById('battle-log-container');
+    if (!container) return;
 
-                        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll al contenedor padre (.section-box) que contiene el título
+    var sectionBox = container.closest('.section-box');
+    if (sectionBox) {
+        sectionBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-                        battleLogToken++;
-                        var myToken = battleLogToken;
-                        battleAnimating = true;
+    battleLogToken++;
+    var myToken = battleLogToken;
+    battleAnimating = true;
 
-                        container.innerHTML = '<div class="battle-log-lines" id="battle-log-lines"></div>';
-                        var linesEl = document.getElementById('battle-log-lines');
+    container.innerHTML = '<div class="battle-log-lines" id="battle-log-lines"></div>';
+    var linesEl = document.getElementById('battle-log-lines');
 
-                        var champStatsEl = document.getElementById('battle-champ-stats');
-                        if (champStatsEl) {
-                            champStatsEl.classList.add('visible');
-                            champStatsEl.innerHTML =
-                                '<div class="battle-stat-item">' + renderIconHTML(champ.icon, '⚔️') + ' ' + champ.name + ': <strong><span id="battle-live-champ-hp">' + champHpStart + '</span> / ' + champHpStart + '</strong> ❤️</div>';
-                        }
+    var champStatsEl = document.getElementById('battle-champ-stats');
+    if (champStatsEl) {
+        champStatsEl.classList.add('visible');
+        champStatsEl.innerHTML =
+            '<div class="battle-stat-item">' + renderIconHTML(champ.icon, '⚔️') + ' ' + champ.name + ': <strong><span id="battle-live-champ-hp">' + champHpStart + '</span> / ' + champHpStart + '</strong> 🖤</div>';
+    }
 
-                        var liveHp = player.hp;
-                        var liveChampHp = champHpStart;
-                        var index = 0;
+    var liveHp = player.hp;
+    var liveChampHp = champHpStart;
+    var index = 0;
 
-                        function revealNext() {
-                            if (myToken !== battleLogToken) return;
+    function revealNext() {
+        if (myToken !== battleLogToken) return;
 
-                            if (index >= log.length) {
-                                var header = document.createElement('div');
-                                header.className = 'battle-log-header ' + (won ? 'won' : 'lost');
-                                header.innerHTML = renderIconHTML(champ.icon, '⚔️') + ' ' + (won ? '¡Victoria!' : 'Derrota');
-                                container.insertBefore(header, linesEl);
-                                container.scrollTop = container.scrollHeight;
-                                battleAnimating = false;
-                                if (typeof onComplete === 'function') onComplete();
-                                return;
-                            }
+        if (index >= log.length) {
+            var header = document.createElement('div');
+            header.className = 'battle-log-header ' + (won ? 'won' : 'lost');
+            header.innerHTML = renderIconHTML(champ.icon, '⚔️') + ' ' + (won ? '¡Victoria!' : 'Derrota');
+            container.insertBefore(header, linesEl);
+            container.scrollTop = container.scrollHeight;
+            battleAnimating = false;
+            if (typeof onComplete === 'function') onComplete();
+            return;
+        }
 
-                            var entry = log[index];
+        var entry = log[index];
 
-                            var lineEl = document.createElement('div');
-                            lineEl.className = 'battle-log-line battle-log-line-in';
-                            lineEl.textContent = entry.text;
-                            linesEl.appendChild(lineEl);
-                            container.scrollTop = container.scrollHeight;
+        var lineEl = document.createElement('div');
+        lineEl.className = 'battle-log-line battle-log-line-in';
+        lineEl.textContent = entry.text;
+        linesEl.appendChild(lineEl);
+        container.scrollTop = container.scrollHeight;
 
-                            if (entry.target === 'player' && entry.delta !== 0) {
-                                liveHp = Math.max(0, Math.min(player.maxHp, liveHp + entry.delta));
-                                var hpEl = document.getElementById('battle-live-hp');
-                                if (hpEl) hpEl.textContent = liveHp;
+        if (entry.target === 'player' && entry.delta !== 0) {
+            liveHp = Math.max(0, Math.min(player.maxHp, liveHp + entry.delta));
+            var hpEl = document.getElementById('battle-live-hp');
+            if (hpEl) hpEl.textContent = liveHp;
 
-                                if (entry.delta < 0 && typeof shakeScreen === 'function') {
-                                    shakeScreen();
-                                }
-                            }
+            if (entry.delta < 0 && typeof shakeScreen === 'function') {
+                shakeScreen();
+            }
+        }
 
-                            if (entry.target === 'champ' && entry.delta !== 0) {
-                                liveChampHp = Math.max(0, Math.min(champHpStart, liveChampHp + entry.delta));
-                                var champHpEl = document.getElementById('battle-live-champ-hp');
-                                if (champHpEl) champHpEl.textContent = liveChampHp;
-                            }
+        if (entry.target === 'champ' && entry.delta !== 0) {
+            liveChampHp = Math.max(0, Math.min(champHpStart, liveChampHp + entry.delta));
+            var champHpEl = document.getElementById('battle-live-champ-hp');
+            if (champHpEl) champHpEl.textContent = liveChampHp;
+        }
 
-                            index++;
-                            setTimeout(revealNext, BATTLE_LINE_DELAY_MS);
-                        }
+        index++;
+        setTimeout(revealNext, BATTLE_LINE_DELAY_MS);
+    }
 
-                        revealNext();
-                    }
+    revealNext();
+}
 
                     function fightChamp(champId) {
                         if (battleAnimating) {
@@ -478,7 +485,7 @@
 
                         if (statsContainer) {
                             statsContainer.innerHTML =
-                                '<div class="battle-stat-item">❤️ HP real: <strong><span id="battle-live-hp">' + player.hp + '</span> / ' + player.maxHp + '</strong></div>';
+                                '<div class="battle-stat-item">❤️ Daniel: <strong><span id="battle-live-hp">' + player.hp + '</span> / ' + player.maxHp + '</strong></div>';
                         }
 
                         if (arenaControls) {
@@ -514,7 +521,7 @@
                                 '<div class="entity-image-wrap"><img src="' + champ.image + '" class="entity-image" data-fallback-icon="' + champ.icon + '" onerror="handleImageError(this)" alt="' + champ.name + '"></div>' +
                                 '<div class="champ-counter-label">🎯 Débil contra ' + ATTR_LABELS_SHORT[champ.counterAttr] + '</div>' +
                                 '<div class="champ-stats">' +
-                                '<span>❤️ ' + champ.hp + '</span>' +
+                                '<span>🖤 ' + champ.hp + '</span>' +
                                 '<span>⚔️ ' + champ.attack + '</span>' +
                                 '<span>🛡️ ' + champ.defense + '</span>' +
                                 '</div>' +

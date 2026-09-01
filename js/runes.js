@@ -231,7 +231,7 @@
                             <span class="rune-level-badge">✦ Nv.${prog.level}</span>
                         </div>
                         <div class="rune-info-row">
-                            <span class="rune-streak">🔥 ${runa.streak || 0}d</span>
+                            <span class="rune-streak">🔥 x ${runa.streak || 0}</span>
                             <span class="rune-exp"> +${Math.floor((runa.expReward + bonus) * mult.runeExp)} EXP</span>
                         </div>
                         <div class="progress-container">

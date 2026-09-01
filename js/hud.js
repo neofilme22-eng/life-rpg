@@ -38,7 +38,7 @@
                 { key: 'carrera', icon: '💼' },
                 { key: 'finanzas', icon: '💰' },
                 { key: 'social', icon: '👥' },
-                { key: 'relaciones', icon: '❤️' }
+                { key: 'relaciones', icon: '💞' }
             ];
 
             function renderAttributeRadar() {
@@ -49,9 +49,9 @@
                 var maxRaw = Math.max.apply(null, values);
                 var maxValue = Math.max(10, Math.ceil((maxRaw * 1.25) / 5) * 5);
 
-                var size = 320;
+                var size = 340;
                 var center = size / 2;
-                var maxRadius = 105;
+                var maxRadius = 110;
                 var labelRadius = 138;
 
                 function pointAt(index, radius) {
@@ -88,16 +88,22 @@
                 }
                 var dataSVG = '<polygon points="' + dataPts.join(' ') + '" class="radar-data-polygon" />';
 
-                var labelsSVG = '';
-                for (var i = 0; i < 8; i++) {
-                    var p = pointAt(i, labelRadius);
-                    var anchor = 'middle';
-                    if (p.x < center - 8) anchor = 'end';
-                    else if (p.x > center + 8) anchor = 'start';
+                // Dentro de renderAttributeRadar() - Reemplaza el bloque de labelsSVG
+                    var labelsSVG = '';
+                    for (var i = 0; i < 8; i++) {
+                        var p = pointAt(i, labelRadius);
+                        var anchor = 'middle';
+                        if (p.x < center - 8) anchor = 'end';
+                        else if (p.x > center + 8) anchor = 'start';
 
-                    labelsSVG += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y - 5).toFixed(1) + '" class="radar-label-icon" text-anchor="' + anchor + '">' + RADAR_ATTRS[i].icon + '</text>';
-                    labelsSVG += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 11).toFixed(1) + '" class="radar-label-value" text-anchor="' + anchor + '">' + values[i] + '</text>';
-                }
+                        // ICONO (más grande)
+                        labelsSVG += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y - 10).toFixed(1) + '" class="radar-label-icon" text-anchor="' + anchor + '">' + RADAR_ATTRS[i].icon + '</text>';
+                        // NOMBRE DEL ATRIBUTO (más grande)
+                        var attrName = RADAR_ATTRS[i].key.charAt(0).toUpperCase() + RADAR_ATTRS[i].key.slice(1);
+                        labelsSVG += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 6).toFixed(1) + '" class="radar-label-name" text-anchor="' + anchor + '">' + attrName + '</text>';
+                        // VALOR NUMÉRICO (más grande)
+                        labelsSVG += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y + 19).toFixed(1) + '" class="radar-label-value" text-anchor="' + anchor + '">' + values[i] + '</text>';
+                    }
 
                 container.innerHTML = '<svg viewBox="0 0 ' + size + ' ' + size + '" class="attribute-radar-svg">' +
                     ringsSVG + axesSVG + dataSVG + dotsSVG + labelsSVG +

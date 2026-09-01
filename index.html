@@ -56,46 +56,56 @@
         <!-- ========== PANEL DE PERSONAJE + RUNAS (DOS COLUMNAS) ========== -->
         <div class="two-col-grid character-runes-grid">
 
-            <!-- ===== IZQUIERDA: HUD COMPACTO + OCTÁGONO DE ATRIBUTOS ===== -->
-            <div class="attributes-card">
-                <div class="attributes-header">
-                    <span class="attr-title">Tu Personaje</span>
-                    <span class="attr-ornament"></span>
+            
+            <!-- ===== PANEL DE PERSONAJE UNIFICADO ===== -->
+            <div class="character-panel">
+                <!-- Título + Nivel en la misma fila -->
+                <div class="panel-header">
+                    <span class="panel-title">DANIEL</span>
+                    <span class="section-ornament"></span>
+                </div>
+            
+                <!-- HP -->
+                <div class="panel-bar">
+                    <div class="bar-header">
+                        
+                        
+                    </div>
+                    <div class="bar-row">
+                        <span class="level-value" id="hud-level">1</span>
+                        <span class="bar-label">HP</span>
+                        <div class="bar-track-thin">
+                            <div class="bar-fill-thin hp-fill-thin" id="hud-hp-bar" style="width:100%;"></div>
+                        </div>
+                        <span class="bar-numbers"><strong id="hud-hp">100</strong> / <strong id="hud-hp-max">100</strong></span>
+                    </div>
+                </div>
+                
+            
+                <!-- EXP -->
+                <div class="panel-bar">
+                    
+                    <div class="bar-row">
+                        <span class="level-label">Nv.</span>
+                        <div class="bar-track-thin">
+                            <div class="bar-fill-thin exp-fill-thin" id="hud-exp-bar" style="width:0%;"></div>
+                        </div>
+                    </div>
                 </div>
                 <br>
-
-                <div class="hud-compact-row">
-                    <div class="hud-compact-item">
-                        <span class="hud-compact-label">Nv.</span>
-                        <span class="hud-compact-value" id="hud-level">1</span>
-                    </div>
-                    <div class="hud-compact-item">
-                        <span class="hud-compact-label">🟡</span>
-                        <span class="hud-compact-value gold" id="hud-gold">0</span>
-                    </div>
-                </div>
-
-                <div class="hud-compact-bar-block">
-                    <div class="hud-compact-bar-label">
-                        <span>❤️ HP</span>
-                        <span><span id="hud-hp">100</span> / <span id="hud-hp-max">100</span></span>
-                    </div>
-                    <div class="progress-track">
-                        <div class="progress-fill hp-fill" id="hud-hp-bar" style="width:100%;"></div>
-                    </div>
-                </div>
-
-                <div class="hud-compact-bar-block">
-                    <div class="hud-compact-bar-label">
-                        <span>⭐ EXP</span>
-                        <span><span id="hud-exp">0</span> / <span id="hud-exp-max">100</span></span>
-                    </div>
-                    <div class="progress-track">
-                        <div class="progress-fill exp-fill" id="hud-exp-bar" style="width:0%;"></div>
-                    </div>
-                </div>
-
+            
+                <!-- Radar de atributos -->
                 <div id="attribute-radar-container" class="attribute-radar-container"></div>
+            
+                <!-- Oro (abajo del radar) -->
+                <div class="panel-gold">
+                    
+                    
+                    
+                    <div class="shop-gold-display">
+                        <span></span> <strong id="shop-gold">0</strong> ORO
+                    </div>
+                </div>
             </div>
 
             <!-- ===== DERECHA: RUNAS ACTIVAS ===== -->
@@ -107,8 +117,7 @@
                 <br>
                 <div id="rune-container" class="rune-grid"></div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px;">
-                    <button class="action-btn warning" onclick="resetDailyRunes()"
-                        style="font-size:0.8rem; padding:6px 14px;"> Reiniciar Runas</button>
+                    
                 </div>
             </div>
 
@@ -116,7 +125,7 @@
 
         <!-- ========== TABS ========== -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('tab-runas')">💠 Principal</button>
+            <button class="tab-btn active" onclick="switchTab('tab-runas')">🎴 Misiones</button>
             <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>
             <button class="tab-btn" onclick="switchTab('tab-bosses')">👹 Bosses</button>
             <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
@@ -142,7 +151,7 @@
                     style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); align-items:center;">
                     <input type="text" id="daily-title" placeholder="Título de la misión..." maxlength="60"
                         style="flex:3; min-width:180px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
-                    <input type="time" id="daily-time"
+                    <input type="time" id="daily-time" placeholder="Hora"
                         style="flex:1; min-width:100px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
                     <button class="action-btn" onclick="addDailyMission()"
                         style="font-size:0.8rem; padding:6px 14px; flex:0 0 auto;">
@@ -300,7 +309,7 @@
                     <div id="dungeon-container" class="event-scroll-container"></div>
                 </div>
 
-                
+
             </div>
         </div>
 
@@ -341,20 +350,12 @@
                     <span class="section-title">Batallas — Arena de Champs</span>
                     <span class="section-ornament"></span>
                 </div>
-                <p style="color:var(--text-muted); font-size:0.8rem; font-family:'Georgia','Times New Roman',serif; margin:0 0 10px 0;">
-                    Cada oponente es un defecto propio, no un monstruo — y cada uno se combate con un atributo
-                    distinto: Timidez con Social, Procrastinación con Disciplina, Inseguridad con Mente, y así con los
-                    ocho. El combate usa directamente tu HP real de la partida (no hay HP aparte para esto), y el
-                    orden de ataque no es estrictamente turno por turno: cada lado tiene chance de mantener la
-                    iniciativa y atacar de nuevo (hasta 3 veces seguidas) antes de que pase el turno. Cada golpe
-                    puede fallar, esquivarse, bloquearse, ser parry perfecto con contraataque, crítico, doble golpe y
-                    más — mirá el registro de cada pelea para ver cómo se decidió.
-                </p>
+               
 
                 <div id="battle-player-stats" class="battle-player-stats"></div>
                 <div id="battle-champ-stats" class="battle-player-stats battle-champ-stats"></div>
 
-                <div id="arena-controls" class="arena-controls"></div>
+               <!---- <div id="arena-controls" class="arena-controls"></div> --> 
 
                 <div id="battle-log-container" class="battle-log-container">
                     <div class="battle-log-empty">Elegí un champ y tocá "Pelear" para ver el resultado acá.</div>
@@ -436,40 +437,54 @@
             </div>
         </div>
 
+        
         <!-- ========== PESTAÑA TIENDA ========== -->
         <div id="tab-shop" class="tab-content">
             <div class="section-box">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <div class="section-header" style="margin-bottom:0;">
-                        <span class="section-title">Tienda</span>
+                        <span class="section-title">TIENDA</span>
                         <span class="section-ornament"></span>
                     </div>
                     <div class="shop-gold-display">
-                        <span></span> <strong id="shop-gold">0</strong> ORO
+                        <strong id="shop-gold">0</strong> ORO
                     </div>
                 </div>
                 <br>
-
-                <div class="shop-category-tabs">
-                    <button class="shop-cat-btn active" onclick="filterShop('all', this)">📦 Todos</button>
-                    <button class="shop-cat-btn" onclick="filterShop('arma', this)">⚔️ Armas</button>
-                    <button class="shop-cat-btn" onclick="filterShop('armadura', this)">🛡️ Armaduras</button>
-                    <button class="shop-cat-btn" onclick="filterShop('reliquia', this)">💫 Reliquias</button>
-                    <button class="shop-cat-btn" onclick="filterShop('real', this)">🎁 Recompensas</button>
-                    <button class="shop-cat-btn" onclick="filterShop('consumable', this)">🧪 Consumibles</button>
-                    <button class="shop-cat-btn" onclick="filterShop('pet', this)">🐾 Mascotas</button>
+        
+                <!-- FILTROS EN UNA SOLA FILA (misma altura) -->
+                <div class="shop-filters-row">
+                    <!-- Categoría -->
+                    <div class="shop-filter-group">
+                        <label for="shop-category-filter">📂 Categoría:</label>
+                        <select id="shop-category-filter" onchange="filterShop(this.value)" class="shop-filter-select">
+                            <option value="all">📦 Todos</option>
+                            <option value="arma">⚔️ Armas</option>
+                            <option value="armadura">🛡️ Armaduras</option>
+                            <option value="reliquia">💫 Reliquias</option>
+                            <option value="real">🎁 Recompensas</option>
+                            <option value="consumable">🧪 Consumibles</option>
+                            <option value="pet">🐾 Mascotas</option>
+                        </select>
+                    </div>
+        
+                    <!-- Buscador -->
+                    <div class="shop-filter-group search-group">
+                        <input type="text" id="shop-search" placeholder="🔍 Buscar item..." oninput="renderShop()">
+                    </div>
+        
+                    <!-- Orden -->
+                    <div class="shop-filter-group">
+                        <label for="shop-sort">📋 Ordenar:</label>
+                        <select id="shop-sort" onchange="renderShop()">
+                            <option value="name">Nombre</option>
+                            <option value="price-asc">Precio ↑</option>
+                            <option value="price-desc">Precio ↓</option>
+                        </select>
+                    </div>
                 </div>
-
-                <div class="filter-bar">
-                    <input type="text" id="shop-search" placeholder="🔍 Buscar item..." oninput="renderShop()">
-                    <select id="shop-sort" onchange="renderShop()">
-                        <option value="name">Ordenar por: Nombre</option>
-                        <option value="price-asc">Ordenar por: Precio ↑</option>
-                        <option value="price-desc">Ordenar por: Precio ↓</option>
-                    </select>
-                </div>
-
+        
+                <!-- GRID DE ITEMS -->
                 <div id="shop-container" class="shop-grid"></div>
                 <div id="shop-pagination" class="pagination"></div>
             </div>
@@ -542,11 +557,7 @@
                     <span class="section-title">Modo Historia — La Ciudad Gris</span>
                     <span class="section-ornament"></span>
                 </div>
-                <p style="color:var(--text-muted); font-size:0.8rem; font-family:'Georgia','Times New Roman',serif; margin:0 0 10px 0;">
-                    Temporada 1, 20 capítulos. Se desbloquean solos a medida que avanzás de verdad: subir de nivel,
-                    derrotar bosses, crear runas, fortalecer vínculos. En un par de capítulos clave vas a tener que
-                    tomar una decisión que cambia cómo sigue la trama — elegí con cuidado, no se puede deshacer.
-                </p>
+               
                 <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
                     <span id="story-progress" style="font-size:0.75rem; color:var(--text-muted);"></span>
                 </div>

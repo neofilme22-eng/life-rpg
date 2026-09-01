@@ -1,367 +1,413 @@
-                        // ===== FUNCIONES DE TIENDA =====
-                        // ============================================================
+// ============================================================
+// ===== FUNCIONES DE TIENDA =====
+// ============================================================
 
-                        function getShopItemCount(itemId) {
-                            return player.purchasedItems.filter(function (id) { return id === itemId; }).length;
-                        }
+// ============================================================
+// ===== FUNCIONES PRINCIPALES =====
+// ============================================================
 
-                        function getSortedShopItems() {
-                            var searchInput = document.getElementById('shop-search');
-                            var sortSelect = document.getElementById('shop-sort');
+function getShopItemCount(itemId) {
+    if (!player.purchasedItems) player.purchasedItems = [];
+    return player.purchasedItems.filter(function (id) { return id === itemId; }).length;
+}
 
-                            var searchTerm = (searchInput ? searchInput.value : '').toLowerCase() || '';
-                            var sortBy = (sortSelect ? sortSelect.value : 'name') || 'name';
+function getSortedShopItems() {
+    var searchInput = document.getElementById('shop-search');
+    var sortSelect = document.getElementById('shop-sort');
 
-                            var items = SHOP_ITEMS.slice();
+    var searchTerm = (searchInput ? searchInput.value : '').toLowerCase() || '';
+    var sortBy = (sortSelect ? sortSelect.value : 'name') || 'name';
 
-                            if (currentShopFilter !== 'all') {
-                                items = items.filter(function (i) { return i.category === currentShopFilter; });
-                            }
+    var items = SHOP_ITEMS.slice();
 
-                            if (searchTerm) {
-                                items = items.filter(function (i) {
-                                    return i.name.toLowerCase().indexOf(searchTerm) !== -1 ||
-                                        i.desc.toLowerCase().indexOf(searchTerm) !== -1;
-                                });
-                            }
+    if (currentShopFilter !== 'all') {
+        items = items.filter(function (i) { return i.category === currentShopFilter; });
+    }
 
-                            switch (sortBy) {
-                                case 'price-asc':
-                                    items.sort(function (a, b) { return a.price - b.price; });
-                                    break;
-                                case 'price-desc':
-                                    items.sort(function (a, b) { return b.price - a.price; });
-                                    break;
-                                default:
-                                    items.sort(function (a, b) { return a.name.localeCompare(b.name); });
-                                    break;
-                            }
+    if (searchTerm) {
+        items = items.filter(function (i) {
+            return i.name.toLowerCase().indexOf(searchTerm) !== -1 ||
+                i.desc.toLowerCase().indexOf(searchTerm) !== -1;
+        });
+    }
 
-                            return items;
-                        }
+    switch (sortBy) {
+        case 'price-asc':
+            items.sort(function (a, b) { return a.price - b.price; });
+            break;
+        case 'price-desc':
+            items.sort(function (a, b) { return b.price - a.price; });
+            break;
+        default:
+            items.sort(function (a, b) { return a.name.localeCompare(b.name); });
+            break;
+    }
 
-                        function filterShop(category, btn) {
-                            currentShopFilter = category;
-                            document.querySelectorAll('.shop-cat-btn').forEach(function (b) { b.classList.remove('active'); });
-                            if (btn) btn.classList.add('active');
-                            shopCurrentPage = 1;
-                            renderShop();
-                        }
+    return items;
+}
 
-                        function renderShop() {
-                            var container = document.getElementById('shop-container');
-                            var pagination = document.getElementById('shop-pagination');
-                            if (!container) return;
+function filterShop(category) {
+    currentShopFilter = category;
+    var select = document.getElementById('shop-category-filter');
+    if (select) select.value = category;
+    shopCurrentPage = 1;
+    renderShop();
+}
 
-                            var goldEl = document.getElementById('shop-gold');
-                            if (goldEl) goldEl.textContent = player.gold;
+function renderShop() {
+    var container = document.getElementById('shop-container');
+    var pagination = document.getElementById('shop-pagination');
+    if (!container) return;
 
-                            var items = getSortedShopItems();
-                            var totalItems = items.length;
-                            var totalPages = Math.ceil(totalItems / shopItemsPerPage);
+    var goldEl = document.getElementById('shop-gold');
+    if (goldEl) goldEl.textContent = player.gold;
 
-                            if (shopCurrentPage > totalPages) shopCurrentPage = Math.max(1, totalPages);
-                            if (shopCurrentPage < 1) shopCurrentPage = 1;
+    var items = getSortedShopItems();
+    var totalItems = items.length;
+    var totalPages = Math.ceil(totalItems / shopItemsPerPage);
 
-                            var startIndex = (shopCurrentPage - 1) * shopItemsPerPage;
-                            var endIndex = Math.min(startIndex + shopItemsPerPage, totalItems);
-                            var pageItems = items.slice(startIndex, endIndex);
+    if (shopCurrentPage > totalPages) shopCurrentPage = Math.max(1, totalPages);
+    if (shopCurrentPage < 1) shopCurrentPage = 1;
 
-                            if (totalItems === 0) {
-                                container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1; font-family:\'Georgia\',\'Times New Roman\',serif; text-align:center; padding:20px 0;">No hay items que coincidan con tu búsqueda.</p>';
-                                if (pagination) pagination.innerHTML = '';
-                                return;
-                            }
+    var startIndex = (shopCurrentPage - 1) * shopItemsPerPage;
+    var endIndex = Math.min(startIndex + shopItemsPerPage, totalItems);
+    var pageItems = items.slice(startIndex, endIndex);
 
-                            container.innerHTML = '';
-                            pageItems.forEach(function (item) {
-                                var count = getShopItemCount(item.id);
-                                var maxed = count >= item.maxPurchases;
-                                var canAfford = player.gold >= item.price;
-                                var canBuy = canAfford && !maxed;
+    if (totalItems === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1; font-family:\'Georgia\',\'Times New Roman\',serif; text-align:center; padding:20px 0;">No hay items que coincidan con tu búsqueda.</p>';
+        if (pagination) pagination.innerHTML = '';
+        return;
+    }
 
-                                var card = document.createElement('div');
-                                var categoryClass = 'category-' + (item.category || 'upgrade');
-                                card.className = 'shop-item ' + categoryClass + (maxed ? ' purchased' : '');
+    container.innerHTML = '';
+    pageItems.forEach(function (item) {
+        var count = getShopItemCount(item.id);
+        var maxed = count >= item.maxPurchases;
+        var canAfford = player.gold >= item.price;
+        var canBuy = canAfford && !maxed;
 
-                                var categoryLabels = {
-                                    arma: 'Arma',
-                                    armadura: 'Armadura',
-                                    reliquia: 'Reliquia',
-                                    consumable: 'Consumible',
-                                    real: 'Recompensa Real',
-                                    pet: 'Mascota'
-                                };
-                                var categoryLabel = categoryLabels[item.category] || '📦 Item';
+        var card = document.createElement('div');
+        var categoryClass = 'category-' + (item.category || 'upgrade');
+        card.className = 'shop-item ' + categoryClass + (maxed ? ' purchased' : '');
 
-                                card.innerHTML = `
-                    <div class="shop-item-header">
-                        <span class="shop-item-name">${item.icon ? renderIconHTML(item.icon, '') + ' ' : ''}${item.name}</span>
-                        <span class="shop-item-price">🟡 ${item.price}</span>
-                    </div>                    
-                    <div class="shop-item-category">${categoryLabel}</div>
-                    <div class="shop-item-desc">${item.desc}</div>
-                    ${item.maxPurchases > 1 ? '<div class="purchase-count">Compras: ' + count + '/' + item.maxPurchases + '</div>' : ''}
-                    <button class="shop-buy-btn ${maxed ? 'purchased-btn' : ''}" 
-                            onclick="purchaseItem('${item.id}')" 
-                            ${!canBuy || player.gameOver ? 'disabled' : ''}>
-                        ${maxed ? '✅ Comprado' : (canAfford ? '🛒 Comprar' : '🔒 Oro insuficiente')}
-                    </button>
-                `;
+        var categoryLabels = {
+            arma: '⚔️ Arma',
+            armadura: '🛡️ Armadura',
+            reliquia: '💫 Reliquia',
+            consumable: '🧪 Consumible',
+            real: '🎁 Recompensa Real',
+            pet: '🐾 Mascota'
+        };
+        var categoryLabel = categoryLabels[item.category] || '📦 Item';
 
-                                container.appendChild(card);
-                            });
+        // Efecto descriptivo
+        var effectDesc = '';
+        if (item.effect) {
+            switch (item.effect.type) {
+                case 'heal': effectDesc = '❤️ +' + item.effect.value + ' HP'; break;
+                case 'heal_full': effectDesc = '💖 HP al máximo'; break;
+                case 'attr_point': effectDesc = '⭐ +1 Atributo'; break;
+                case 'revive_pet': effectDesc = '🪶 Revive mascota'; break;
+                case 'pet_heal': effectDesc = '🍖 +' + item.effect.value + ' HP mascota'; break;
+                case 'restore_attention': effectDesc = '🔋 Recarga Batería Social'; break;
+                case 'exp_boost': effectDesc = '⚡ +' + item.effect.value + '% EXP'; break;
+                case 'gold_boost': effectDesc = '🟡 +' + item.effect.value + '% ORO'; break;
+                case 'rune_bonus': effectDesc = '💠 +' + item.effect.value + ' EXP en runas'; break;
+                case 'hp_boost': effectDesc = '❤️ +' + item.effect.value + ' HP máximo'; break;
+                case 'weapon': effectDesc = '💪 +' + item.effect.value + ' Fuerza'; break;
+                case 'armor': effectDesc = '🛡️ +' + item.effect.value + ' Disciplina'; break;
+                case 'mission_exp_pct': effectDesc = '⭐ +' + item.effect.value + '% EXP en misiones'; break;
+                case 'boss_exp_pct': effectDesc = '👹 +' + item.effect.value + '% EXP en bosses'; break;
+                case 'mission_gold_pct': effectDesc = '🟡 +' + item.effect.value + '% ORO en misiones'; break;
+                case 'rune_exp_pct': effectDesc = '💠 +' + item.effect.value + '% EXP en runas'; break;
+                case 'second_chance': effectDesc = '🕊️ Sobrevive un Game Over'; break;
+                case 'real_reward': effectDesc = '🎁 ' + (item.effect.value || 'Recompensa Real'); break;
+                case 'pet_item': effectDesc = '🐾 Mascota especial'; break;
+                default: effectDesc = ''; break;
+            }
+        }
 
-                            if (pagination) {
-                                renderPagination(pagination, shopCurrentPage, totalPages, function (page) {
-                                    shopCurrentPage = page;
-                                    renderShop();
-                                });
-                            }
-                        }
+        var effectHTML = effectDesc ? '<div class="shop-item-effect">' + effectDesc + '</div>' : '';
 
-                        function purchaseItem(itemId) {
-                            if (player.gameOver) {
-                                showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
-                                return;
-                            }
+        card.innerHTML = `
+            <div class="shop-item-header">
+                <span class="shop-item-name">${renderIconHTML(item.icon, '📦')} ${item.name}</span>
+                <span class="shop-item-price">🟡 ${item.price}</span>
+            </div>                    
+            <div class="shop-item-category">${categoryLabel}</div>
+            <div class="shop-item-desc">${item.desc}</div>
+            ${effectHTML}
+            ${item.maxPurchases > 1 ? '<div class="purchase-count">Compras: ' + count + '/' + item.maxPurchases + '</div>' : ''}
+            <button class="shop-buy-btn ${maxed ? 'purchased-btn' : ''}" 
+                    onclick="purchaseItem('${item.id}')" 
+                    ${!canBuy || player.gameOver ? 'disabled' : ''}>
+                ${maxed ? '✅ Comprado' : (canAfford ? '🛒 Comprar' : '🔒 Oro insuficiente')}
+            </button>
+        `;
 
-                            var item = SHOP_ITEMS.find(function (i) { return i.id === itemId; });
-                            if (!item) return;
+        container.appendChild(card);
+    });
 
-                            var count = getShopItemCount(itemId);
-                            if (count >= item.maxPurchases) {
-                                showToast('Ya has comprado el máximo de este item.', 'warning', 'Tienda');
-                                return;
-                            }
+    if (pagination) {
+        if (typeof renderPagination === 'function') {
+            renderPagination(pagination, shopCurrentPage, totalPages, function (page) {
+                shopCurrentPage = page;
+                renderShop();
+            });
+        }
+    }
+}
 
-                            if (player.gold < item.price) {
-                                showToast('No tienes suficiente ORO. Necesitas ' + item.price + ' ORO.', 'error', 'Tienda');
-                                return;
-                            }
+// ============================================================
+// ===== COMPRAR ITEM =====
+// ============================================================
 
-                            player.gold -= item.price;
-                            player.purchasedItems.push(itemId);
-                            player.totalSpent = (player.totalSpent || 0) + item.price;
+function purchaseItem(itemId) {
+    if (player.gameOver) {
+        showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
+        return;
+    }
 
-                            addToInventory(item);
+    var item = SHOP_ITEMS.find(function (i) { return i.id === itemId; });
+    if (!item) {
+        showToast('Item no encontrado.', 'error', 'Error');
+        return;
+    }
 
-                            if (item.category === 'real' && item.effect && item.effect.type === 'real_reward') {
-                                showToast('🎉 ¡Disfruta tu recompensa: ' + item.effect.value + '!', 'success', 'Recompensa Real');
-                            }
+    var count = getShopItemCount(itemId);
+    if (count >= item.maxPurchases) {
+        showToast('Ya has comprado el máximo de este item.', 'warning', 'Tienda');
+        return;
+    }
 
-                            saveGame();
-                            renderShop();
-                            updateHUD();
-                            checkAndUnlockTrophies();
+    if (player.gold < item.price) {
+        showToast('No tienes suficiente ORO. Necesitas ' + item.price + ' ORO.', 'error', 'Tienda');
+        return;
+    }
 
-                            addLogEntry('shop', '🛒 Compra: ' + item.name, '-' + item.price + ' ORO', 0, 0, null);
-                            showToast('🛒 ¡' + item.name + ' comprado!', 'success', 'Tienda');
-                        }
+    player.gold -= item.price;
+    if (!player.purchasedItems) player.purchasedItems = [];
+    player.purchasedItems.push(itemId);
+    player.totalSpent = (player.totalSpent || 0) + item.price;
 
-                        function addToInventory(item) {
-                            var type = 'otro';
-                            var equipable = false;
-                            var slot = null;
-                            var icon = item.name.split(' ')[0] || '📦';
+    addToInventory(item);
 
-                            if (item.category === 'arma') {
-                                type = 'arma';
-                                equipable = true;
-                                slot = 'arma';
-                                icon = '⚔️';
-                            } else if (item.category === 'armadura') {
-                                type = 'armadura';
-                                equipable = true;
-                                slot = 'armadura';
-                                icon = '🛡️';
-                            } else if (item.category === 'reliquia') {
-                                type = 'reliquia';
-                                equipable = true;
-                                slot = 'reliquia';
-                                icon = '💫';
-                            } else if (item.category === 'pet') {
-                                type = 'mascota';
-                                equipable = true;
-                                slot = 'mascota';
-                                icon = item.effect.value || '🐾';
-                            } else if (item.category === 'consumable') {
-                                type = 'consumable';
-                                equipable = false;
-                                slot = null;
-                                icon = '🧪';
-                            } else if (item.category === 'real') {
-                                type = 'recompensa';
-                                equipable = false;
-                                slot = null;
-                                icon = '🎁';
-                            }
+    saveGame();
+    renderShop();
+    updateHUD();
+    if (typeof checkAndUnlockTrophies === 'function') {
+        checkAndUnlockTrophies();
+    }
+    if (typeof addLogEntry === 'function') {
+        addLogEntry('shop', '🛒 Compra: ' + item.name, '-' + item.price + ' ORO', 0, 0, null);
+    }
+    showToast('🛒 ¡' + item.name + ' comprado!', 'success', 'Tienda');
+}
 
-                            if (item.icon) {
-                                icon = item.icon;
-                            }
+// ============================================================
+// ===== AÑADIR AL INVENTARIO =====
+// ============================================================
 
-                            var invItem = {
-                                id: item.id,
-                                name: item.name,
-                                icon: icon,
-                                category: item.category,
-                                effect: item.effect,
-                                equipable: equipable,
-                                type: type,
-                                slot: slot,
-                                species: item.species || null,
-                                equipped: false,
-                                effectType: item.effect ? item.effect.type : null,
-                                effectValue: item.effect ? item.effect.value : null,
-                                effectAttr: item.effect ? item.effect.attr : null,
-                                used: false
-                            };
+function addToInventory(item) {
+    var type = 'otro';
+    var equipable = false;
+    var slot = null;
 
-                            if (item.category === 'pet' && !player.equipment.mascota) {
-                                player.equipment.mascota = invItem;
-                                invItem.equipped = true;
-                                player.petHealth = player.petMaxHealth;
-                                updatePet();
-                                showToast('🐾 ¡Mascota "' + item.name + '" equipada automáticamente!', 'success', 'Mascota');
-                            } else if (item.category === 'pet' && player.equipment.mascota) {
-                                showToast('🐾 ¡Mascota "' + item.name + '" agregada al inventario!', 'info', 'Mascota');
-                            }
+    if (item.category === 'arma') {
+        type = 'arma';
+        equipable = true;
+        slot = 'arma';
+    } else if (item.category === 'armadura') {
+        type = 'armadura';
+        equipable = true;
+        slot = 'armadura';
+    } else if (item.category === 'reliquia') {
+        type = 'reliquia';
+        equipable = true;
+        slot = 'reliquia';
+    } else if (item.category === 'pet') {
+        type = 'mascota';
+        equipable = true;
+        slot = 'mascota';
+    } else if (item.category === 'consumable') {
+        type = 'consumable';
+        equipable = false;
+        slot = null;
+    } else if (item.category === 'real') {
+        type = 'recompensa';
+        equipable = false;
+        slot = null;
+    }
 
-                            if (item.category === 'real') {
-                                showToast('🎁 ¡Recompensa Real "' + item.name + '" agregada al inventario como registro!', 'success', 'Recompensa');
-                            } else if (item.category === 'consumable') {
-                                showToast('🧪 ¡' + item.name + ' agregado al inventario!', 'info', 'Consumible');
-                            } else if (item.category === 'arma') {
-                                showToast('⚔️ ¡Arma "' + item.name + '" agregada al inventario!', 'info', 'Arma');
-                            } else if (item.category === 'armadura') {
-                                showToast('🛡️ ¡Armadura "' + item.name + '" agregada al inventario!', 'info', 'Armadura');
-                            } else if (item.category === 'reliquia') {
-                                showToast('💫 ¡Reliquia "' + item.name + '" agregada al inventario!', 'info', 'Reliquia');
-                            }
+    var invItem = {
+        id: item.id,
+        name: item.name,
+        icon: item.icon || '📦',
+        category: item.category,
+        effect: item.effect ? JSON.parse(JSON.stringify(item.effect)) : null,
+        equipable: equipable,
+        type: type,
+        slot: slot,
+        species: item.species || null,
+        equipped: false,
+        effectType: item.effect ? item.effect.type : null,
+        effectValue: item.effect ? item.effect.value : null,
+        effectAttr: item.effect ? item.effect.attr : null,
+        used: false,
+        dead: false
+    };
 
-                            player.inventory.push(invItem);
-                            saveGame();
-                            renderInventory();
-                        }
+    if (item.category === 'pet' && !player.equipment.mascota) {
+        player.equipment.mascota = invItem;
+        invItem.equipped = true;
+        player.petHealth = player.petMaxHealth;
+        if (typeof updatePet === 'function') updatePet();
+        showToast('🐾 ¡Mascota "' + item.name + '" equipada automáticamente!', 'success', 'Mascota');
+    } else if (item.category === 'pet' && player.equipment.mascota) {
+        showToast('🐾 ¡Mascota "' + item.name + '" agregada al inventario!', 'info', 'Mascota');
+    }
 
-                        function applyItemEffect(item) {
-                            if (!item || !item.effect) return;
+    if (item.category === 'real') {
+        showToast('🎁 ¡Recompensa Real "' + item.name + '" agregada al inventario!', 'success', 'Recompensa');
+    }
 
-                            var effect = item.effect;
+    if (!player.inventory) player.inventory = [];
+    player.inventory.push(invItem);
 
-                            switch (effect.type) {
-                                case 'exp_boost':
-                                    player.expBoost = (player.expBoost || 0) + effect.value;
-                                    break;
-                                case 'gold_boost':
-                                    player.goldBoost = (player.goldBoost || 0) + effect.value;
-                                    break;
-                                case 'rune_bonus':
-                                    player.runeBonus = (player.runeBonus || 0) + effect.value;
-                                    break;
-                                case 'hp_boost':
-                                    player.maxHp = player.maxHp + effect.value;
-                                    player.hp = player.hp + effect.value;
-                                    break;
-                                case 'weapon':
-                                    player.attributes.fuerza = (player.attributes.fuerza || 1) + effect.value;
-                                    break;
-                                case 'armor':
-                                    player.attributes.disciplina = (player.attributes.disciplina || 1) + effect.value;
-                                    break;
-                                case 'mission_exp_pct':
-                                    player.missionExpPct = (player.missionExpPct || 0) + effect.value;
-                                    break;
-                                case 'boss_exp_pct':
-                                    player.bossExpPct = (player.bossExpPct || 0) + effect.value;
-                                    break;
-                                case 'mission_gold_pct':
-                                    player.missionGoldPct = (player.missionGoldPct || 0) + effect.value;
-                                    break;
-                                case 'rune_exp_pct':
-                                    player.runeExpPct = (player.runeExpPct || 0) + effect.value;
-                                    break;
-                                case 'second_chance':
-                                    break;
-                                case 'heal':
-                                    player.hp = Math.min(player.maxHp, player.hp + effect.value);
-                                    break;
-                                case 'attr_point':
-                                    break;
-                                case 'revive_pet':
-                                    break;
-                                case 'real_reward':
-                                    break;
-                                case 'pet_item':
-                                    if (item.species && PET_PERSONALITIES[item.species] && PET_PERSONALITIES[item.species].buff) {
-                                        applyPetBuff(PET_PERSONALITIES[item.species].buff);
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
+    if (equipable && item.effect && invItem.equipped) {
+        applyItemEffect(invItem);
+    }
 
-                            updateHUD();
-                            saveGame();
-                        }
+    saveGame();
+    if (typeof renderInventory === 'function') renderInventory();
+}
 
-                        function applyPetBuff(buff) {
-                            if (!buff) return;
+// ============================================================
+// ===== APLICAR EFECTO DE ITEM =====
+// ============================================================
 
-                            switch (buff.type) {
-                                case 'exp_boost':
-                                    player.expBoost = (player.expBoost || 0) + buff.value;
-                                    break;
-                                case 'gold_boost':
-                                    player.goldBoost = (player.goldBoost || 0) + buff.value;
-                                    break;
-                                case 'rune_bonus':
-                                    player.runeBonus = (player.runeBonus || 0) + buff.value;
-                                    break;
-                                case 'hp_boost':
-                                    player.maxHp = player.maxHp + buff.value;
-                                    player.hp = player.hp + buff.value;
-                                    break;
-                                case 'attr_boost':
-                                    if (player.attributes[buff.attr] !== undefined) {
-                                        player.attributes[buff.attr] += buff.value;
-                                    }
-                                    break;
-                                case 'phoenix_revive':
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
+function applyItemEffect(item) {
+    if (!item || !item.effect) return;
 
-                        function removePetBuff(buff) {
-                            if (!buff) return;
+    var effect = item.effect;
 
-                            switch (buff.type) {
-                                case 'exp_boost':
-                                    player.expBoost = Math.max(0, (player.expBoost || 0) - buff.value);
-                                    break;
-                                case 'gold_boost':
-                                    player.goldBoost = Math.max(0, (player.goldBoost || 0) - buff.value);
-                                    break;
-                                case 'rune_bonus':
-                                    player.runeBonus = Math.max(0, (player.runeBonus || 0) - buff.value);
-                                    break;
-                                case 'hp_boost':
-                                    player.maxHp = Math.max(100, player.maxHp - buff.value);
-                                    if (player.hp > player.maxHp) player.hp = player.maxHp;
-                                    break;
-                                case 'attr_boost':
-                                    if (player.attributes[buff.attr] !== undefined) {
-                                        player.attributes[buff.attr] = Math.max(1, player.attributes[buff.attr] - buff.value);
-                                    }
-                                    break;
-                                case 'phoenix_revive':
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
+    switch (effect.type) {
+        case 'exp_boost':
+            player.expBoost = (player.expBoost || 0) + effect.value;
+            break;
+        case 'gold_boost':
+            player.goldBoost = (player.goldBoost || 0) + effect.value;
+            break;
+        case 'rune_bonus':
+            player.runeBonus = (player.runeBonus || 0) + effect.value;
+            break;
+        case 'hp_boost':
+            player.maxHp = (player.maxHp || 100) + effect.value;
+            player.hp = Math.min(player.hp + effect.value, player.maxHp);
+            break;
+        case 'weapon':
+            player.attributes.fuerza = (player.attributes.fuerza || 1) + effect.value;
+            break;
+        case 'armor':
+            player.attributes.disciplina = (player.attributes.disciplina || 1) + effect.value;
+            break;
+        case 'mission_exp_pct':
+            player.missionExpPct = (player.missionExpPct || 0) + effect.value;
+            break;
+        case 'boss_exp_pct':
+            player.bossExpPct = (player.bossExpPct || 0) + effect.value;
+            break;
+        case 'mission_gold_pct':
+            player.missionGoldPct = (player.missionGoldPct || 0) + effect.value;
+            break;
+        case 'rune_exp_pct':
+            player.runeExpPct = (player.runeExpPct || 0) + effect.value;
+            break;
+        case 'second_chance':
+            player.hasSecondChance = true;
+            break;
+        case 'heal':
+            player.hp = Math.min(player.maxHp, player.hp + effect.value);
+            break;
+        case 'attr_point':
+            break;
+        case 'revive_pet':
+            break;
+        case 'real_reward':
+            break;
+        case 'pet_item':
+            if (item.species && typeof PET_PERSONALITIES !== 'undefined' && PET_PERSONALITIES[item.species] && PET_PERSONALITIES[item.species].buff) {
+                applyPetBuff(PET_PERSONALITIES[item.species].buff);
+            }
+            break;
+        default:
+            break;
+    }
 
-                        // ============================================================
+    if (typeof updateHUD === 'function') updateHUD();
+    saveGame();
+}
+
+function applyPetBuff(buff) {
+    if (!buff) return;
+
+    switch (buff.type) {
+        case 'exp_boost':
+            player.expBoost = (player.expBoost || 0) + buff.value;
+            break;
+        case 'gold_boost':
+            player.goldBoost = (player.goldBoost || 0) + buff.value;
+            break;
+        case 'rune_bonus':
+            player.runeBonus = (player.runeBonus || 0) + buff.value;
+            break;
+        case 'hp_boost':
+            player.maxHp = (player.maxHp || 100) + buff.value;
+            player.hp = Math.min(player.hp + buff.value, player.maxHp);
+            break;
+        case 'attr_boost':
+            if (player.attributes[buff.attr] !== undefined) {
+                player.attributes[buff.attr] += buff.value;
+            }
+            break;
+        case 'phoenix_revive':
+            break;
+        default:
+            break;
+    }
+
+    if (typeof updateHUD === 'function') updateHUD();
+    saveGame();
+}
+
+function removePetBuff(buff) {
+    if (!buff) return;
+
+    switch (buff.type) {
+        case 'exp_boost':
+            player.expBoost = Math.max(0, (player.expBoost || 0) - buff.value);
+            break;
+        case 'gold_boost':
+            player.goldBoost = Math.max(0, (player.goldBoost || 0) - buff.value);
+            break;
+        case 'rune_bonus':
+            player.runeBonus = Math.max(0, (player.runeBonus || 0) - buff.value);
+            break;
+        case 'hp_boost':
+            player.maxHp = Math.max(100, (player.maxHp || 100) - buff.value);
+            if (player.hp > player.maxHp) player.hp = player.maxHp;
+            break;
+        case 'attr_boost':
+            if (player.attributes[buff.attr] !== undefined) {
+                player.attributes[buff.attr] = Math.max(1, player.attributes[buff.attr] - buff.value);
+            }
+            break;
+        case 'phoenix_revive':
+            break;
+        default:
+            break;
+    }
+
+    if (typeof updateHUD === 'function') updateHUD();
+    saveGame();
+}

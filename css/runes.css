@@ -89,6 +89,8 @@
 
         .rune-info-row .rune-streak {
             color: var(--sky-blue);
+            font-family:'Times New Roman';
+
         }
 
         .rune-info-row .rune-exp {
