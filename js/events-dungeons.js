@@ -339,7 +339,7 @@ function renderDungeonCards(container, mazmorras) {
     var html = '';
     var hayMazmorraActiva = mazmorras.some(function (e) { return e.status === 'active'; });
     mazmorras.forEach(function (evt) {
-        var icon = renderIconHTML(evt.icon, '🏰');
+        var icon = renderIconHTML(evt.icon, '');
 
         var statusMap = {
             'pending': { text: '⏳ Pendiente', cls: 'pending' },

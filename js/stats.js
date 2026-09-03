@@ -126,15 +126,15 @@
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Objetos</div>
                             </div>
                             <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                                <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${trofeosDesbloqueados}/${totalTrofeos}</div>
+                                <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${trofeosDesbloqueados}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Trofeos</div>
                             </div>
                             <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                                <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${misionesCompletadas}/${totalMisiones}</div>
+                                <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${misionesCompletadas}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Misiones</div>
                             </div>
                             <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                                <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${bossesDerrotados}/${totalBosses}</div>
+                                <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${bossesDerrotados}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Bosses</div>
                             </div>
                         </div>

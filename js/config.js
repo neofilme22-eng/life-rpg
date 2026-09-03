@@ -451,17 +451,17 @@ const LOG_ICONS = {
 };
 
 const BASE_TROPHY_DEFINITIONS = [
-    { id: 'level_2', icon: '🌟', name: 'Aprendiz', desc: 'Alcanza el nivel 2', check: function (p) { return p.level >= 2; } },
-    { id: 'level_5', icon: '⭐', name: 'Explorador', desc: 'Alcanza el nivel 5', check: function (p) { return p.level >= 5; } },
-    { id: 'level_10', icon: '🏅', name: 'Guerrero', desc: 'Alcanza el nivel 10', check: function (p) { return p.level >= 10; } },
-    { id: 'level_20', icon: '👑', name: 'Campeón', desc: 'Alcanza el nivel 20', check: function (p) { return p.level >= 20; } },
-    { id: 'exp_500', icon: '💪', name: 'Esfuerzo Constante', desc: 'Acumula 500 EXP', check: function (p) { return p.exp >= 500; } },
-    { id: 'exp_2000', icon: '🔥', name: 'Fuego Interior', desc: 'Acumula 2000 EXP', check: function (p) { return p.exp >= 2000; } },
-    { id: 'exp_10000', icon: '💎', name: 'Leyenda', desc: 'Acumula 10000 EXP', check: function (p) { return p.exp >= 10000; } },
-    { id: 'gold_100', icon: '💵', name: 'Ahorrador', desc: 'Acumula 100 de ORO', check: function (p) { return p.gold >= 100; } },
-    { id: 'gold_1000', icon: '💰', name: 'Rico', desc: 'Acumula 1000 de ORO', check: function (p) { return p.gold >= 1000; } },
-    { id: 'gold_5000', icon: '💎', name: 'Magnate', desc: 'Acumula 5000 de ORO', check: function (p) { return p.gold >= 5000; } }
-];
+                { id: 'level_2', icon: 'https://cdn-icons-png.flaticon.com/512/3429/3429417.png', name: 'Aprendiz', desc: 'Alcanza el nivel 2', check: function (p) { return p.level >= 2; } },
+                { id: 'level_5', icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822323.png', name: 'Explorador', desc: 'Alcanza el nivel 5', check: function (p) { return p.level >= 5; } },
+                { id: 'level_10', icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822332.png', name: 'Guerrero', desc: 'Alcanza el nivel 10', check: function (p) { return p.level >= 10; } },
+                { id: 'level_20', icon: 'https://cdn-icons-png.flaticon.com/512/3943/3943804.png', name: 'Campeón', desc: 'Alcanza el nivel 20', check: function (p) { return p.level >= 20; } },
+                { id: 'exp_500', icon: 'https://cdn-icons-png.flaticon.com/512/2811/2811490.png', name: 'Esfuerzo Constante', desc: 'Acumula 500 EXP', check: function (p) { return p.exp >= 500; } },
+                { id: 'exp_2000', icon: 'https://cdn-icons-png.flaticon.com/512/3755/3755147.png', name: 'Fuego Interior', desc: 'Acumula 2000 EXP', check: function (p) { return p.exp >= 2000; } },
+                { id: 'exp_10000', icon: 'https://cdn-icons-png.flaticon.com/512/5080/5080344.png', name: 'Leyenda', desc: 'Acumula 10000 EXP', check: function (p) { return p.exp >= 10000; } },
+                { id: 'gold_100', icon: 'https://cdn-icons-png.flaticon.com/512/9382/9382189.png', name: 'Ahorrador', desc: 'Acumula 100 de ORO', check: function (p) { return p.gold >= 100; } },
+                { id: 'gold_1000', icon: 'https://cdn-icons-png.flaticon.com/512/2460/2460475.png', name: 'Rico', desc: 'Acumula 1000 de ORO', check: function (p) { return p.gold >= 1000; } },
+                { id: 'gold_5000', icon: 'https://cdn-icons-png.flaticon.com/512/2144/2144792.png', name: 'Magnate', desc: 'Acumula 5000 de ORO', check: function (p) { return p.gold >= 5000; } }
+            ];
 
 let dynamicTrophyDefinitions = [];
 

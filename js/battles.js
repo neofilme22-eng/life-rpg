@@ -2,14 +2,14 @@
                     // ============================================================
 
                     const CHAMPS = [
-                        { id: 'flaw_sedentarismo', name: 'Larva del Colchon', icon: '🌫️', image: 'assets/champs/sedentarismo.jpg', counterAttr: 'fuerza', levelRequired: 1, hp: 40, attack: 6, defense: 2, expReward: 8, goldReward: 5 },
-                        { id: 'flaw_procrastinacion', name: 'Tejedora de Mañanas', icon: '🌫️', image: 'assets/champs/procrastinacion.jpg', counterAttr: 'disciplina', levelRequired: 3, hp: 60, attack: 9, defense: 4, expReward: 14, goldReward: 9 },
-                        { id: 'flaw_inseguridad', name: 'Espectro del Espejo', icon: '🌫️', image: 'assets/champs/inseguridad.jpg', counterAttr: 'mente', levelRequired: 5, hp: 85, attack: 13, defense: 6, expReward: 22, goldReward: 14 },
-                        { id: 'flaw_bloqueo', name: 'Monolito Gris', icon: '🌫️', image: 'assets/champs/bloqueo-creativo.jpg', counterAttr: 'creatividad', levelRequired: 8, hp: 130, attack: 15, defense: 12, expReward: 32, goldReward: 20 },
-                        { id: 'flaw_estancamiento', name: 'Limo de Fango', icon: '🌫️', image: 'assets/champs/estancamiento.jpg', counterAttr: 'carrera', levelRequired: 11, hp: 150, attack: 20, defense: 10, expReward: 45, goldReward: 28 },
-                        { id: 'flaw_descontrol', name: 'Usurero del Arca', icon: '🌫️', image: 'assets/champs/descontrol-financiero.jpg', counterAttr: 'finanzas', levelRequired: 14, hp: 170, attack: 24, defense: 12, expReward: 60, goldReward: 38 },
-                        { id: 'flaw_timidez', name: 'Banshee Silenciosa', icon: '🌫️', image: 'assets/champs/timidez.jpg', counterAttr: 'social', levelRequired: 18, hp: 220, attack: 28, defense: 18, expReward: 80, goldReward: 50 },
-                        { id: 'flaw_apatia', name: 'Apath, el Vacío', icon: '🌫️', image: 'assets/champs/apatia.jpg', counterAttr: 'relaciones', levelRequired: 22, hp: 280, attack: 34, defense: 22, expReward: 110, goldReward: 70 }
+                        { id: 'flaw_sedentarismo', name: 'Larva del Colchon', icon: '', image: 'assets/champs/sedentarismo.jpg', counterAttr: 'fuerza', levelRequired: 1, hp: 40, attack: 6, defense: 2, expReward: 8, goldReward: 5 },
+                        { id: 'flaw_procrastinacion', name: 'Tejedora de Mañanas', icon: '', image: 'assets/champs/procrastinacion.jpg', counterAttr: 'disciplina', levelRequired: 3, hp: 60, attack: 9, defense: 4, expReward: 14, goldReward: 9 },
+                        { id: 'flaw_inseguridad', name: 'Espectro del Espejo', icon: '', image: 'assets/champs/inseguridad.jpg', counterAttr: 'mente', levelRequired: 5, hp: 85, attack: 13, defense: 6, expReward: 22, goldReward: 14 },
+                        { id: 'flaw_bloqueo', name: 'Monolito Gris', icon: '', image: 'assets/champs/bloqueo-creativo.jpg', counterAttr: 'creatividad', levelRequired: 8, hp: 130, attack: 15, defense: 12, expReward: 32, goldReward: 20 },
+                        { id: 'flaw_estancamiento', name: 'Limo de Fango', icon: '', image: 'assets/champs/estancamiento.jpg', counterAttr: 'carrera', levelRequired: 11, hp: 150, attack: 20, defense: 10, expReward: 45, goldReward: 28 },
+                        { id: 'flaw_descontrol', name: 'Usurero del Arca', icon: '', image: 'assets/champs/descontrol-financiero.jpg', counterAttr: 'finanzas', levelRequired: 14, hp: 170, attack: 24, defense: 12, expReward: 60, goldReward: 38 },
+                        { id: 'flaw_timidez', name: 'Banshee Silenciosa', icon: '', image: 'assets/champs/timidez.jpg', counterAttr: 'social', levelRequired: 18, hp: 220, attack: 28, defense: 18, expReward: 80, goldReward: 50 },
+                        { id: 'flaw_apatia', name: 'Apath, el Vacío', icon: '', image: 'assets/champs/apatia.jpg', counterAttr: 'relaciones', levelRequired: 22, hp: 280, attack: 34, defense: 22, expReward: 110, goldReward: 70 }
                     ];
 
                     const ATTR_LABELS_SHORT = {
@@ -134,7 +134,7 @@
 
                         if (damage > 0) {
                             var vulnTag = wasVulnerable ? ' [VULNERABLE!]' : '';
-                            pushLog(log, '👊 ' + atkName + ' golpea a ' + defName + ' (' + damage + ' de daño)' + tag + vulnTag, defIsPlayer ? 'player' : 'champ', -damage);
+                            pushLog(log, '⚔️ ' + atkName + ' golpea a ' + defName + ' (' + damage + ' de daño)' + tag + vulnTag, defIsPlayer ? 'player' : 'champ', -damage);
                             def.hp -= damage;
                         }
 
@@ -169,7 +169,7 @@
                             pushLog(log, '💨 ¡' + atkName + ' ataca de nuevo!', null, 0);
                             var secondDamage = Math.round(rollDamage(atk, def));
                             def.hp -= secondDamage;
-                            pushLog(log, '👊 Segundo golpe: ' + secondDamage + ' de daño', defIsPlayer ? 'player' : 'champ', -secondDamage);
+                            pushLog(log, '⚔️ Segundo golpe: ' + secondDamage + ' de daño', defIsPlayer ? 'player' : 'champ', -secondDamage);
                         }
                     }
 
@@ -242,58 +242,81 @@
                         return 0;
                     }
 
-                    function renderBattleLog(log, won, champ, onComplete) {
-                        var container = document.getElementById('battle-log-container');
-                        if (!container) return;
+                    
+                    function renderBattleLog(log, won, champ, champHpStart, onComplete) {
+    var container = document.getElementById('battle-log-container');
+    if (!container) return;
 
-                        battleLogToken++;
-                        var myToken = battleLogToken;
-                        battleAnimating = true;
+    // Scroll al contenedor padre (.section-box) que contiene el título
+    var sectionBox = container.closest('.section-box');
+    if (sectionBox) {
+        sectionBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-                        container.innerHTML = '<div class="battle-log-lines" id="battle-log-lines"></div>';
-                        var linesEl = document.getElementById('battle-log-lines');
+    battleLogToken++;
+    var myToken = battleLogToken;
+    battleAnimating = true;
 
-                        var liveHp = player.hp;
-                        var index = 0;
+    container.innerHTML = '<div class="battle-log-lines" id="battle-log-lines"></div>';
+    var linesEl = document.getElementById('battle-log-lines');
 
-                        function revealNext() {
-                            if (myToken !== battleLogToken) return;
+    var champStatsEl = document.getElementById('battle-champ-stats');
+    if (champStatsEl) {
+        champStatsEl.classList.add('visible');
+        champStatsEl.innerHTML =
+            '<div class="battle-stat-item">' + renderIconHTML(champ.icon, '') + ' ' + champ.name + ': <strong><span id="battle-live-champ-hp">' + champHpStart + '</span> / ' + champHpStart + '</strong> 🖤</div>';
+    }
 
-                            if (index >= log.length) {
-                                var header = document.createElement('div');
-                                header.className = 'battle-log-header ' + (won ? 'won' : 'lost');
-                                header.innerHTML = renderIconHTML(champ.icon, '⚔️') + ' ' + (won ? '¡Victoria!' : 'Derrota');
-                                container.insertBefore(header, linesEl);
-                                container.scrollTop = container.scrollHeight;
-                                battleAnimating = false;
-                                if (typeof onComplete === 'function') onComplete();
-                                return;
-                            }
+    var liveHp = player.hp;
+    var liveChampHp = champHpStart;
+    var index = 0;
 
-                            var entry = log[index];
+    function revealNext() {
+        if (myToken !== battleLogToken) return;
 
-                            var lineEl = document.createElement('div');
-                            lineEl.className = 'battle-log-line battle-log-line-in';
-                            lineEl.textContent = entry.text;
-                            linesEl.appendChild(lineEl);
-                            container.scrollTop = container.scrollHeight;
+        if (index >= log.length) {
+            var header = document.createElement('div');
+            header.className = 'battle-log-header ' + (won ? 'won' : 'lost');
+            header.innerHTML = renderIconHTML(champ.icon, '⚔️') + ' ' + (won ? '¡Victoria!' : 'Derrota');
+            container.insertBefore(header, linesEl);
+            container.scrollTop = container.scrollHeight;
+            battleAnimating = false;
+            if (typeof onComplete === 'function') onComplete();
+            return;
+        }
 
-                            if (entry.target === 'player' && entry.delta !== 0) {
-                                liveHp = Math.max(0, Math.min(player.maxHp, liveHp + entry.delta));
-                                var hpEl = document.getElementById('battle-live-hp');
-                                if (hpEl) hpEl.textContent = liveHp;
+        var entry = log[index];
 
-                                if (entry.delta < 0 && typeof shakeScreen === 'function') {
-                                    shakeScreen();
-                                }
-                            }
+        var lineEl = document.createElement('div');
+        lineEl.className = 'battle-log-line battle-log-line-in';
+        lineEl.textContent = entry.text;
+        linesEl.appendChild(lineEl);
+        container.scrollTop = container.scrollHeight;
 
-                            index++;
-                            setTimeout(revealNext, BATTLE_LINE_DELAY_MS);
-                        }
+        if (entry.target === 'player' && entry.delta !== 0) {
+            liveHp = Math.max(0, Math.min(player.maxHp, liveHp + entry.delta));
+            var hpEl = document.getElementById('battle-live-hp');
+            if (hpEl) hpEl.textContent = liveHp;
 
-                        revealNext();
-                    }
+            if (entry.delta < 0 && typeof shakeScreen === 'function') {
+                shakeScreen();
+            }
+        }
+
+        if (entry.target === 'champ' && entry.delta !== 0) {
+            liveChampHp = Math.max(0, Math.min(champHpStart, liveChampHp + entry.delta));
+            var champHpEl = document.getElementById('battle-live-champ-hp');
+            if (champHpEl) champHpEl.textContent = liveChampHp;
+        }
+
+        index++;
+        setTimeout(revealNext, BATTLE_LINE_DELAY_MS);
+    }
+
+    revealNext();
+}
 
                     function fightChamp(champId) {
                         if (battleAnimating) {
@@ -325,7 +348,7 @@
 
                         renderBattlesTab();
 
-                        renderBattleLog(result.log, result.won, champ, function () {
+                        renderBattleLog(result.log, result.won, champ, champStats.hp, function () {
                             var damageTaken = applyBattleHpChange(result.finalPlayerHp, 'Combate contra ' + champ.name);
 
                             if (player.gameOver) {
@@ -403,7 +426,7 @@
 
                         renderBattlesTab();
 
-                        renderBattleLog(result.log, result.won, { name: champStats.name, icon: champ.icon }, function () {
+                        renderBattleLog(result.log, result.won, { name: champStats.name, icon: champ.icon }, champStats.hp, function () {
                             var damageTaken = applyBattleHpChange(result.finalPlayerHp, 'Arena: combate contra ' + champStats.name);
 
                             if (player.gameOver) {
@@ -462,7 +485,7 @@
 
                         if (statsContainer) {
                             statsContainer.innerHTML =
-                                '<div class="battle-stat-item">❤️ HP real: <strong><span id="battle-live-hp">' + player.hp + '</span> / ' + player.maxHp + '</strong></div>';
+                                '<div class="battle-stat-item">❤️ Daniel: <strong><span id="battle-live-hp">' + player.hp + '</span> / ' + player.maxHp + '</strong></div>';
                         }
 
                         if (arenaControls) {
@@ -491,13 +514,13 @@
                             var locked = player.level < champ.levelRequired;
 
                             html += '<div class="champ-card ' + (locked ? 'locked' : '') + '">' +
-                                '<div class="champ-header">' +
-                                '<span class="champ-icon">' + renderIconHTML(champ.icon, '⚔️') + '</span>' +
+                                '<div class="champ-header">' +                                
                                 '<span class="champ-name">' + champ.name + '</span>' +
                                 '</div>' +
                                 '<div class="entity-image-wrap"><img src="' + champ.image + '" class="entity-image" data-fallback-icon="' + champ.icon + '" onerror="handleImageError(this)" alt="' + champ.name + '"></div>' +
+                                '<div class="champ-counter-label">🎯 Débil contra ' + ATTR_LABELS_SHORT[champ.counterAttr] + '</div>' +
                                 '<div class="champ-stats">' +
-                                '<span>❤️ ' + champ.hp + '</span>' +
+                                '<span>🖤 ' + champ.hp + '</span>' +
                                 '<span>⚔️ ' + champ.attack + '</span>' +
                                 '<span>🛡️ ' + champ.defense + '</span>' +
                                 '</div>' +
