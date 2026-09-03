@@ -59,8 +59,9 @@ function renderShop() {
     var pagination = document.getElementById('shop-pagination');
     if (!container) return;
 
-    var goldEl = document.getElementById('shop-gold');
-    if (goldEl) goldEl.textContent = player.gold;
+    document.querySelectorAll('.gold-display').forEach(function(el) {
+        el.textContent = player.gold;
+    });
 
     var items = getSortedShopItems();
     var totalItems = items.length;
@@ -91,12 +92,12 @@ function renderShop() {
         card.className = 'shop-item ' + categoryClass + (maxed ? ' purchased' : '');
 
         var categoryLabels = {
-            arma: '⚔️ Arma',
-            armadura: '🛡️ Armadura',
-            reliquia: '💫 Reliquia',
-            consumable: '🧪 Consumible',
-            real: '🎁 Recompensa Real',
-            pet: '🐾 Mascota'
+            arma: 'Arma',
+            armadura: 'Armadura',
+            reliquia: 'Reliquia',
+            consumable: 'Consumible',
+            real: 'Recompensa Real',
+            pet: 'Mascota'
         };
         var categoryLabel = categoryLabels[item.category] || '📦 Item';
 
@@ -107,22 +108,51 @@ function renderShop() {
                 case 'heal': effectDesc = '❤️ +' + item.effect.value + ' HP'; break;
                 case 'heal_full': effectDesc = '💖 HP al máximo'; break;
                 case 'attr_point': effectDesc = '⭐ +1 Atributo'; break;
-                case 'revive_pet': effectDesc = '🪶 Revive mascota'; break;
+                case 'revive_pet': effectDesc = '💗 Revive mascota'; break;
                 case 'pet_heal': effectDesc = '🍖 +' + item.effect.value + ' HP mascota'; break;
                 case 'restore_attention': effectDesc = '🔋 Recarga Batería Social'; break;
                 case 'exp_boost': effectDesc = '⚡ +' + item.effect.value + '% EXP'; break;
                 case 'gold_boost': effectDesc = '🟡 +' + item.effect.value + '% ORO'; break;
                 case 'rune_bonus': effectDesc = '💠 +' + item.effect.value + ' EXP en runas'; break;
                 case 'hp_boost': effectDesc = '❤️ +' + item.effect.value + ' HP máximo'; break;
-                case 'weapon': effectDesc = '💪 +' + item.effect.value + ' Fuerza'; break;
+                case 'weapon': effectDesc = '⚔️ +' + item.effect.value + ' Fuerza'; break;
                 case 'armor': effectDesc = '🛡️ +' + item.effect.value + ' Disciplina'; break;
                 case 'mission_exp_pct': effectDesc = '⭐ +' + item.effect.value + '% EXP en misiones'; break;
                 case 'boss_exp_pct': effectDesc = '👹 +' + item.effect.value + '% EXP en bosses'; break;
                 case 'mission_gold_pct': effectDesc = '🟡 +' + item.effect.value + '% ORO en misiones'; break;
                 case 'rune_exp_pct': effectDesc = '💠 +' + item.effect.value + '% EXP en runas'; break;
                 case 'second_chance': effectDesc = '🕊️ Sobrevive un Game Over'; break;
-                case 'real_reward': effectDesc = '🎁 ' + (item.effect.value || 'Recompensa Real'); break;
-                case 'pet_item': effectDesc = '🐾 Mascota especial'; break;
+                case 'real_reward': effectDesc = ''; break;
+                case 'pet_item': 
+                    // Mostrar el buff de la mascota
+                    if (item.species && window.PET_PERSONALITIES && window.PET_PERSONALITIES[item.species] && window.PET_PERSONALITIES[item.species].buff) {
+                        var buff = window.PET_PERSONALITIES[item.species].buff;
+                        switch (buff.type) {
+                            case 'exp_boost': effectDesc = '⭐ +' + buff.value + '% EXP'; break;
+                            case 'gold_boost': effectDesc = '🟡 +' + buff.value + '% ORO'; break;
+                            case 'rune_bonus': effectDesc = '💠 +' + buff.value + ' EXP en runas'; break;
+                            case 'hp_boost': effectDesc = '❤️ +' + buff.value + ' HP máximo'; break;
+                            case 'attr_boost': 
+                                var attrNamesMap = {
+                                    'disciplina': 'Disciplina',
+                                    'fuerza': 'Fuerza',
+                                    'mente': 'Mente',
+                                    'creatividad': 'Creatividad',
+                                    'carrera': 'Carrera',
+                                    'finanzas': 'Finanzas',
+                                    'social': 'Social',
+                                    'relaciones': 'Relaciones'
+                                };
+                                var attrName = attrNamesMap[buff.attr] || buff.attr;
+                                effectDesc = '✨ +' + buff.value + ' ' + attrName;
+                                break;
+                            case 'phoenix_revive': effectDesc = '🔄 Revive automáticamente'; break;
+                            default: effectDesc = '🐾 Mascota especial'; break;
+                        }
+                    } else {
+                        effectDesc = '🐾 Mascota especial';
+                    }
+                    break;
                 default: effectDesc = ''; break;
             }
         }
@@ -262,6 +292,10 @@ function addToInventory(item) {
         invItem.equipped = true;
         player.petHealth = player.petMaxHealth;
         if (typeof updatePet === 'function') updatePet();
+        // Aplicar buff de la mascota al equiparla automáticamente
+        if (item.species && window.PET_PERSONALITIES && window.PET_PERSONALITIES[item.species] && window.PET_PERSONALITIES[item.species].buff) {
+            applyPetBuff(window.PET_PERSONALITIES[item.species].buff);
+        }
         showToast('🐾 ¡Mascota "' + item.name + '" equipada automáticamente!', 'success', 'Mascota');
     } else if (item.category === 'pet' && player.equipment.mascota) {
         showToast('🐾 ¡Mascota "' + item.name + '" agregada al inventario!', 'info', 'Mascota');
@@ -336,8 +370,8 @@ function applyItemEffect(item) {
         case 'real_reward':
             break;
         case 'pet_item':
-            if (item.species && typeof PET_PERSONALITIES !== 'undefined' && PET_PERSONALITIES[item.species] && PET_PERSONALITIES[item.species].buff) {
-                applyPetBuff(PET_PERSONALITIES[item.species].buff);
+            if (item.species && window.PET_PERSONALITIES && window.PET_PERSONALITIES[item.species] && window.PET_PERSONALITIES[item.species].buff) {
+                applyPetBuff(window.PET_PERSONALITIES[item.species].buff);
             }
             break;
         default:
@@ -371,6 +405,7 @@ function applyPetBuff(buff) {
             }
             break;
         case 'phoenix_revive':
+            player.hasPhoenixRevive = true;
             break;
         default:
             break;
@@ -403,6 +438,7 @@ function removePetBuff(buff) {
             }
             break;
         case 'phoenix_revive':
+            player.hasPhoenixRevive = false;
             break;
         default:
             break;

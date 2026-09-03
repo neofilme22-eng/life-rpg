@@ -103,7 +103,7 @@
                     
                     
                     <div class="shop-gold-display">
-                        <span></span> <strong id="shop-gold">0</strong> ORO
+                        <span></span> <strong class="gold-display">0</strong> ORO
                     </div>
                 </div>
             </div>
@@ -365,6 +365,7 @@
             </div>
         </div>
 
+        
         <!-- ========== PESTAÑA INVENTARIO ========== -->
         <div id="tab-inventory" class="tab-content">
             <div class="section-box">
@@ -373,7 +374,39 @@
                     <span class="section-ornament"></span>
                 </div>
                 <br>
-
+        
+                <!-- FILTROS DEL INVENTARIO -->
+                <div class="inventory-filters-row">
+                    <!-- Categoría -->
+                    <div class="inventory-filter-group">
+                        <label for="inventory-category-filter">📂 Categoría:</label>
+                        <select id="inventory-category-filter" onchange="renderInventory()" class="inventory-filter-select">
+                            <option value="all">📦 Todos</option>
+                            <option value="arma">⚔️ Armas</option>
+                            <option value="armadura">🛡️ Armaduras</option>
+                            <option value="reliquia">💫 Reliquias</option>
+                            <option value="consumable">🧪 Consumibles</option>
+                            <option value="pet">🐾 Mascotas</option>
+                            <option value="real">🎁 Recompensas</option>
+                        </select>
+                    </div>
+        
+                    <!-- Buscador -->
+                    <div class="inventory-filter-group search-group">
+                        <input type="text" id="inventory-search" placeholder="🔍 Buscar item..." oninput="renderInventory()">
+                    </div>
+        
+                    <!-- Orden -->
+                    <div class="inventory-filter-group">
+                        <label for="inventory-sort">📋 Ordenar:</label>
+                        <select id="inventory-sort" onchange="renderInventory()" class="inventory-filter-select">
+                            <option value="name">Nombre</option>
+                            <option value="category">Categoría</option>
+                            <option value="equipped">Equipados primero</option>
+                        </select>
+                    </div>
+                </div>
+        
                 <div class="inventory-container">
                     <div>
                         <h3
@@ -411,14 +444,14 @@
                             Haz clic en un slot para desequipar el objeto
                         </div>
                     </div>
-
+        
                     <!-- DIVISOR VERTICAL -->
                     <div class="inventory-divider-vertical">
                         <span class="line"></span>
                         <span class="ornament">✧</span>
                         <span class="line"></span>
                     </div>
-
+        
                     <div>
                         <h3
                             style="color:var(--text-muted); opacity:0.6; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px;">
@@ -427,10 +460,10 @@
                         <div id="inventory-grid" class="inventory-grid">
                             <div class="inventory-empty">No tienes objetos en tu inventario.</div>
                         </div>
+                        <div id="inventory-pagination" class="pagination"></div>
                         <div
                             style="margin-top: 10px; font-size:0.7rem; color:var(--text-muted); opacity:0.3; text-align:center; font-family:'Georgia','Times New Roman',serif;">
-                            Haz clic en un objeto para equiparlo (si es equipable) o usa el botón "Usar" para
-                            consumibles.
+                            Haz clic en un objeto para equiparlo (si es equipable) o usa el botón "Usar" para consumibles.
                         </div>
                     </div>
                 </div>
@@ -447,7 +480,7 @@
                         <span class="section-ornament"></span>
                     </div>
                     <div class="shop-gold-display">
-                        <strong id="shop-gold">0</strong> ORO
+                        <span></span> <strong class="gold-display">0</strong> ORO
                     </div>
                 </div>
                 <br>

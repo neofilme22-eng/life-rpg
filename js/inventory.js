@@ -1,38 +1,96 @@
+// ============================================================
 // ===== FUNCIONES DE INVENTARIO =====
+// ============================================================
+
+// ===== VARIABLES GLOBALES PARA PAGINACIÓN =====
+var inventoryCurrentPage = 1;
+var inventoryItemsPerPage = 12;
+
+// ============================================================
+// ===== FUNCIÓN PARA OBTENER ITEMS FILTRADOS Y ORDENADOS =====
+// ============================================================
+
+function getSortedInventoryItems() {
+    var searchInput = document.getElementById('inventory-search');
+    var sortSelect = document.getElementById('inventory-sort');
+    var categoryFilter = document.getElementById('inventory-category-filter');
+
+    var searchTerm = (searchInput ? searchInput.value : '').toLowerCase() || '';
+    var sortBy = (sortSelect ? sortSelect.value : 'name') || 'name';
+    var category = (categoryFilter ? categoryFilter.value : 'all') || 'all';
+
+    var items = player.inventory || [];
+
+    // Filtrar por categoría
+    if (category !== 'all') {
+        items = items.filter(function (i) { return i.category === category; });
+    }
+
+    // Filtrar por búsqueda
+    if (searchTerm) {
+        items = items.filter(function (i) {
+            return i.name.toLowerCase().indexOf(searchTerm) !== -1;
+        });
+    }
+
+    // Ordenar
+    switch (sortBy) {
+        case 'name':
+            items.sort(function (a, b) { return a.name.localeCompare(b.name); });
+            break;
+        case 'category':
+            items.sort(function (a, b) { return (a.category || '').localeCompare(b.category || ''); });
+            break;
+        case 'equipped':
+            items.sort(function (a, b) {
+                var aEq = a.equipped ? 1 : 0;
+                var bEq = b.equipped ? 1 : 0;
+                return bEq - aEq;
+            });
+            break;
+        default:
+            items.sort(function (a, b) { return a.name.localeCompare(b.name); });
+            break;
+    }
+
+    return items;
+}
+
+// ============================================================
+// ===== RENDERIZAR INVENTARIO =====
 // ============================================================
 
 function renderInventory() {
     var container = document.getElementById('inventory-grid');
+    var pagination = document.getElementById('inventory-pagination');
     if (!container) return;
 
     updateEquipmentSlots();
 
-    var items = player.inventory || [];
+    var items = getSortedInventoryItems();
 
     if (items.length === 0) {
         container.innerHTML = '<div class="inventory-empty">No tienes objetos en tu inventario.</div>';
+        if (pagination) pagination.innerHTML = '';
         return;
     }
 
     // ============================================================
-    // AGRUPAR OBJETOS POR ID
+    // PRIMERO: AGRUPAR TODOS LOS ITEMS
     // ============================================================
     var groupedItems = {};
     items.forEach(function (item, originalIndex) {
-        // Generar un ID único para el objeto (basado en nombre + efectos)
         var itemId = item.id;
         if (!itemId) {
-            // Si no tiene ID, generarlo a partir de sus propiedades
             itemId = item.name + '_' + (item.category || '') + '_' + (item.effect ? item.effect.type + '_' + (item.effect.value || 0) : '');
             item.id = itemId;
         }
         
         if (!groupedItems[itemId]) {
-            // Crear una copia del objeto con cantidad
             groupedItems[itemId] = {
                 item: JSON.parse(JSON.stringify(item)),
                 count: 0,
-                indices: [] // Guardar índices originales para poder eliminar
+                indices: []
             };
         }
         groupedItems[itemId].count++;
@@ -40,14 +98,28 @@ function renderInventory() {
     });
 
     var groupedArray = Object.values(groupedItems);
+    var totalGroups = groupedArray.length;
+    var totalPages = Math.ceil(totalGroups / inventoryItemsPerPage);
+
+    if (inventoryCurrentPage > totalPages) inventoryCurrentPage = Math.max(1, totalPages);
+    if (inventoryCurrentPage < 1) inventoryCurrentPage = 1;
+
+    var startIndex = (inventoryCurrentPage - 1) * inventoryItemsPerPage;
+    var endIndex = Math.min(startIndex + inventoryItemsPerPage, totalGroups);
+    var pageGroups = groupedArray.slice(startIndex, endIndex);
+
+    if (totalGroups === 0) {
+        container.innerHTML = '<div class="inventory-empty">No tienes objetos en tu inventario.</div>';
+        if (pagination) pagination.innerHTML = '';
+        return;
+    }
 
     var html = '';
-    groupedArray.forEach(function (group) {
+    pageGroups.forEach(function (group) {
         var item = group.item;
         var count = group.count;
-        var indices = group.indices;
 
-        // Verificar si el objeto está equipado (en alguno de los slots)
+        // Verificar si el objeto está equipado
         var isEquipped = false;
         if (player.equipment) {
             Object.keys(player.equipment).forEach(function (slot) {
@@ -57,7 +129,6 @@ function renderInventory() {
             });
         }
 
-        // Determinar si es consumible
         var isConsumable = item.category === 'consumable' && item.effect &&
             (item.effect.type === 'heal' ||
              item.effect.type === 'heal_full' ||
@@ -71,37 +142,29 @@ function renderInventory() {
 
         var icon = renderIconHTML(item.icon, '📦');
         var name = item.name || 'Objeto';
-        var type = item.type || 'otro';
 
-        // Categoría en texto legible
-        var categoryMap = {
-            'arma': '⚔️ Arma',
-            'armadura': '🛡️ Armadura',
-            'reliquia': '💫 Reliquia',
-            'mascota': '🐾 Mascota',
-            'pet': '🐾 Mascota',
-            'consumable': '🧪 Consumible',
-            'real': '🎁 Recompensa'
-        };
-        var categoryText = categoryMap[item.category] || '📦 Objeto';
+        // Mostrar cantidad junto al nombre
+        var countText = count > 1 ? ' x' + count : '';
 
-        // Efecto descriptivo
+        // ============================================================
+        // EFECTO DESCRIPTIVO - CON CLASES
+        // ============================================================
         var extraInfo = '';
         if (item.category === 'real' && item.effect) {
-            extraInfo = '<div style="font-size:0.6rem; color:var(--gold);">🎁 ' + (item.effect.value || 'Recompensa real') + '</div>';
+            extraInfo = '<div class="inv-effect gold">🎁 ' + (item.effect.value || 'Recompensa real') + '</div>';
         } else if (item.category === 'consumable' && item.effect) {
             var effectDesc = '';
             if (item.effect.type === 'heal') effectDesc = '❤️ +' + item.effect.value + ' HP';
             else if (item.effect.type === 'heal_full') effectDesc = '💖 HP al máximo';
             else if (item.effect.type === 'attr_point') effectDesc = '⭐ +1 Atributo';
-            else if (item.effect.type === 'revive_pet') effectDesc = '🪶 Revive mascota';
+            else if (item.effect.type === 'revive_pet') effectDesc = '💗 Revive mascota';
             else if (item.effect.type === 'pet_heal') effectDesc = '🍖 +' + item.effect.value + ' HP mascota';
             else if (item.effect.type === 'restore_attention') effectDesc = '🔋 Recarga Batería Social';
-            extraInfo = '<div style="font-size:0.6rem; color:var(--text-muted); opacity:0.5;">' + effectDesc + '</div>';
+            extraInfo = '<div class="inv-effect">' + effectDesc + '</div>';
         } else if (item.category === 'arma' && item.effect) {
-            extraInfo = '<div style="font-size:0.6rem; color:var(--text-muted); opacity:0.5;">💪 +' + item.effect.value + ' Fuerza</div>';
+            extraInfo = '<div class="inv-effect">💪 +' + item.effect.value + ' Fuerza</div>';
         } else if (item.category === 'armadura' && item.effect) {
-            extraInfo = '<div style="font-size:0.6rem; color:var(--text-muted); opacity:0.5;">🛡️ +' + item.effect.value + ' Disciplina</div>';
+            extraInfo = '<div class="inv-effect">🛡️ +' + item.effect.value + ' Disciplina</div>';
         } else if (item.category === 'reliquia' && item.effect) {
             var effectDesc = '';
             if (item.effect.type === 'mission_exp_pct') effectDesc = '⭐ +' + item.effect.value + '% EXP en misiones';
@@ -113,67 +176,132 @@ function renderInventory() {
             else if (item.effect.type === 'exp_boost') effectDesc = '⭐ +' + item.effect.value + ' EXP';
             else if (item.effect.type === 'gold_boost') effectDesc = '🟡 +' + item.effect.value + ' ORO';
             else if (item.effect.type === 'rune_bonus') effectDesc = '💠 +' + item.effect.value + ' runa EXP';
-            extraInfo = '<div style="font-size:0.6rem; color:var(--text-muted); opacity:0.5;">' + effectDesc + '</div>';
-        } else if (isPet && item.species && window.PET_PERSONALITIES && PET_PERSONALITIES[item.species]) {
-            extraInfo = '<div style="font-size:0.6rem; color:var(--text-muted); opacity:0.5;">🐾 ' + PET_PERSONALITIES[item.species].trait + '</div>';
+            extraInfo = '<div class="inv-effect">' + effectDesc + '</div>';
+        } else if (isPet) {
+            // ============================================================
+            // EFECTO DE MASCOTA - MOSTRAR SU BUFF
+            // ============================================================
+            var petEffectDesc = '';
+            var species = item.species;
+            
+            // Buscar la personalidad de la mascota
+            if (species && window.PET_PERSONALITIES && PET_PERSONALITIES[species]) {
+                var personality = PET_PERSONALITIES[species];
+                var buff = personality.buff;
+                
+                if (buff) {
+                    // Describir el buff según su tipo
+                    switch (buff.type) {
+                        case 'exp_boost':
+                            petEffectDesc = '⭐ +' + buff.value + '% EXP';
+                            break;
+                        case 'gold_boost':
+                            petEffectDesc = '🟡 +' + buff.value + '% ORO';
+                            break;
+                        case 'rune_bonus':
+                            petEffectDesc = '💠 +' + buff.value + ' EXP en runas';
+                            break;
+                        case 'hp_boost':
+                            petEffectDesc = '❤️ +' + buff.value + ' HP máximo';
+                            break;
+                        case 'attr_boost':
+                            var attrNames = {
+                                'disciplina': 'Disciplina',
+                                'fuerza': 'Fuerza',
+                                'mente': 'Mente',
+                                'creatividad': 'Creatividad',
+                                'carrera': 'Carrera',
+                                'finanzas': 'Finanzas',
+                                'social': 'Social',
+                                'relaciones': 'Relaciones'
+                            };
+                            var attrName = attrNames[buff.attr] || buff.attr;
+                            petEffectDesc = '✨ +' + buff.value + ' ' + attrName;
+                            break;
+                        case 'phoenix_revive':
+                            petEffectDesc = '🔄 Revive automáticamente';
+                            break;
+                        default:
+                            petEffectDesc = personality.trait || '🐾 Mascota';
+                            break;
+                    }
+                } else {
+                    petEffectDesc = personality.trait || '🐾 Mascota';
+                }
+            } else {
+                // Si no tiene personalidad definida, mostrar un mensaje genérico
+                petEffectDesc = '🐾 Mascota especial';
+            }
+            
+            // Si la mascota está equipada y tiene HP, mostrar su salud
+            if (isEquipped) {
+                var healthPercent = Math.round((player.petHealth / player.petMaxHealth) * 100);
+                var healthColor = healthPercent < 30 ? 'var(--danger)' : healthPercent < 60 ? 'var(--warning)' : 'var(--success)';
+                extraInfo = '<div class="inv-effect" style="color:' + healthColor + ';">❤️ ' + healthPercent + '% HP</div>' +
+                            '<div class="inv-effect">' + petEffectDesc + '</div>';
+            } else {
+                extraInfo = '<div class="inv-effect">' + petEffectDesc + '</div>';
+            }
         }
 
-        // Salud de la mascota (si está equipada)
-        var healthInfo = '';
-        if (isPet && isEquipped) {
-            var healthPercent = Math.round((player.petHealth / player.petMaxHealth) * 100);
-            var healthColor = healthPercent < 30 ? 'var(--danger)' : healthPercent < 60 ? 'var(--warning)' : 'var(--success)';
-            healthInfo = '<div style="font-size:0.6rem; color:' + healthColor + ';">❤️ ' + healthPercent + '% HP</div>';
-        }
-
-        // Acciones
+        // ============================================================
+        // ACCIONES - TODOS LOS BOTONES AMARILLOS
+        // ============================================================
         var actions = '';
 
         if (isConsumable) {
             if (item.effect.type === 'attr_point') {
                 var attrOptions = '';
+                var attrNames = {
+                    'disciplina': 'Disciplina',
+                    'fuerza': 'Fuerza',
+                    'mente': 'Mente',
+                    'creatividad': 'Creatividad',
+                    'carrera': 'Carrera',
+                    'finanzas': 'Finanzas',
+                    'social': 'Social',
+                    'relaciones': 'Relaciones'
+                };
                 Object.keys(player.attributes).forEach(function (attrKey) {
-                    var attrName = attrKey.charAt(0).toUpperCase() + attrKey.slice(1);
+                    var attrName = attrNames[attrKey] || attrKey.charAt(0).toUpperCase() + attrKey.slice(1);
                     attrOptions += '<option value="' + attrKey + '">' + attrName + '</option>';
                 });
-                // Usamos el primer índice para el select
-                var firstIndex = indices[0];
-                actions = '<select id="attr-choice-' + firstIndex + '" class="attr-point-select">' + attrOptions + '</select>' +
-                    '<button class="inv-use-btn" onclick="useConsumableGroup(\'' + item.id + '\')">⭐ Usar</button>';
+                var firstIndex = group.indices[0];
+                actions = '<div class="inv-actions">' +
+                    '<select id="attr-choice-' + firstIndex + '" class="attr-point-select"><option value="">Seleccionar</option>' + attrOptions + '</select>' +
+                    '<button class="inv-use-btn" onclick="useConsumableGroup(\'' + item.id + '\')">Usar</button>' +
+                    '</div>';
             } else {
-                var label = '💊 Usar';
+                var label = 'Usar';
                 if (item.effect.type === 'revive_pet') {
-                    label = '🪶 Revivir Mascota';
+                    label = 'Revivir Mascota';
                 } else if (item.effect.type === 'heal') {
-                    label = '❤️ Usar';
+                    label = 'Usar';
                 } else if (item.effect.type === 'heal_full') {
-                    label = '💖 Usar';
+                    label = 'Usar';
                 } else if (item.effect.type === 'pet_heal') {
-                    label = '🍖 Usar';
+                    label = 'Usar';
                 } else if (item.effect.type === 'restore_attention') {
-                    label = '🔋 Usar';
+                    label = 'Usar';
                 }
-                actions = '<button class="inv-use-btn" onclick="useConsumableGroup(\'' + item.id + '\')">' + label + '</button>';
+                actions = '<div class="inv-actions"><button class="inv-use-btn" onclick="useConsumableGroup(\'' + item.id + '\')">' + label + '</button></div>';
             }
         } else if (isPet && item.dead) {
-            actions = '<div style="font-size:0.65rem; color:var(--danger, #ef4444);">💀 Falleció — usá una Pluma de Fénix</div>';
-        } else if (item.equipable && !isReal) {
-            actions = '<button class="inv-use-btn" onclick="equipItemGroup(\'' + item.id + '\')" ' + (isEquipped ? 'disabled' : '') + '>' +
-                (isEquipped ? '✅ Equipado' : '⚔️ Equipar') +
-                '</button>';
+            actions = '<div class="inv-actions"><div class="inv-effect danger">💀 Falleció</div></div>';
         } else if (isReal) {
-            actions = '<div style="font-size:0.6rem; color:var(--gold); opacity:0.5;">🎁 Recompensa</div>';
+            // RECOMPENSAS REALES - Botón "Canjear" amarillo
+            actions = '<div class="inv-actions"><button class="inv-use-btn" onclick="redeemRealReward(\'' + item.id + '\')">🎁 Canjear</button></div>';
+        } else if (item.equipable) {
+            // Items equipables (armas, armaduras, reliquias, mascotas)
+            actions = '<div class="inv-actions"><button class="inv-use-btn" onclick="equipItemGroup(\'' + item.id + '\')" ' + (isEquipped ? 'disabled' : '') + '>' +
+                (isEquipped ? 'Equipado' : 'Equipar') +
+                '</button></div>';
         }
-
-        // Mostrar cantidad si hay más de 1
-        var countBadge = count > 1 ? '<span class="item-count">x' + count + '</span>' : '';
 
         html += `
             <div class="inv-item">
                 <span class="inv-icon">${icon}</span>
-                <div class="inv-name">${name} ${isEquipped ? '✅' : ''} ${countBadge}</div>
-                <div class="inv-type">${categoryText}</div>
-                ${healthInfo}
+                <div class="inv-name">${name}${countText} ${isEquipped ? '' : ''}</div>
                 ${extraInfo}
                 ${actions}
             </div>
@@ -181,6 +309,68 @@ function renderInventory() {
     });
 
     container.innerHTML = html;
+
+    // Paginación
+    if (pagination) {
+        if (typeof renderPagination === 'function') {
+            renderPagination(pagination, inventoryCurrentPage, totalPages, function (page) {
+                inventoryCurrentPage = page;
+                renderInventory();
+            });
+        } else {
+            var pagHtml = '';
+            for (var i = 1; i <= totalPages; i++) {
+                pagHtml += '<button class="page-btn' + (i === inventoryCurrentPage ? ' active' : '') + '" onclick="inventoryCurrentPage=' + i + ';renderInventory();">' + i + '</button>';
+            }
+            pagination.innerHTML = pagHtml;
+        }
+    }
+}
+
+// ============================================================
+// ===== CANJEAR RECOMPENSA REAL =====
+// ============================================================
+
+function redeemRealReward(itemId) {
+    if (player.gameOver) {
+        showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
+        return;
+    }
+
+    // Encontrar el objeto con ese ID
+    var index = player.inventory.findIndex(function (i) { return i.id === itemId; });
+    if (index === -1) {
+        showToast('No se encontró el objeto.', 'error', 'Error');
+        return;
+    }
+
+    var item = player.inventory[index];
+    if (item.category !== 'real') {
+        showToast('Este objeto no es una recompensa real.', 'warning', 'Inventario');
+        return;
+    }
+
+    // Obtener la descripción de la recompensa
+    var rewardDesc = item.effect ? item.effect.value : 'Recompensa';
+    var rewardName = item.name || 'Recompensa';
+
+    // Mostrar mensaje de canjeo
+    showToast('🎁 ¡Has canjeado "' + rewardName + '"!', 'success', 'Recompensa Real');
+    
+    // Registrar en el diario
+    if (typeof addLogEntry === 'function') {
+        addLogEntry('inventory', '🎁 Canjeado: ' + rewardName, rewardDesc, 0, 0, null);
+    }
+
+    // Eliminar el item del inventario
+    player.inventory.splice(index, 1);
+    
+    saveGame();
+    renderInventory();
+    updateHUD();
+    if (typeof checkAndUnlockTrophies === 'function') {
+        checkAndUnlockTrophies();
+    }
 }
 
 // ============================================================
