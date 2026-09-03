@@ -149,8 +149,8 @@
 
     /* ===== BOSSES ===== */
     .boss-card {
-        min-width: 240px;
-        max-width: 280px;
+        min-width: 200px;
+        max-width: 240px;
     }
 
     /* ===== BATALLAS - CHAMPS (2 columnas en móvil) ===== */
@@ -580,13 +580,13 @@
 
     /* ===== EVENTOS ===== */
     .event-card {
-        min-width: unset;
-        max-width: unset;
-        padding: 12px 10px;
+        min-width: 160px;
+        max-width: 200px;
+        padding: 10px 8px;
     }
 
     .event-scroll-container {
-        gap: 10px;
+        gap: 8px;
         padding: 4px 0;
     }
 

@@ -438,3 +438,24 @@
             min-width: 100%;
         }
 
+        .entity-image-block {
+        width: 100%;
+        max-height: 150px; /* O la altura que quieras */
+        overflow: hidden;
+        border-radius: 8px;
+        margin: 6px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.2);
+        }
+
+        .entity-image-block img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: contain; /* ← CLAVE: esto evita el recorte */
+            border-radius: 6px;
+            display: block;
+        }
+
