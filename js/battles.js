@@ -526,7 +526,7 @@
                                 '</div>' +
                                 '<div class="champ-reward-label">🏆 +' + champ.expReward + ' EXP, +' + champ.goldReward + ' ORO</div>' +
                                 (locked ? '<div class="champ-locked-label">🔒 Nivel ' + champ.levelRequired + ' requerido</div>' :
-                                    '<button class="action-btn small" onclick="fightChamp(\'' + champ.id + '\')" ' + (arenaMode.active || battleAnimating ? 'disabled' : '') + '>🥊 Pelear</button>') +
+                                    '<button class="action-btn small" onclick="fightChamp(\'' + champ.id + '\')" ' + (arenaMode.active || battleAnimating ? 'disabled' : '') + '>Pelear</button>') +
                                 '</div>';
                         });
 

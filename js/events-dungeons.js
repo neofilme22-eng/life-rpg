@@ -391,7 +391,7 @@ function renderDungeonCards(container, mazmorras) {
         if (evt.status === 'pending') {
             var puedeIniciar = (player ? player.level >= (evt.levelRequired || 1) : false) && !(player && player.gameOver) && !hayMazmorraActiva;
             var textoBoton = (player && player.level < (evt.levelRequired || 1)) ? '🔒 Nivel ' + (evt.levelRequired || 1) + ' req.' :
-                (hayMazmorraActiva ? '⏳ Otra mazmorra en curso' : '🏰 Iniciar Mazmorra');
+                (hayMazmorraActiva ? '⏳ Otra campaña en curso' : 'Iniciar');
             actionsHTML = `
                 <button class="start-btn" onclick="iniciarMazmorra('${evt.id}')" ${!puedeIniciar ? 'disabled' : ''}>
                     ${textoBoton}
@@ -401,11 +401,11 @@ function renderDungeonCards(container, mazmorras) {
             var puedeFinalizar = !(player && player.gameOver);
             actionsHTML = `
                 <button class="finish-btn" onclick="finalizarMazmorra('${evt.id}')" ${!puedeFinalizar ? 'disabled' : ''}>
-                    ✅ Finalizar
+                    Finalizar
                 </button>
             `;
         } else if (evt.status === 'completed') {
-            actionsHTML = '<span style="color:var(--success); font-size:0.8rem; font-weight:bold;">✅ Completada - Vuelve mañana</span>';
+            actionsHTML = '<span style="color:var(--success); font-size:0.8rem; font-weight:bold;">Completada - Vuelve mañana</span>';
         } else if (evt.status === 'finished') {
             actionsHTML = '<span style="color:var(--danger); font-size:0.8rem; font-weight:bold;">⏰ Expirada</span>';
         }
@@ -418,7 +418,7 @@ function renderDungeonCards(container, mazmorras) {
                 </div>
                 ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
                 <div class="event-meta">
-                    <span>📋 Mazmorra</span>
+                    <span>📋 Campaña</span>
                     <span>⏱️ ${evt.duration || 3}h</span>
                     ${evt.levelRequired ? '<span>🏷️ Nivel ' + evt.levelRequired + ' req.</span>' : ''}
                 </div>
