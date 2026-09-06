@@ -397,6 +397,14 @@
         
                 <!-- FILTROS DEL INVENTARIO -->
                 <div class="inventory-filters-row">
+
+
+
+                    <!-- Buscador -->
+                    <div class="inventory-filter-group search-group">
+                        <input type="text" id="inventory-search" placeholder="🔍 Buscar item..." oninput="renderInventory()">
+                    </div>
+
                     <!-- Categoría -->
                     <div class="inventory-filter-group">
                         <label for="inventory-category-filter">📂 Categoría:</label>
@@ -411,10 +419,7 @@
                         </select>
                     </div>
         
-                    <!-- Buscador -->
-                    <div class="inventory-filter-group search-group">
-                        <input type="text" id="inventory-search" placeholder="🔍 Buscar item..." oninput="renderInventory()">
-                    </div>
+                    
         
                     <!-- Orden -->
                     <div class="inventory-filter-group">
@@ -507,6 +512,14 @@
         
                 <!-- FILTROS EN UNA SOLA FILA (misma altura) -->
                 <div class="shop-filters-row">
+
+
+                    <!-- Buscador -->
+                    <div class="shop-filter-group search-group">
+                        <input type="text" id="shop-search" placeholder="🔍 Buscar item..." oninput="renderShop()">
+                    </div>
+
+                    
                     <!-- Categoría -->
                     <div class="shop-filter-group">
                         <label for="shop-category-filter">📂 Categoría:</label>
@@ -521,10 +534,7 @@
                         </select>
                     </div>
         
-                    <!-- Buscador -->
-                    <div class="shop-filter-group search-group">
-                        <input type="text" id="shop-search" placeholder="🔍 Buscar item..." oninput="renderShop()">
-                    </div>
+                    
         
                     <!-- Orden -->
                     <div class="shop-filter-group">
