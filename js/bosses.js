@@ -77,6 +77,8 @@
                             if (countEl) countEl.textContent = totalDerrotados;
                             if (totalEl) totalEl.textContent = player.bosses.length;
 
+                            if (typeof renderDailySidebar === 'function') renderDailySidebar();
+
                             if (totalActivos === 0) {
                                 if (totalDerrotados > 0 || totalVencidos > 0) {
                                     container.innerHTML = `

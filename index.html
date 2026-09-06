@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/hud.css">
     <link rel="stylesheet" href="css/runes.css">
     <link rel="stylesheet" href="css/missions.css">
+    <link rel="stylesheet" href="css/heatmap.css">
     <link rel="stylesheet" href="css/sanctuary.css">
     <link rel="stylesheet" href="css/bosses.css">
     <link rel="stylesheet" href="css/shop.css">
@@ -157,29 +158,52 @@
 
         <!-- ========== PESTAÑA PANEL PRINCIPAL ========== -->
         <div id="tab-runas" class="tab-content active">
-            <div class="section-box">
-                <div class="section-header">
-                    <span class="section-title">Misiones Diarias — Tareas del Día</span>
-                    <span class="section-ornament"></span>
-                </div>
-                <br>
-
-                <div class="daily-mission-form"
-                    style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); align-items:center;">
-                    <input type="text" id="daily-title" placeholder="Título de la misión..." maxlength="60"
-                        style="flex:3; min-width:180px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
-                    <div class="time-input-wrap" style="position:relative; flex:1; min-width:100px;">
-                        <input type="time" id="daily-time"
-                            style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem; position:relative; box-sizing:border-box;">
-                        <span class="time-input-placeholder" id="daily-time-placeholder">Agregar horario</span>
+            <div class="two-col-grid daily-missions-grid">
+                <div class="section-box">
+                    <div class="section-header">
+                        <span class="section-title">Misiones Diarias — Tareas del Día</span>
+                        <span class="section-ornament"></span>
                     </div>
-                    <button class="action-btn" onclick="addDailyMission()"
-                        style="font-size:0.8rem; padding:6px 14px; flex:0 0 auto;">
-                        Agregar
-                    </button>
+                    <br>
+
+                    <div class="daily-mission-form"
+                        style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); align-items:center;">
+                        <input type="text" id="daily-title" placeholder="Título de la misión..." maxlength="60"
+                            style="flex:3; min-width:180px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
+                        <div class="time-input-wrap" style="position:relative; flex:1; min-width:100px;">
+                            <input type="time" id="daily-time"
+                                style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem; position:relative; box-sizing:border-box;">
+                            <span class="time-input-placeholder" id="daily-time-placeholder">Agregar horario</span>
+                        </div>
+                        <button class="action-btn" onclick="addDailyMission()"
+                            style="font-size:0.8rem; padding:6px 14px; flex:0 0 auto;">
+                            Agregar
+                        </button>
+                    </div>
+
+                    <div id="daily-mission-container" class="daily-mission-container"></div>
                 </div>
 
-                <div id="daily-mission-container" class="daily-mission-container"></div>
+                <!-- ===== BARRA LATERAL: HEATMAP + ACTIVIDAD EN CURSO ===== -->
+                <div class="daily-sidebar">
+                    <div class="section-box heatmap-box">
+                        <div class="section-header">
+                            <span class="section-title">Calendario de Constancia</span>
+                            <span class="section-ornament"></span>
+                        </div>
+                        <br>
+                        <div id="daily-heatmap-container" class="heatmap-container"></div>
+                    </div>
+
+                    <div class="section-box activity-alerts-box">
+                        <div class="section-header">
+                            <span class="section-title">Actividad en Curso</span>
+                            <span class="section-ornament"></span>
+                        </div>
+                        <br>
+                        <div id="activity-alerts-container" class="activity-alerts-container"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- MISIONES DLC -->
@@ -920,6 +944,7 @@
     <script src="js/utils.js"></script>
     <script src="js/gameover.js"></script>
     <script src="js/damage-system.js"></script>
+    <script src="js/daily-heatmap.js"></script>
     <script src="js/init.js"></script>
 </body>
 

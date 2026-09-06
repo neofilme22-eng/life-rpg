@@ -636,17 +636,6 @@
         width: 100%;
     }
 
-        .daily-mission-form .time-input-wrap {
-        width: 100%;
-        flex: unset;
-        min-width: unset;
-    }
-
-    .daily-mission-form .time-input-wrap input[type="time"] {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
     /* ===== CONFIGURACIÓN ===== */
     .two-col-grid .section-box .rune-grid {
         grid-template-columns: 1fr 1fr;

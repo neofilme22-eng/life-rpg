@@ -205,6 +205,8 @@ function renderEvents() {
 
     renderEventCards(eventContainer, eventos, 'event');
     renderDungeonCards(dungeonContainer, mazmorras);
+
+    if (typeof renderDailySidebar === 'function') renderDailySidebar();
 }
 
 // ============================================================
