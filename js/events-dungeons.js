@@ -159,7 +159,9 @@ function renderEvents() {
     // ORDEN: EVENTOS (activos primero)
     eventos.sort(function (a, b) {
         var order = { active: 0, pending: 1, finished: 2 };
-        var statusDiff = (order[a.status] || 3) - (order[b.status] || 3);
+        var aOrder = order[a.status] !== undefined ? order[a.status] : 3;
+        var bOrder = order[b.status] !== undefined ? order[b.status] : 3;
+        var statusDiff = aOrder - bOrder;
         if (statusDiff !== 0) return statusDiff;
 
         if (a.status === 'active' && b.status === 'active') {
