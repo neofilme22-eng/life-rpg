@@ -77,6 +77,14 @@
             transition: transform 0.3s ease;
         }
 
+        /* Ícono de mascota importado por URL: se ve más chico que un emoji
+           al mismo font-size, así que lo agrandamos para que se perciba igual de grande */
+        .pet-emoji .custom-icon-img {
+            width: 1.5em;
+            height: 1.5em;
+            border-radius: 50%;
+        }
+
         .pet-container:hover .pet-emoji {
             transform: scale(1.2) rotate(-10deg);
         }

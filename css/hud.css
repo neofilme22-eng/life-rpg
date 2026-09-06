@@ -388,3 +388,34 @@
     color: #fbbf24;
     text-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
 }
+
+/* ================================================================ */
+/* ===== TOGGLE ATRIBUTOS / RUNAS (SOLO MÓVIL) ===== */
+/* ================================================================ */
+
+.mobile-toggle-btn {
+    display: none;
+    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.7rem;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 12px rgba(56, 189, 248, 0.25);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    transition: transform 0.15s ease;
+}
+
+.mobile-toggle-btn:active {
+    transform: scale(0.96);
+}
+
+.mobile-toggle-btn.attr-toggle {
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    box-shadow: 0 2px 12px rgba(167, 139, 250, 0.3);
+}

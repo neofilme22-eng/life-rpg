@@ -3,6 +3,115 @@
 /* ================================================================ */
 
 /* ================================================================ */
+/* ===== MENÚ HAMBURGUESA (OCULTO EN ESCRITORIO POR DEFECTO) ===== */
+/* ================================================================ */
+
+.hamburger-btn {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1001;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #1a1f2e, #0f1420);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text);
+    opacity: 0.8;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn.open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger-btn.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 240px;
+    max-width: 78vw;
+    background: linear-gradient(160deg, rgba(17, 24, 39, 0.98), rgba(8, 12, 22, 0.99));
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: -6px 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 70px 14px 20px 14px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-menu.open {
+    transform: translateX(0);
+}
+
+.mobile-menu-item {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mobile-menu-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+}
+
+.mobile-menu-item.active {
+    background: rgba(56, 189, 248, 0.08);
+    color: var(--primary);
+}
+
+/* ================================================================ */
 /* ===== TABLETS Y PANTALLAS MEDIANAS ===== */
 /* ================================================================ */
 
@@ -53,6 +162,38 @@
 
     .two-col-grid .section-box .rune-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    /* ===== ATRIBUTOS / RUNAS COMPARTEN UNA SOLA SECCIÓN ===== */
+    .character-runes-grid .runes-section {
+        display: none;
+    }
+
+    .character-runes-grid.show-runes .character-panel {
+        display: none;
+    }
+
+    .character-runes-grid.show-runes .runes-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .panel-gold {
+        justify-content: space-between;
+    }
+
+    .mobile-toggle-btn {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* ===== MENÚ HAMBURGUESA EN LUGAR DE TABS ===== */
+    .tabs {
+        display: none;
+    }
+
+    .hamburger-btn {
+        display: flex;
     }
 
     .config-grid {
