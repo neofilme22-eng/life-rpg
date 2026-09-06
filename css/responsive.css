@@ -111,6 +111,11 @@
     color: var(--primary);
 }
 
+/* ===== PLACEHOLDER DEL CAMPO DE HORA: solo visible en móvil (ver media query) ===== */
+.time-input-placeholder {
+    display: none;
+}
+
 /* ================================================================ */
 /* ===== TABLETS Y PANTALLAS MEDIANAS ===== */
 /* ================================================================ */
@@ -194,6 +199,27 @@
 
     .hamburger-btn {
         display: flex;
+    }
+
+    /* ===== PLACEHOLDER VISUAL PARA CAMPO DE HORA (MISIONES DIARIAS) ===== */
+    .time-input-placeholder {
+        display: block;
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        opacity: 0.35;
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: 0.8rem;
+        font-style: italic;
+        pointer-events: none;
+        white-space: nowrap;
+    }
+
+    .time-input-wrap.has-value .time-input-placeholder,
+    .time-input-wrap.time-focused .time-input-placeholder {
+        display: none;
     }
 
     .config-grid {

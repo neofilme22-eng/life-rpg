@@ -75,7 +75,11 @@
                     renderDailyMissions();
 
                     if (titleInput) titleInput.value = '';
-                    if (timeInput) timeInput.value = '';
+                    if (timeInput) {
+                        timeInput.value = '';
+                        var timeWrap = timeInput.closest('.time-input-wrap');
+                        if (timeWrap) timeWrap.classList.remove('has-value');
+                    }
                     if (titleInput) titleInput.focus();
 
                     var dateFormatted = today.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -276,5 +280,37 @@
                         }
                     }, 30000);
                 }
+
+                // ============================================================
+                // ===== PLACEHOLDER VISUAL PARA EL CAMPO DE HORA (MÓVIL) =====
+                // ============================================================
+
+                function setupDailyTimePlaceholder() {
+                    var input = document.getElementById('daily-time');
+                    var wrap = input ? input.closest('.time-input-wrap') : null;
+                    if (!input || !wrap) return;
+
+                    function refreshTimePlaceholder() {
+                        if (input.value) {
+                            wrap.classList.add('has-value');
+                        } else {
+                            wrap.classList.remove('has-value');
+                        }
+                    }
+
+                    input.addEventListener('input', refreshTimePlaceholder);
+                    input.addEventListener('change', refreshTimePlaceholder);
+                    input.addEventListener('focus', function () {
+                        wrap.classList.add('time-focused');
+                    });
+                    input.addEventListener('blur', function () {
+                        wrap.classList.remove('time-focused');
+                        refreshTimePlaceholder();
+                    });
+
+                    refreshTimePlaceholder();
+                }
+
+                document.addEventListener('DOMContentLoaded', setupDailyTimePlaceholder);
 
                 // ============================================================
