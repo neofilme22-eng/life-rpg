@@ -1,6 +1,9 @@
 // ============================================================
 // ===== HEATMAP DE CONSTANCIA + ACTIVIDAD EN CURSO =====
-// ===== VERSIÓN UNIFICADA - UNA SOLA SECCIÓN =====
+// ============================================================
+// Se apoya en player.logbook (historial permanente de acciones)
+// para el heatmap, y en window.eventosCache / player.bosses para
+// el panel de eventos, mazmorras y bosses cercanos.
 // ============================================================
 
 var HEATMAP_WEEKS = 13;
@@ -54,10 +57,6 @@ function heatmapLevel(count) {
     if (count === 3) return 3;
     return 4;
 }
-
-// ============================================================
-// ===== RENDER HEATMAP =====
-// ============================================================
 
 function renderDailyHeatmap() {
     var container = document.getElementById('daily-heatmap-container');
@@ -129,7 +128,7 @@ function renderDailyHeatmap() {
 }
 
 // ============================================================
-// ===== ACTIVIDAD EN CURSO: FORMATOS =====
+// ===== ACTIVIDAD EN CURSO: EVENTOS / MAZMORRAS / BOSSES =====
 // ============================================================
 
 function hmFormatRemaining(ms) {
@@ -150,14 +149,10 @@ function hmFormatRemaining(ms) {
 
 function hmFormatDaysUntil(diffDays) {
     if (diffDays < 0) return '¡Vencido!';
-    if (diffDays === 0) return '⚡ Hoy';
-    if (diffDays === 1) return '📅 Mañana';
-    return '📆 En ' + diffDays + ' días';
+    if (diffDays === 0) return 'Hoy';
+    if (diffDays === 1) return 'Mañana';
+    return 'En ' + diffDays + ' días';
 }
-
-// ============================================================
-// ===== OBTENER ACTIVIDADES =====
-// ============================================================
 
 function getActivityAlerts() {
     if (typeof cargarEventos === 'function') cargarEventos();
@@ -166,7 +161,6 @@ function getActivityAlerts() {
     var items = [];
     var eventos = window.eventosCache || [];
 
-    // Eventos activos (dungeons)
     eventos.forEach(function (e) {
         if (e.type === 'dungeon' && e.status === 'active') {
             var remaining = e.endTime ? (new Date(e.endTime) - now) : null;
@@ -178,7 +172,6 @@ function getActivityAlerts() {
                 urgent: remaining != null && remaining < 3 * 3600000
             });
         }
-        // Eventos activos (eventos normales)
         if (e.type === 'event' && e.status === 'active' && e.start) {
             var startDate = new Date(e.start);
             var endDate = new Date(startDate);
@@ -194,7 +187,6 @@ function getActivityAlerts() {
         }
     });
 
-    // Eventos próximos
     eventos
         .filter(function (e) { return e.type === 'event' && e.status === 'pending' && e.start; })
         .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })
@@ -211,7 +203,6 @@ function getActivityAlerts() {
             });
         });
 
-    // Bosses activos
     ((player && player.bosses) || [])
         .filter(function (b) { return !b.defeated && !b.vencido && b.deadline; })
         .sort(function (a, b) { return new Date(a.deadline) - new Date(b.deadline); })
@@ -229,10 +220,6 @@ function getActivityAlerts() {
 
     return items;
 }
-
-// ============================================================
-// ===== RENDER ACTIVIDAD EN CURSO =====
-// ============================================================
 
 function renderActivityAlerts() {
     var container = document.getElementById('activity-alerts-container');
@@ -262,7 +249,21 @@ function renderActivityAlerts() {
 }
 
 // ============================================================
-// ===== SIDEBAR UNIFICADA =====
+// ===== TOGGLE MÓVIL: MISIONES <-> CALENDARIO/ACTIVIDAD =====
+// ============================================================
+
+function toggleDailySidebarMobile(target) {
+    var grid = document.querySelector('.daily-missions-grid');
+    if (!grid) return;
+    if (target === 'sidebar') {
+        grid.classList.add('show-daily-sidebar');
+    } else {
+        grid.classList.remove('show-daily-sidebar');
+    }
+}
+
+// ============================================================
+// ===== ORQUESTADOR =====
 // ============================================================
 
 function renderDailySidebar() {
@@ -270,46 +271,10 @@ function renderDailySidebar() {
     renderActivityAlerts();
 }
 
-// ============================================================
-// ===== TOGGLE MÓVIL: MISIONES <-> CALENDARIO/ACTIVIDAD =====
-// ============================================================
-
-function toggleDailySidebarMobile(target) {
-    var grid = document.querySelector('.daily-missions-grid');
-    if (!grid) return;
-    
-    if (target === 'sidebar') {
-        grid.classList.add('show-daily-sidebar');
-        
-        setTimeout(function() {
-            var sidebar = document.querySelector('.daily-sidebar');
-            if (sidebar) {
-                // Scroll instantáneo (sin animación)
-                sidebar.scrollIntoView({ block: 'start' });
-            }
-        }, 100);
-        
-    } else {
-        grid.classList.remove('show-daily-sidebar');
-        
-        setTimeout(function() {
-            var missionsSection = document.querySelector('.daily-missions-grid > .section-box:first-child');
-            if (missionsSection) {
-                missionsSection.scrollIntoView({ block: 'start' });
-            }
-        }, 100);
-    }
-}
-
-// ============================================================
-// ===== INICIALIZACIÓN =====
-// ============================================================
-
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(renderDailySidebar, 250);
 });
 
-// Actualización automática cada 60 segundos
 if (!window.__dailySidebarInterval) {
     window.__dailySidebarInterval = setInterval(function () {
         renderDailySidebar();
