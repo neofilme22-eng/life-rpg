@@ -257,3 +257,14 @@
         margin-top: 10px;
     }
 }
+
+@media (max-width: 360px) {
+    .heatmap-cell {
+        width: 18px;
+        height: 18px;
+    }
+
+    .heatmap-month-label {
+        flex-basis: 18px;
+    }
+}
