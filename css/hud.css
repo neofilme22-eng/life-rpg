@@ -386,9 +386,7 @@
     align-items: center;
     justify-content: right;
     gap: 6px;
-    padding-top: 8px;
-    margin-top: 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
+         
     font-size: 0.85rem;
     color: var(--text-muted);
     font-family: 'Georgia', 'Times New Roman', serif;
