@@ -627,6 +627,7 @@
     }
 
     /* ===== MISIONES DIARIAS ===== */
+    /* ===== MISIONES DIARIAS ===== */
     .daily-mission-form {
         flex-direction: column;
     }
@@ -634,6 +635,17 @@
     .daily-mission-form input,
     .daily-mission-form button {
         width: 100%;
+    }
+
+        .daily-mission-form .time-input-wrap {
+        width: 100%;
+        flex: unset;
+        min-width: unset;
+    }
+
+    .daily-mission-form .time-input-wrap input[type="time"] {
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* ===== CONFIGURACIÓN ===== */

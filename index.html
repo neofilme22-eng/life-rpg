@@ -57,7 +57,7 @@
         <!-- ========== PANEL DE PERSONAJE + RUNAS (DOS COLUMNAS) ========== -->
         <div class="two-col-grid character-runes-grid">
 
-            
+
             <!-- ===== PANEL DE PERSONAJE UNIFICADO ===== -->
             <div class="character-panel">
                 <!-- Título + Nivel en la misma fila -->
@@ -65,12 +65,12 @@
                     <span class="panel-title">DANIEL</span>
                     <span class="section-ornament"></span>
                 </div>
-            
+
                 <!-- HP -->
                 <div class="panel-bar">
                     <div class="bar-header">
-                        
-                        
+
+
                     </div>
                     <div class="bar-row">
                         <span class="level-value" id="hud-level">1</span>
@@ -78,14 +78,15 @@
                         <div class="bar-track-thin">
                             <div class="bar-fill-thin hp-fill-thin" id="hud-hp-bar" style="width:100%;"></div>
                         </div>
-                        <span class="bar-numbers"><strong id="hud-hp">100</strong> / <strong id="hud-hp-max">100</strong></span>
+                        <span class="bar-numbers"><strong id="hud-hp">100</strong> / <strong
+                                id="hud-hp-max">100</strong></span>
                     </div>
                 </div>
-                
-            
+
+
                 <!-- EXP -->
                 <div class="panel-bar">
-                    
+
                     <div class="bar-row">
                         <span class="level-label">Nv.</span>
                         <div class="bar-track-thin">
@@ -94,10 +95,10 @@
                     </div>
                 </div>
                 <br>
-            
+
                 <!-- Radar de atributos -->
                 <div id="attribute-radar-container" class="attribute-radar-container"></div>
-            
+
                 <!-- Oro (abajo del radar) -->
                 <div class="panel-gold">
                     <button class="mobile-toggle-btn" onclick="toggleMobilePanel('runes')">Runas</button>
@@ -116,7 +117,8 @@
                 <br>
                 <div id="rune-container" class="rune-grid"></div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px;">
-                    <button class="mobile-toggle-btn attr-toggle" onclick="toggleMobilePanel('attributes')">Atributos</button>
+                    <button class="mobile-toggle-btn attr-toggle"
+                        onclick="toggleMobilePanel('attributes')">Atributos</button>
                 </div>
             </div>
 
@@ -125,7 +127,7 @@
         <!-- ========== TABS (ESCRITORIO) ========== -->
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('tab-runas')">🎴 Misiones</button>
-            <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>            
+            <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>
             <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
             <button class="tab-btn" onclick="switchTab('tab-bosses')">👹 Deidades</button>
             <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
@@ -182,28 +184,54 @@
                     </div>
 
                     <div id="daily-mission-container" class="daily-mission-container"></div>
+
+                    <div class="mobile-toggle-row">
+                        <button class="mobile-toggle-btn" onclick="toggleDailySidebarMobile('sidebar')">Calendario y
+                            Actividad</button>
+                    </div>
                 </div>
 
-                <!-- ===== BARRA LATERAL: HEATMAP + ACTIVIDAD EN CURSO ===== -->
+
+                <!-- ===== BARRA LATERAL: HEATMAP + ACTIVIDAD EN CURSO (UNIFICADOS) ===== -->
                 <div class="daily-sidebar">
-                    <div class="section-box heatmap-box">
+                    <div class="section-box">
                         <div class="section-header">
                             <span class="section-title">Calendario de Constancia</span>
-                            <span class="section-ornament"></span>
+                            
                         </div>
-                        <br>
+
                         <div id="daily-heatmap-container" class="heatmap-container"></div>
+
+                        <!-- DIVISOR DECORATIVO -->
+                        <div class="unified-divider">
+                            <span class="line"></span>
+                            <span class="ornament">⚔</span>
+                            <span class="line"></span>
+                        </div>
+
+                        <!-- ACTIVIDAD EN CURSO (sin header duplicado) -->
+                        <div style="margin-top: 2px;">
+                            <div
+                                style="font-size:0.65rem; color:var(--text-muted); opacity:0.5; text-transform:uppercase; letter-spacing:1px; font-family:'Georgia','Times New Roman',serif; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
+                                <span>⚡ Actividad en Curso</span>
+                                <span style="flex:1; height:1px; background:rgba(255,255,255,0.04);"></span>
+                            </div>
+                            <div id="activity-alerts-container" class="activity-alerts-container"></div>
+                        </div>
+
+                        <!-- BOTÓN ABAJO (fuera de la sección unificada) -->
+                        <div class="mobile-toggle-row">
+                            <button class="mobile-toggle-btn attr-toggle" onclick="toggleDailySidebarMobile('missions')">
+                                Ver Misiones Diarias
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="section-box activity-alerts-box">
-                        <div class="section-header">
-                            <span class="section-title">Actividad en Curso</span>
-                            <span class="section-ornament"></span>
-                        </div>
-                        <br>
-                        <div id="activity-alerts-container" class="activity-alerts-container"></div>
-                    </div>
+                    
                 </div>
+
+
+
             </div>
 
             <!-- MISIONES DLC -->
@@ -394,12 +422,12 @@
                     <span class="section-title">Batallas — Arena de Champs</span>
                     <span class="section-ornament"></span>
                 </div>
-               
+
 
                 <div id="battle-player-stats" class="battle-player-stats"></div>
                 <div id="battle-champ-stats" class="battle-player-stats battle-champ-stats"></div>
 
-               <!---- <div id="arena-controls" class="arena-controls"></div> --> 
+                <!---- <div id="arena-controls" class="arena-controls"></div> -->
 
                 <div id="battle-log-container" class="battle-log-container">
                     <div class="battle-log-empty">Elegí un champ y tocá "Pelear" para ver el resultado acá.</div>
@@ -409,7 +437,7 @@
             </div>
         </div>
 
-        
+
         <!-- ========== PESTAÑA INVENTARIO ========== -->
         <div id="tab-inventory" class="tab-content">
             <div class="section-box">
@@ -418,7 +446,7 @@
                     <span class="section-ornament"></span>
                 </div>
                 <br>
-        
+
                 <!-- FILTROS DEL INVENTARIO -->
                 <div class="inventory-filters-row">
 
@@ -426,13 +454,15 @@
 
                     <!-- Buscador -->
                     <div class="inventory-filter-group search-group">
-                        <input type="text" id="inventory-search" placeholder="🔍 Buscar item..." oninput="renderInventory()">
+                        <input type="text" id="inventory-search" placeholder="🔍 Buscar item..."
+                            oninput="renderInventory()">
                     </div>
 
                     <!-- Categoría -->
                     <div class="inventory-filter-group">
                         <label for="inventory-category-filter">📂 Categoría:</label>
-                        <select id="inventory-category-filter" onchange="renderInventory()" class="inventory-filter-select">
+                        <select id="inventory-category-filter" onchange="renderInventory()"
+                            class="inventory-filter-select">
                             <option value="all">📦 Todos</option>
                             <option value="arma">⚔️ Armas</option>
                             <option value="armadura">🛡️ Armaduras</option>
@@ -442,9 +472,9 @@
                             <option value="real">🎁 Recompensas</option>
                         </select>
                     </div>
-        
-                    
-        
+
+
+
                     <!-- Orden -->
                     <div class="inventory-filter-group">
                         <label for="inventory-sort">📋 Ordenar:</label>
@@ -455,7 +485,7 @@
                         </select>
                     </div>
                 </div>
-        
+
                 <div class="inventory-container">
                     <div>
                         <h3
@@ -493,14 +523,14 @@
                             Haz clic en un slot para desequipar el objeto
                         </div>
                     </div>
-        
+
                     <!-- DIVISOR VERTICAL -->
                     <div class="inventory-divider-vertical">
                         <span class="line"></span>
                         <span class="ornament">✧</span>
                         <span class="line"></span>
                     </div>
-        
+
                     <div>
                         <h3
                             style="color:var(--text-muted); opacity:0.6; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px;">
@@ -512,18 +542,20 @@
                         <div id="inventory-pagination" class="pagination"></div>
                         <div
                             style="margin-top: 10px; font-size:0.7rem; color:var(--text-muted); opacity:0.3; text-align:center; font-family:'Georgia','Times New Roman',serif;">
-                            Haz clic en un objeto para equiparlo (si es equipable) o usa el botón "Usar" para consumibles.
+                            Haz clic en un objeto para equiparlo (si es equipable) o usa el botón "Usar" para
+                            consumibles.
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        
+
         <!-- ========== PESTAÑA TIENDA ========== -->
         <div id="tab-shop" class="tab-content">
             <div class="section-box">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <div class="section-header" style="margin-bottom:0;">
                         <span class="section-title">TIENDA</span>
                         <span class="section-ornament"></span>
@@ -533,7 +565,7 @@
                     </div>
                 </div>
                 <br>
-        
+
                 <!-- FILTROS EN UNA SOLA FILA (misma altura) -->
                 <div class="shop-filters-row">
 
@@ -543,7 +575,7 @@
                         <input type="text" id="shop-search" placeholder="🔍 Buscar item..." oninput="renderShop()">
                     </div>
 
-                    
+
                     <!-- Categoría -->
                     <div class="shop-filter-group">
                         <label for="shop-category-filter">📂 Categoría:</label>
@@ -557,9 +589,9 @@
                             <option value="pet">🐾 Mascotas</option>
                         </select>
                     </div>
-        
-                    
-        
+
+
+
                     <!-- Orden -->
                     <div class="shop-filter-group">
                         <label for="shop-sort">📋 Ordenar:</label>
@@ -570,7 +602,7 @@
                         </select>
                     </div>
                 </div>
-        
+
                 <!-- GRID DE ITEMS -->
                 <div id="shop-container" class="shop-grid"></div>
                 <div id="shop-pagination" class="pagination"></div>
@@ -644,7 +676,7 @@
                     <span class="section-title">Modo Historia — La Ciudad Gris</span>
                     <span class="section-ornament"></span>
                 </div>
-               
+
                 <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
                     <span id="story-progress" style="font-size:0.75rem; color:var(--text-muted);"></span>
                 </div>
