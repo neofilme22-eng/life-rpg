@@ -40,7 +40,7 @@
 }
 
 .heatmap-month-label {
-    flex: 0 0 12px;
+    flex: 0 0 20px;
     font-size: 0.6rem;
     color: var(--text-muted);
     text-transform: capitalize;
@@ -60,8 +60,8 @@
 }
 
 .heatmap-cell {
-    width: 12px;
-    height: 12px;
+    width: 20px;
+    height: 20px;
     border-radius: 3px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.04);
@@ -229,12 +229,12 @@
 
 @media (max-width: 768px) {
     .heatmap-cell {
-        width: 10px;
-        height: 10px;
+        width: 18px;
+        height: 18px;
     }
 
     .heatmap-month-label {
-        flex-basis: 10px;
+        flex-basis: 18px;
     }
 
     /* ===== MISIONES DIARIAS / CALENDARIO Y ACTIVIDAD COMPARTEN ESPACIO ===== */

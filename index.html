@@ -184,33 +184,45 @@
                     <div id="daily-mission-container" class="daily-mission-container"></div>
 
                     <div class="mobile-toggle-row">
-                        <button class="mobile-toggle-btn" onclick="toggleDailySidebarMobile('sidebar')">📅 Calendario y Actividad</button>
+                        <button class="mobile-toggle-btn" onclick="toggleDailySidebarMobile('sidebar')">Calendario y Actividad</button>
                     </div>
                 </div>
 
                 <!-- ===== BARRA LATERAL: HEATMAP + ACTIVIDAD EN CURSO ===== -->
                 <div class="daily-sidebar">
-                    <div class="mobile-toggle-row">
-                        <button class="mobile-toggle-btn attr-toggle" onclick="toggleDailySidebarMobile('missions')">📋 Misiones Diarias</button>
-                    </div>
 
-                    <div class="section-box heatmap-box">
-                        <div class="section-header">
-                            <span class="section-title">Calendario de Constancia</span>
-                            <span class="section-ornament"></span>
+                    <div class="section-box">                   
+                    
+
+                        <div class="heatmap-box">
+                            <div class="section-header">
+                                <span class="section-title">Calendario de Constancia</span>
+                                <span class="section-ornament"></span>
+                            </div>
+                            <br>
+                            <div id="daily-heatmap-container" class="heatmap-container"></div>
                         </div>
                         <br>
-                        <div id="daily-heatmap-container" class="heatmap-container"></div>
+                        
+                        <div
+                            style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
+                        </div>
+
+                        <div class="activity-alerts-box">
+                            <div class="section-header">
+                                <span class="section-title">Actividad en Curso</span>
+                                <span class="section-ornament"></span>
+                            </div>
+                            <br>
+                            <div id="activity-alerts-container" class="activity-alerts-container"></div>
+                        </div>
+
+                        <div class="mobile-toggle-row">
+                            <button class="mobile-toggle-btn attr-toggle" onclick="toggleDailySidebarMobile('missions')">Misiones
+                                Diarias</button>
+                        </div>
                     </div>
 
-                    <div class="section-box activity-alerts-box">
-                        <div class="section-header">
-                            <span class="section-title">Actividad en Curso</span>
-                            <span class="section-ornament"></span>
-                        </div>
-                        <br>
-                        <div id="activity-alerts-container" class="activity-alerts-container"></div>
-                    </div>
                 </div>
             </div>
 
