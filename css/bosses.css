@@ -255,49 +255,146 @@
             min-width: 100%;
         }
 
-        /* ===== IMÁGENES DE BOSSES - OCUPAN TODO EL ANCHO ===== */
-        
-        /* Contenedor de imagen en tarjetas de bosses - ocupa todo el ancho */
+        /* ===== IMÁGENES DE BOSSES - MISMO ESTILO QUE EVENTOS ===== */
+
+        /* Contenedor de imagen en tarjetas de bosses - IGUAL QUE EVENTOS */
         .boss-card .entity-image-block {
+            width: 100%;
+            max-height: 150px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 6px 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 8px -16px 12px -16px;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 0;
-            min-height: 80px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0;
+            border: none;
+            min-height: auto;
         }
 
-        /* Imagen dentro de tarjetas de bosses - ocupa todo el ancho */
+        /* Imagen dentro de tarjetas de bosses - IGUAL QUE EVENTOS */
         .boss-card .entity-image-block img,
         .boss-card .entity-image-block svg {
             width: 100%;
             height: auto;
-            max-height: 200px;
-            border-radius: 4px;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 6px;
             display: block;
-            object-fit: cover;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            animation: imageFadeIn 0.6s ease forwards;
             transition: transform 0.3s ease;
         }
 
+        /* Efecto hover - IGUAL QUE EVENTOS */
         .boss-card .entity-image-block img:hover,
         .boss-card .entity-image-block svg:hover {
             transform: scale(1.02);
         }
 
-        /* Si prefieres que se vea toda la imagen sin recortar */
-        .boss-card .entity-image-block img.contain,
-        .boss-card .entity-image-block svg.contain {
-            object-fit: contain;
+        /* Emoji en la tarjeta de boss */
+        .boss-card .entity-image-block .boss-emoji {
+            font-size: 5rem;
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(220, 38, 38, 0.2);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+            animation: imageFadeIn 0.6s ease forwards;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            padding: 0;
         }
 
-        /* Si la imagen es un emoji o texto grande */
-        .boss-card .entity-image-block .boss-emoji {
-            font-size: 4rem;
+        .boss-card .entity-image-block .boss-emoji:hover {
+            transform: scale(1.05) rotate(-3deg);
+        }
+
+        /* ===== IMÁGENES EN BESTIARIO - MISMO ESTILO QUE EVENTOS ===== */
+
+        /* Contenedor de imagen en bestiario - IGUAL QUE EVENTOS */
+        .bestiary-card .entity-image-block {
+            width: 100%;
+            max-height: 120px;
+            overflow: hidden;
+            border-radius: 6px;
+            margin: 4px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0;
+            border: none;
+            min-height: auto;
+        }
+
+        /* Imagen dentro de bestiario - IGUAL QUE EVENTOS */
+        .bestiary-card .entity-image-block img,
+        .bestiary-card .entity-image-block svg {
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+            border-radius: 4px;
+            display: block;
+            background: transparent;
+            padding: 0;
+            box-shadow: none;
+            animation: imageFadeIn 0.6s ease forwards;
+            transition: transform 0.3s ease;
+        }
+
+        .bestiary-card .entity-image-block img:hover,
+        .bestiary-card .entity-image-block svg:hover {
+            transform: scale(1.02);
+        }
+
+        /* Emoji en bestiario */
+        .bestiary-card .entity-image-block .boss-emoji {
+            font-size: 3.5rem;
             line-height: 1;
+            text-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+            animation: imageFadeIn 0.6s ease forwards;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            padding: 0;
+        }
+
+        .bestiary-card .entity-image-block .boss-emoji:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* ===== ANIMACIÓN DE ENTRADA PARA IMÁGENES ===== */
+        @keyframes imageFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ===== ESTILO ADICIONAL PARA BOSSES VENCIDOS ===== */
+        .boss-card.defeated .entity-image-block {
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        .boss-card.defeated .entity-image-block .boss-emoji {
+            text-shadow: 0 0 40px rgba(34, 197, 94, 0.2);
         }
 
         /* ===== BESTIARIO ===== */
@@ -318,6 +415,8 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .bestiary-card::before {
@@ -387,51 +486,19 @@
             padding: 20px 0;
         }
 
-        /* ===== IMÁGENES EN BESTIARIO - OCUPAN TODO EL ANCHO ===== */
-        
-        /* Contenedor de imagen en bestiario */
-        .bestiary-card .entity-image-block {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 6px -12px 8px -12px;
-            padding: 6px;
-            background: rgba(0, 0, 0, 0.15);
-            min-height: 60px;
-        }
-
-        /* Imagen dentro de bestiario */
-        .bestiary-card .entity-image-block img,
-        .bestiary-card .entity-image-block svg {
-            width: 100%;
-            height: auto;
-            max-height: 120px;
-            border-radius: 4px;
-            display: block;
-            object-fit: cover;
-        }
-
-        /* Emoji en bestiario */
-        .bestiary-card .entity-image-block .boss-emoji {
-            font-size: 3rem;
-            line-height: 1;
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .boss-card .entity-image-block {
-                margin: 6px -12px 10px -12px;
-                min-height: 60px;
+                max-height: 120px;
             }
             
             .boss-card .entity-image-block img,
             .boss-card .entity-image-block svg {
-                max-height: 150px;
+                max-height: 120px;
             }
             
             .bestiary-card .entity-image-block {
-                margin: 4px -8px 6px -8px;
-                min-height: 50px;
+                max-height: 80px;
             }
             
             .bestiary-card .entity-image-block img,
@@ -440,10 +507,16 @@
             }
 
             .boss-card .entity-image-block .boss-emoji {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
 
             .bestiary-card .entity-image-block .boss-emoji {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
+        }
+
+        /* ===== BLINK DANGER PARA OVERDUE ===== */
+        @keyframes blink-danger {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }

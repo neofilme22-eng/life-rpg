@@ -233,8 +233,7 @@
                                 html += `
                     <div class="bestiary-card">
                         <span class="bestiary-icon">${renderIconHTML(boss.icon, '👹')}</span>
-                        <div class="bestiary-name">${boss.name}</div>
-                        ${renderEntityImageBlock(boss.image, boss.icon, boss.name, 'small')}
+                        <div class="bestiary-name">${boss.name}</div>                        
                         <br>
                         <div class="bestiary-date">Derrotado el ${dateStr}</div>
                     </div>

@@ -309,7 +309,7 @@ function renderEventCards(container, events, type) {
         html += `
             <div class="event-card ${evt.status === 'active' ? 'active' : ''} ${evt.status === 'finished' ? 'finished' : ''}">
                 <div class="event-header">
-                    <span class="event-title">${icon} ${evt.title}</span>
+                    <span class="event-title">${evt.title}</span>
                     <span class="event-status-badge ${status.cls}">${status.text}</span>
                 </div>
                 ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
