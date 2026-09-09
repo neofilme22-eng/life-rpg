@@ -489,12 +489,15 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             .boss-card .entity-image-block {
-                max-height: 120px;
+                max-height: 150px;
             }
             
             .boss-card .entity-image-block img,
             .boss-card .entity-image-block svg {
-                max-height: 120px;
+                max-height: 150px;
+                height: auto;
+                width: 100%;
+                object-fit: contain;
             }
             
             .bestiary-card .entity-image-block {
