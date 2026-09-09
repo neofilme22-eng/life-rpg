@@ -511,7 +511,7 @@
 
     .boss-card {
         min-width: unset;
-        max-width: unset;
+        max-width: 280px;
         padding: 12px 10px;
     }
 
