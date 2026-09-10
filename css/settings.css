@@ -265,6 +265,74 @@
             display: none;
         }
 
+        /* ===== LISTA DE ARCHIVOS IMPORTADOS ===== */
+        .config-import-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 8px 0;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        .config-import-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+        }
+
+        .config-import-name {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.78rem;
+        }
+
+        .config-import-count {
+            color: var(--text-muted);
+            font-size: 0.72rem;
+        }
+
+        .config-import-remove {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.08);
+            color: var(--danger);
+            font-size: 0.7rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .config-import-remove:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: scale(1.1);
+        }
+
+        .config-import-empty {
+            color: var(--text-muted);
+            opacity: 0.6;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 0.72rem;
+            text-align: center;
+            padding: 6px 0;
+        }
+
         /* ===== FILTRO BAR ===== */
         .filter-bar {
             display: flex;

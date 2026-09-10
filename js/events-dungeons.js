@@ -307,7 +307,7 @@ function renderEventCards(container, events, type) {
         }
 
         html += `
-            <div class="event-card ${evt.status === 'active' ? 'active' : ''} ${evt.status === 'finished' ? 'finished' : ''}">
+            <div class="event-card ${evt.status === 'active' ? 'active' : ''} ${evt.status === 'finished' ? 'finished' : ''}" data-event-id="${evt.id}">
                 <div class="event-header">
                     <span class="event-title">${evt.title}</span>
                     <span class="event-status-badge ${status.cls}">${status.text}</span>
@@ -404,7 +404,7 @@ function renderDungeonCards(container, mazmorras) {
         } else if (evt.status === 'active') {
             var puedeFinalizar = !(player && player.gameOver);
             actionsHTML = `
-                <button class="finish-btn" onclick="finalizarMazmorra('${evt.id}')" ${!puedeFinalizar ? 'disabled' : ''}>
+                <button class="finish-btn" onclick="finalizarMazmorra(event, '${evt.id}')" ${!puedeFinalizar ? 'disabled' : ''}>
                     Finalizar
                 </button>
             `;
@@ -415,7 +415,7 @@ function renderDungeonCards(container, mazmorras) {
         }
 
         html += `
-            <div class="event-card ${evt.status === 'active' ? 'active' : ''} ${evt.status === 'finished' || evt.status === 'completed' ? 'finished' : ''}">
+            <div class="event-card ${evt.status === 'active' ? 'active' : ''} ${evt.status === 'finished' || evt.status === 'completed' ? 'finished' : ''}" data-event-id="${evt.id}">
                 <div class="event-header">
                     <span class="event-title">${icon} ${evt.title}</span>
                     <span class="event-status-badge ${status.cls}">${status.text}</span>
@@ -528,18 +528,34 @@ function toggleEventTask(eventId, taskIndex) {
     if (completadas === totalTareas && totalTareas > 0 && evt.status !== 'finished') {
         var bonusExp = Math.floor((evt.expReward || 20) * 0.5);
         var bonusGold = Math.floor((evt.goldReward || 10) * 0.5);
-        if (typeof gainRewards === 'function') {
-            gainRewards(evt.expReward + bonusExp, evt.goldReward + bonusGold, 'disciplina', 'event', '🎉 Evento "' + evt.title + '" completado', 'Todas las tareas completadas');
-        }
+        var totalExpPreview = evt.expReward + bonusExp;
+
         evt.status = 'finished';
         evt.finishedAt = Date.now();
         guardarEventos();
-        if (typeof showToast === 'function') {
-            showToast('🎉 ¡Todas las tareas completadas en "' + evt.title + '"!', 'success', 'Evento');
+
+        var evtCard = document.querySelector('.event-card[data-event-id="' + eventId + '"]');
+        var applyEventRewards = function () {
+            if (typeof gainRewards === 'function') {
+                gainRewards(evt.expReward + bonusExp, evt.goldReward + bonusGold, 'disciplina', 'event', '🎉 Evento "' + evt.title + '" completado', 'Todas las tareas completadas');
+            }
+            if (typeof showToast === 'function') {
+                showToast('🎉 ¡Todas las tareas completadas en "' + evt.title + '"!', 'success', 'Evento');
+            }
+            if (typeof checkAndUnlockTrophies === 'function') {
+                checkAndUnlockTrophies();
+            }
+            renderEvents();
+        };
+
+        if (evtCard && typeof triggerFxBurst === 'function') {
+            triggerFxBurst(evtCard, '+' + totalExpPreview + ' EXP', '#a855f7', { big: true });
+            setTimeout(applyEventRewards, 650);
+            return;
         }
-        if (typeof checkAndUnlockTrophies === 'function') {
-            checkAndUnlockTrophies();
-        }
+
+        applyEventRewards();
+        return;
     } else if (completadas > 0 && totalTareas > 0 && evt.status === 'active') {
         // ALGUNAS tareas completadas -> solo notificar progreso
         if (typeof showToast === 'function') {
@@ -652,7 +668,7 @@ function iniciarMazmorra(id) {
     }
 }
 
-function finalizarMazmorra(id) {
+function finalizarMazmorra(event, id) {
     if (player && player.gameOver) {
         if (typeof showToast === 'function') showToast('Estás en Game Over.', 'error', 'Error');
         return;
@@ -678,22 +694,32 @@ function finalizarMazmorra(id) {
         var expGain = Math.floor((evt.expReward || 20) * (0.5 + 0.5 * porcentaje));
         var goldGain = Math.floor((evt.goldReward || 10) * (0.5 + 0.5 * porcentaje));
 
-        if (typeof gainRewards === 'function') {
-            gainRewards(expGain, goldGain, 'social', 'dungeon', '🏰 Mazmorra "' + evt.title + '" completada', completadas + '/' + total + ' tareas');
-        }
+        var applyDungeonReward = function () {
+            if (typeof gainRewards === 'function') {
+                gainRewards(expGain, goldGain, 'social', 'dungeon', '🏰 Mazmorra "' + evt.title + '" completada', completadas + '/' + total + ' tareas');
+            }
 
-        evt.status = 'completed';
-        evt.finishedAt = Date.now();
-        evt.completedDate = new Date().toDateString();
+            evt.status = 'completed';
+            evt.finishedAt = Date.now();
+            evt.completedDate = new Date().toDateString();
 
-        guardarEventos();
-        renderEvents();
+            guardarEventos();
+            renderEvents();
 
-        if (typeof showToast === 'function') {
-            showToast('🏰 ¡Mazmorra "' + evt.title + '" completada! +' + expGain + ' EXP, +' + goldGain + ' ORO', 'success', 'Mazmorra');
-        }
-        if (typeof checkAndUnlockTrophies === 'function') {
-            checkAndUnlockTrophies();
+            if (typeof showToast === 'function') {
+                showToast('🏰 ¡Mazmorra "' + evt.title + '" completada! +' + expGain + ' EXP, +' + goldGain + ' ORO', 'success', 'Mazmorra');
+            }
+            if (typeof checkAndUnlockTrophies === 'function') {
+                checkAndUnlockTrophies();
+            }
+        };
+
+        var card = event && event.currentTarget ? event.currentTarget.closest('.event-card') : document.querySelector('.event-card[data-event-id="' + id + '"]');
+        if (card && typeof triggerFxBurst === 'function') {
+            triggerFxBurst(card, '+' + expGain + ' EXP', '#f59e0b', { big: true });
+            setTimeout(applyDungeonReward, 650);
+        } else {
+            applyDungeonReward();
         }
     } else {
         // No hay recompensas si no se completó ninguna tarea
@@ -778,94 +804,6 @@ function renovarEventosPeriodicos() {
         window.ultimaFechaRenovacion = hoy;
         window.eventosRenovadosHoy = true;
         console.log('🔄 Eventos periódicos reiniciados');
-    }
-}
-
-// ============================================================
-// ===== CREAR EVENTO DESDE CONFIGURACIÓN =====
-// ============================================================
-
-function createEventFromConfig() {
-    if (player && player.gameOver) {
-        if (typeof showToast === 'function') showToast('Estás en Game Over.', 'error', 'Error');
-        return;
-    }
-
-    var titleInput = document.getElementById('config-event-title');
-    var typeSelect = document.getElementById('config-event-type');
-    var periodSelect = document.getElementById('config-event-period');
-    var startInput = document.getElementById('config-event-start');
-    var durationInput = document.getElementById('config-event-duration');
-    var levelInput = document.getElementById('config-event-level');
-    var tasksInput = document.getElementById('config-event-tasks');
-    var iconInput = document.getElementById('config-event-icon');
-    var imageInput = document.getElementById('config-event-image');
-
-    var title = titleInput ? titleInput.value.trim() : '';
-    var type = typeSelect ? typeSelect.value : 'event';
-    var period = periodSelect ? periodSelect.value : 'once';
-    var start = startInput ? startInput.value : null;
-    var duration = parseInt(durationInput ? durationInput.value : 3) || 3;
-    var levelRequired = parseInt(levelInput ? levelInput.value : 1) || 1;
-    var tasksRaw = tasksInput ? tasksInput.value.trim() : '';
-    var customIcon = (iconInput ? iconInput.value.trim() : '') || '';
-    var customImage = (imageInput ? imageInput.value.trim() : '') || null;
-
-    if (!title) {
-        if (typeof showToast === 'function') showToast('Ingresa un nombre.', 'warning', 'Error');
-        return;
-    }
-
-    if (type === 'event' && !start) {
-        if (typeof showToast === 'function') showToast('Selecciona una fecha para el evento.', 'warning', 'Error');
-        return;
-    }
-
-    var tasks = tasksRaw ? tasksRaw.split(',').map(function (t) { return t.trim(); }).filter(function (t) { return t; }) : [];
-
-    var newEvent = {
-        id: 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-        title: title,
-        type: type,
-        icon: customIcon || null,
-        image: customImage,
-        start: start,
-        duration: duration,
-        levelRequired: levelRequired,
-        tasks: tasks,
-        taskStatus: tasks.map(function () { return false; }),
-        status: 'pending',
-        startedAt: null,
-        finishedAt: null,
-        completedDate: null,
-        endTime: null,
-        createdAt: Date.now(),
-        expReward: Math.floor(duration * 2) + 5 + Math.floor(levelRequired / 2),
-        goldReward: Math.floor(duration * 1.5) + 3 + Math.floor(levelRequired / 3),
-        period: period
-    };
-
-    window.eventosCache.push(newEvent);
-    guardarEventos();
-    renderEvents();
-
-    if (titleInput) titleInput.value = '';
-    if (startInput) startInput.value = '';
-    if (durationInput) durationInput.value = '3';
-    if (levelInput) levelInput.value = '1';
-    if (tasksInput) tasksInput.value = '';
-    if (iconInput) iconInput.value = '';
-    if (imageInput) imageInput.value = '';
-
-    var periodoTexto = {
-        'once': 'Una vez',
-        'daily': 'Diario',
-        'weekly': 'Semanal',
-        'monthly': 'Mensual'
-    };
-
-    if (typeof showToast === 'function') {
-        showToast('✅ ' + (type === 'event' ? 'Evento' : 'Mazmorra') + ' "' + title + '" creado. Periodicidad: ' + (periodoTexto[period] || 'Una vez'), 'success', 'Aventura');
     }
 }
 
@@ -978,11 +916,35 @@ function clearAllEvents() {
                 window.eventosCache = [];
                 guardarEventos();
                 renderEvents();
+                if (typeof renderEventImportList === 'function') renderEventImportList();
                 if (typeof showToast === 'function') showToast('🗑️ Todos los eventos eliminados.', 'info', 'Eventos');
             },
             true
         );
     }
+}
+
+// Agrupa eventos/mazmorras por paquete importado (packId), con
+// compatibilidad hacia atrás para eventos antiguos sin packId.
+function renderEventImportList() {
+    var packs = {};
+    (window.eventosCache || []).forEach(function (e) {
+        var pid = e.packId || 'legacy_events';
+        if (!packs[pid]) packs[pid] = { id: pid, name: e.packName || 'Aventuras', count: 0 };
+        packs[pid].count++;
+    });
+    renderImportPackList('events-import-list', Object.keys(packs).map(function (k) { return packs[k]; }), deleteEventPack);
+}
+
+function deleteEventPack(packId) {
+    window.eventosCache = (window.eventosCache || []).filter(function (e) {
+        var pid = e.packId || 'legacy_events';
+        return pid !== packId;
+    });
+    guardarEventos();
+    renderEvents();
+    renderEventImportList();
+    if (typeof showToast === 'function') showToast('🗺️ Paquete de aventuras eliminado.', 'info', 'Aventuras');
 }
 
 function importEventsConfig(event) {
@@ -1005,10 +967,14 @@ function importEventsConfig(event) {
             }
 
             var count = 0;
+            var packId = 'epack_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+            var packName = file.name.replace(/\.json$/i, '');
             imported.forEach(function (s) {
                 var tasks = s.tasks || [];
                 var newEvent = {
                     id: 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+                    packId: packId,
+                    packName: packName,
                     title: s.title || 'Evento sin nombre',
                     type: s.type || 'event',
                     icon: s.icon || null,
@@ -1034,6 +1000,7 @@ function importEventsConfig(event) {
 
             guardarEventos();
             renderEvents();
+            renderEventImportList();
             if (typeof showToast === 'function') {
                 showToast('📂 ¡' + count + ' eventos importados!', 'success', 'Importar');
             }

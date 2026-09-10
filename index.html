@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/hud.css">
     <link rel="stylesheet" href="css/runes.css">
+    <link rel="stylesheet" href="css/effects.css">
     <link rel="stylesheet" href="css/missions.css">
     <link rel="stylesheet" href="css/heatmap.css">
     <link rel="stylesheet" href="css/sanctuary.css">
@@ -722,32 +723,7 @@
                             📂 Seleccionar archivo JSON de runas
                             <input type="file" id="rune-file-config" accept=".json" onchange="importRunesConfig(event)">
                         </div>
-                        <div style="display:flex; gap:6px; margin:6px 0;">
-                            <input type="text" id="rune-create-title" placeholder="Título de la runa..."
-                                style="flex:1; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text-muted); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <select id="rune-create-attr"
-                                style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text-muted); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                                <option value="disciplina">🛡️ Disciplina</option>
-                                <option value="fuerza">⚔️ Fuerza</option>
-                                <option value="mente">🧠 Mente</option>
-                                <option value="creatividad">🎨 Creatividad</option>
-                                <option value="carrera">💼 Carrera</option>
-                                <option value="finanzas">💰 Finanzas</option>
-                                <option value="social">👥 Social</option>
-                                <option value="relaciones">❤️ Relaciones</option>
-                            </select>
-                        </div>
-                        <div style="display:flex; gap:6px; margin-bottom:6px;">
-                            <input type="number" id="rune-create-exp" placeholder="EXP"
-                                style="width:80px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="number" id="rune-create-gold" placeholder="ORO"
-                                style="width:80px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="text" id="rune-create-icon" placeholder="Ícono" value="💠"
-                                style="width:60px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <button class="action-btn success" onclick="createRune()"
-                                style="padding:6px 12px; border:1px solid rgba(34,197,94,0.15); border-radius:6px; background:rgba(34,197,94,0.08); color:var(--success); cursor:pointer; font-family:'Georgia','Times New Roman',serif; font-size:0.75rem;">➕
-                                Crear</button>
-                        </div>
+                        <div class="config-import-list" id="rune-import-list"></div>
                         <div class="config-actions">
                             <button class="action-btn danger" onclick="clearAllRunes()">🗑️ Eliminar Todas</button>
                         </div>
@@ -760,23 +736,8 @@
                             📂 Seleccionar archivo JSON de DLC
                             <input type="file" id="dlc-file-config" accept=".json" onchange="importDLCConfig(event)">
                         </div>
-                        <div style="display:flex; gap:6px; margin:6px 0;">
-                            <input type="text" id="dlc-create-name" placeholder="Nombre del DLC..."
-                                style="flex:1; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        </div>
-                        <textarea id="dlc-create-missions"
-                            placeholder="Misiones (1 por línea: Título, tipo, atributo, EXP, ORO)&#10;Ej: Misión 1, main, disciplina, 15, 8&#10;Misión 2, secondary, social, 10, 5"
-                            style="width:100%; min-height:90px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem; resize:vertical;"></textarea>
-                        <div style="display:flex; gap:6px; margin:4px 0;">
-                            <input type="text" id="dlc-create-trophy-icon" placeholder="Ícono trofeo" value="🏆"
-                                style="width:60px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="text" id="dlc-create-trophy-name" placeholder="Nombre trofeo"
-                                style="flex:1; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        </div>
+                        <div class="config-import-list" id="dlc-import-list"></div>
                         <div class="config-actions">
-                            <button class="action-btn success" onclick="createDLC()"
-                                style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success);">📦
-                                Crear DLC</button>
                             <button class="action-btn danger" onclick="clearAllDLCs()">🗑️ Eliminar Todos</button>
                         </div>
                     </div>
@@ -789,40 +750,8 @@
                             <input type="file" id="events-file-config" accept=".json"
                                 onchange="importEventsConfig(event)">
                         </div>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
-                            <input type="text" id="config-event-title" placeholder="Nombre..."
-                                style="flex:1; min-width:100px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <select id="config-event-type"
-                                style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                                <option value="event">⚡ Evento</option>
-                                <option value="dungeon">🏰 Mazmorra</option>
-                            </select>
-                            <select id="config-event-period"
-                                style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                                <option value="once">📌 Una vez</option>
-                                <option value="daily">📅 Diario</option>
-                                <option value="weekly">📅 Semanal</option>
-                                <option value="monthly">📅 Mensual</option>
-                            </select>
-                        </div>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                            <input type="datetime-local" id="config-event-start"
-                                style="flex:1; min-width:120px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="number" id="config-event-duration" placeholder="Hs" min="1" max="720"
-                                style="width:70px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="number" id="config-event-level" placeholder="Nivel req." min="1" max="100"
-                                style="width:70px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        </div>
-                        <input type="text" id="config-event-tasks" placeholder="Tareas (separadas por coma)..."
-                            style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        <input type="text" id="config-event-icon" placeholder="Ícono (emoji o URL de imagen, opcional)"
-                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        <input type="text" id="config-event-image" placeholder="URL de foto grande (opcional)"
-                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        <div class="config-actions" style="margin-top:6px;">
-                            <button class="action-btn success" onclick="createEventFromConfig()"
-                                style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success); padding:6px 16px;">➕
-                                Crear Aventura</button>
+                        <div class="config-import-list" id="events-import-list"></div>
+                        <div class="config-actions">
                             <button class="action-btn danger" onclick="clearAllEvents()"
                                 style="border-color:rgba(239,68,68,0.15); background:rgba(239,68,68,0.08); color:var(--danger); padding:6px 16px;">🗑️
                                 Eliminar Todas</button>
@@ -837,75 +766,9 @@
                             <input type="file" id="boss-file-config" accept=".json"
                                 onchange="importBossesConfig(event)">
                         </div>
-                        <div style="display:flex; gap:6px; margin:6px 0; flex-wrap:wrap;">
-                            <input type="text" id="boss-create-name" placeholder="Nombre del boss..."
-                                style="flex:1; min-width:100px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="text" id="boss-create-icon" placeholder="Ícono" value="👹"
-                                style="width:50px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        </div>
-                        <div style="display:flex; gap:6px; margin:6px 0; flex-wrap:wrap;">
-                            <input type="number" id="boss-create-exp" placeholder="EXP"
-                                style="width:60px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="number" id="boss-create-gold" placeholder="ORO"
-                                style="width:60px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="date" id="boss-create-deadline"
-                                style="flex:1; min-width:120px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem; color-scheme:dark;">
-                        </div>
-                        <input type="text" id="boss-create-tasks" placeholder="Tareas (separadas por coma)..."
-                            style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        <input type="text" id="boss-create-image" placeholder="URL de imagen (opcional)..."
-                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        <div class="config-actions" style="margin-top:6px;">
-                            <button class="action-btn success" onclick="createBoss()"
-                                style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success);">👹
-                                Invocar Boss</button>
+                        <div class="config-import-list" id="boss-import-list"></div>
+                        <div class="config-actions">
                             <button class="action-btn danger" onclick="resetBosses()">🗑️ Eliminar Todos</button>
-                        </div>
-                    </div>
-
-                    <div class="config-card">
-                        <div class="config-title">Tienda</div>
-                        <br>
-                        <div class="config-file-input" onclick="document.getElementById('shop-file-config').click()">
-                            📂 Seleccionar archivo JSON de tienda
-                            <input type="file" id="shop-file-config" accept=".json" onchange="importShopConfig(event)">
-                        </div>
-                        <div style="display:flex; gap:6px; margin:6px 0; flex-wrap:wrap;">
-                            <input type="text" id="shop-create-name" placeholder="Nombre del item..."
-                                style="flex:1; min-width:100px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                            <input type="number" id="shop-create-price" placeholder="Precio"
-                                style="width:60px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        </div>
-                        <div style="display:flex; gap:6px; margin:6px 0; flex-wrap:wrap;">
-                            <select id="shop-create-category"
-                                style="flex:1; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                                <option value="upgrade">🎮 Mejora</option>
-                                <option value="real">🎁 Recompensa Real</option>
-                                <option value="consumable">🧪 Consumible</option>
-                                <option value="pet">🐾 Mascota</option>
-                            </select>
-                            <select id="shop-create-effect"
-                                style="flex:1; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                                <option value="exp_boost">⚡ EXP Boost (+5)</option>
-                                <option value="gold_boost">🟡 ORO Boost (+5)</option>
-                                <option value="rune_bonus">💠 Runa Bonus (+3)</option>
-                                <option value="heal">❤️ Curar HP (+50)</option>
-                                <option value="attr_point">⭐ Punto de Atributo</option>
-                                <option value="real_reward">🎁 Recompensa Real</option>
-                                <option value="pet_item">🐾 Mascota</option>
-                            </select>
-                            <input type="number" id="shop-create-effect-value" placeholder="Valor"
-                                style="width:60px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        </div>
-                        <input type="text" id="shop-create-desc" placeholder="Descripción..."
-                            style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        <input type="text" id="shop-create-icon" placeholder="Ícono (emoji o URL de imagen, opcional)"
-                            style="width:100%; margin-top:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.8rem;">
-                        <div class="config-actions" style="margin-top:6px;">
-                            <button class="action-btn success" onclick="createShopItem()"
-                                style="border-color:rgba(34,197,94,0.15); background:rgba(34,197,94,0.08); color:var(--success);">🛒
-                                Crear Item</button>
-                            <button class="action-btn danger" onclick="resetShopItems()">🗑️ Resetear Tienda</button>
                         </div>
                     </div>
 

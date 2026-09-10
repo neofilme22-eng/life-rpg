@@ -56,8 +56,7 @@ function completeRune(id) {
     rune.streak = (rune.streak || 0) + 1;
 
     var bonus = player.runeBonus || 0;
-    var mult = getDifficultyMultipliers();
-    var totalExpReward = Math.floor((rune.expReward + bonus) * mult.runeExp);
+    var totalExpReward = rune.expReward + bonus;
 
     rune.totalExp = (rune.totalExp || 0) + totalExpReward;
 
@@ -126,7 +125,7 @@ function handleRuneClick(event, runeId) {
     // Calcular EXP antes de canalizar (para la animación)
     var bonus = player.runeBonus || 0;
     var mult = getDifficultyMultipliers();
-    var expReward = Math.floor((rune.expReward + bonus) * mult.runeExp);
+    var expReward = Math.floor((rune.expReward + bonus) * mult.exp);
     
     // Disparar animación
     triggerRuneChannelAnimation(card, expReward);

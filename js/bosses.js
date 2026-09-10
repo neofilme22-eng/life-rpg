@@ -11,11 +11,21 @@
                             if (!boss || boss.defeated) return;
 
                             boss.taskStatus[taskIndex] = !boss.taskStatus[taskIndex];
+                            var willDefeat = boss.taskStatus.every(function (status) { return status === true; });
+
                             renderBosses();
                             saveGame();
 
-                            if (boss.taskStatus.every(function (status) { return status === true; })) {
-                                defeatBoss(bossId);
+                            if (willDefeat) {
+                                var card = document.querySelector('.boss-card[data-boss-id="' + bossId + '"]');
+                                if (card && typeof triggerFxBurst === 'function') {
+                                    var mult = getDifficultyMultipliers();
+                                    var expPreview = Math.floor(boss.expReward * mult.exp);
+                                    triggerFxBurst(card, '+' + expPreview + ' EXP', '#dc2626', { big: true });
+                                    setTimeout(function () { defeatBoss(bossId); }, 650);
+                                } else {
+                                    defeatBoss(bossId);
+                                }
                             }
                         }
 
@@ -112,6 +122,7 @@
 
                                 var card = document.createElement('div');
                                 card.className = 'boss-card' + (isOverdue ? ' overdue' : '');
+                                card.dataset.bossId = boss.id;
 
                                 var deadlineHTML = '';
                                 if (boss.deadline) {
@@ -202,6 +213,7 @@
                                     saveGame();
                                     renderBosses();
                                     renderBestiary();
+                                    if (typeof renderBossImportList === 'function') renderBossImportList();
                                     showToast('👹 Todos los bosses han sido eliminados.', 'info', 'Bosses');
                                 },
                                 true

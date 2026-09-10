@@ -61,6 +61,32 @@
                     showToast('🎲 Misiones actualizadas!', 'info', 'Re-roll');
                 }
 
+                function handleMissionCardClick(event, id) {
+                    if (player.gameOver) {
+                        completeMission(id);
+                        return;
+                    }
+
+                    var mission = player.rawMissions.find(function (m) { return m.id === id; });
+                    if (!mission || mission.completed) {
+                        completeMission(id);
+                        return;
+                    }
+
+                    var card = event.currentTarget.closest('.mission-card');
+                    var mult = getDifficultyMultipliers();
+                    var expBoost = player.expBoost || 0;
+                    var totalExp = Math.floor((mission.expReward + expBoost) * mult.exp);
+                    var color = mission.type === 'main' ? '#a855f7' : '#38bdf8';
+
+                    if (card && typeof triggerFxBurst === 'function') {
+                        triggerFxBurst(card, '+' + totalExp + ' EXP', color);
+                        setTimeout(function () { completeMission(id); }, 400);
+                    } else {
+                        completeMission(id);
+                    }
+                }
+
                 function completeMission(id) {
                     if (player.gameOver) {
                         showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
@@ -172,7 +198,7 @@
                         <div class="mission-attr-display">${attrNames[m.attr] || m.attr}</div>
                         <div class="mission-footer">
                             <span class="mission-reward">+${Math.floor((m.expReward + expBoost) * mult.exp)} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
-                            <button class="mission-complete-btn" onclick="completeMission('${m.id}')" ${player.gameOver ? 'disabled' : ''}>Completar</button>
+                            <button class="mission-complete-btn" onclick="handleMissionCardClick(event, '${m.id}')" ${player.gameOver ? 'disabled' : ''}>Completar</button>
                         </div>
                     </div>
                 `;

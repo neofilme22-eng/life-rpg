@@ -44,6 +44,16 @@
                                     console.log("✅ Renderizado inicial forzado completado");
                                 }
 
+                                // ===== LISTAS DE ARCHIVOS IMPORTADOS EN CONFIGURACIÓN =====
+                                // ============================================================
+
+                                function renderAllConfigImportLists() {
+                                    if (typeof renderRuneImportList === 'function') renderRuneImportList();
+                                    if (typeof renderDLCImportList === 'function') renderDLCImportList();
+                                    if (typeof renderEventImportList === 'function') renderEventImportList();
+                                    if (typeof renderBossImportList === 'function') renderBossImportList();
+                                }
+
                                 // ============================================================
                                 // ===== EVENTO DE CARGA =====
                                 // ============================================================
@@ -106,6 +116,10 @@
                                     }, 200);
 
                                     setTimeout(function () {
+                                        renderAllConfigImportLists();
+                                    }, 250);
+
+                                    setTimeout(function () {
                                         checkAndUnlockTrophies();
                                         checkStoryUnlocks();
                                     }, 500);
@@ -143,6 +157,11 @@
                                         setTimeout(function () {
                                             renderBosses();
                                             renderBestiary();
+                                        }, 50);
+                                    }
+                                    if (tabId === 'tab-config') {
+                                        setTimeout(function () {
+                                            renderAllConfigImportLists();
                                         }, 50);
                                     }
                                 };

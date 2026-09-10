@@ -88,6 +88,32 @@
                     showToast(msg, 'success', 'Misión Diaria');
                 }
 
+                function handleDailyMissionClick(event, id) {
+                    if (player.gameOver) {
+                        completeDailyMission(id);
+                        return;
+                    }
+
+                    var missions = loadDailyMissions();
+                    var mission = missions.find(function (m) { return m.id === id; });
+                    if (!mission || mission.completed || isMissionOverdue(mission)) {
+                        completeDailyMission(id);
+                        return;
+                    }
+
+                    var card = event.currentTarget.closest('.daily-mission-card');
+                    var mult = getDifficultyMultipliers();
+                    var expBoost = player.expBoost || 0;
+                    var totalExp = Math.floor((8 + expBoost) * mult.exp);
+
+                    if (card && typeof triggerFxBurst === 'function') {
+                        triggerFxBurst(card, '+' + totalExp + ' EXP', '#fbbf24');
+                        setTimeout(function () { completeDailyMission(id); }, 400);
+                    } else {
+                        completeDailyMission(id);
+                    }
+                }
+
                 function completeDailyMission(id) {
                     if (player.gameOver) {
                         showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
@@ -260,7 +286,7 @@
                         <span class="daily-status ${statusClass}" style="font-size:0.65rem; font-weight:bold; padding:2px 12px; border-radius:12px; display:inline-block; margin-top:4px; font-family:'Georgia','Times New Roman',serif; align-self:flex-start;">${statusText}</span>
                         <div class="mission-footer" style="display:flex; justify-content:space-between; align-items:center; padding-top:8px; margin-top:8px; border-top:1px solid rgba(255,255,255,0.04);">
                             <span class="mission-reward" style="font-size:0.85rem; color:var(--success); font-weight:bold; font-family:'Georgia','Times New Roman',serif;">+${totalExp} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
-                            ${!isCompleted && !overdue ? `<button class="complete-btn" onclick="completeDailyMission('${safeId}')" style="padding:6px 16px; border-radius:6px; cursor:pointer; font-size:0.8rem; transition:all 0.2s; font-family:'Georgia','Times New Roman',serif; font-weight:bold; background:linear-gradient(145deg, #d97706, #fbbf24); color:#0f172a; border:1px solid rgba(251,191,36,0.3);">Completar</button>` : ''}
+                            ${!isCompleted && !overdue ? `<button class="complete-btn" onclick="handleDailyMissionClick(event, '${safeId}')" style="padding:6px 16px; border-radius:6px; cursor:pointer; font-size:0.8rem; transition:all 0.2s; font-family:'Georgia','Times New Roman',serif; font-weight:bold; background:linear-gradient(145deg, #d97706, #fbbf24); color:#0f172a; border:1px solid rgba(251,191,36,0.3);">Completar</button>` : ''}
                         </div>
                     </div>
                 `;
