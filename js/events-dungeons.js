@@ -1024,16 +1024,3 @@ function renderEntityImageBlock(image, icon, title) {
     return '';
 }
 
-// ============================================================
-// ===== FUNCIÓN DE ICONO (helper) =====
-// ============================================================
-
-function renderIconHTML(icon, defaultIcon) {
-    if (icon) {
-        if (icon.startsWith('http') || icon.startsWith('data:')) {
-            return '<img src="' + icon + '" style="width:20px;height:20px;object-fit:contain;display:inline-block;vertical-align:middle;border-radius:4px;">';
-        }
-        return icon;
-    }
-    return defaultIcon;
-}

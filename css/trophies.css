@@ -122,10 +122,12 @@
         /* Ícono de trofeo importado por URL: se ve más chico que un emoji
            al mismo font-size, así que lo agrandamos para que se perciba igual de grande */
         .trophy-icon .custom-icon-img {
-            width: 1.4em;
-            height: 1.4em;
+            width: 50px;
+            height: 50px;
             border-radius: 10px;
         }
+
+        
 
         .trophy-name {
             font-weight: bold;
