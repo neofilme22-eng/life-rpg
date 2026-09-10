@@ -80,7 +80,7 @@
                                             saveGame();
                                             renderTrophies();
 
-                                            showToast('🚀 ¡DLC "' + dlcName + '" instalado con éxito! 🏆 Trofeo: ' + trophyIcon + ' ' + trophyName, 'success', 'DLC');
+                                            showToast('🚀 ¡DLC "' + dlcName + '" instalado con éxito! 🏆 Trofeo: ' + trophyName, 'success', 'DLC');
 
                                             setTimeout(function () {
                                                 checkDLCCompletion(dlcName);
