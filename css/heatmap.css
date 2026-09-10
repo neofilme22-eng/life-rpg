@@ -23,7 +23,7 @@
 }
 
 /* ============================================================ */
-/* ===== HEATMAP ESTILO GITHUB ===== */
+/* ===== HEATMAP ESTILO GITHUB — GAMA DORADA ===== */
 /* ============================================================ */
 
 .heatmap-container {
@@ -66,6 +66,10 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.04);
     box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .heatmap-cell.level-empty {
@@ -73,22 +77,24 @@
     border-color: transparent;
 }
 
+/* ===== GRADIENTE DORADO ===== */
 .heatmap-cell.level-0 {
     background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.04);
 }
 
 .heatmap-cell.level-1 {
-    background: rgba(217, 119, 6, 0.35);
-    border-color: rgba(217, 119, 6, 0.4);
+    background: rgba(217, 119, 6, 0.30);
+    border-color: rgba(217, 119, 6, 0.35);
 }
 
 .heatmap-cell.level-2 {
-    background: rgba(217, 119, 6, 0.6);
+    background: rgba(217, 119, 6, 0.60);
     border-color: rgba(217, 119, 6, 0.65);
 }
 
 .heatmap-cell.level-3 {
-    background: rgba(251, 191, 36, 0.8);
+    background: rgba(251, 191, 36, 0.80);
     border-color: rgba(251, 191, 36, 0.85);
 }
 
@@ -102,6 +108,26 @@
     box-shadow: 0 0 0 1px var(--primary, #38bdf8);
 }
 
+/* ===== SÍMBOLOS DE BOSS ===== */
+.heatmap-cell.has-boss-kill::after {
+    content: '⭐';
+    font-size: 12px;
+    line-height: 1;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 1);
+    filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.7));
+    pointer-events: none;
+}
+
+.heatmap-cell.has-boss-lost::after {
+    content: '💀';
+    font-size: 12px;
+    line-height: 1;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 1);
+    filter: drop-shadow(0 0 2px rgba(220, 38, 38, 0.7));
+    pointer-events: none;
+}
+
+/* ===== LEYENDA ===== */
 .heatmap-legend {
     display: flex;
     align-items: center;
@@ -115,6 +141,11 @@
 .heatmap-legend .heatmap-cell {
     width: 10px;
     height: 10px;
+}
+
+.heatmap-legend .heatmap-cell.has-boss-kill::after,
+.heatmap-legend .heatmap-cell.has-boss-lost::after {
+    font-size: 8px;
 }
 
 /* ============================================================ */
@@ -233,6 +264,11 @@
         height: 20px;
     }
 
+    .heatmap-cell.has-boss-kill::after,
+    .heatmap-cell.has-boss-lost::after {
+        font-size: 11px;
+    }
+
     .heatmap-month-label {
         flex-basis: 20px;
     }
@@ -262,6 +298,11 @@
     .heatmap-cell {
         width: 20px;
         height: 20px;
+    }
+
+    .heatmap-cell.has-boss-kill::after,
+    .heatmap-cell.has-boss-lost::after {
+        font-size: 10px;
     }
 
     .heatmap-month-label {

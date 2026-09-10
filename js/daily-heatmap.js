@@ -4,9 +4,18 @@
 // Se apoya en player.logbook (historial permanente de acciones)
 // para el heatmap, y en window.eventosCache / player.bosses para
 // el panel de eventos, mazmorras y bosses cercanos.
+//
+// HEATMAP: cuenta volumen total de acciones por día.
+//   Tipos contados: daily, mission, rune, dungeon, event, boss
+//   Bosses:
+//     - ⭐ derrotado (título contiene "derrotado")
+//     - 💀 vencido  (título contiene "vencido") — prioridad sobre ⭐
 // ============================================================
 
 var HEATMAP_WEEKS = 13;
+
+// Tipos de entrada del logbook que suman al volumen del heatmap.
+var HEATMAP_COUNTED_TYPES = ['daily', 'mission', 'rune', 'dungeon', 'event', 'boss'];
 
 function hmPad2(n) {
     return n < 10 ? '0' + n : '' + n;
@@ -34,15 +43,32 @@ function hmMondayOf(d) {
 // ===== DATOS DEL HEATMAP =====
 // ============================================================
 
-function getDailyCompletionMap() {
+// Devuelve { 'YYYY-MM-DD': { total, byType, boss } }
+// boss puede ser 'kill' (⭐), 'lost' (💀) o null.
+function getDailyBreakdownMap() {
     var map = {};
     if (!player || !player.logbook) return map;
 
     player.logbook.forEach(function (day) {
         (day.entries || []).forEach(function (entry) {
-            if (entry.type === 'daily' && entry.timestamp) {
-                var key = hmDateKey(new Date(entry.timestamp));
-                map[key] = (map[key] || 0) + 1;
+            if (!entry || !entry.timestamp || !entry.type) return;
+            if (HEATMAP_COUNTED_TYPES.indexOf(entry.type) === -1) return;
+
+            var key = hmDateKey(new Date(entry.timestamp));
+            if (!map[key]) {
+                map[key] = { total: 0, byType: {}, boss: null };
+            }
+
+            map[key].total += 1;
+            map[key].byType[entry.type] = (map[key].byType[entry.type] || 0) + 1;
+
+            if (entry.type === 'boss' && entry.title) {
+                var t = entry.title.toLowerCase();
+                if (t.indexOf('vencido') !== -1) {
+                    map[key].boss = 'lost';
+                } else if (t.indexOf('derrotado') !== -1) {
+                    if (map[key].boss !== 'lost') map[key].boss = 'kill';
+                }
             }
         });
     });
@@ -50,12 +76,66 @@ function getDailyCompletionMap() {
     return map;
 }
 
+// Cuenta volumen y asigna nivel de color (0-4).
+// Umbrales calibrados para ritmo de 0-2 acciones/día.
 function heatmapLevel(count) {
     if (!count) return 0;
-    if (count === 1) return 1;
-    if (count === 2) return 2;
-    if (count === 3) return 3;
+    if (count <= 2) return 1;
+    if (count <= 4) return 2;
+    if (count <= 6) return 3;
     return 4;
+}
+
+// Etiqueta legible por tipo (para el tooltip).
+var HEATMAP_TYPE_LABELS = {
+    daily: 'diaria',
+    mission: 'misión',
+    rune: 'runa',
+    dungeon: 'mazmorra',
+    event: 'evento',
+    boss: 'boss'
+};
+
+function heatmapTypePlural(type, count) {
+    var label = HEATMAP_TYPE_LABELS[type] || type;
+    if (count === 1) return label;
+    if (label === 'misión') return 'misiones';
+    if (label === 'runa') return 'runas';
+    if (label === 'mazmorra') return 'mazmorras';
+    if (label === 'evento') return 'eventos';
+    if (label === 'boss') return 'bosses';
+    if (label === 'diaria') return 'diarias';
+    return label;
+}
+
+function buildHeatmapTooltip(date, data) {
+    var dateFormatted = date.toLocaleDateString('es-ES', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+
+    if (!data || data.total === 0) {
+        return 'Sin actividad el ' + dateFormatted;
+    }
+
+    var parts = [];
+    parts.push('📊 ' + data.total + ' acción' + (data.total === 1 ? '' : 'es') + ' el ' + dateFormatted);
+
+    var details = [];
+    Object.keys(data.byType).forEach(function (type) {
+        var count = data.byType[type];
+        details.push(count + ' ' + heatmapTypePlural(type, count));
+    });
+    if (details.length > 0) {
+        parts.push('· ' + details.join(' · '));
+    }
+
+    if (data.boss === 'kill') {
+        parts.push('· ⭐ Boss derrotado');
+    } else if (data.boss === 'lost') {
+        parts.push('· 💀 Boss fallido');
+    }
+
+    return parts.join(' ');
 }
 
 function renderDailyHeatmap() {
@@ -64,7 +144,7 @@ function renderDailyHeatmap() {
 
     var today = hmStartOfDay(new Date());
     var todayKey = hmDateKey(today);
-    var counts = getDailyCompletionMap();
+    var breakdown = getDailyBreakdownMap();
     var thisMonday = hmMondayOf(today);
 
     var cols = [];
@@ -100,15 +180,23 @@ function renderDailyHeatmap() {
                 gridHtml += '<div class="heatmap-cell level-empty"></div>';
                 return;
             }
+
             var key = hmDateKey(date);
-            var count = counts[key] || 0;
-            var level = heatmapLevel(count);
-            var dateFormatted = date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            var label = count === 0
-                ? 'Sin misiones completadas el ' + dateFormatted
-                : (count + ' misión' + (count === 1 ? '' : 'es') + ' completada' + (count === 1 ? '' : 's') + ' el ' + dateFormatted);
+            var data = breakdown[key] || { total: 0, byType: {}, boss: null };
+            var level = heatmapLevel(data.total);
+            var tooltip = buildHeatmapTooltip(date, data);
+
+            var extraClass = '';
+            if (data.boss === 'lost') {
+                extraClass = ' has-boss-lost';
+            } else if (data.boss === 'kill') {
+                extraClass = ' has-boss-kill';
+            }
+
             var todayClass = key === todayKey ? ' is-today' : '';
-            gridHtml += '<div class="heatmap-cell level-' + level + todayClass + '" title="' + label + '"></div>';
+
+            gridHtml += '<div class="heatmap-cell level-' + level + extraClass + todayClass +
+                '" title="' + tooltip.replace(/"/g, '&quot;') + '"></div>';
         });
         gridHtml += '</div>';
     });
