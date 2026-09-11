@@ -7,6 +7,7 @@ const defaultPlayer = {
     exp: 0,
     expToNextLevel: 100,
     gold: 0,
+    pp: 0,
     hp: 100,
     maxHp: 100,
     attributes: {

@@ -460,6 +460,13 @@
     font-size: 1.3rem;
 }
 
+/* ===== PP DISPLAY (Runas) — mismo estilo que el oro, con acento violeta ===== */
+.shop-gold-display.pp-badge {
+    color: var(--accent);
+    background: rgba(168, 85, 247, 0.06);
+    border: 1px solid rgba(168, 85, 247, 0.08);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .shop-filters-row {

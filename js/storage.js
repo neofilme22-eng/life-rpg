@@ -47,6 +47,7 @@
                         if (!player.runeBonus) player.runeBonus = 0;
                         if (!player.pomodoroSessions) player.pomodoroSessions = 0;
                         if (!player.pomodoroFocusTime) player.pomodoroFocusTime = 0;
+                        if (!player.pp) player.pp = 0;
                         if (!player.logbook) player.logbook = [];
                         if (!player.events) player.events = [];
                         if (!player.inventory) player.inventory = [];

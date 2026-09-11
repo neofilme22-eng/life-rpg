@@ -60,6 +60,8 @@ function completeRune(id) {
 
     rune.totalExp = (rune.totalExp || 0) + totalExpReward;
 
+    player.pp = (player.pp || 0) + 1;
+
     gainRewards(totalExpReward, rune.goldReward, rune.attr, 'rune', '💠 Runa "' + rune.title + '"', 'Racha: ' + rune.streak + ' días');
 
     saveGame();

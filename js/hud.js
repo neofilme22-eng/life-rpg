@@ -27,6 +27,18 @@
                 if (hpBarEl) hpBarEl.style.width = Math.min(100, hpPercent) + '%';
                 if (hpPercentEl) hpPercentEl.innerText = Math.round(Math.min(100, hpPercent)) + '%';
 
+                // El oro de la sección de atributos (y el de la tienda) usan la
+                // misma clase .gold-display; antes solo se refrescaba al abrir
+                // la tienda, por eso quedaba desactualizado al completar
+                // misiones/mazmorras/bosses/runas.
+                document.querySelectorAll('.gold-display').forEach(function (el) {
+                    el.textContent = player.gold;
+                });
+
+                document.querySelectorAll('.pp-display').forEach(function (el) {
+                    el.textContent = player.pp || 0;
+                });
+
                 renderAttributeRadar();
             }
 
