@@ -41,7 +41,6 @@
                 }
                 if (tabId === 'tab-events') renderEvents();
                 if (tabId === 'tab-config') {
-                    loadTheme();
                     loadDifficulty();
                 }
 

@@ -143,78 +143,8 @@
 
 /* ===== ANIMACIÓN AL CANALIZAR ===== */
 
-@keyframes runeChannelPulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7),
-                    0 0 0 0 rgba(56, 189, 248, 0.4);
-        transform: scale(1);
-    }
-    30% {
-        box-shadow: 0 0 30px 10px rgba(56, 189, 248, 0.5),
-                    0 0 60px 20px rgba(56, 189, 248, 0.2);
-        transform: scale(1.03);
-    }
-    60% {
-        box-shadow: 0 0 40px 15px rgba(56, 189, 248, 0.3),
-                    0 0 80px 30px rgba(56, 189, 248, 0.1);
-        transform: scale(1.01);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0),
-                    0 0 0 0 rgba(56, 189, 248, 0);
-        transform: scale(1);
-    }
-}
-
-@keyframes runeShine {
-    0% {
-        left: -100%;
-    }
-    100% {
-        left: 200%;
-    }
-}
-
-@keyframes runeIconPop {
-    0% { transform: scale(1) rotate(0deg); }
-    30% { transform: scale(1.4) rotate(-15deg); }
-    60% { transform: scale(1.2) rotate(10deg); }
-    100% { transform: scale(1) rotate(0deg); }
-}
-
-@keyframes runeFloatUp {
-    0% {
-        opacity: 0;
-        transform: translateY(0) scale(0.8);
-    }
-    20% {
-        opacity: 1;
-        transform: translateY(-10px) scale(1.1);
-    }
-    80% {
-        opacity: 1;
-        transform: translateY(-30px) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-    }
-}
-
-@keyframes runeParticle {
-    0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(var(--px), var(--py)) scale(0);
-    }
-}
-
 /* Clase que se aplica al hacer click */
 .rune-card.channeling {
-    animation: runeChannelPulse 0.8s ease-out;
     position: relative;
     overflow: hidden;
     z-index: 10;
@@ -236,13 +166,11 @@
         rgba(56, 189, 248, 0.4),
         transparent
     );
-    animation: runeShine 0.8s ease-out;
     pointer-events: none;
 }
 
 /* Ícono que salta */
 .rune-card.channeling .rune-icon {
-    animation: runeIconPop 0.8s ease-out;
 }
 
 /* Texto flotante de EXP */
@@ -262,7 +190,6 @@
 }
 
 .rune-card.channeling .rune-float-exp {
-    animation: runeFloatUp 1.2s ease-out;
 }
 
 /* Partículas flotantes */
@@ -274,7 +201,6 @@
     border-radius: 50%;
     pointer-events: none;
     box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
-    animation: runeParticle 0.9s ease-out forwards;
     z-index: 15;
 }
 

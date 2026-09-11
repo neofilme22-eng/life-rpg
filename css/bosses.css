@@ -106,7 +106,6 @@
 
         .boss-card.overdue .boss-deadline {
             color: var(--danger);
-            animation: blink-danger 1s ease-in-out infinite;
         }
 
         .boss-header {
@@ -285,7 +284,6 @@
             background: transparent;
             padding: 0;
             box-shadow: none;
-            animation: imageFadeIn 0.6s ease forwards;
             transition: transform 0.3s ease;
         }
 
@@ -302,7 +300,6 @@
             text-shadow: 0 0 40px rgba(220, 38, 38, 0.2);
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
             transition: all 0.3s ease;
-            animation: imageFadeIn 0.6s ease forwards;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -346,7 +343,6 @@
             background: transparent;
             padding: 0;
             box-shadow: none;
-            animation: imageFadeIn 0.6s ease forwards;
             transition: transform 0.3s ease;
         }
 
@@ -362,7 +358,6 @@
             text-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
             transition: all 0.3s ease;
-            animation: imageFadeIn 0.6s ease forwards;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -377,16 +372,7 @@
         }
 
         /* ===== ANIMACIÓN DE ENTRADA PARA IMÁGENES ===== */
-        @keyframes imageFadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+        
 
         /* ===== ESTILO ADICIONAL PARA BOSSES VENCIDOS ===== */
         .boss-card.defeated .entity-image-block {
@@ -519,7 +505,4 @@
         }
 
         /* ===== BLINK DANGER PARA OVERDUE ===== */
-        @keyframes blink-danger {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
+        

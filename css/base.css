@@ -84,22 +84,6 @@
             padding: 2px 0;
         }
 
-        .battle-log-line-in {
-            animation: battleLineIn 0.25s ease-out;
-        }
-
-        @keyframes battleLineIn {
-            from {
-                opacity: 0;
-                transform: translateY(4px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .champ-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

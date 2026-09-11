@@ -103,20 +103,9 @@
         .flock-card .flock-info-item .decay-warning {
             color: var(--danger);
             font-weight: bold;
-            animation: blink-warning 1.5s ease-in-out infinite;
         }
 
-        @keyframes blink-warning {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.3;
-            }
-        }
+        
 
         .flock-card .flock-status-select {
             width: 100%;
@@ -249,20 +238,9 @@
             padding: 2px 10px;
             border-radius: 12px;
             font-weight: bold;
-            animation: pulse-gold 2s ease-in-out infinite;
         }
 
-        @keyframes pulse-gold {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
+        
 
         .flock-form {
             display: flex;

@@ -301,12 +301,6 @@
 
 /* --- Estado crítico de HP --- */
 .hp-fill-thin.low-hp {
-    animation: pulse-hp-thin 1.2s ease-in-out infinite;
-}
-
-@keyframes pulse-hp-thin {
-    0%, 100% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.15); }
-    50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
 }
 
 /* ================================================================ */

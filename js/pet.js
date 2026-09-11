@@ -74,22 +74,9 @@
                                 var species = player.equipment.mascota.species;
                                 var personality = species && PET_PERSONALITIES[species];
                                 var messages = personality ? personality.messages : ['🐾 ¡Me alegra verte!', '🐾 ¡Vamos a por todas!'];
-                                var animationName = personality ? personality.animation : 'pet-anim-bounce';
 
                                 var randomMsg = messages[Math.floor(Math.random() * messages.length)];
                                 showPetBubble(randomMsg);
-
-                                var petContainer = document.getElementById('pet-container');
-                                petContainer.style.animation = 'none';
-                                setTimeout(function () {
-                                    petContainer.style.animation = 'pet-float 3s ease-in-out infinite';
-                                    petContainer.classList.remove('pet-anim-bounce', 'pet-anim-wiggle', 'pet-anim-pulse', 'pet-anim-glow');
-                                    void petContainer.offsetWidth;
-                                    petContainer.classList.add(animationName);
-                                    setTimeout(function () {
-                                        petContainer.classList.remove(animationName);
-                                    }, 600);
-                                }, 50);
                             }
 
                             // ============================================================

@@ -69,46 +69,10 @@ function completeRune(id) {
     showToast('✨ Runa "' + rune.title + '" canalizada con éxito! +' + totalExpReward + ' EXP, +' + rune.goldReward + ' ORO', 'success', 'Runa');
 }
 
-// ===== ANIMACIÓN DE CANALIZACIÓN =====
-
+// ===== ANIMACIÓN DE CANALIZACIÓN (desactivada) =====
+// Se deja la función como no-op para no romper a quienes la llaman.
 function triggerRuneChannelAnimation(cardElement, expAmount) {
-    // Agregar clase de animación
-    cardElement.classList.add('channeling');
-    
-    // Crear texto flotante de EXP
-    var floatExp = document.createElement('div');
-    floatExp.className = 'rune-float-exp';
-    floatExp.textContent = '+' + expAmount + ' EXP';
-    cardElement.appendChild(floatExp);
-    
-    // Crear partículas
-    for (var i = 0; i < 8; i++) {
-        var particle = document.createElement('div');
-        particle.className = 'rune-particle';
-        
-        // Posición inicial aleatoria dentro de la card
-        particle.style.left = (20 + Math.random() * 60) + '%';
-        particle.style.top = (30 + Math.random() * 40) + '%';
-        
-        // Dirección aleatoria
-        var angle = Math.random() * Math.PI * 2;
-        var distance = 30 + Math.random() * 50;
-        particle.style.setProperty('--px', Math.cos(angle) * distance + 'px');
-        particle.style.setProperty('--py', (Math.sin(angle) * distance - 30) + 'px');
-        
-        cardElement.appendChild(particle);
-        
-        // Remover después de la animación
-        setTimeout(function(p) {
-            return function() { p.remove(); };
-        }(particle), 900);
-    }
-    
-    // Limpiar después de la animación
-    setTimeout(function() {
-        cardElement.classList.remove('channeling');
-        if (floatExp.parentNode) floatExp.remove();
-    }, 1200);
+    return;
 }
 
 function handleRuneClick(event, runeId) {

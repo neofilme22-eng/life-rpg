@@ -125,7 +125,6 @@
             border: 1px solid rgba(239, 68, 68, 0.25);
             border-left-color: var(--danger);
             box-shadow: 0 2px 12px rgba(239, 68, 68, 0.05);
-            animation: pulse-overdue 2s ease-in-out infinite;
         }
 
         .daily-mission-card.overdue::before {
@@ -147,32 +146,11 @@
 
         .daily-mission-card.overdue .daily-deadline {
             color: var(--danger);
-            animation: blink-danger 1s ease-in-out infinite;
         }
 
-        @keyframes pulse-overdue {
+        
 
-            0%,
-            100% {
-                box-shadow: 0 2px 12px rgba(239, 68, 68, 0.05);
-            }
-
-            50% {
-                box-shadow: 0 2px 20px rgba(239, 68, 68, 0.15);
-            }
-        }
-
-        @keyframes blink-danger {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.4;
-            }
-        }
+        
 
         /* ===== DOS COLUMNAS ===== */
         .two-col-grid {

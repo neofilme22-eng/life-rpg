@@ -118,13 +118,6 @@
                     applyDifficulty(savedDifficulty);
                 }
 
-                var savedTheme = localStorage.getItem('life_rpg_theme');
-                if (savedTheme) {
-                    var selectTheme = document.getElementById('config-theme');
-                    if (selectTheme) selectTheme.value = savedTheme;
-                    applyTheme(savedTheme);
-                }
-
                 if (player.gameOver) {
                     setTimeout(showGameOverScreen, 500);
                 }
