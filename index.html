@@ -151,6 +151,7 @@
             <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>            
             <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
             <button class="tab-btn" onclick="switchTab('tab-bosses')">👹 Deidades</button>
+            <button class="tab-btn" onclick="switchTab('tab-bestiary')">📔 Bestiario</button>
             <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
             <button class="tab-btn" onclick="switchTab('tab-logbook')">📜 Diario</button>
             <button class="tab-btn" onclick="switchTab('tab-story')">📖 Historia</button>
@@ -170,6 +171,7 @@
             <button class="mobile-menu-item" onclick="switchTab('tab-events')">🌍 Aventuras</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-bosses')">👹 Deidades</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-bestiary')">📔 Bestiario</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-logbook')">📜 Diario</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-story')">📖 Historia</button>
@@ -427,14 +429,31 @@
                     </div>
                 </div>
                 <div id="boss-container" class="boss-grid"></div>
+            </div>
+        </div>
 
-                <div style="margin-top: 25px;">
-                    <div class="section-header" style="margin-bottom: 10px;">
-                        <span class="section-title">Bestiario — Bosses Derrotados</span>
+        <!-- ========== PESTAÑA BESTIARIO ========== -->
+        <div id="tab-bestiary" class="tab-content">
+            <div class="section-box">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div class="section-header" style="margin-bottom:0;">
+                        <span class="section-title">Bestiario</span>
                         <span class="section-ornament"></span>
                     </div>
-                    <br>
-                    <div id="bestiary-container" class="bestiary-grid"></div>
+                    <span id="bestiary-counts"
+                        style="color: var(--text-muted); font-size: 0.9rem; font-family:'Georgia','Times New Roman',serif;">0 registradas</span>
+                </div>
+
+                <div class="bestiary-filters">
+                    <button class="bestiary-filter-btn active" data-filter="all" onclick="setBestiaryFilter('all')">Todos</button>
+                    <button class="bestiary-filter-btn" data-filter="boss" onclick="setBestiaryFilter('boss')">👹 Deidades</button>
+                    <button class="bestiary-filter-btn" data-filter="champ" onclick="setBestiaryFilter('champ')">⚔️ Campeones</button>
+                </div>
+
+                <div class="bestiary-layout">
+                    <div id="bestiary-list" class="bestiary-list"></div>
+                    <div id="bestiary-detail" class="bestiary-detail"></div>
                 </div>
             </div>
         </div>
@@ -834,6 +853,7 @@
     <script src="js/events-dungeons.js"></script>
     <script src="js/bosses.js"></script>
     <script src="js/battles.js"></script>
+    <script src="js/bestiary.js"></script>
     <script src="js/shop.js"></script>
     <script src="js/inventory.js"></script>
     <script src="js/pet.js"></script>

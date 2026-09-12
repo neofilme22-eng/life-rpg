@@ -242,6 +242,7 @@
                                                         name: b.name || "Boss Sin Nombre",
                                                         icon: b.icon || "👹",
                                                         image: b.image || null,
+                                                        desc: b.desc || b.description || '',
                                                         deadline: b.deadline || null,
                                                         tasks: b.tasks || [],
                                                         taskStatus: (b.tasks || []).map(function () { return false; }),

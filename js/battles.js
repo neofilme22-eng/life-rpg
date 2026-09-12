@@ -2,14 +2,14 @@
                     // ============================================================
 
                     const CHAMPS = [
-                        { id: 'flaw_sedentarismo', name: 'Larva del Colchon', icon: '', image: 'assets/champs/sedentarismo.jpg', counterAttr: 'fuerza', levelRequired: 1, hp: 40, attack: 6, defense: 2, expReward: 8, goldReward: 5 },
-                        { id: 'flaw_procrastinacion', name: 'Tejedora de Mañanas', icon: '', image: 'assets/champs/procrastinacion.jpg', counterAttr: 'disciplina', levelRequired: 3, hp: 60, attack: 9, defense: 4, expReward: 14, goldReward: 9 },
-                        { id: 'flaw_inseguridad', name: 'Espectro del Espejo', icon: '', image: 'assets/champs/inseguridad.jpg', counterAttr: 'mente', levelRequired: 5, hp: 85, attack: 13, defense: 6, expReward: 22, goldReward: 14 },
-                        { id: 'flaw_bloqueo', name: 'Monolito Gris', icon: '', image: 'assets/champs/bloqueo-creativo.jpg', counterAttr: 'creatividad', levelRequired: 8, hp: 130, attack: 15, defense: 12, expReward: 32, goldReward: 20 },
-                        { id: 'flaw_estancamiento', name: 'Limo de Fango', icon: '', image: 'assets/champs/estancamiento.jpg', counterAttr: 'carrera', levelRequired: 11, hp: 150, attack: 20, defense: 10, expReward: 45, goldReward: 28 },
-                        { id: 'flaw_descontrol', name: 'Usurero del Arca', icon: '', image: 'assets/champs/descontrol-financiero.jpg', counterAttr: 'finanzas', levelRequired: 14, hp: 170, attack: 24, defense: 12, expReward: 60, goldReward: 38 },
-                        { id: 'flaw_timidez', name: 'Banshee Silenciosa', icon: '', image: 'assets/champs/timidez.jpg', counterAttr: 'social', levelRequired: 18, hp: 220, attack: 28, defense: 18, expReward: 80, goldReward: 50 },
-                        { id: 'flaw_apatia', name: 'Apath, el Vacío', icon: '', image: 'assets/champs/apatia.jpg', counterAttr: 'relaciones', levelRequired: 22, hp: 280, attack: 34, defense: 22, expReward: 110, goldReward: 70 }
+                        { id: 'flaw_sedentarismo', name: 'Larva del Colchon', icon: '', image: 'assets/champs/sedentarismo.jpg', counterAttr: 'fuerza', levelRequired: 1, hp: 40, attack: 6, defense: 2, expReward: 8, goldReward: 5, desc: 'Se enrosca en las sábanas y crece cada vez que pesa más quedarse que levantarse. Solo la Fuerza sostenida logra que afloje el abrazo.' },
+                        { id: 'flaw_procrastinacion', name: 'Tejedora de Mañanas', icon: '', image: 'assets/champs/procrastinacion.jpg', counterAttr: 'disciplina', levelRequired: 3, hp: 60, attack: 9, defense: 4, expReward: 14, goldReward: 9, desc: 'Teje excusas con hilos invisibles y las cuelga entre vos y lo que tenés que empezar. La Disciplina es la única tijera que corta su tela.' },
+                        { id: 'flaw_inseguridad', name: 'Espectro del Espejo', icon: '', image: 'assets/champs/inseguridad.jpg', counterAttr: 'mente', levelRequired: 5, hp: 85, attack: 13, defense: 6, expReward: 22, goldReward: 14, desc: 'Vive en los reflejos y susurra dudas justo antes de cada intento. Una Mente entrenada aprende a no escucharlo.' },
+                        { id: 'flaw_bloqueo', name: 'Monolito Gris', icon: '', image: 'assets/champs/bloqueo-creativo.jpg', counterAttr: 'creatividad', levelRequired: 8, hp: 130, attack: 15, defense: 12, expReward: 32, goldReward: 20, desc: 'Una pared lisa y sin grietas que se planta justo cuando más falta hace una idea nueva. La Creatividad es lo único que le encuentra una fisura.' },
+                        { id: 'flaw_estancamiento', name: 'Limo de Fango', icon: '', image: 'assets/champs/estancamiento.jpg', counterAttr: 'carrera', levelRequired: 11, hp: 150, attack: 20, defense: 10, expReward: 45, goldReward: 28, desc: 'Espeso y lento, se te pega a los pies cuando la rutina laboral deja de moverte hacia algún lado. Solo avanzar en la Carrera lo despega.' },
+                        { id: 'flaw_descontrol', name: 'Usurero del Arca', icon: '', image: 'assets/champs/descontrol-financiero.jpg', counterAttr: 'finanzas', levelRequired: 14, hp: 170, attack: 24, defense: 12, expReward: 60, goldReward: 38, desc: 'Cobra intereses por cada gasto impulsivo y cada plan financiero pospuesto. Las Finanzas ordenadas son la única moneda que acepta.' },
+                        { id: 'flaw_timidez', name: 'Banshee Silenciosa', icon: '', image: 'assets/champs/timidez.jpg', counterAttr: 'social', levelRequired: 18, hp: 220, attack: 28, defense: 18, expReward: 80, goldReward: 50, desc: 'Su grito nunca se escucha, pero deja la garganta cerrada justo antes de hablar en público. Lo social entrenado le devuelve la voz.' },
+                        { id: 'flaw_apatia', name: 'Apath, el Vacío', icon: '', image: 'assets/champs/apatia.jpg', counterAttr: 'relaciones', levelRequired: 22, hp: 280, attack: 34, defense: 22, expReward: 110, goldReward: 70, desc: 'No ataca con fuerza sino con distancia: vacía los vínculos hasta que ya no importan. Cuidar las Relaciones es lo único que lo debilita.' }
                     ];
 
                     const ATTR_LABELS_SHORT = {
@@ -318,6 +318,17 @@
     revealNext();
 }
 
+                    function registerChampDefeat(champId) {
+                        if (!player.defeatedChamps) player.defeatedChamps = {};
+                        var entry = player.defeatedChamps[champId];
+                        if (!entry) {
+                            player.defeatedChamps[champId] = { firstDefeatedDate: Date.now(), timesDefeated: 1 };
+                        } else {
+                            entry.timesDefeated = (entry.timesDefeated || 0) + 1;
+                        }
+                        if (typeof renderBestiary === 'function') renderBestiary();
+                    }
+
                     function fightChamp(champId) {
                         if (battleAnimating) {
                             showToast('Esperá a que termine el combate anterior.', 'warning', 'Batallas');
@@ -357,6 +368,7 @@
                             }
 
                             if (result.won) {
+                                registerChampDefeat(champ.id);
                                 gainRewards(champ.expReward, champ.goldReward, null, 'battle', '⚔️ Venciste a ' + champ.name, 'Combate en Batallas');
                                 showToast('🏆 ¡Venciste a ' + champ.name + '! +' + champ.expReward + ' EXP, +' + champ.goldReward + ' ORO' + (damageTaken > 0 ? ' (-' + damageTaken + ' HP real)' : ''), 'success', 'Batallas');
                             } else {
@@ -436,6 +448,7 @@
                             }
 
                             if (result.won) {
+                                registerChampDefeat(champ.id);
                                 arenaMode.streak++;
                                 arenaMode.championIndex++;
 

@@ -24,6 +24,7 @@ const defaultPlayer = {
     rawMissions: [],
     rawRunes: [],
     bosses: [],
+    defeatedChamps: {},
     trophies: [],
     dlcTrophies: [],
     purchasedItems: [],

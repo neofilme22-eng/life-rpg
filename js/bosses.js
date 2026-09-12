@@ -220,39 +220,4 @@
                             );
                         }
 
-                        function renderBestiary() {
-                            var container = document.getElementById('bestiary-container');
-                            if (!container) return;
-
-                            var defeatedBosses = player.bosses.filter(function (b) { return b.defeated; });
-
-                            if (defeatedBosses.length === 0) {
-                                container.innerHTML = '<div class="bestiary-empty">Aún no has derrotado ningún boss. ¡La cacería comienza!</div>';
-                                return;
-                            }
-
-                            var sorted = defeatedBosses.slice().sort(function (a, b) {
-                                var dateA = a.defeatedDate || a.updatedAt || 0;
-                                var dateB = b.defeatedDate || b.updatedAt || 0;
-                                return dateB - dateA;
-                            });
-
-                            var html = '';
-                            sorted.forEach(function (boss) {
-                                var date = boss.defeatedDate ? new Date(boss.defeatedDate) : null;
-                                var dateStr = date ? date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Fecha desconocida';
-
-                                html += `
-                    <div class="bestiary-card">
-                        <span class="bestiary-icon">${renderIconHTML(boss.icon, '👹')}</span>
-                        <div class="bestiary-name">${boss.name}</div>                        
-                        <br>
-                        <div class="bestiary-date">Derrotado el ${dateStr}</div>
-                    </div>
-                `;
-                            });
-
-                            container.innerHTML = html;
-                        }
-
                         // ============================================================

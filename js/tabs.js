@@ -25,10 +25,8 @@
 
                 if (tabId === 'tab-stats') renderStats();
                 if (tabId === 'tab-trophies') renderTrophies();
-                if (tabId === 'tab-bosses') {
-                    renderBosses();
-                    renderBestiary();
-                }
+                if (tabId === 'tab-bosses') renderBosses();
+                if (tabId === 'tab-bestiary') renderBestiary();
                 if (tabId === 'tab-battles') renderBattlesTab();
                 if (tabId === 'tab-shop') renderShop();
                 if (tabId === 'tab-logbook') renderLogbook();

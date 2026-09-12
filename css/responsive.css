@@ -516,8 +516,33 @@
     }
 
     /* ===== BESTIARIO ===== */
-    .bestiary-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .bestiary-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .bestiary-filters {
+        justify-content: center;
+    }
+
+    .bestiary-list {
+        flex-direction: column;
+        max-height: 320px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .bestiary-list-item {
+        min-width: unset;
+        flex-shrink: 1;
+        padding: 10px 12px;
+    }
+
+    .bestiary-detail {
+        margin-top: 4px;
+    }
+
+    .bestiary-detail-image {
+        height: 180px;
     }
 
     /* ===== TIENDA ===== */
