@@ -60,9 +60,17 @@
             }
 
             function renderBestiary() {
+                var tabEl = document.getElementById('tab-bestiary');
                 var listEl = document.getElementById('bestiary-list');
                 var detailEl = document.getElementById('bestiary-detail');
                 if (!listEl || !detailEl) return;
+
+                // Si la pestaña no está a la vista, no reconstruyas la lista todavía:
+                // evita crear <img> de bosses/champs (pedidos al CDN) en medio de un
+                // combate o de un import, que competían con las imágenes de
+                // eventos/bosses que sí se estaban mostrando. Se renderiza recién
+                // cuando el usuario entra a la pestaña (switchTab ya llama a esto).
+                if (tabEl && !tabEl.classList.contains('active')) return;
 
                 var allEntries = getBestiaryEntries();
                 var countBoss = allEntries.filter(function (e) { return e.kind === 'boss'; }).length;
