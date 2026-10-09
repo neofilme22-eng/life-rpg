@@ -5,7 +5,7 @@
 // así que todo lo que necesita la app queda guardado localmente.
 // ============================================================
 
-const CACHE_VERSION = 'life-rpg-v4';
+const CACHE_VERSION = 'life-rpg-v5';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_SHELL = [
@@ -160,10 +160,10 @@ var R_URL = './__reminder_state.json';
 var R_MESSAGES = [
     ['⚔️ Tu aventura te espera', 'Entrá un minuto y completá aunque sea una misión chica.'],
     ['🔥 No cortes la racha', 'Un pequeño avance hoy vale más que un gran plan para mañana.'],
-    ['🐾 Tu mascota te extraña', 'Pasá a saludarla y ver qué quedó pendiente.'],
+    // DESHABILITADO (Mascotas apagadas): ['🐾 Tu mascota te extraña', 'Pasá a saludarla y ver qué quedó pendiente.'],
     ['🎯 ¿Qué es lo próximo?', 'Elegí una cosa, la más importante, y hacela ahora.'],
-    ['🕯️ ¿Un pomodoro?', '25 minutos de enfoque y después descansás.'],
-    ['🌧️ La ciudad no espera', 'Revisá tus misiones del día antes de que se venzan.']
+    // DESHABILITADO (Pomodoro apagado): ['🕯️ ¿Un pomodoro?', '25 minutos de enfoque y después descansás.'],
+    ['🌫️ La niebla no espera', 'Revisá tus misiones del día antes de que se venzan.']
 ];
 
 function swDateStr(d) {

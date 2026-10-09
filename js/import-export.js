@@ -227,7 +227,7 @@
                                             }
 
                                             var bossData = JSON.parse(content);
-                                            var bossesArray = Array.isArray(bossData) ? bossData : bossData.bosses;
+                                            var bossesArray = Array.isArray(bossData) ? bossData : (bossData.metas || bossData.bosses);
                                             var packName = (!Array.isArray(bossData) && bossData.packName) || bossFile.name.replace(/\.json$/i, '');
 
                                             if (bossesArray && Array.isArray(bossesArray)) {
@@ -239,8 +239,8 @@
                                                         id: bossId,
                                                         packId: bossPackId,
                                                         packName: packName,
-                                                        name: b.name || "Boss Sin Nombre",
-                                                        icon: b.icon || "👹",
+                                                        name: b.name || "Meta sin nombre",
+                                                        icon: b.icon || "🎯",
                                                         image: b.image || null,
                                                         desc: b.desc || b.description || '',
                                                         deadline: b.deadline || null,
@@ -260,13 +260,13 @@
                                                 renderBosses();
                                                 renderBestiary();
                                                 renderBossImportList();
-                                                showToast('👹 ¡' + count + ' boss(es) instalado(s) con éxito!', 'success', 'Bosses');
+                                                showToast('🎯 ¡' + count + ' meta(s) instalada(s) con éxito!', 'success', 'Metas');
                                                 checkAndUnlockTrophies();
                                             } else {
-                                                showToast('Formato de JSON de bosses inválido.', 'error', 'Error');
+                                                showToast('Formato de JSON de metas inválido.', 'error', 'Error');
                                             }
                                         } catch (error) {
-                                            showToast('Error al leer el archivo JSON de bosses: ' + error.message, 'error', 'Error');
+                                            showToast('Error al leer el archivo JSON de metas: ' + error.message, 'error', 'Error');
                                         }
                                     };
                                     event.target.value = '';
@@ -278,7 +278,7 @@
                                     var packs = {};
                                     (player.bosses || []).forEach(function (b) {
                                         var pid = b.packId || 'legacy_bosses';
-                                        if (!packs[pid]) packs[pid] = { id: pid, name: b.packName || 'Bosses', count: 0 };
+                                        if (!packs[pid]) packs[pid] = { id: pid, name: b.packName || 'Metas', count: 0 };
                                         packs[pid].count++;
                                     });
                                     renderImportPackList('boss-import-list', Object.keys(packs).map(function (k) { return packs[k]; }), deleteBossPack);
@@ -293,7 +293,7 @@
                                     renderBosses();
                                     renderBestiary();
                                     renderBossImportList();
-                                    showToast('👹 Paquete de bosses eliminado.', 'info', 'Bosses');
+                                    showToast('🎯 Paquete de metas eliminado.', 'info', 'Metas');
                                 }
 
                                 // ============================================================

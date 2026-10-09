@@ -39,6 +39,7 @@
                     renderRunes();
                     renderMissions();
                 }
+                if (tabId === 'tab-runes') renderRunes();
                 if (tabId === 'tab-events') renderEvents();
                 if (tabId === 'tab-config') {
                     loadDifficulty();

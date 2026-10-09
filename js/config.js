@@ -1,4 +1,28 @@
 // ============================================================
+// ===== INTERRUPTORES DE FUNCIONES (v19) =====
+// ============================================================
+// Funciones deshabilitadas POR AHORA: el código sigue en los archivos .js,
+// solo se apagó su interfaz y su lógica automática. Para reactivar una,
+// ponela en true y devolvé su bloque HTML (sacá el <template>) en index.html.
+const FEATURES = {
+    pomodoro: false,   // Santuario del Enfoque
+    battles: false,    // Batallas / Arena
+    inventory: false,  // Inventario
+    shop: false,       // Tienda
+    logbook: false,    // Diario (la pestaña; el registro sigue guardándose)
+    bestiary: false,   // Bestiario (reemplazado por el Historial de Metas)
+    events: false,     // Eventos (las Campañas/Mazmorras siguen activas)
+    pets: false,       // Mascotas (la flotante, sus puntos de vida y su muerte)
+    gold: false,       // ORO: sin ganancias, sin contador, sin penalización. Todo es por EXP
+    pp: false          // PP al canalizar runas
+};
+
+// Texto de ORO para toasts/tarjetas: vacío si el ORO está deshabilitado.
+function goldText(n) {
+    return (typeof FEATURES !== 'undefined' && FEATURES.gold) ? ', +' + n + ' ORO' : '';
+}
+
+// ============================================================
 // ===== CONFIGURACIÓN INICIAL =====
 // ============================================================
 
@@ -438,7 +462,7 @@ const EVENT_TYPE_LABELS = { event: 'Evento', dungeon: 'Mazmorra' };
 const LOG_ICONS = {
     mission: '📜',
     rune: '💠',
-    boss: '👹',
+    boss: '🎯',
     dungeon: '🏰',
     event: '🎉',
     shop: '🛒',
@@ -461,9 +485,6 @@ const BASE_TROPHY_DEFINITIONS = [
                 { id: 'exp_500', icon: 'https://cdn-icons-png.flaticon.com/512/2811/2811490.png', name: 'Esfuerzo Constante', desc: 'Acumula 500 EXP', check: function (p) { return p.exp >= 500; } },
                 { id: 'exp_2000', icon: 'https://cdn-icons-png.flaticon.com/512/3755/3755147.png', name: 'Fuego Interior', desc: 'Acumula 2000 EXP', check: function (p) { return p.exp >= 2000; } },
                 { id: 'exp_10000', icon: 'https://cdn-icons-png.flaticon.com/512/5080/5080344.png', name: 'Leyenda', desc: 'Acumula 10000 EXP', check: function (p) { return p.exp >= 10000; } },
-                { id: 'gold_100', icon: 'https://cdn-icons-png.flaticon.com/512/9382/9382189.png', name: 'Ahorrador', desc: 'Acumula 100 de ORO', check: function (p) { return p.gold >= 100; } },
-                { id: 'gold_1000', icon: 'https://cdn-icons-png.flaticon.com/512/2460/2460475.png', name: 'Rico', desc: 'Acumula 1000 de ORO', check: function (p) { return p.gold >= 1000; } },
-                { id: 'gold_5000', icon: 'https://cdn-icons-png.flaticon.com/512/2144/2144792.png', name: 'Magnate', desc: 'Acumula 5000 de ORO', check: function (p) { return p.gold >= 5000; } }
             ];
 
 let dynamicTrophyDefinitions = [];

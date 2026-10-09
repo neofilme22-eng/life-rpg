@@ -60,7 +60,7 @@ function completeRune(id) {
 
     rune.totalExp = (rune.totalExp || 0) + totalExpReward;
 
-    player.pp = (player.pp || 0) + 1;
+    if (typeof FEATURES === 'undefined' || FEATURES.pp) player.pp = (player.pp || 0) + 1;
 
     gainRewards(totalExpReward, rune.goldReward, rune.attr, 'rune', '💠 Runa "' + rune.title + '"', 'Racha: ' + rune.streak + ' días');
 
@@ -68,7 +68,7 @@ function completeRune(id) {
     renderRunes();
     checkAndUnlockTrophies();
 
-    showToast('✨ Runa "' + rune.title + '" canalizada con éxito! +' + totalExpReward + ' EXP, +' + rune.goldReward + ' ORO', 'success', 'Runa');
+    showToast('✨ Runa "' + rune.title + '" canalizada con éxito! +' + totalExpReward + ' EXP' + goldText(rune.goldReward), 'success', 'Runa');
 }
 
 // ===== ANIMACIÓN DE CANALIZACIÓN (desactivada) =====

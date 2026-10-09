@@ -4,10 +4,10 @@
             function applyDifficulty(difficulty) {
                 currentDifficulty = difficulty;
                 var descs = {
-                    easy: 'Fácil: +60% EXP y ORO, subes de nivel mucho más rápido. Recibes la mitad del daño normal.',
+                    easy: 'Fácil: +60% EXP, subes de nivel mucho más rápido. Recibes la mitad del daño normal.',
                     normal: 'Normal: Experiencia balanceada, estándar.',
-                    hard: 'Difícil: -35% EXP y ORO, subir de nivel cuesta bastante más. Recibes 60% más daño.',
-                    expert: 'Experto: -60% EXP y ORO, subir de nivel es muy costoso. Recibes más del doble de daño.'
+                    hard: 'Difícil: -35% EXP, subir de nivel cuesta bastante más. Recibes 60% más daño.',
+                    expert: 'Experto: -60% EXP, subir de nivel es muy costoso. Recibes más del doble de daño.'
                 };
                 var descEl = document.getElementById('difficulty-desc');
                 if (descEl) descEl.textContent = descs[difficulty] || descs.normal;

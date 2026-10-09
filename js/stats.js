@@ -117,14 +117,14 @@
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalExpGanada}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">EXP total</div>
                             </div>
-                            <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
+                            <!-- DESHABILITADO (oro): <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalOroGanado}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">ORO total</div>
-                            </div>
-                            <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
+                            </div> -->
+                            <!-- DESHABILITADO (inventario): <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalItems}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Objetos</div>
-                            </div>
+                            </div> -->
                             <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${trofeosDesbloqueados}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Trofeos</div>
@@ -135,13 +135,13 @@
                             </div>
                             <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${bossesDerrotados}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Bosses</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Metas</div>
                             </div>
                         </div>
                         <div style="margin-top:8px; font-size:0.85rem; color:var(--text-muted); opacity:0.3; font-family:'Georgia','Times New Roman',serif; text-align:center;">
                             ${totalDias} días de aventura · Nivel ${player.level} · ${totalAcciones} acciones realizadas
                             ${player.gameOver ? ' GAME OVER' : ''}
-                            ${tieneMascota ? ' · Mascota: ' + petHealthPercent + '% HP' : ''}
+                            ${(typeof FEATURES !== 'undefined' && FEATURES.pets && tieneMascota) ? ' · Mascota: ' + petHealthPercent + '% HP' : ''}
                         </div>
                     </div>
 
@@ -162,7 +162,7 @@
                         </div>
                         <div class="stats-row">
                             <span class="stats-tag">EXP: ${player.exp}</span>
-                            <span class="stats-tag">ORO: ${player.gold}</span>
+                            ${(typeof FEATURES !== 'undefined' && FEATURES.gold) ? '<span class="stats-tag">ORO: ' + player.gold + '</span>' : ''}
                             <span class="stats-tag">HP: ${player.hp}/${player.maxHp}</span>
                             ${player.gameOver ? '<span class="stats-tag fail">💀 GAME OVER</span>' : ''}
                         </div>
@@ -217,19 +217,19 @@
                     </div>
 
                     <div class="stats-card">
-                        <div class="stats-title">Bosses</div>
+                        <div class="stats-title">Metas</div>
                         <div style="display:flex; align-items:center; gap:12px;">
                             <span class="stats-number">${bossesDerrotados}</span>
                             <span style="color:var(--text-muted); opacity:0.4; font-size:0.9rem;">/ ${totalBosses}</span>
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${totalBosses > 0 ? Math.round((bossesDerrotados / totalBosses) * 100) : 0}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${totalBosses > 0 ? (bossesDerrotados / totalBosses) * 100 : 0}%; background:linear-gradient(90deg, #dc2626, #ef4444);"></div>
+                            <div class="stats-bar-fill" style="width:${totalBosses > 0 ? (bossesDerrotados / totalBosses) * 100 : 0}%; background:linear-gradient(90deg, #16a34a, #22c55e);"></div>
                         </div>
                         <div class="stats-row">
                             <span class="stats-tag">Activos: ${bossesActivos}</span>
-                            ${bossesDerrotados > 0 ? '<span class="stats-tag">Derrotados: ' + bossesDerrotados + '</span>' : ''}
-                            ${bossesVencidos > 0 ? '<span class="stats-tag">Fallados: ' + bossesVencidos + '</span>' : ''}
+                            ${bossesDerrotados > 0 ? '<span class="stats-tag">Cumplidas: ' + bossesDerrotados + '</span>' : ''}
+                            ${bossesVencidos > 0 ? '<span class="stats-tag">Fallidas: ' + bossesVencidos + '</span>' : ''}
                         </div>
                     </div>
 
@@ -249,7 +249,7 @@
                         </div>
                     </div>
 
-                    <div class="stats-card">
+                    <!-- DESHABILITADO (eventos): <div class="stats-card">
                         <div class="stats-title">Eventos</div>
                         <div style="display:flex; align-items:center; gap:12px;">
                             <span class="stats-number">${eventosCompletados}</span>
@@ -264,7 +264,7 @@
                             ${eventosPendientes > 0 ? '<span class="stats-tag">Pendientes: ' + eventosPendientes + '</span>' : ''}
                             <span class="stats-tag">Completados: ${eventosCompletados}</span>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="stats-card">
                         <div class="stats-title">Runas</div>
@@ -296,7 +296,7 @@
                         </div>
                     </div>
 
-                    <div class="stats-card">
+                    <!-- DESHABILITADO (tienda): <div class="stats-card">
                         <div class="stats-title">Tienda</div>
                         <div style="display:flex; align-items:center; gap:12px;">
                             <span class="stats-number">${itemsComprados}</span>
@@ -307,9 +307,9 @@
                             <span class="stats-tag">Items comprados: ${itemsComprados}</span>
                             <span class="stats-tag">ORO gastado: ${oroGastado}</span>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="stats-card">
+                    <!-- DESHABILITADO (pomodoro): <div class="stats-card">
                         <div class="stats-title">Tiempo y Sesiones</div>
                         <div style="display:flex; align-items:center; gap:12px;">
                             <span class="stats-number">${horasEnfoque}h</span>
@@ -321,9 +321,9 @@
                             <span class="stats-tag"> ${horasEnfoque} H ${minutosEnfoque} M total</span>
                         </div>
                         <div class="stats-sub">Tiempo de juego estimado: ${tiempoJuegoHoras > 0 ? tiempoJuegoHoras + ' horas' : 'Aún no disponible'}</div>
-                    </div>
+                    </div> -->
 
-                    <div class="stats-card">
+                    <!-- DESHABILITADO (inventario): <div class="stats-card">
                         <div class="stats-title">Inventario</div>
                         <div style="display:flex; align-items:center; gap:12px;">
                             <span class="stats-number">${totalItems}</span>
@@ -334,7 +334,7 @@
                             <span class="stats-tag">${totalItems} objetos</span>
                             <span class="stats-tag">${equipados} equipados</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             `;
 

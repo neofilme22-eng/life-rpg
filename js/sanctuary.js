@@ -182,6 +182,9 @@
                                 }
 
                                 function resetPomodoro() {
+                                    // Santuario deshabilitado: no tocar nada ni mostrar toast al cargar/importar.
+                                    if (typeof FEATURES !== 'undefined' && !FEATURES.pomodoro) return;
+
                                     if (interval) {
                                         clearInterval(interval);
                                         interval = null;

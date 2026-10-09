@@ -618,3 +618,113 @@
 
         /* ===== BLINK DANGER PARA OVERDUE ===== */
         
+
+/* ===== HISTORIAL DE METAS (dentro de la pestaña Metas) ===== */
+.boss-record {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.boss-record-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.boss-record-title {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: var(--text);
+    letter-spacing: 0.3px;
+}
+
+.boss-record-count {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.boss-record-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+}
+
+.boss-record-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(34, 197, 94, 0.06);
+    border: 1px solid rgba(34, 197, 94, 0.22);
+}
+
+.boss-record-icon {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.boss-record-icon .custom-icon-img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.boss-record-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.boss-record-name {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 0.88rem;
+    font-weight: bold;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.boss-record-date {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* Fallidas (se les acabó el tiempo): en gris */
+.boss-record-item.failed {
+    background: rgba(148, 163, 184, 0.04);
+    border-color: rgba(148, 163, 184, 0.15);
+    opacity: 0.6;
+}
+
+.boss-record-item.failed .boss-record-icon {
+    filter: grayscale(1);
+}
+
+.boss-record-item.failed .boss-record-name {
+    color: var(--text-muted);
+}
+
+.boss-record-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 14px 0;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+}

@@ -123,7 +123,7 @@ function renderReflection() {
             '<div style="margin-top:10px;"><button class="action-btn wb-small" onclick="editReflection()">Editar</button></div></div>';
     } else {
         html += '<div class="wb-card"><div class="wb-title">🌙 Reflexión nocturna <span class="wb-sub">' +
-            (today ? 'editando' : '+' + REFLECTION_EXP + ' EXP · +' + REFLECTION_GOLD + ' ORO') + '</span></div>';
+            (today ? 'editando' : '+' + REFLECTION_EXP + ' EXP' + (FEATURES.gold ? ' · +' + REFLECTION_GOLD + ' ORO' : '')) + '</span></div>';
         REFLECTION_QUESTIONS.forEach(function (q, i) {
             html += '<label class="wb-q" for="refl-' + i + '">' + escapeHtml(q) + '</label>' +
                 '<textarea id="refl-' + i + '" class="wb-textarea" rows="2" maxlength="500"></textarea>';
@@ -193,7 +193,7 @@ function saveReflection() {
     saveGame();
     updateHUD();
     renderReflection();
-    showToast('🌙 Reflexión guardada: +' + REFLECTION_EXP + ' EXP, +' + REFLECTION_GOLD + ' ORO', 'success', 'Reflexión');
+    showToast('🌙 Reflexión guardada: +' + REFLECTION_EXP + ' EXP' + goldText(REFLECTION_GOLD), 'success', 'Reflexión');
 }
 
 // ============================================================

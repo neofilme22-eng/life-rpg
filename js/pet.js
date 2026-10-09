@@ -2,6 +2,9 @@
                             // ============================================================
 
                             function updatePet() {
+                                // Mascotas deshabilitadas: no se muestra ni se actualiza nada.
+                                if (typeof FEATURES !== 'undefined' && !FEATURES.pets) return;
+
                                 var petEmoji = document.getElementById('pet-emoji');
                                 var petLevel = document.getElementById('pet-level');
                                 var petContainer = document.getElementById('pet-container');

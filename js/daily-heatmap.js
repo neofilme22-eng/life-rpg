@@ -64,9 +64,9 @@ function getDailyBreakdownMap() {
 
             if (entry.type === 'boss' && entry.title) {
                 var t = entry.title.toLowerCase();
-                if (t.indexOf('vencido') !== -1) {
+                if (t.indexOf('vencid') !== -1) {
                     map[key].boss = 'lost';
-                } else if (t.indexOf('derrotado') !== -1) {
+                } else if (t.indexOf('derrotado') !== -1 || t.indexOf('cumplid') !== -1) {
                     if (map[key].boss !== 'lost') map[key].boss = 'kill';
                 }
             }
@@ -93,7 +93,7 @@ var HEATMAP_TYPE_LABELS = {
     rune: 'runa',
     dungeon: 'mazmorra',
     event: 'evento',
-    boss: 'boss'
+    boss: 'meta'
 };
 
 function heatmapTypePlural(type, count) {
@@ -103,7 +103,7 @@ function heatmapTypePlural(type, count) {
     if (label === 'runa') return 'runas';
     if (label === 'mazmorra') return 'mazmorras';
     if (label === 'evento') return 'eventos';
-    if (label === 'boss') return 'bosses';
+    if (label === 'meta') return 'metas';
     if (label === 'diaria') return 'diarias';
     return label;
 }
@@ -130,9 +130,9 @@ function buildHeatmapTooltip(date, data) {
     }
 
     if (data.boss === 'kill') {
-        parts.push('· ⭐ Boss derrotado');
+        parts.push('· ⭐ Meta cumplida');
     } else if (data.boss === 'lost') {
-        parts.push('· 💀 Boss fallido');
+        parts.push('· ❌ Meta fallida');
     }
 
     return parts.join(' ');
@@ -248,6 +248,7 @@ function getActivityAlerts() {
     var now = new Date();
     var items = [];
     var eventos = window.eventosCache || [];
+    var eventsOn = (typeof FEATURES === 'undefined') || FEATURES.events;
 
     eventos.forEach(function (e) {
         if (e.type === 'dungeon' && e.status === 'active') {
@@ -260,7 +261,7 @@ function getActivityAlerts() {
                 urgent: remaining != null && remaining < 3 * 3600000
             });
         }
-        if (e.type === 'event' && e.status === 'active' && e.start) {
+        if (eventsOn && e.type === 'event' && e.status === 'active' && e.start) {
             var startDate = new Date(e.start);
             var endDate = new Date(startDate);
             endDate.setHours(endDate.getHours() + (e.duration || 3));
@@ -276,7 +277,7 @@ function getActivityAlerts() {
     });
 
     eventos
-        .filter(function (e) { return e.type === 'event' && e.status === 'pending' && e.start; })
+        .filter(function (e) { return eventsOn && e.type === 'event' && e.status === 'pending' && e.start; })
         .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })
         .slice(0, 3)
         .forEach(function (e) {
@@ -298,7 +299,7 @@ function getActivityAlerts() {
         .forEach(function (b) {
             var diffDays = Math.ceil((new Date(b.deadline) - now) / 86400000);
             items.push({
-                icon: b.icon || '👹',
+                icon: b.icon || '🎯',
                 title: b.name,
                 sub: hmFormatDaysUntil(diffDays),
                 cls: 'alert-boss',
@@ -316,7 +317,7 @@ function renderActivityAlerts() {
     var items = getActivityAlerts();
 
     if (items.length === 0) {
-        container.innerHTML = '<div class="activity-alerts-empty">Sin eventos, mazmorras o bosses próximos.</div>';
+        container.innerHTML = '<div class="activity-alerts-empty">Sin campañas o metas próximas.</div>';
         return;
     }
 

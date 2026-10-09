@@ -142,7 +142,7 @@
                     renderDailyMissions();
 
                     gainRewards(8, 3, 'disciplina', 'daily', '📋 Misión diaria "' + mission.title + '"', 'Tarea completada');
-                    showToast('Misión "' + mission.title + '" completada! +8 EXP, +3 ORO', 'success', 'Misión');
+                    showToast('Misión "' + mission.title + '" completada! +8 EXP' + goldText(3), 'success', 'Misión');
                     checkAndUnlockTrophies();
                 }
 

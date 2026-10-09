@@ -264,7 +264,7 @@
         }
 
         .event-card .event-tasks-panel.open {
-            max-height: 600px;
+            max-height: 3000px;
         }
 
         .event-card .event-tasks {

@@ -141,6 +141,9 @@
                     if (player.runeExpPct) totalExp += Math.round(totalExp * (player.runeExpPct / 100));
                 }
 
+                // ORO deshabilitado (FEATURES.gold = false): todo el progreso es por EXP.
+                if (typeof FEATURES !== 'undefined' && !FEATURES.gold) totalGold = 0;
+
                 player.exp += totalExp;
                 player.gold += totalGold;
 

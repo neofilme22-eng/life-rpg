@@ -1,4 +1,4 @@
-                        // ===== FUNCIONES DE BOSSES =====
+                        // ===== FUNCIONES DE METAS (internamente siguen llamándose "bosses") =====
                         // ============================================================
 
                         function toggleBossTask(bossId, taskIndex) {
@@ -45,14 +45,14 @@
                             var expGain = Math.floor(boss.expReward * mult.exp);
                             var goldGain = Math.floor(boss.goldReward * mult.gold);
 
-                            gainRewards(expGain, goldGain, boss.attrReward, 'boss', '👹 Boss "' + boss.name + '" derrotado', '¡Victoria!');
+                            gainRewards(expGain, goldGain, boss.attrReward, 'boss', '🎯 Meta "' + boss.name + '" cumplida', '¡Cumplida!');
 
                             renderBosses();
                             renderBestiary();
                             saveGame();
                             checkAndUnlockTrophies();
 
-                            showToast('👹 ¡BOSS DERROTADO! ' + renderIconHTML(boss.icon, '👹') + ' ' + boss.name + ' +' + expGain + ' EXP, +' + goldGain + ' ORO', 'success', 'Boss');
+                            showToast('🎯 ¡Meta cumplida! ' + renderIconHTML(boss.icon, '🎯') + ' ' + boss.name + ' +' + expGain + ' EXP' + goldText(goldGain), 'success', 'Meta');
                         }
 
                         function renderBosses() {
@@ -67,8 +67,8 @@
                                 if (boss.deadline && new Date(boss.deadline) < now && !boss.defeated && !boss.vencido) {
                                     boss.vencido = true;
                                     updated = true;
-                                    addLogEntry('boss', '⏰ Boss "' + boss.name + '" vencido', 'El tiempo se agotó', 0, 0, null);
-                                    applyDamage(30, 'Boss vencido', 15);
+                                    addLogEntry('boss', '⏰ Meta "' + boss.name + '" vencida', 'Se acabó el plazo', 0, 0, null);
+                                    applyDamage(30, 'Meta vencida', 15);
                                 }
                             });
 
@@ -89,17 +89,19 @@
 
                             if (typeof renderDailySidebar === 'function') renderDailySidebar();
 
+                            renderBossRecord();
+
                             if (totalActivos === 0) {
                                 if (totalDerrotados > 0 || totalVencidos > 0) {
                                     container.innerHTML = `
                         <div class="boss-empty">
-                            ¡Has derrotado a todos los bosses! (${totalDerrotados} derrotados${totalVencidos > 0 ? ', ' + totalVencidos + ' vencidos' : ''})
+                            ¡Cumpliste todas tus metas! (${totalDerrotados} cumplidas${totalVencidos > 0 ? ', ' + totalVencidos + ' vencidas' : ''})
                         </div>
                     `;
                                 } else {
                                     container.innerHTML = `
                         <div class="boss-empty">
-                            No hay bosses activos. Invoca bosses desde Configuración o instala un JSON.
+                            No hay metas activas. Instalá un JSON de metas desde Configuración.
                         </div>
                     `;
                                 }
@@ -135,7 +137,7 @@
                                     } else if (daysLeft === 0) {
                                         daysText = '(¡Hoy es el último día!)';
                                     } else {
-                                        daysText = '(Vencido hace ' + Math.abs(daysLeft) + ' días)';
+                                        daysText = '(Vencida hace ' + Math.abs(daysLeft) + ' días)';
                                     }
                                     deadlineHTML = `
                         <div class="boss-deadline">
@@ -162,7 +164,7 @@
                                     tasksHTML += '</div>';
                                 }
 
-                                var statusText = isOverdue ? 'VENCIDO' : 'Activo';
+                                var statusText = isOverdue ? 'VENCIDA' : 'En curso';
 
                                 card.innerHTML = `
                     <div class="boss-header">
@@ -184,12 +186,65 @@
                     </div>
                     ${tasksHTML}
                     <div class="boss-reward">
-                        <span>🏆 Recompensa: +${Math.floor(boss.expReward * getDifficultyMultipliers().exp)} EXP, +${Math.floor(boss.goldReward * getDifficultyMultipliers().gold)} ORO</span>
+                        <span>🏆 Recompensa: +${Math.floor(boss.expReward * getDifficultyMultipliers().exp)} EXP${goldText(Math.floor(boss.goldReward * getDifficultyMultipliers().gold))}</span>
                     </div>
                 `;
 
                                 container.appendChild(card);
                             });
+                        }
+
+
+                        // ============================================================
+                        // ===== HISTORIAL DE METAS =====
+                        // Muestra las metas cumplidas (con fecha) y las que se
+                        // vencieron por plazo (en gris, como fallidas).
+                        // ============================================================
+
+                        function renderBossRecord() {
+                            var container = document.getElementById('boss-record-container');
+                            if (!container) return;
+
+                            var esc = (typeof escapeHtml === 'function') ? escapeHtml : function (t) { return String(t); };
+                            var fmt = function (ms) {
+                                return ms ? new Date(ms).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'fecha desconocida';
+                            };
+
+                            var entries = [];
+                            (player.bosses || []).forEach(function (b) {
+                                if (b.defeated) {
+                                    entries.push({ boss: b, failed: false, date: b.defeatedDate || 0 });
+                                } else if (b.vencido) {
+                                    entries.push({ boss: b, failed: true, date: b.deadline ? new Date(b.deadline).getTime() : 0 });
+                                }
+                            });
+                            entries.sort(function (a, b) { return b.date - a.date; });
+
+                            var countEl = document.getElementById('boss-record-count');
+                            if (countEl) {
+                                var ok = entries.filter(function (e) { return !e.failed; }).length;
+                                countEl.textContent = ok + ' cumplidas · ' + (entries.length - ok) + ' fallidas';
+                            }
+
+                            if (entries.length === 0) {
+                                container.innerHTML = '<div class="boss-record-empty">Todavía no hay metas cumplidas ni fallidas.</div>';
+                                return;
+                            }
+
+                            var html = '';
+                            entries.forEach(function (e) {
+                                var b = e.boss;
+                                html += '<div class="boss-record-item ' + (e.failed ? 'failed' : 'defeated') + '">' +
+                                    '<span class="boss-record-icon">' + renderIconHTML(b.icon, '🎯') + '</span>' +
+                                    '<div class="boss-record-info">' +
+                                    '<span class="boss-record-name">' + esc(b.name) + '</span>' +
+                                    '<span class="boss-record-date">' + (e.failed
+                                        ? '✖ Fallida · venció el ' + fmt(e.date)
+                                        : '✔ Cumplida el ' + fmt(e.date)) + '</span>' +
+                                    '</div>' +
+                                    '</div>';
+                            });
+                            container.innerHTML = html;
                         }
 
                         function resetBosses() {
@@ -199,14 +254,14 @@
                             }
 
                             if (player.bosses.length === 0) {
-                                showToast('No hay bosses para eliminar.', 'info', 'Bosses');
+                                showToast('No hay metas para eliminar.', 'info', 'Metas');
                                 return;
                             }
 
                             showModal(
-                                '👹',
-                                'Resetear Bosses',
-                                '¿Estás seguro de resetear todos los bosses? Los perderás todos.',
+                                '🎯',
+                                'Resetear Metas',
+                                '¿Estás seguro de resetear todas las metas? Las perderás todas.',
                                 'Resetear',
                                 function () {
                                     player.bosses = [];
@@ -214,7 +269,7 @@
                                     renderBosses();
                                     renderBestiary();
                                     if (typeof renderBossImportList === 'function') renderBossImportList();
-                                    showToast('👹 Todos los bosses han sido eliminados.', 'info', 'Bosses');
+                                    showToast('🎯 Todas las metas han sido eliminadas.', 'info', 'Metas');
                                 },
                                 true
                             );

@@ -8,22 +8,23 @@
                                     var mult = getDifficultyMultipliers();
                                     var adjustedDamage = Math.floor(amount * mult.damageMod);
                                     var adjustedPetDamage = Math.floor(petDamage * mult.damageMod);
+                                    var petsOn = (typeof FEATURES === 'undefined') || FEATURES.pets;
 
                                     player.hp = Math.max(0, player.hp - adjustedDamage);
 
-                                    if (player.equipment && player.equipment.mascota) {
+                                    if (petsOn && player.equipment && player.equipment.mascota) {
                                         player.petHealth = Math.max(0, player.petHealth - adjustedPetDamage);
                                     }
 
                                     shakeScreen();
 
                                     var logMsg = '💔 Recibiste ' + adjustedDamage + ' de daño';
-                                    if (player.equipment && player.equipment.mascota && petDamage > 0) {
+                                    if (petsOn && player.equipment && player.equipment.mascota && petDamage > 0) {
                                         logMsg += ' (mascota: -' + adjustedPetDamage + ' HP)';
                                     }
                                     addLogEntry('damage', logMsg, 'Fuente: ' + source, 0, 0, null);
 
-                                    if (player.equipment && player.equipment.mascota && player.petHealth <= 0) {
+                                    if (petsOn && player.equipment && player.equipment.mascota && player.petHealth <= 0) {
                                         var mascotaItem = player.equipment.mascota;
                                         var isPhoenix = mascotaItem.species === 'fenix' && !mascotaItem.phoenixUsed;
 

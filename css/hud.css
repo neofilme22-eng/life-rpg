@@ -460,3 +460,13 @@
     box-shadow: 0 2px 16px rgba(167, 139, 250, 0.15);
     background: rgba(167, 139, 250, 0.03);
 }
+
+/* ===== PANEL DE PERSONAJE SOLO (las runas ahora son una pestaña aparte) ===== */
+.character-solo {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.character-solo .panel-gold {
+    justify-content: flex-end;
+}

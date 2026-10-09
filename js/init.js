@@ -148,6 +148,11 @@
                                             updatePet();
                                         }, 50);
                                     }
+                                    if (tabId === 'tab-runes') {
+                                        setTimeout(function () {
+                                            renderRunes();
+                                        }, 50);
+                                    }
                                     if (tabId === 'tab-events') {
                                         setTimeout(function () {
                                             renderEvents();

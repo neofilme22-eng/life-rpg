@@ -42,7 +42,11 @@ function renderEvents() {
     var eventContainer = document.getElementById('event-container');
     var dungeonContainer = document.getElementById('dungeon-container');
 
-    if (!eventContainer || !dungeonContainer) return;
+    // Eventos deshabilitados (FEATURES.events = false): solo se procesan y muestran las mazmorras/campañas.
+    var eventsOn = (typeof FEATURES === 'undefined') || FEATURES.events;
+
+    if (!dungeonContainer) return;
+    if (eventsOn && !eventContainer) return;
 
     cargarEventos();
 
@@ -54,7 +58,7 @@ function renderEvents() {
     window.eventosCache.forEach(function (evt) {
         if (evt.status === 'finished' || evt.status === 'completed') return;
 
-        if (evt.type === 'event' && evt.start) {
+        if (eventsOn && evt.type === 'event' && evt.start) {
             var startDate = new Date(evt.start);
             var endDate = new Date(startDate);
             endDate.setHours(endDate.getHours() + (evt.duration || 3));
@@ -84,7 +88,7 @@ function renderEvents() {
                         gainRewards(expGain, goldGain, 'social', 'event', '⏰ Evento "' + evt.title + '" finalizado', completadas + '/' + total + ' tareas');
                     }
                     if (typeof showToast === 'function') {
-                        showToast('⏰ Evento "' + evt.title + '" finalizado. +' + expGain + ' EXP, +' + goldGain + ' ORO', 'info', 'Evento');
+                        showToast('⏰ Evento "' + evt.title + '" finalizado. +' + expGain + ' EXP' + goldText(goldGain), 'info', 'Evento');
                     }
                 } else {
                     // No hay recompensas si no se completó ninguna tarea
@@ -203,7 +207,7 @@ function renderEvents() {
         return 0;
     });
 
-    renderEventCards(eventContainer, eventos, 'event');
+    if (eventsOn && eventContainer) renderEventCards(eventContainer, eventos, 'event');
     renderDungeonCards(dungeonContainer, mazmorras);
 
     if (typeof renderDailySidebar === 'function') renderDailySidebar();
@@ -274,8 +278,9 @@ function renderEventCards(container, events, type) {
         var tasksToggleHTML = '';
         var tasksHTML = '';
         if (evt.tasks.length > 0) {
-            tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">▾</span></div>';
-            tasksHTML = '<div class="event-tasks-panel" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
+            var tasksOpen = !(window.collapsedTaskPanels && window.collapsedTaskPanels[evt.id]);
+            tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">' + (tasksOpen ? '▴' : '▾') + '</span></div>';
+            tasksHTML = '<div class="event-tasks-panel' + (tasksOpen ? ' open' : '') + '" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
             evt.tasks.forEach(function (task, index) {
                 var isCompleted = evt.taskStatus[index] || false;
                 var disabled = false;
@@ -323,7 +328,7 @@ function renderEventCards(container, events, type) {
                 ${tasksToggleHTML}
                 ${tasksHTML}
                 <div class="event-reward">
-                    <span>🏆 +${evt.expReward || 20} EXP, +${evt.goldReward || 10} ORO</span>
+                    <span>🏆 +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
                 </div>
             </div>
         `;
@@ -372,8 +377,9 @@ function renderDungeonCards(container, mazmorras) {
         var tasksToggleHTML = '';
         var tasksHTML = '';
         if (evt.tasks.length > 0) {
-            tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">▾</span></div>';
-            tasksHTML = '<div class="event-tasks-panel" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
+            var tasksOpen = !(window.collapsedTaskPanels && window.collapsedTaskPanels[evt.id]);
+            tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">' + (tasksOpen ? '▴' : '▾') + '</span></div>';
+            tasksHTML = '<div class="event-tasks-panel' + (tasksOpen ? ' open' : '') + '" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
             evt.tasks.forEach(function (task, index) {
                 var isCompleted = evt.taskStatus[index] || false;
                 var disabled = evt.status !== 'active' || (player && player.gameOver);
@@ -430,7 +436,7 @@ function renderDungeonCards(container, mazmorras) {
                 ${tasksToggleHTML}
                 ${tasksHTML}
                 <div class="event-reward">
-                    <span>🏆 +${evt.expReward || 20} EXP, +${evt.goldReward || 10} ORO</span>
+                    <span>🏆 +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
                 </div>
                 <div class="event-actions">
                     ${actionsHTML}
@@ -465,6 +471,11 @@ function toggleEventTasksPanel(eventId) {
 
     var isOpen = panel.classList.toggle('open');
     if (chevron) chevron.textContent = isOpen ? '▴' : '▾';
+
+    // Las tareas arrancan desplegadas; se recuerda qué paneles plegó el usuario para que no se reabran al re-renderizar.
+    window.collapsedTaskPanels = window.collapsedTaskPanels || {};
+    if (isOpen) delete window.collapsedTaskPanels[eventId];
+    else window.collapsedTaskPanels[eventId] = true;
 }
 
 // ============================================================
@@ -707,7 +718,7 @@ function finalizarMazmorra(event, id) {
             renderEvents();
 
             if (typeof showToast === 'function') {
-                showToast('🏰 ¡Mazmorra "' + evt.title + '" completada! +' + expGain + ' EXP, +' + goldGain + ' ORO', 'success', 'Mazmorra');
+                showToast('🏰 ¡Mazmorra "' + evt.title + '" completada! +' + expGain + ' EXP' + goldText(goldGain), 'success', 'Mazmorra');
             }
             if (typeof checkAndUnlockTrophies === 'function') {
                 checkAndUnlockTrophies();
@@ -769,6 +780,8 @@ function calcularProximaFecha(period, fechaBase) {
 }
 
 function renovarEventosPeriodicos() {
+    if (typeof FEATURES !== 'undefined' && !FEATURES.events) return;
+
     var hoy = new Date().toDateString();
 
     if (window.ultimaFechaRenovacion === hoy && window.eventosRenovadosHoy) {
@@ -969,7 +982,11 @@ function importEventsConfig(event) {
             var count = 0;
             var packId = 'epack_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
             var packName = file.name.replace(/\.json$/i, '');
+            var skippedEvents = 0;
+            var eventsOn = (typeof FEATURES === 'undefined') || FEATURES.events;
             imported.forEach(function (s) {
+                // Eventos deshabilitados: se importan solo las mazmorras/campañas.
+                if (!eventsOn && (s.type || 'event') === 'event') { skippedEvents++; return; }
                 var tasks = s.tasks || [];
                 var newEvent = {
                     id: 'evt_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
@@ -1002,7 +1019,7 @@ function importEventsConfig(event) {
             renderEvents();
             renderEventImportList();
             if (typeof showToast === 'function') {
-                showToast('📂 ¡' + count + ' eventos importados!', 'success', 'Importar');
+                showToast('📂 ¡' + count + ' campañas importadas!' + (skippedEvents ? ' (' + skippedEvents + ' eventos omitidos: están deshabilitados)' : ''), 'success', 'Importar');
             }
         } catch (error) {
             if (typeof showToast === 'function') {

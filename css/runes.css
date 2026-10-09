@@ -272,3 +272,53 @@
         width: 32px;
     }
 }
+
+/* ===== PESTAÑA RUNAS: grilla de cards en escritorio ===== */
+/* Cada card se arma en dos filas (ícono + título arriba; nivel, racha y barra abajo)
+   para que nada se corte aunque la columna sea angosta. */
+@media (min-width: 769px) {
+    #tab-runes .rune-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 8px;
+    }
+
+    #tab-runes .rune-card {
+        flex-wrap: wrap;
+        row-gap: 8px;
+        column-gap: 10px;
+        align-items: center;
+    }
+
+    /* El título ocupa todo el ancho que queda junto al ícono, así nivel/racha/barra pasan a la fila de abajo */
+    #tab-runes .rune-title {
+        flex: 1 1 calc(100% - 52px);
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    /* Segunda fila: alineada con el título (ícono de 40px + separación de 10px) */
+    #tab-runes .rune-stats {
+        flex: 0 0 auto;
+        margin-left: 50px;
+    }
+
+    #tab-runes .rune-badge {
+        font-size: 0.65rem;
+        padding: 2px 8px;
+    }
+
+    #tab-runes .rune-progress {
+        flex: 1 1 60px;
+        width: auto;
+        min-width: 60px;
+    }
+
+    #tab-runes .rune-progress .progress-track {
+        height: 4px;
+    }
+}
+
+#tab-runes .panel-gold {
+    justify-content: flex-end;
+}

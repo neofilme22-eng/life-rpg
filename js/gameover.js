@@ -20,9 +20,9 @@
                     <div class="penalty-info">
                         <strong>Penalizaciones:</strong><br>
                         ⭐ Perderás ${expPenalty} EXP<br>
-                        🟡 Perderás ${goldPenalty} ORO<br>
+                        ${(typeof FEATURES !== 'undefined' && FEATURES.gold) ? '🟡 Perderás ' + goldPenalty + ' ORO<br>' : ''}
                         📉 Todos los atributos bajan 1 punto<br>
-                        ${player.equipment.mascota ? '🐾 Tu mascota ha muerto' : ''}
+                        ${(typeof FEATURES !== 'undefined' && FEATURES.pets && player.equipment.mascota) ? '🐾 Tu mascota ha muerto' : ''}
                         <br><br>
                         <em style="font-size:0.7rem;">La dificultad afecta las penalizaciones.</em>
                     </div>
@@ -41,7 +41,7 @@
                                     var goldPenalty = Math.floor(player.gold * 0.15 * mult.gold);
 
                                     player.exp = Math.max(0, player.exp - expPenalty);
-                                    player.gold = Math.max(0, player.gold - goldPenalty);
+                                    if (typeof FEATURES !== 'undefined' && FEATURES.gold) player.gold = Math.max(0, player.gold - goldPenalty);
 
                                     for (var key in player.attributes) {
                                         player.attributes[key] = Math.max(1, player.attributes[key] - 1);
@@ -50,7 +50,7 @@
                                     player.hp = Math.floor(player.maxHp * 0.5);
                                     player.gameOver = false;
 
-                                    if (player.equipment.mascota) {
+                                    if (typeof FEATURES !== 'undefined' && FEATURES.pets && player.equipment.mascota) {
                                         player.petHealth = Math.floor(player.petMaxHealth * 0.5);
                                     }
 

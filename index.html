@@ -67,8 +67,8 @@
     </div>
 
     <div class="container">
-        <!-- ========== PANEL DE PERSONAJE + RUNAS (DOS COLUMNAS) ========== -->
-        <div class="two-col-grid character-runes-grid">
+        <!-- ========== PANEL DE PERSONAJE ========== -->
+        <div class="character-solo">
 
             
             <!-- ===== PANEL DE PERSONAJE UNIFICADO ===== -->
@@ -115,33 +115,14 @@
                     style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
                 </div>
             
-                <!-- Oro (abajo del radar) -->
+                <!-- DESHABILITADO: contador de ORO (todo es por EXP). Para reactivarlo: sacá el <template> y poné FEATURES.gold = true en js/config.js -->
+                <template data-disabled="gold">
                 <div class="panel-gold">
-                    <button class="mobile-toggle-btn" onclick="toggleMobilePanel('runes')">Runas</button>
                     <div class="shop-gold-display">
                         <span></span> <strong class="gold-display">0</strong> ORO
                     </div>
                 </div>
-            </div>
-
-            <!-- ===== DERECHA: RUNAS ACTIVAS ===== -->
-            <div class="section-box runes-section">
-                <div class="section-header">
-                    <span class="section-title">Runas Activas — Hábitos Permanentes</span>
-                    <span class="section-ornament"></span>
-                </div>
-                <br>
-                <div id="rune-container" class="rune-grid"></div>
-                <div
-                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
-                </div>
-                <!-- PP (debajo de las runas) -->
-                <div class="panel-gold">
-                    <button class="mobile-toggle-btn attr-toggle" onclick="toggleMobilePanel('attributes')">Atributos</button>
-                    <div class="shop-gold-display pp-badge">
-                        <span>🔮</span> <strong class="pp-display">0</strong> PP
-                    </div>
-                </div>
+                </template>
             </div>
 
         </div>
@@ -151,14 +132,15 @@
         <!-- ========== TABS (ESCRITORIO) ========== -->
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('tab-runas')">🎴 Misiones</button>
-            <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>            
-            <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
-            <button class="tab-btn" onclick="switchTab('tab-bosses')">👹 Deidades</button>
-            <button class="tab-btn" onclick="switchTab('tab-bestiary')">📔 Bestiario</button>
-            <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
-            <button class="tab-btn" onclick="switchTab('tab-logbook')">📜 Diario</button>
+            <button class="tab-btn" onclick="switchTab('tab-runes')">💠 Runas</button>
+            <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>
+            <button class="tab-btn" onclick="switchTab('tab-bosses')">🎯 Metas</button>
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button> -->
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-bestiary')">📔 Bestiario</button> -->
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button> -->
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-logbook')">📜 Diario</button> -->
             <button class="tab-btn" onclick="switchTab('tab-story')">📖 Historia</button>
-            <button class="tab-btn" onclick="switchTab('tab-shop')">🏪 Tienda</button>
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-shop')">🏪 Tienda</button> -->
             <button class="tab-btn" onclick="switchTab('tab-trophies')">🏆 Trofeos</button>
             <button class="tab-btn" onclick="switchTab('tab-stats')">📊 Estadísticas</button>
             <button class="tab-btn" onclick="switchTab('tab-config')">⚙️ Configuración</button>
@@ -171,14 +153,15 @@
         <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
         <nav class="mobile-menu" id="mobile-menu">
             <button class="mobile-menu-item active" onclick="switchTab('tab-runas')">🎴 Misiones</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-runes')">💠 Runas</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-events')">🌍 Aventuras</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-battles')">⚔️ Batallas</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-bosses')">👹 Deidades</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-bestiary')">📔 Bestiario</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-inventory')">🎒 Inventario</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-logbook')">📜 Diario</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-bosses')">🎯 Metas</button>
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-battles')">⚔️ Batallas</button> -->
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-bestiary')">📔 Bestiario</button> -->
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-inventory')">🎒 Inventario</button> -->
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-logbook')">📜 Diario</button> -->
             <button class="mobile-menu-item" onclick="switchTab('tab-story')">📖 Historia</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-shop')">🏪 Tienda</button>
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-shop')">🏪 Tienda</button> -->
             <button class="mobile-menu-item" onclick="switchTab('tab-trophies')">🏆 Trofeos</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-stats')">📊 Estadísticas</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-config')">⚙️ Configuración</button>
@@ -277,6 +260,8 @@
                 <div id="mission-container" class="mission-grid"></div>
             </div>
 
+            <!-- DESHABILITADO: Santuario del Enfoque (Pomodoro). Para reactivarlo: sacá el <template> y poné FEATURES.pomodoro = true en js/config.js -->
+            <template data-disabled="pomodoro">
             <!-- SANTUARIO -->
             <div class="section-box">
                 <div class="sanctuary-container">
@@ -355,6 +340,7 @@
                     </div>
                 </div>
             </div>
+            </template>
 
             <!-- GESTIÓN DE PARTIDA -->
             <div class="section-box">
@@ -373,9 +359,35 @@
             </div>
         </div>
 
+        <!-- ========== PESTAÑA RUNAS ========== -->
+        <div id="tab-runes" class="tab-content">
+            <!-- ===== RUNAS ACTIVAS ===== -->
+            <div class="section-box runes-section">
+                <div class="section-header">
+                    <span class="section-title">Runas Activas — Hábitos Permanentes</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <br>
+                <div id="rune-container" class="rune-grid"></div>
+                <!-- DESHABILITADO: contador de PP. Para reactivarlo: sacá el <template> y poné FEATURES.pp = true en js/config.js -->
+                <template data-disabled="pp">
+                <div
+                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
+                </div>
+                <div class="panel-gold">
+                    <div class="shop-gold-display pp-badge">
+                        <span>🔮</span> <strong class="pp-display">0</strong> PP
+                    </div>
+                </div>
+                </template>
+            </div>
+        </div>
+
         <!-- ========== PESTAÑA AVENTURAS ========== -->
         <div id="tab-events" class="tab-content">
             <div class="section-box">
+                <!-- DESHABILITADO: Eventos. Para reactivarlos: sacá el <template> y poné FEATURES.events = true en js/config.js -->
+                <template data-disabled="events">
                 <div class="events-section">
                     <div class="section-header">
                         <span class="section-title">Eventos</span>
@@ -400,6 +412,7 @@
                 <div
                     style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
                 </div>
+                </template>
 
                 <div class="events-section dungeon-section">
                     <div class="section-header">
@@ -415,27 +428,38 @@
             </div>
         </div>
 
-        <!-- ========== PESTAÑA BOSSES ========== -->
+        <!-- ========== PESTAÑA METAS ========== -->
         <div id="tab-bosses" class="tab-content">
             <div class="section-box">
                 <div
                     style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <div class="section-header" style="margin-bottom:0;">
-                        <span class="section-title">Bosses — Metas Grandes</span>
+                        <span class="section-title">Metas</span>
                         <span class="section-ornament"></span>
                     </div>
                     <br>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <span
                             style="color: var(--text-muted); font-size: 0.9rem; font-family:'Georgia','Times New Roman',serif;">
-                            <span id="boss-count">0</span> / <span id="boss-total">0</span> derrotados
+                            <span id="boss-count">0</span> / <span id="boss-total">0</span> cumplidas
                         </span>
                     </div>
                 </div>
                 <div id="boss-container" class="boss-grid"></div>
+
+                <div class="boss-record">
+                    <div class="boss-record-header">
+                        <span class="boss-record-title">📋 Historial de Metas</span>
+                        <span class="boss-record-count" id="boss-record-count"></span>
+                    </div>
+                    <div id="boss-record-container" class="boss-record-list"></div>
+                </div>
             </div>
         </div>
 
+        <!-- DESHABILITADO: Bestiario, Batallas, Inventario y Tienda.
+             Para reactivar alguna: sacá el <template>, descomentá su botón en las pestañas y poné su flag en true en js/config.js -->
+        <template data-disabled="bestiary,battles,inventory,shop">
         <!-- ========== PESTAÑA BESTIARIO ========== -->
         <div id="tab-bestiary" class="tab-content">
             <div class="section-box">
@@ -651,6 +675,7 @@
                 <div id="shop-pagination" class="pagination"></div>
             </div>
         </div>
+        </template>
 
         <!-- ========== PESTAÑA TROFEOS ========== -->
         <div id="tab-trophies" class="tab-content">
@@ -696,6 +721,9 @@
             </div>
         </div>
 
+        <!-- DESHABILITADO: Diario (el registro de actividad sigue guardándose por detrás; lo usa el calendario de constancia).
+             Para reactivarlo: sacá el <template>, descomentá su botón y poné FEATURES.logbook = true en js/config.js -->
+        <template data-disabled="logbook">
         <!-- ========== PESTAÑA DIARIO ========== -->
         <div id="tab-logbook" class="tab-content">
             <div class="section-box">
@@ -711,12 +739,13 @@
                 </div>
             </div>
         </div>
+        </template>
 
         <!-- ========== PESTAÑA MODO HISTORIA ========== -->
         <div id="tab-story" class="tab-content">
             <div class="section-box">
                 <div class="section-header">
-                    <span class="section-title">Modo Historia — La Ciudad Gris</span>
+                    <span class="section-title">Modo Historia — Bahía Ceniza</span>
                     <span class="section-ornament"></span>
                 </div>
                
@@ -822,10 +851,10 @@
                     </div>
 
                     <div class="config-card">
-                        <div class="config-title">Bosses</div>
+                        <div class="config-title">Metas</div>
                         <br>
                         <div class="config-file-input" onclick="document.getElementById('boss-file-config').click()">
-                            📂 Seleccionar archivo JSON de bosses
+                            📂 Seleccionar archivo JSON de metas
                             <input type="file" id="boss-file-config" accept=".json"
                                 onchange="importBossesConfig(event)">
                         </div>
@@ -847,7 +876,7 @@
                         <br>
                         <div
                             style="font-size:0.65rem; color:var(--text-muted); opacity:0.4; margin-top:4px; font-family:'Georgia','Times New Roman',serif;">
-                            ⚠️ Esto eliminará TODOS los datos: personaje, runas, misiones, bosses, eventos, tienda,
+                            ⚠️ Esto eliminará TODOS los datos: personaje, runas, misiones, metas, eventos, tienda,
                             trofeos y diario.
                         </div>
                     </div>
@@ -856,12 +885,14 @@
         </div>
     </div>
 
-    <!-- ========== MASCOTA FLOTANTE ========== -->
+    <!-- DESHABILITADO: Mascota flotante. Para reactivarla: sacá el <template> y poné FEATURES.pets = true en js/config.js -->
+    <template data-disabled="pets">
     <div class="pet-container" id="pet-container" onclick="petClick()">
         <div class="pet-bubble" id="pet-bubble">🐾 ¡Hola, aventurero!</div>
         <span class="pet-emoji" id="pet-emoji"></span>
         <span class="pet-level" id="pet-level">Nv. 1</span>
     </div>
+    </template>
 
     <!-- ============================================================ -->
     <!-- ===== SCRIPT COMPLETO ===== -->
