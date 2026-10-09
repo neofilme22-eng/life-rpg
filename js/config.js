@@ -449,7 +449,8 @@ const LOG_ICONS = {
     inventory: '🎒',
     damage: '💔',
     story: '📖',
-    battle: '⚔️'
+    battle: '⚔️',
+    reflection: '🌙'
 };
 
 const BASE_TROPHY_DEFINITIONS = [

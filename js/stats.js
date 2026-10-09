@@ -339,6 +339,7 @@
             `;
 
                                     container.innerHTML = html;
+                                    if (typeof renderMoodChart === 'function') renderMoodChart();
                                 }
 
                                 // ============================================================

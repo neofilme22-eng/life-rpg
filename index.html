@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="css/pet.css">
     <link rel="stylesheet" href="css/gameover.css">
     <link rel="stylesheet" href="css/stats.css">
+    <link rel="stylesheet" href="css/wellbeing.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
@@ -145,6 +146,8 @@
 
         </div>
 
+        <div id="reminder-banner"></div>
+
         <!-- ========== TABS (ESCRITORIO) ========== -->
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('tab-runas')">🎴 Misiones</button>
@@ -183,6 +186,7 @@
 
         <!-- ========== PESTAÑA PANEL PRINCIPAL ========== -->
         <div id="tab-runas" class="tab-content active">
+            <div id="checkin-card"></div>
             <div class="two-col-grid daily-missions-grid">
                 <div class="section-box">
                     <div class="section-header">
@@ -716,10 +720,35 @@
                     <span class="section-ornament"></span>
                 </div>
                
-                <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-                    <span id="story-progress" style="font-size:0.75rem; color:var(--text-muted);"></span>
-                </div>
-                <div id="story-container"></div>
+                <details class="wb-dropdown">
+                    <summary>📝 Notas <span class="wb-sub" id="notes-count"></span></summary>
+                    <div class="wb-dropdown-body">
+                        <div class="wb-notes">
+                            <div class="wb-notes-side">
+                                <div class="wb-notes-tools">
+                                    <input type="text" id="notes-search" class="wb-input" placeholder="Buscar..." oninput="renderNotesList()">
+                                    <button class="action-btn" onclick="newNote()">＋ Nueva</button>
+                                </div>
+                                <div id="notes-list"></div>
+                            </div>
+                            <div class="wb-notes-editor" id="notes-editor"></div>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="wb-dropdown">
+                    <summary>🌙 Reflexiones <span class="wb-sub" id="refl-count"></span></summary>
+                    <div class="wb-dropdown-body">
+                        <div id="reflection-card"></div>
+                    </div>
+                </details>
+
+                <details class="wb-dropdown">
+                    <summary>📖 Capítulos <span class="wb-sub" id="story-progress"></span></summary>
+                    <div class="wb-dropdown-body">
+                        <div id="story-container"></div>
+                    </div>
+                </details>
             </div>
         </div>
 
@@ -866,6 +895,8 @@
     <script src="js/gameover.js"></script>
     <script src="js/damage-system.js"></script>
     <script src="js/daily-heatmap.js"></script>
+    <script src="js/wellbeing.js"></script>
+    <script src="js/reminders.js"></script>
     <script src="js/init.js"></script>
 
     <!-- ===== PWA: registro del Service Worker ===== -->
