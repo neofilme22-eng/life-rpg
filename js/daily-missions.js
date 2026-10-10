@@ -1,4 +1,4 @@
-                // ===== MISIONES DIARIAS =====
+                // ===== TAREAS DIARIAS =====
                 // ============================================================
 
                 function loadDailyMissions() {
@@ -85,7 +85,7 @@
                     var dateFormatted = today.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
                     var msg = 'Misión "' + title + '" creada para hoy (' + dateFormatted + ')';
                     if (time) msg += ' a las ' + time;
-                    showToast(msg, 'success', 'Misión Diaria');
+                    showToast(msg, 'success', 'Tarea Diaria');
                 }
 
                 function handleDailyMissionClick(event, id) {
@@ -141,7 +141,7 @@
                     saveDailyMissions(missions);
                     renderDailyMissions();
 
-                    gainRewards(8, 3, 'disciplina', 'daily', 'Misión diaria "' + mission.title + '"', 'Tarea completada');
+                    gainRewards(8, 3, 'disciplina', 'daily', 'Tarea diaria "' + mission.title + '"', 'Completada');
                     showToast('Misión "' + mission.title + '" completada! +8 EXP' + goldText(3), 'success', 'Misión');
                     checkAndUnlockTrophies();
                 }
@@ -179,7 +179,7 @@
                             m.penaltyApplied = true;
                             damageCount++;
                             changed = true;
-                            applyDamage(15, 'Misión diaria vencida: "' + m.title + '"', 8);
+                            applyDamage(15, 'Tarea diaria vencida: "' + m.title + '"', 8);
                         }
                     });
 
@@ -191,9 +191,9 @@
 
                     if (zeroMissionDay && player.lastZeroMissionDayPenalty !== todayStr) {
                         player.lastZeroMissionDayPenalty = todayStr;
-                        applyDamage(15, 'Día completo sin ninguna misión diaria completada', 8);
-                        addLogEntry('daily', 'Día perdido: ninguna misión diaria completada', '', 0, 0, null);
-                        showToast('No completaste ninguna misión diaria hoy. Daño extra.', 'error', 'Misiones');
+                        applyDamage(15, 'Día completo sin ninguna tarea diaria completada', 8);
+                        addLogEntry('daily', 'Día perdido: ninguna tarea diaria completada', '', 0, 0, null);
+                        showToast('No completaste ninguna tarea diaria hoy. Daño extra.', 'error', 'Tareas');
                         saveGame();
                     }
 
@@ -201,8 +201,8 @@
                         saveDailyMissions(missions);
                         renderDailyMissions();
                         if (damageCount > 0) {
-                            var msg = 'Tienes ' + damageCount + ' misión(es) diaria(s) vencida(s). Has recibido daño.';
-                            showToast(msg, 'warning', 'Misiones');
+                            var msg = 'Tienes ' + damageCount + ' tarea(s) diaria(s) vencida(s). Has recibido daño.';
+                            showToast(msg, 'warning', 'Tareas');
                         }
                     }
                 }
@@ -228,7 +228,7 @@
                     if (missions.length === 0) {
                         container.innerHTML = `
                     <div style="color:var(--text-muted); opacity:0.5; text-align:center; font-style:italic; font-family:'Georgia','Times New Roman',serif; padding:20px 0;">
-                        No hay misiones para hoy. ¡Crea una para empezar!
+                        No hay tareas para hoy. ¡Crea una para empezar!
                     </div>
                 `;
                         return;
@@ -275,18 +275,17 @@
 
                         html += `
                     <div class="${cardClass}">
-                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%;">
-                            <span class="mission-dlc-name" style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; font-weight:600; opacity:0.6; font-family:'Georgia','Times New Roman',serif;">Misión Diaria</span>
-                            <span class="daily-deadline" style="font-size:0.7rem; color:var(--text-muted); opacity:0.7; font-family:'Georgia','Times New Roman',serif; white-space:nowrap; padding:2px 10px; background:rgba(227,220,200,0.03); border-radius:12px; border:1px solid rgba(227,220,200,0.04);">${dateStr} ${m.time ? '' + escapeHtml(timeStr) : ''}</span>
+                        <div class="mission-card-head">
+                            <span class="mission-dlc-name">Tarea Diaria</span>
+                            <span class="daily-deadline">${dateStr} ${m.time ? '' + escapeHtml(timeStr) : ''}</span>
                         </div>
-                        <div class="daily-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-top:4px;">                    
-                            <span class="daily-title" style="font-weight:bold; font-size:1rem; color:var(--text); font-family:'Georgia','Times New Roman',serif; flex:1;">${escapeHtml(m.title)}</span>
-                        </div>
-                        <br>
-                        <span class="daily-status ${statusClass}" style="font-size:0.65rem; font-weight:bold; padding:2px 12px; border-radius:12px; display:inline-block; margin-top:4px; font-family:'Georgia','Times New Roman',serif; align-self:flex-start;">${statusText}</span>
-                        <div class="mission-footer" style="display:flex; justify-content:space-between; align-items:center; padding-top:8px; margin-top:8px; border-top:1px solid rgba(227,220,200,0.04);">
-                            <span class="mission-reward" style="font-size:0.85rem; color:var(--success); font-weight:bold; font-family:'Georgia','Times New Roman',serif;">+${totalExp} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
-                            ${!isCompleted && !overdue ? `<button class="complete-btn" onclick="handleDailyMissionClick(event, '${safeId}')" style="padding:6px 16px; border-radius:6px; cursor:pointer; font-size:0.8rem; transition:all 0.2s; font-family:'Georgia','Times New Roman',serif; font-weight:bold; background:linear-gradient(145deg, #975d36, #c19847); color:#161e1b; border:1px solid rgba(193,152,71,0.3);">Completar</button>` : ''}
+                        <div class="daily-title">${escapeHtml(m.title)}</div>
+                        <div class="mission-footer">
+                            <div class="footer-chips">
+                                <span class="daily-status ${statusClass}">${statusText}</span>
+                                <span class="reward-chip">Recompensa: +${totalExp} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
+                            </div>
+                            ${!isCompleted && !overdue ? `<button class="complete-btn" onclick="handleDailyMissionClick(event, '${safeId}')">Completar</button>` : ''}
                         </div>
                     </div>
                 `;

@@ -181,7 +181,7 @@
                     </div>
 
                     <div class="stats-card">
-                        <div class="stats-title">Misiones Diarias</div>
+                        <div class="stats-title">Tareas Diarias</div>
                         <div style="display:flex; align-items:center; gap:12px;">
                             <span class="stats-number">${dailyCompletadas}</span>
                             <span style="color:var(--text-muted); opacity:0.4; font-size:0.9rem;">/ ${dailyTotal}</span>

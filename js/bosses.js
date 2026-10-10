@@ -21,7 +21,7 @@
                                 if (card && typeof triggerFxBurst === 'function') {
                                     var mult = getDifficultyMultipliers();
                                     var expPreview = Math.floor(boss.expReward * mult.exp);
-                                    triggerFxBurst(card, '+' + expPreview + ' EXP', '#a1443d', { big: true });
+                                    triggerFxBurst(card, '+' + expPreview + ' EXP', '#b9c0ba', { big: true });
                                     setTimeout(function () { defeatBoss(bossId); }, 650);
                                 } else {
                                     defeatBoss(bossId);
@@ -168,7 +168,7 @@
                                 card.innerHTML = `
                     <div class="boss-header">
                         <div>
-                            <h3 class="boss-name"> ${boss.name}</h3>
+                            <h3 class="boss-name"><span class="boss-title-icon">${renderIconHTML(boss.icon, '🎯')}</span> ${boss.name}</h3>
                         </div>
                         <span class="boss-status">${statusText}</span>
                     </div>
@@ -184,8 +184,8 @@
                         </div>
                     </div>
                     ${tasksHTML}
-                    <div class="boss-reward">
-                        <span>Recompensa: +${Math.floor(boss.expReward * getDifficultyMultipliers().exp)} EXP${goldText(Math.floor(boss.goldReward * getDifficultyMultipliers().gold))}</span>
+                    <div class="boss-reward card-reward">
+                        <span class="reward-chip">Recompensa: +${Math.floor(boss.expReward * getDifficultyMultipliers().exp)} EXP${goldText(Math.floor(boss.goldReward * getDifficultyMultipliers().gold))}</span>
                     </div>
                 `;
 

@@ -27,6 +27,14 @@
     --rust: #975d36;           /* óxido */
     --verdigris: #71a79c;      /* cardenillo, niebla marina */
     --verdigris-light: #9ac1b9;
+    --silver: #b9c0ba;         /* plata (Metas) */
+    --plum: #1c1727;           /* ciruela oscuro (Trofeos) */
+    --plum-dark: #110e19;
+    --c-daily: #d9b968;        /* tareas diarias */
+    --c-main: #cc7f3e;         /* misiones principales */
+    --c-secondary: #e6dcb8;    /* misiones secundarias */
+    --c-event: #9c87ab;        /* eventos */
+    --c-goal: #b9c0ba;         /* metas */
     --celeste: #7ea7bd;        /* celeste (gráfico de runas) */
     --lichen: #73955d;         /* musgo, éxito */
     --dusk: #9c87ab;           /* crepúsculo, lo raro */

@@ -391,10 +391,10 @@ var statsChartKey = 'mood';
 
 var STATS_CHARTS = {
     mood:     { label: 'Ánimo',    title: 'Estado de ánimo por día',      color: '#86a96c', unit: 'ánimo', fem: false },     // verde
-    missions: { label: 'Misiones', title: 'Misiones completadas por día', color: '#d9b968', unit: 'misiones', fem: true },   // amarillo
+    missions: { label: 'Misiones', title: 'Tareas y misiones completadas por día', color: '#d9b968', unit: 'misiones', fem: true },   // amarillo
     runes:    { label: 'Runas',    title: 'Runas canalizadas por día',    color: '#7ea7bd', unit: 'runas', fem: true },      // celeste
     events:   { label: 'Eventos',  title: 'Eventos completados por día',  color: '#9c87ab', unit: 'eventos', fem: false },  // lila
-    goals:    { label: 'Metas',    title: 'Metas cumplidas por día',      color: '#be524a', unit: 'metas', fem: true }       // rojo
+    goals:    { label: 'Metas',    title: 'Metas cumplidas por día',      color: '#b9c0ba', unit: 'metas', fem: true }       // plateado
 };
 
 function wbLastDays(n) {
@@ -418,6 +418,38 @@ function wbCountByDate(filterFn) {
         });
     });
     return map;
+}
+
+// Tareas diarias, misiones principales y secundarias, cada una por día.
+var WB_MISSION_LINES = [
+    { key: 'daily',     name: 'Tareas diarias',        color: '#d9b968' },
+    { key: 'main',      name: 'Misiones principales',  color: '#cc7f3e' },
+    { key: 'secondary', name: 'Misiones secundarias',  color: '#e6dcb8' }
+];
+
+function wbMissionSeries() {
+    var typeByTitle = {};
+    (player.rawMissions || []).forEach(function (m) { typeByTitle[m.title] = m.type; });
+    var res = { daily: {}, main: {}, secondary: {} };
+    (player.logbook || []).forEach(function (day) {
+        (day.entries || []).forEach(function (e) {
+            if (!e.timestamp) return;
+            var title = e.title || '', bucket = null;
+            if (e.type === 'daily' && title.indexOf('Día perdido') === -1) bucket = 'daily';
+            else if (e.type === 'mission') {
+                if (/principal/i.test(title)) bucket = 'main';
+                else if (/secundaria/i.test(title)) bucket = 'secondary';
+                else {
+                    var q = title.match(/"(.*)"/);
+                    bucket = (q && typeByTitle[q[1]] === 'secondary') ? 'secondary' : 'main';
+                }
+            }
+            if (!bucket) return;
+            var k = wbDate(new Date(e.timestamp));
+            res[bucket][k] = (res[bucket][k] || 0) + 1;
+        });
+    });
+    return res;
 }
 
 function wbStatsSeries(key) {
@@ -448,7 +480,8 @@ function setStatsChart(key) {
 }
 
 function wbLineChartSVG(days, values, cfg) {
-    // values: array alineado con days; null = sin dato (corta la línea)
+    // values: array alineado con days (una serie) — o cfg.series = [{values, color, name}] para varias líneas
+    var series = cfg.series || [{ values: values, color: cfg.color, name: '' }];
     var W = 640, H = 230, padL = 34, padR = 12, padT = 14, padB = 28;
     var plotW = W - padL - padR, plotH = H - padT - padB;
     var step = plotW / (days.length - 1);
@@ -467,18 +500,21 @@ function wbLineChartSVG(days, values, cfg) {
         svg += '<text x="' + xAt(i) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="10" style="fill:var(--text-muted)">' + k.slice(8) + '</text>';
     });
 
-    var seg = [], lines = '', dots = '';
-    function flush() {
-        if (seg.length > 1) lines += '<polyline fill="none" stroke="' + cfg.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="' + seg.join(' ') + '"/>';
-        seg = [];
-    }
-    values.forEach(function (v, i) {
-        if (v === null || v === undefined) { flush(); return; }
-        var x = xAt(i).toFixed(1), y = yAt(v).toFixed(1);
-        seg.push(x + ',' + y);
-        dots += '<circle cx="' + x + '" cy="' + y + '" r="4" fill="' + cfg.color + '"><title>' + wbPrettyDate(days[i]) + ': ' + cfg.tooltip(v) + '</title></circle>';
+    var lines = '', dots = '';
+    series.forEach(function (s) {
+        var seg = [];
+        function flush() {
+            if (seg.length > 1) lines += '<polyline fill="none" stroke="' + s.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="' + seg.join(' ') + '"/>';
+            seg = [];
+        }
+        s.values.forEach(function (v, i) {
+            if (v === null || v === undefined) { flush(); return; }
+            var x = xAt(i).toFixed(1), y = yAt(v).toFixed(1);
+            seg.push(x + ',' + y);
+            dots += '<circle cx="' + x + '" cy="' + y + '" r="4" fill="' + s.color + '"><title>' + wbPrettyDate(days[i]) + ': ' + (s.name ? s.name + ' — ' : '') + cfg.tooltip(v) + '</title></circle>';
+        });
+        flush();
     });
-    flush();
     return svg + lines + dots + '</svg>';
 }
 
@@ -503,17 +539,45 @@ function renderStatsCharts() {
     if (key === 'mood') {
         var checks = {};
         player.moodLog.forEach(function (e) { checks[e.date] = e; });
-        var values = days.map(function (k) { return checks[k] ? checks[k].mood : null; });
-        var filled = values.filter(function (v) { return v !== null; });
+        var values = days.map(function (k) { return checks[k] ? checks[k].mood : 0; });
+        var filled = values.filter(function (v) { return v > 0; });
         if (!filled.length) {
             body = '<div class="wb-empty event-empty">Todavía no hay registros de ánimo en los últimos ' + STATS_CHART_DAYS + ' días.</div>';
         } else {
             var avg = (filled.reduce(function (s, x) { return s + x; }, 0) / filled.length).toFixed(1);
             summary = '<div class="stats-chart-summary">Total: <b>' + filled.length + '</b> · Promedio: <b>' + avg + '/5</b> · Mejor día: <b>' + Math.max.apply(null, filled) + '/5</b></div>';
             body = wbLineChartSVG(days, values, {
-                title: meta.title, color: meta.color, yMin: 1, yMax: 5, ticks: [1, 2, 3, 4, 5],
-                tooltip: function (v) { return 'ánimo ' + v + '/5'; }
-            }) + moodInsightHTML(wbExpByDate());
+                title: meta.title, color: meta.color, yMin: 0, yMax: 5, ticks: [0, 1, 2, 3, 4, 5],
+                tooltip: function (v) { return v ? 'ánimo ' + v + '/5' : 'sin registro'; }
+            });
+        }
+    } else if (key === 'missions') {
+        var ms = wbMissionSeries();
+        var perLine = WB_MISSION_LINES.map(function (l) {
+            var vs = days.map(function (k) { return ms[l.key][k] || 0; });
+            return { key: l.key, name: l.name, color: l.color, values: vs, total: vs.reduce(function (s, x) { return s + x; }, 0) };
+        });
+        var allTotal = perLine.reduce(function (s, l) { return s + l.total; }, 0);
+        if (!allTotal) {
+            body = '<div class="wb-empty event-empty">Todavía no hay tareas ni misiones registradas en los últimos ' + STATS_CHART_DAYS + ' días.</div>';
+        } else {
+            var bestDay = 0, bestLine = 0;
+            days.forEach(function (k, i) {
+                var sum = 0;
+                perLine.forEach(function (l) { sum += l.values[i]; if (l.values[i] > bestLine) bestLine = l.values[i]; });
+                if (sum > bestDay) bestDay = sum;
+            });
+            var yM = Math.max(4, bestLine), tStep = Math.ceil(yM / 4);
+            yM = tStep * 4;
+            summary = '<div class="stats-chart-summary">Total: <b>' + allTotal + '</b> · Promedio: <b>' + (allTotal / STATS_CHART_DAYS).toFixed(1) + '</b>/día · Mejor día: <b>' + bestDay + '</b></div>' +
+                '<div class="stats-chart-legend">' + perLine.map(function (l) {
+                    return '<span class="stats-chart-legend-item"><i style="background:' + l.color + '"></i>' + l.name + ' (' + l.total + ')</span>';
+                }).join('') + '</div>';
+            body = wbLineChartSVG(days, null, {
+                title: meta.title, yMin: 0, yMax: yM, ticks: [0, tStep, tStep * 2, tStep * 3, yM],
+                series: perLine,
+                tooltip: function (v) { return v + ' completadas'; }
+            });
         }
     } else {
         var map = wbStatsSeries(key);

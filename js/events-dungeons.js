@@ -316,14 +316,13 @@ function renderEventCards(container, events, type) {
                 ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
                 <div class="event-meta">
                     <span>${startStr}</span>
-                    <span>${evt.duration || 3}h</span>
-                    <span>Evento</span>
+                    <span><span class="ui-emoji">⏱️</span> ${evt.duration || 3}h</span>
                     ${periodText}
                 </div>
                 ${timerHTML}
                 ${tasksHTML}
-                <div class="event-reward">
-                    <span>+${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
+                <div class="event-reward card-reward">
+                    <span class="reward-chip">Recompensa: +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
                 </div>
             </div>
         `;
@@ -420,14 +419,13 @@ function renderDungeonCards(container, mazmorras) {
                 </div>
                 ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
                 <div class="event-meta">
-                    <span>Evento</span>
-                    <span>${evt.duration || 3}h</span>
-                    ${evt.levelRequired ? '<span>Nivel ' + evt.levelRequired + ' req.</span>' : ''}
+                    <span><span class="ui-emoji">⏱️</span> ${evt.duration || 3}h</span>
+                    ${evt.levelRequired ? '<span><span class="ui-emoji">🏷️</span> Nivel ' + evt.levelRequired + ' req.</span>' : ''}
                 </div>
                 ${timerHTML}
                 ${tasksHTML}
-                <div class="event-reward">
-                    <span>+${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
+                <div class="event-reward card-reward">
+                    <span class="reward-chip">Recompensa: +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
                 </div>
                 <div class="event-actions">
                     ${actionsHTML}

@@ -101,7 +101,7 @@
 
                         var expBoost = player.expBoost || 0;
                         var goldBoost = player.goldBoost || 0;
-                        gainRewards(mission.expReward + expBoost, mission.goldReward + goldBoost, mission.attr, 'mission', 'Misión "' + mission.title + '"', 'DLC: ' + dlcName);
+                        gainRewards(mission.expReward + expBoost, mission.goldReward + goldBoost, mission.attr, 'mission', (mission.type === 'main' ? 'Misión principal "' : 'Misión secundaria "') + mission.title + '"', 'DLC: ' + dlcName);
                         checkCampaignCompletion();
                         checkDLCCompletion(dlcName);
 
@@ -192,12 +192,14 @@
 
                         card.innerHTML = `
                     <div class="mission-card-content">
-                        <div class="mission-dlc-name">${m.dlcName}</div>
+                        <div class="mission-card-head">
+                            <span class="mission-dlc-name">${m.dlcName}</span>
+                            <span class="mission-attr-display">${(attrNames[m.attr] || m.attr).replace(/^([^\p{L}\s]+)\s+(.+)$/u, '<span class="ui-emoji">$1</span> $2')}</span>
+                        </div>
                         <div class="mission-title">${m.title}</div>
                         <div class="mission-card-spacer"></div>
-                        <div class="mission-attr-display">${attrNames[m.attr] || m.attr}</div>
                         <div class="mission-footer">
-                            <span class="mission-reward">+${Math.floor((m.expReward + expBoost) * mult.exp)} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
+                            <span class="reward-chip">Recompensa: +${Math.floor((m.expReward + expBoost) * mult.exp)} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
                             <button class="mission-complete-btn" onclick="handleMissionCardClick(event, '${m.id}')" ${player.gameOver ? 'disabled' : ''}>Completar</button>
                         </div>
                     </div>

@@ -12,12 +12,12 @@ var R_START = '10:00';
 var R_END = '21:30';
 
 var R_GENERIC_MESSAGES = [
-    ['⚔️ Tu aventura te espera', 'Entrá un minuto y completá aunque sea una misión chica.'],
+    ['⚔️ Tu aventura te espera', 'Entrá un minuto y completá aunque sea una tarea chica.'],
     ['🔥 No cortes la racha', 'Un pequeño avance hoy vale más que un gran plan para mañana.'],
     // DESHABILITADO (Mascotas apagadas): ['🐾 Tu mascota te extraña', 'Pasá a saludarla y ver qué quedó pendiente.'],
     ['🎯 ¿Qué es lo próximo?', 'Elegí una cosa, la más importante, y hacela ahora.'],
     // DESHABILITADO (Pomodoro apagado): ['🕯️ ¿Un pomodoro?', '25 minutos de enfoque y después descansás.'],
-    ['🌫️ La niebla no espera', 'Revisá tus misiones del día antes de que se venzan.']
+    ['🌫️ La niebla no espera', 'Revisá tus tareas del día antes de que se venzan.']
 ];
 
 var reminderInterval = null;
@@ -84,7 +84,7 @@ function rBuildMessage() {
 
         if (typeof loadDailyMissions === 'function') {
             var pending = loadDailyMissions().filter(function (m) { return m.date === today && !m.completed; }).length;
-            if (pending > 0) ctxMsgs.push(['⏳ Te quedan ' + pending + ' misión(es) hoy', 'Entrá y sacate alguna de encima.']);
+            if (pending > 0) ctxMsgs.push(['⏳ Te quedan ' + pending + ' tarea(s) hoy', 'Entrá y sacate alguna de encima.']);
         }
         if (typeof player !== 'undefined') {
             var checked = (player.moodLog || []).some(function (e) { return e.date === today; });
