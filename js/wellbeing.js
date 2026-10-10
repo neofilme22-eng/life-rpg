@@ -7,7 +7,7 @@
 // se guardan y exportan junto con el resto de la partida.
 // ============================================================
 
-var MOOD_EMOJIS = ['😞', '😕', '😐', '🙂', '😄'];
+var MOOD_EMOJIS = ['😢', '😕', '😐', '🙂', '😄'];
 var REFLECTION_QUESTIONS = [
     '¿Qué salió bien hoy?',
     '¿Qué te costó, o qué podrías haber hecho mejor?',
@@ -51,15 +51,14 @@ function renderCheckin() {
 
     if (today && !checkinEditing) {
         box.innerHTML =
-            '<div class="wb-card wb-checkin-done">' +
-            '<span class="wb-title">📊 Check-in de hoy</span>' +
-            '<span>' + MOOD_EMOJIS[today.mood - 1] + ' Ánimo ' + today.mood + '/5</span>' +
+            '<div class="wb-card wb-checkin-done">' +            
+            '<span style="color:var(--text-muted);">' + MOOD_EMOJIS[today.mood - 1] + ' Ánimo ' + today.mood + '/5</span>' +
             '<button class="action-btn wb-small" onclick="editCheckin()">Cambiar</button>' +
             '</div>';
         return;
     }
 
-    var h = '<div class="wb-card"><div class="wb-title">📊 Check-in diario <span class="wb-sub">¿cómo te sentís hoy?</span></div>' +
+    var h = '<div class="wb-card">' +
         '<div class="wb-scale">';
     for (var n = 1; n <= 5; n++) {
         h += '<button class="wb-scale-btn' + (today && today.mood === n ? ' active' : '') +
@@ -118,12 +117,11 @@ function renderReflection() {
     var html = '';
 
     if (today && !reflectionEditing) {
-        html += '<div class="wb-card"><div class="wb-title">🌙 Reflexión de hoy <span class="wb-sub">✅ completada</span></div>' +
+        html += '<div class="wb-card"><div class="wb-title">🌙 Reflexión de hoy </div>' +
             reflectionAnswersHTML(today) +
             '<div style="margin-top:10px;"><button class="action-btn wb-small" onclick="editReflection()">Editar</button></div></div>';
     } else {
-        html += '<div class="wb-card"><div class="wb-title">🌙 Reflexión nocturna <span class="wb-sub">' +
-            (today ? 'editando' : '+' + REFLECTION_EXP + ' EXP' + (FEATURES.gold ? ' · +' + REFLECTION_GOLD + ' ORO' : '')) + '</span></div>';
+        
         REFLECTION_QUESTIONS.forEach(function (q, i) {
             html += '<label class="wb-q" for="refl-' + i + '">' + escapeHtml(q) + '</label>' +
                 '<textarea id="refl-' + i + '" class="wb-textarea" rows="2" maxlength="500"></textarea>';
@@ -146,7 +144,7 @@ function renderReflection() {
 
     box.innerHTML = html;
     var rc = document.getElementById('refl-count');
-    if (rc) rc.textContent = (today ? '✅ hoy · ' : '') + player.reflections.length + ' en total';
+    if (rc) rc.textContent = (today ? 'hoy · ' : '') + player.reflections.length + ' en total';
 
     // cargar texto actual en los textareas (evita problemas de escape)
     if (today && reflectionEditing) {
@@ -374,77 +372,158 @@ function moodInsightHTML(expByDate) {
     return a + '<div class="wb-insight-line wb-sub">Es una correlación, no prueba que una cosa cause la otra.</div>';
 }
 
-function renderMoodChart() {
+// ------------------------------------------------------------
+// Gráficos de línea de Estadísticas (últimos 14 días), con selector.
+// Fuente de datos: Diario (player.logbook) para misiones, runas y metas;
+// player.moodLog para el ánimo.
+// ------------------------------------------------------------
+var STATS_CHART_DAYS = 14;
+var statsChartKey = 'missions';
+
+var STATS_CHARTS = {
+    missions: { label: 'Misiones', title: 'Misiones completadas por día', color: '#22c55e', unit: 'misiones' },
+    runes:    { label: 'Runas',    title: 'Runas canalizadas por día',    color: '#a855f7', unit: 'runas' },
+    mood:     { label: 'Ánimo',    title: 'Estado de ánimo por día',      color: '#fbbf24', unit: 'ánimo' },
+    goals:    { label: 'Metas',    title: 'Metas cumplidas por día',      color: '#38bdf8', unit: 'metas' }
+};
+
+function wbLastDays(n) {
+    var days = [];
+    for (var i = n - 1; i >= 0; i--) {
+        var d = new Date();
+        d.setDate(d.getDate() - i);
+        days.push(wbDate(d));
+    }
+    return days;
+}
+
+// Cuenta entradas del Diario por día (clave YYYY-MM-DD) según un filtro.
+function wbCountByDate(filterFn) {
+    var map = {};
+    (player.logbook || []).forEach(function (day) {
+        (day.entries || []).forEach(function (e) {
+            if (!e.timestamp || !filterFn(e)) return;
+            var k = wbDate(new Date(e.timestamp));
+            map[k] = (map[k] || 0) + 1;
+        });
+    });
+    return map;
+}
+
+function wbStatsSeries(key) {
+    var title = function (e) { return e.title || ''; };
+    if (key === 'missions') {
+        return wbCountByDate(function (e) {
+            return (e.type === 'mission' || e.type === 'daily') && title(e).indexOf('Día perdido') === -1;
+        });
+    }
+    if (key === 'runes') {
+        return wbCountByDate(function (e) { return e.type === 'rune'; });
+    }
+    if (key === 'goals') {
+        return wbCountByDate(function (e) { return e.type === 'boss' && title(e).indexOf('cumplida') !== -1; });
+    }
+    return {};
+}
+
+function setStatsChart(key) {
+    if (!STATS_CHARTS[key]) return;
+    statsChartKey = key;
+    renderStatsCharts();
+}
+
+function wbLineChartSVG(days, values, cfg) {
+    // values: array alineado con days; null = sin dato (corta la línea)
+    var W = 640, H = 230, padL = 34, padR = 12, padT = 14, padB = 28;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var step = plotW / (days.length - 1);
+    var yMin = cfg.yMin, yMax = cfg.yMax;
+    function xAt(i) { return padL + step * i; }
+    function yAt(v) { return padT + plotH - ((v - yMin) / (yMax - yMin)) * plotH; }
+
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="' + cfg.title + '">';
+
+    cfg.ticks.forEach(function (t) {
+        svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + yAt(t) + '" y2="' + yAt(t) + '" stroke="rgba(255,255,255,0.06)"/>' +
+            '<text x="' + (padL - 8) + '" y="' + (yAt(t) + 4) + '" text-anchor="end" font-size="11" style="fill:var(--text-muted)">' + t + '</text>';
+    });
+
+    days.forEach(function (k, i) {
+        svg += '<text x="' + xAt(i) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="10" style="fill:var(--text-muted)">' + k.slice(8) + '</text>';
+    });
+
+    var seg = [], lines = '', dots = '';
+    function flush() {
+        if (seg.length > 1) lines += '<polyline fill="none" stroke="' + cfg.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="' + seg.join(' ') + '"/>';
+        seg = [];
+    }
+    values.forEach(function (v, i) {
+        if (v === null || v === undefined) { flush(); return; }
+        var x = xAt(i).toFixed(1), y = yAt(v).toFixed(1);
+        seg.push(x + ',' + y);
+        dots += '<circle cx="' + x + '" cy="' + y + '" r="4" fill="' + cfg.color + '"><title>' + wbPrettyDate(days[i]) + ': ' + cfg.tooltip(v) + '</title></circle>';
+    });
+    flush();
+    return svg + lines + dots + '</svg>';
+}
+
+function renderStatsCharts() {
     var grid = document.querySelector('#stats-container .stats-grid');
     if (!grid) return;
     wbEnsure();
-    var old = document.getElementById('mood-chart-card');
+    var old = document.getElementById('stats-charts-card');
     if (old) old.remove();
 
-    var body;
-    if (!player.moodLog.length) {
-        body = '<div class="wb-empty">Todavía no hay check-ins. Hacé el primero en la pestaña Misiones y acá aparece el gráfico.</div>';
-    } else {
-        var expByDate = wbExpByDate();
-        var days = [];
-        for (var i = 13; i >= 0; i--) {
-            var d = new Date();
-            d.setDate(d.getDate() - i);
-            days.push(wbDate(d));
-        }
+    var key = STATS_CHARTS[statsChartKey] ? statsChartKey : 'missions';
+    var meta = STATS_CHARTS[key];
+    var days = wbLastDays(STATS_CHART_DAYS);
+
+    var toggles = '<div class="stats-chart-toggle" role="tablist">';
+    Object.keys(STATS_CHARTS).forEach(function (k) {
+        toggles += '<button type="button" class="stats-chart-btn' + (k === key ? ' active' : '') + '" onclick="setStatsChart(\'' + k + '\')">' + STATS_CHARTS[k].label + '</button>';
+    });
+    toggles += '</div>';
+
+    var body, summary = '';
+    if (key === 'mood') {
         var checks = {};
         player.moodLog.forEach(function (e) { checks[e.date] = e; });
-
-        var W = 640, H = 230, padL = 30, padR = 10, padT = 12, padB = 28;
-        var plotW = W - padL - padR, plotH = H - padT - padB, step = plotW / days.length;
-        var maxExp = Math.max(1, Math.max.apply(null, days.map(function (k) { return expByDate[k] || 0; })));
-        function xAt(idx) { return padL + step * (idx + 0.5); }
-        function yRating(r) { return padT + plotH - ((r - 1) / 4) * plotH; }
-
-        var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="Ánimo frente a EXP diaria">';
-        for (var g = 1; g <= 5; g++) {
-            svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + yRating(g) + '" y2="' + yRating(g) + '" stroke="rgba(255,255,255,0.06)"/>' +
-                '<text x="' + (padL - 8) + '" y="' + (yRating(g) + 4) + '" text-anchor="end" font-size="11" style="fill:var(--text-muted)">' + g + '</text>';
+        var values = days.map(function (k) { return checks[k] ? checks[k].mood : null; });
+        var filled = values.filter(function (v) { return v !== null; });
+        if (!filled.length) {
+            body = '<div class="wb-empty">Todavía no hay check-ins en los últimos ' + STATS_CHART_DAYS + ' días. Hacé el primero en la pestaña Misiones y acá aparece el gráfico.</div>';
+        } else {
+            var avg = (filled.reduce(function (s, x) { return s + x; }, 0) / filled.length).toFixed(1);
+            summary = '<div class="stats-chart-summary">Promedio: <b>' + avg + '/5</b> · Días con check-in: <b>' + filled.length + '</b></div>';
+            body = wbLineChartSVG(days, values, {
+                title: meta.title, color: meta.color, yMin: 1, yMax: 5, ticks: [1, 2, 3, 4, 5],
+                tooltip: function (v) { return 'ánimo ' + v + '/5'; }
+            }) + moodInsightHTML(wbExpByDate());
         }
-        days.forEach(function (k, idx) {
-            var exp = expByDate[k] || 0;
-            var bh = (exp / maxExp) * plotH;
-            var bw = step * 0.55;
-            if (exp > 0) {
-                svg += '<rect x="' + (xAt(idx) - bw / 2) + '" y="' + (padT + plotH - bh) + '" width="' + bw + '" height="' + bh +
-                    '" rx="3" fill="rgba(56,189,248,0.30)"><title>' + k + ': ' + exp + ' EXP</title></rect>';
-            }
-            svg += '<text x="' + xAt(idx) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="10" style="fill:var(--text-muted)">' + k.slice(8) + '</text>';
-        });
-
-        function line(key, color) {
-            var out = '', seg = [];
-            function flush() {
-                if (seg.length > 1) out += '<polyline fill="none" stroke="' + color + '" stroke-width="2.5" stroke-linejoin="round" points="' + seg.join(' ') + '"/>';
-                seg = [];
-            }
-            days.forEach(function (k, idx) {
-                var c = checks[k];
-                if (!c) { flush(); return; }
-                var x = xAt(idx), y = yRating(c[key]);
-                seg.push(x.toFixed(1) + ',' + y.toFixed(1));
-                out += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4" fill="' + color + '"><title>' + k + ' — ' + 'ánimo ' + c[key] + '/5</title></circle>';
+    } else {
+        var map = wbStatsSeries(key);
+        var vals = days.map(function (k) { return map[k] || 0; });
+        var total = vals.reduce(function (s, x) { return s + x; }, 0);
+        if (!total) {
+            body = '<div class="wb-empty">Todavía no hay ' + meta.unit + ' registradas en los últimos ' + STATS_CHART_DAYS + ' días.</div>';
+        } else {
+            var best = Math.max.apply(null, vals);
+            var yMax = Math.max(4, best);
+            var tickStep = Math.ceil(yMax / 4);
+            yMax = tickStep * 4;
+            var ticks = [0, tickStep, tickStep * 2, tickStep * 3, yMax];
+            summary = '<div class="stats-chart-summary">Total: <b>' + total + '</b> · Promedio: <b>' + (total / STATS_CHART_DAYS).toFixed(1) + '</b>/día · Mejor día: <b>' + best + '</b></div>';
+            body = wbLineChartSVG(days, vals, {
+                title: meta.title, color: meta.color, yMin: 0, yMax: yMax, ticks: ticks,
+                tooltip: function (v) { return v + ' ' + meta.unit; }
             });
-            flush();
-            return out;
         }
-        svg += line('mood', '#fbbf24') + '</svg>';
-
-        body = svg +
-            '<div class="wb-legend">' +
-            '<span><i style="background:#fbbf24"></i>Ánimo (1–5)</span>' +
-            '<span><i style="background:rgba(56,189,248,0.5)"></i>EXP del día (máx. ' + maxExp + ')</span></div>' +
-            moodInsightHTML(expByDate);
     }
 
     grid.insertAdjacentHTML('afterbegin',
-        '<div class="stats-card stats-card-full" id="mood-chart-card">' +
-        '<div class="stats-title">Ánimo y productividad — últimos 14 días</div>' + body + '</div>');
+        '<div class="stats-card stats-card-full" id="stats-charts-card">' +
+        '<div class="stats-title">' + meta.title + ' — últimos ' + STATS_CHART_DAYS + ' días</div>' +
+        toggles + summary + body + '</div>');
 }
 
 // ============================================================

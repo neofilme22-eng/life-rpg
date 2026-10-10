@@ -85,10 +85,6 @@
                                     }
 
                                     var totalDias = player.logbook.length;
-                                    var totalAcciones = player.logbook.reduce(function (sum, d) {
-                                        var entries = d.entries || [];
-                                        return sum + entries.length;
-                                    }, 0);
                                     var totalExpGanada = player.logbook.reduce(function (sum, d) { return sum + (d.totalExp || 0); }, 0);
                                     var totalOroGanado = player.logbook.reduce(function (sum, d) { return sum + (d.totalGold || 0); }, 0);
 
@@ -108,10 +104,6 @@
                             <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalDias}</div>
                                 <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Días activos</div>
-                            </div>
-                            <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                                <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalAcciones}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Acciones</div>
                             </div>
                             <div style="text-align:center; padding:8px 6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalExpGanada}</div>
@@ -139,7 +131,7 @@
                             </div>
                         </div>
                         <div style="margin-top:8px; font-size:0.85rem; color:var(--text-muted); opacity:0.3; font-family:'Georgia','Times New Roman',serif; text-align:center;">
-                            ${totalDias} días de aventura · Nivel ${player.level} · ${totalAcciones} acciones realizadas
+                            ${totalDias} días de aventura · Nivel ${player.level}
                             ${player.gameOver ? ' GAME OVER' : ''}
                             ${(typeof FEATURES !== 'undefined' && FEATURES.pets && tieneMascota) ? ' · Mascota: ' + petHealthPercent + '% HP' : ''}
                         </div>
@@ -339,7 +331,7 @@
             `;
 
                                     container.innerHTML = html;
-                                    if (typeof renderMoodChart === 'function') renderMoodChart();
+                                    if (typeof renderStatsCharts === 'function') renderStatsCharts();
                                 }
 
                                 // ============================================================

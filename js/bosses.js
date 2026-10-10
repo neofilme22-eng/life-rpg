@@ -87,7 +87,6 @@
                             if (countEl) countEl.textContent = totalDerrotados;
                             if (totalEl) totalEl.textContent = player.bosses.length;
 
-                            if (typeof renderDailySidebar === 'function') renderDailySidebar();
 
                             renderBossRecord();
 

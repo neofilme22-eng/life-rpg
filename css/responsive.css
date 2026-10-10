@@ -310,8 +310,8 @@
 
     /* ===== EVENTOS ===== */
     .event-card {
-        min-width: 240px;
-        max-width: 280px;
+        min-width: 270px;
+        max-width: 310px;
     }
 
     /* ===== BOSSES ===== */
@@ -784,9 +784,9 @@
 
     /* ===== EVENTOS ===== */
     .event-card {
-        min-width: 160px;
-        max-width: 200px;
-        padding: 10px 8px;
+        min-width: 240px;
+        max-width: 270px;
+        padding: 12px 10px;
     }
 
     .event-scroll-container {
@@ -809,18 +809,14 @@
         font-size: 0.6rem;
     }
 
-    .event-tasks .event-task-item {
-        font-size: 0.7rem;
-        padding: 4px 6px;
+    .event-card .event-tasks .event-task-item {
+        font-size: 0.78rem;
+        padding: 4px 0;
     }
 
-    .event-tasks .event-task-item input[type="checkbox"] {
-        width: 14px;
-        height: 14px;
-    }
-
-    .event-tasks-toggle {
-        font-size: 0.7rem;
+    .event-card .event-tasks .event-task-item input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
     }
 
     .event-timer {

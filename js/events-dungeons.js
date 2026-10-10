@@ -210,7 +210,6 @@ function renderEvents() {
     if (eventsOn && eventContainer) renderEventCards(eventContainer, eventos, 'event');
     renderDungeonCards(dungeonContainer, mazmorras);
 
-    if (typeof renderDailySidebar === 'function') renderDailySidebar();
 }
 
 // ============================================================
@@ -275,12 +274,9 @@ function renderEventCards(container, events, type) {
         var completadas = evt.taskStatus.filter(function (s) { return s; }).length;
         var total = evt.tasks.length;
 
-        var tasksToggleHTML = '';
         var tasksHTML = '';
         if (evt.tasks.length > 0) {
-            var tasksOpen = !(window.collapsedTaskPanels && window.collapsedTaskPanels[evt.id]);
-            tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">' + (tasksOpen ? '▴' : '▾') + '</span></div>';
-            tasksHTML = '<div class="event-tasks-panel' + (tasksOpen ? ' open' : '') + '" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
+            tasksHTML = '<div class="event-tasks">';
             evt.tasks.forEach(function (task, index) {
                 var isCompleted = evt.taskStatus[index] || false;
                 var disabled = false;
@@ -304,11 +300,11 @@ function renderEventCards(container, events, type) {
                             ${isCompleted ? 'checked' : ''} 
                             ${disabled ? 'disabled' : ''}
                             onchange="toggleEventTask('${evt.id}', ${index})">
-                        <span>${task}</span>
+                        <span class="task-label">${task}</span>
                     </div>
                 `;
             });
-            tasksHTML += '</div></div>';
+            tasksHTML += '</div>';
         }
 
         html += `
@@ -325,7 +321,6 @@ function renderEventCards(container, events, type) {
                     ${periodText}
                 </div>
                 ${timerHTML}
-                ${tasksToggleHTML}
                 ${tasksHTML}
                 <div class="event-reward">
                     <span>🏆 +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
@@ -374,12 +369,9 @@ function renderDungeonCards(container, mazmorras) {
         var completadas = evt.taskStatus.filter(function (s) { return s; }).length;
         var total = evt.tasks.length;
 
-        var tasksToggleHTML = '';
         var tasksHTML = '';
         if (evt.tasks.length > 0) {
-            var tasksOpen = !(window.collapsedTaskPanels && window.collapsedTaskPanels[evt.id]);
-            tasksToggleHTML = '<div class="event-tasks-toggle" onclick="toggleEventTasksPanel(\'' + evt.id + '\')">🎯 Tareas (' + completadas + '/' + total + ') <span class="event-tasks-chevron" id="event-tasks-chevron-' + evt.id + '">' + (tasksOpen ? '▴' : '▾') + '</span></div>';
-            tasksHTML = '<div class="event-tasks-panel' + (tasksOpen ? ' open' : '') + '" id="event-tasks-panel-' + evt.id + '"><div class="event-tasks">';
+            tasksHTML = '<div class="event-tasks">';
             evt.tasks.forEach(function (task, index) {
                 var isCompleted = evt.taskStatus[index] || false;
                 var disabled = evt.status !== 'active' || (player && player.gameOver);
@@ -389,11 +381,11 @@ function renderDungeonCards(container, mazmorras) {
                             ${isCompleted ? 'checked' : ''} 
                             ${disabled ? 'disabled' : ''}
                             onchange="toggleDungeonTask('${evt.id}', ${index})">
-                        <span>${task}</span>
+                        <span class="task-label">${task}</span>
                     </div>
                 `;
             });
-            tasksHTML += '</div></div>';
+            tasksHTML += '</div>';
         }
 
         var actionsHTML = '';
@@ -433,7 +425,6 @@ function renderDungeonCards(container, mazmorras) {
                     ${evt.levelRequired ? '<span>🏷️ Nivel ' + evt.levelRequired + ' req.</span>' : ''}
                 </div>
                 ${timerHTML}
-                ${tasksToggleHTML}
                 ${tasksHTML}
                 <div class="event-reward">
                     <span>🏆 +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
@@ -458,24 +449,6 @@ function filterEvents(filter) {
         btn.classList.toggle('active', btn.dataset.filter === filter);
     });
     renderEvents();
-}
-
-// ============================================================
-// ===== TOGGLE TAREAS =====
-// ============================================================
-
-function toggleEventTasksPanel(eventId) {
-    var panel = document.getElementById('event-tasks-panel-' + eventId);
-    var chevron = document.getElementById('event-tasks-chevron-' + eventId);
-    if (!panel) return;
-
-    var isOpen = panel.classList.toggle('open');
-    if (chevron) chevron.textContent = isOpen ? '▴' : '▾';
-
-    // Las tareas arrancan desplegadas; se recuerda qué paneles plegó el usuario para que no se reabran al re-renderizar.
-    window.collapsedTaskPanels = window.collapsedTaskPanels || {};
-    if (isOpen) delete window.collapsedTaskPanels[eventId];
-    else window.collapsedTaskPanels[eventId] = true;
 }
 
 // ============================================================

@@ -240,46 +240,26 @@
             font-weight: bold;
         }
 
-        .event-card .event-tasks-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 6px 0;
-            margin-top: 4px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .event-card .event-tasks-chevron {
-            font-size: 0.7rem;
-            transition: transform 0.2s ease;
-        }
-
-        .event-card .event-tasks-panel {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .event-card .event-tasks-panel.open {
-            max-height: 3000px;
-        }
-
         .event-card .event-tasks {
-            margin-top: 0;
-            padding-top: 4px;
+            margin-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 10px;
+            flex: 1;
         }
 
         .event-card .event-task-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 3px 0;
-            font-size: 0.8rem;
+            padding: 4px 0;
+            font-size: 0.85rem;
             color: var(--text-muted);
+            transition: all 0.2s;
             font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        .event-card .event-task-item .task-label {
+            flex: 1;
         }
 
         .event-card .event-task-item.completed {
@@ -289,8 +269,8 @@
         }
 
         .event-card .event-task-item input[type="checkbox"] {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             accent-color: var(--success);
             cursor: pointer;
             flex-shrink: 0;

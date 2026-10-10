@@ -294,7 +294,6 @@
 
                     container.innerHTML = html;
 
-                    if (typeof renderDailySidebar === 'function') renderDailySidebar();
                 }
 
                 function startDailyCheckInterval() {
