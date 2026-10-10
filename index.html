@@ -8,7 +8,7 @@
 
     <!-- ===== PWA ===== -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#0b100f">
     <link rel="icon" href="assets/icons/icon-192.png">
     <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
@@ -39,14 +39,15 @@
     <link rel="stylesheet" href="css/gameover.css">
     <link rel="stylesheet" href="css/stats.css">
     <link rel="stylesheet" href="css/wellbeing.css">
+    <link rel="stylesheet" href="css/noir.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
 <body>
 
     <header>
-        <h1>⚜ Life RPG ⚜</h1>
-        <p>Tu vida convertida en una aventura épica</p>
+        <h1>Life RPG</h1>
+        <p>Un expediente abierto en un pueblo que no quiere ser resuelto</p>
     </header>
 
     <!-- ===== TOAST CONTAINER ===== -->
@@ -55,7 +56,7 @@
     <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-box" id="modal-box">
-            <div class="modal-icon" id="modal-icon">⚠️</div>
+            <div class="modal-icon" id="modal-icon"></div>
             <div class="modal-title" id="modal-title">Confirmar</div>
             <div class="modal-message" id="modal-message">¿Estás seguro de realizar esta acción?</div>
             <div class="modal-actions">
@@ -111,7 +112,7 @@
                 <div id="attribute-radar-container" class="attribute-radar-container"></div>
 
                 <div
-                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
+                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(227,220,200,0.05), transparent); margin: 15px 0;">
                 </div>
             
                 <!-- DESHABILITADO: contador de ORO (todo es por EXP). Para reactivarlo: sacá el <template> y poné FEATURES.gold = true en js/config.js -->
@@ -130,19 +131,19 @@
 
         <!-- ========== TABS (ESCRITORIO) ========== -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('tab-runas')">🎴 Misiones</button>
-            <button class="tab-btn" onclick="switchTab('tab-runes')">💠 Runas</button>
-            <button class="tab-btn" onclick="switchTab('tab-events')">🌍 Aventuras</button>
-            <button class="tab-btn" onclick="switchTab('tab-bosses')">🎯 Metas</button>
-            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-battles')">⚔️ Batallas</button> -->
-            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-bestiary')">📔 Bestiario</button> -->
-            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-inventory')">🎒 Inventario</button> -->
-            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-logbook')">📜 Diario</button> -->
-            <button class="tab-btn" onclick="switchTab('tab-story')">📖 Historia</button>
-            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-shop')">🏪 Tienda</button> -->
-            <button class="tab-btn" onclick="switchTab('tab-trophies')">🏆 Trofeos</button>
-            <button class="tab-btn" onclick="switchTab('tab-stats')">📊 Estadísticas</button>
-            <button class="tab-btn" onclick="switchTab('tab-config')">⚙️ Configuración</button>
+            <button class="tab-btn active" onclick="switchTab('tab-runas')">Misiones</button>
+            <button class="tab-btn" onclick="switchTab('tab-runes')">Runas</button>
+            <button class="tab-btn" onclick="switchTab('tab-events')">Eventos</button>
+            <button class="tab-btn" onclick="switchTab('tab-bosses')">Metas</button>
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-battles')">Batallas</button> -->
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-bestiary')">Bestiario</button> -->
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-inventory')">Inventario</button> -->
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-logbook')">Diario</button> -->
+            <button class="tab-btn" onclick="switchTab('tab-story')">Historia</button>
+            <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-shop')">Tienda</button> -->
+            <button class="tab-btn" onclick="switchTab('tab-trophies')">Trofeos</button>
+            <button class="tab-btn" onclick="switchTab('tab-stats')">Estadísticas</button>
+            <button class="tab-btn" onclick="switchTab('tab-config')">Configuración</button>
         </div>
 
         <!-- ========== MENÚ HAMBURGUESA (MÓVIL) ========== -->
@@ -151,19 +152,19 @@
         </button>
         <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
         <nav class="mobile-menu" id="mobile-menu">
-            <button class="mobile-menu-item active" onclick="switchTab('tab-runas')">🎴 Misiones</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-runes')">💠 Runas</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-events')">🌍 Aventuras</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-bosses')">🎯 Metas</button>
-            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-battles')">⚔️ Batallas</button> -->
-            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-bestiary')">📔 Bestiario</button> -->
-            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-inventory')">🎒 Inventario</button> -->
-            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-logbook')">📜 Diario</button> -->
-            <button class="mobile-menu-item" onclick="switchTab('tab-story')">📖 Historia</button>
-            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-shop')">🏪 Tienda</button> -->
-            <button class="mobile-menu-item" onclick="switchTab('tab-trophies')">🏆 Trofeos</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-stats')">📊 Estadísticas</button>
-            <button class="mobile-menu-item" onclick="switchTab('tab-config')">⚙️ Configuración</button>
+            <button class="mobile-menu-item active" onclick="switchTab('tab-runas')">Misiones</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-runes')">Runas</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-events')">Eventos</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-bosses')">Metas</button>
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-battles')">Batallas</button> -->
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-bestiary')">Bestiario</button> -->
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-inventory')">Inventario</button> -->
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-logbook')">Diario</button> -->
+            <button class="mobile-menu-item" onclick="switchTab('tab-story')">Historia</button>
+            <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-shop')">Tienda</button> -->
+            <button class="mobile-menu-item" onclick="switchTab('tab-trophies')">Trofeos</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-stats')">Estadísticas</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-config')">Configuración</button>
         </nav>
 
         <!-- ========== PESTAÑA PANEL PRINCIPAL ========== -->
@@ -172,7 +173,7 @@
             
             <div class="section-box">
                 <div class="section-header">
-                    <span class="section-title">Check-In de Hoy</span>
+                    <span class="section-title">Ánimo de Hoy</span>
                     <span class="section-ornament"></span>
                 </div>
                 <br>
@@ -192,13 +193,12 @@
                     <br>
 
                     <div class="daily-mission-form"
-                        style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(255,255,255,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); align-items:center;">
+                        style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(227,220,200,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(227,220,200,0.04); align-items:center;">
                         <input type="text" id="daily-title" placeholder="Título de la misión..." maxlength="60"
-                            style="flex:3; min-width:180px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
+                            style="flex:3; min-width:180px; background:rgba(227,220,200,0.03); border:1px solid rgba(227,220,200,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
                         <div class="time-input-wrap" style="position:relative; flex:1; min-width:100px;">
                             <input type="time" id="daily-time"
-                                style="width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem; position:relative; box-sizing:border-box;">
-                            <span class="time-input-placeholder" id="daily-time-placeholder">Agregar horario</span>
+                                style="width:100%; background:rgba(227,220,200,0.03); border:1px solid rgba(227,220,200,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem; position:relative; box-sizing:border-box;">
                         </div>
                         <button class="action-btn" onclick="addDailyMission()"
                             style="font-size:0.8rem; padding:6px 14px; flex:0 0 auto;">
@@ -218,7 +218,7 @@
                 </div>
                 <br>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px;">
-                    <button class="btn-random" onclick="rerollMissions()">🎲 Re-roll Misiones</button>
+                    <button class="btn-random" onclick="rerollMissions()">Re-roll Misiones</button>
                 </div>
                 <div id="mission-container" class="mission-grid"></div>
             </div>
@@ -243,16 +243,16 @@
 
                     <div class="sanctuary-variants" id="variant-selector">
                         <button class="variant-btn active" data-variant="classic" onclick="selectVariant('classic')">
-                            <span class="variant-icon">⏳</span> Clásico <span class="variant-time">(25:05)</span>
+                            <span class="variant-icon"></span> Clásico <span class="variant-time">(25:05)</span>
                         </button>
                         <button class="variant-btn" data-variant="short" onclick="selectVariant('short')">
-                            <span class="variant-icon">⚡</span> Rápido <span class="variant-time">(15:05)</span>
+                            <span class="variant-icon"></span> Rápido <span class="variant-time">(15:05)</span>
                         </button>
                         <button class="variant-btn" data-variant="long" onclick="selectVariant('long')">
-                            <span class="variant-icon">🔥</span> Profundo <span class="variant-time">(50:10)</span>
+                            <span class="variant-icon"></span> Profundo <span class="variant-time">(50:10)</span>
                         </button>
                         <button class="variant-btn" data-variant="ultra" onclick="selectVariant('ultra')">
-                            <span class="variant-icon">🌟</span> Éxtasis <span class="variant-time">(90:15)</span>
+                            <span class="variant-icon"></span> Éxtasis <span class="variant-time">(90:15)</span>
                         </button>
                         <button class="variant-btn" data-variant="custom" onclick="selectVariant('custom')">
                             <span class="variant-icon">✧</span> Personalizado <span class="variant-time">(--:--)</span>
@@ -262,19 +262,19 @@
                     <div id="custom-settings"
                         style="display:none; text-align:center; margin:6px 0 10px 0; gap:10px; flex-wrap:wrap; justify-content:center;">
                         <div
-                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
+                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(227,220,200,0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
                             <label
                                 style="font-size:0.8rem; color:var(--text-muted); font-family:'Georgia','Times New Roman',serif;">Enfoque:</label>
                             <input type="number" id="custom-focus" value="25" min="1" max="180"
-                                style="width:50px; background:#1a1a2e; border:1px solid #334155; border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:'Georgia','Times New Roman',serif;">
+                                style="width:50px; background:#1b2622; border:1px solid #26312d; border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:'Georgia','Times New Roman',serif;">
                             min
                         </div>
                         <div
-                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
+                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(227,220,200,0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
                             <label
                                 style="font-size:0.8rem; color:var(--text-muted); font-family:'Georgia','Times New Roman',serif;">Descanso:</label>
                             <input type="number" id="custom-break" value="5" min="1" max="60"
-                                style="width:50px; background:#1a1a2e; border:1px solid #334155; border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:'Georgia','Times New Roman',serif;">
+                                style="width:50px; background:#1b2622; border:1px solid #26312d; border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:'Georgia','Times New Roman',serif;">
                             min
                         </div>
                         <button class="sanctuary-btn sanctuary-btn-start" style="padding:6px 20px; font-size:0.8rem;"
@@ -286,15 +286,15 @@
                     </div>
 
                     <div class="sanctuary-status" id="sanctuary-status">
-                        <span class="status-focus">⚔️ Enfoque</span> — <span id="cycle-info">Ciclo 1</span>
+                        <span class="status-focus">Enfoque</span> — <span id="cycle-info">Ciclo 1</span>
                     </div>
                     <br>
                     <div class="sanctuary-controls">
                         <button class="sanctuary-btn sanctuary-btn-start" id="pomo-start-btn" onclick="startPomodoro()">
-                            🕯️ Iniciar Sesión
+                            Iniciar Sesión
                         </button>
                         <button class="sanctuary-btn sanctuary-btn-reset" onclick="resetPomodoro()">⟲ Reiniciar</button>
-                        <button class="sanctuary-btn sanctuary-btn-skip" onclick="skipPomodoro()">⏭ Saltar</button>
+                        <button class="sanctuary-btn sanctuary-btn-skip" onclick="skipPomodoro()">Saltar</button>
                     </div>
 
                     <div
@@ -305,21 +305,6 @@
             </div>
             </template>
 
-            <!-- GESTIÓN DE PARTIDA -->
-            <div class="section-box">
-                <div class="section-header">
-                    <span class="section-title">Gestión de Partida</span>
-                    <span class="section-ornament"></span>
-                </div>
-                <br>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="action-btn" onclick="exportData()">Guardar Partida</button>
-                    <input type="file" id="import-file" accept=".json" style="display:none;"
-                        onchange="importData(event)">
-                    <button class="action-btn" onclick="document.getElementById('import-file').click()">Cargar
-                        Partida</button>
-                </div>
-            </div>
         </div>
 
         <!-- ========== PESTAÑA RUNAS ========== -->
@@ -336,11 +321,11 @@
                 <!-- DESHABILITADO: contador de PP. Para reactivarlo: sacá el <template> y poné FEATURES.pp = true en js/config.js -->
                 <template data-disabled="pp">
                 <div
-                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
+                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(227,220,200,0.05), transparent); margin: 15px 0;">
                 </div>
                 <div class="panel-gold">
                     <div class="shop-gold-display pp-badge">
-                        <span>🔮</span> <strong class="pp-display">0</strong> PP
+                        <span></span> <strong class="pp-display">0</strong> PP
                     </div>
                 </div>
                 </template>
@@ -348,7 +333,7 @@
             
         </div>
 
-        <!-- ========== PESTAÑA AVENTURAS ========== -->
+        <!-- ========== PESTAÑA EVENTOS ========== -->
         <div id="tab-events" class="tab-content">
             <div class="section-box">
                 <!-- DESHABILITADO: Eventos. Para reactivarlos: sacá el <template> y poné FEATURES.events = true en js/config.js -->
@@ -361,13 +346,13 @@
                     <br>
 
                     <div class="event-filter-tabs" id="event-filter-tabs">
-                        <button class="event-filter-btn active" data-filter="all" onclick="filterEvents('all')">📋
+                        <button class="event-filter-btn active" data-filter="all" onclick="filterEvents('all')">
                             Todos</button>
-                        <button class="event-filter-btn" data-filter="daily" onclick="filterEvents('daily')">📅
+                        <button class="event-filter-btn" data-filter="daily" onclick="filterEvents('daily')">
                             Diarios</button>
-                        <button class="event-filter-btn" data-filter="weekly" onclick="filterEvents('weekly')">📅
+                        <button class="event-filter-btn" data-filter="weekly" onclick="filterEvents('weekly')">
                             Semanales</button>
-                        <button class="event-filter-btn" data-filter="monthly" onclick="filterEvents('monthly')">📅
+                        <button class="event-filter-btn" data-filter="monthly" onclick="filterEvents('monthly')">
                             Mensuales</button>
                     </div>
 
@@ -375,13 +360,13 @@
                 </div>
 
                 <div
-                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); margin: 15px 0;">
+                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(227,220,200,0.05), transparent); margin: 15px 0;">
                 </div>
                 </template>
 
                 <div class="events-section dungeon-section">
                     <div class="section-header">
-                        <span class="section-title">Campañas</span>
+                        <span class="section-title">Eventos</span>
                         <span class="section-ornament"></span>
                     </div>
                     <br>
@@ -396,29 +381,24 @@
         <!-- ========== PESTAÑA METAS ========== -->
         <div id="tab-bosses" class="tab-content">
             <div class="section-box">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <div class="section-header" style="margin-bottom:0;">
-                        <span class="section-title">Metas</span>
-                        <span class="section-ornament"></span>
-                    </div>
-                    <br>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <span
-                            style="color: var(--text-muted); font-size: 0.9rem; font-family:'Georgia','Times New Roman',serif;">
-                            <span id="boss-count">0</span> / <span id="boss-total">0</span> cumplidas
-                        </span>
-                    </div>
+                <div class="section-header">
+                    <span class="section-title">Metas</span>
+                    <span class="section-ornament"></span>
+                    <span class="section-counter"><span id="boss-count">0</span> / <span id="boss-total">0</span> cumplidas</span>
                 </div>
+                <br>
                 <div id="boss-container" class="boss-grid"></div>
 
-                <div class="boss-record">
-                    <div class="boss-record-header">
-                        <span class="boss-record-title">📋 Historial de Metas</span>
-                        <span class="boss-record-count" id="boss-record-count"></span>
-                    </div>
-                    <div id="boss-record-container" class="boss-record-list"></div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Historial de Metas</span>
+                    <span class="section-ornament"></span>
+                    <span class="boss-record-count" id="boss-record-count"></span>
                 </div>
+                <br>
+                <div id="boss-record-container" class="boss-record-list"></div>
             </div>
         </div>
 
@@ -440,8 +420,8 @@
 
                 <div class="bestiary-filters">
                     <button class="bestiary-filter-btn active" data-filter="all" onclick="setBestiaryFilter('all')">Todos</button>
-                    <button class="bestiary-filter-btn" data-filter="boss" onclick="setBestiaryFilter('boss')">👹 Deidades</button>
-                    <button class="bestiary-filter-btn" data-filter="champ" onclick="setBestiaryFilter('champ')">⚔️ Campeones</button>
+                    <button class="bestiary-filter-btn" data-filter="boss" onclick="setBestiaryFilter('boss')">Deidades</button>
+                    <button class="bestiary-filter-btn" data-filter="champ" onclick="setBestiaryFilter('champ')">Campeones</button>
                 </div>
 
                 <div class="bestiary-layout">
@@ -490,20 +470,20 @@
 
                     <!-- Buscador -->
                     <div class="inventory-filter-group search-group">
-                        <input type="text" id="inventory-search" placeholder="🔍 Buscar item..." oninput="renderInventory()">
+                        <input type="text" id="inventory-search" placeholder="Buscar item..." oninput="renderInventory()">
                     </div>
 
                     <!-- Categoría -->
                     <div class="inventory-filter-group">
-                        <label for="inventory-category-filter">📂 Categoría:</label>
+                        <label for="inventory-category-filter">Categoría:</label>
                         <select id="inventory-category-filter" onchange="renderInventory()" class="inventory-filter-select">
-                            <option value="all">📦 Todos</option>
-                            <option value="arma">⚔️ Armas</option>
-                            <option value="armadura">🛡️ Armaduras</option>
-                            <option value="reliquia">💫 Reliquias</option>
-                            <option value="consumable">🧪 Consumibles</option>
-                            <option value="pet">🐾 Mascotas</option>
-                            <option value="real">🎁 Recompensas</option>
+                            <option value="all">Todos</option>
+                            <option value="arma">Armas</option>
+                            <option value="armadura">Armaduras</option>
+                            <option value="reliquia">Reliquias</option>
+                            <option value="consumable">Consumibles</option>
+                            <option value="pet">Mascotas</option>
+                            <option value="real">Recompensas</option>
                         </select>
                     </div>
         
@@ -511,7 +491,7 @@
         
                     <!-- Orden -->
                     <div class="inventory-filter-group">
-                        <label for="inventory-sort">📋 Ordenar:</label>
+                        <label for="inventory-sort">Ordenar:</label>
                         <select id="inventory-sort" onchange="renderInventory()" class="inventory-filter-select">
                             <option value="name">Nombre</option>
                             <option value="category">Categoría</option>
@@ -524,7 +504,7 @@
                     <div>
                         <h3
                             style="color:var(--text-muted); opacity:0.6; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px;">
-                            ⚔️ EQUIPO
+                            EQUIPO
                         </h3>
                         <div class="equipment-grid">
                             <div class="equip-slot" onclick="unequipItem('arma')" id="slot-arma">
@@ -568,7 +548,7 @@
                     <div>
                         <h3
                             style="color:var(--text-muted); opacity:0.6; font-size:0.8rem; letter-spacing:1px; margin-bottom:10px;">
-                            📦 INVENTARIO
+                            INVENTARIO
                         </h3>
                         <div id="inventory-grid" class="inventory-grid">
                             <div class="inventory-empty">No tienes objetos en tu inventario.</div>
@@ -604,21 +584,21 @@
 
                     <!-- Buscador -->
                     <div class="shop-filter-group search-group">
-                        <input type="text" id="shop-search" placeholder="🔍 Buscar item..." oninput="renderShop()">
+                        <input type="text" id="shop-search" placeholder="Buscar item..." oninput="renderShop()">
                     </div>
 
                     
                     <!-- Categoría -->
                     <div class="shop-filter-group">
-                        <label for="shop-category-filter">📂 Categoría:</label>
+                        <label for="shop-category-filter">Categoría:</label>
                         <select id="shop-category-filter" onchange="filterShop(this.value)" class="shop-filter-select">
-                            <option value="all">📦 Todos</option>
-                            <option value="arma">⚔️ Armas</option>
-                            <option value="armadura">🛡️ Armaduras</option>
-                            <option value="reliquia">💫 Reliquias</option>
-                            <option value="real">🎁 Recompensas</option>
-                            <option value="consumable">🧪 Consumibles</option>
-                            <option value="pet">🐾 Mascotas</option>
+                            <option value="all">Todos</option>
+                            <option value="arma">Armas</option>
+                            <option value="armadura">Armaduras</option>
+                            <option value="reliquia">Reliquias</option>
+                            <option value="real">Recompensas</option>
+                            <option value="consumable">Consumibles</option>
+                            <option value="pet">Mascotas</option>
                         </select>
                     </div>
         
@@ -626,7 +606,7 @@
         
                     <!-- Orden -->
                     <div class="shop-filter-group">
-                        <label for="shop-sort">📋 Ordenar:</label>
+                        <label for="shop-sort">Ordenar:</label>
                         <select id="shop-sort" onchange="renderShop()">
                             <option value="name">Nombre</option>
                             <option value="price-asc">Precio ↑</option>
@@ -645,23 +625,15 @@
         <!-- ========== PESTAÑA TROFEOS ========== -->
         <div id="tab-trophies" class="tab-content">
             <div class="section-box">
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <div class="section-header" style="margin-bottom:0;">
-                        <span class="section-title">Trofeos</span>
-                        <span class="section-ornament"></span>
-                    </div>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <span
-                            style="color: var(--text-muted); font-size: 0.9rem; font-family:'Georgia','Times New Roman',serif;">
-                            <span id="trophy-count">0</span> / <span id="trophy-total">0</span> desbloqueados
-                        </span>
-                    </div>
+                <div class="section-header">
+                    <span class="section-title">Trofeos</span>
+                    <span class="section-ornament"></span>
+                    <span class="section-counter"><span id="trophy-count">0</span> / <span id="trophy-total">0</span> desbloqueados</span>
                 </div>
                 <br>
 
                 <div class="filter-bar">
-                    <input type="text" id="trophy-search" placeholder="🔍 Buscar trofeo..." oninput="renderTrophies()">
+                    <input type="text" id="trophy-search" placeholder="Buscar trofeo..." oninput="renderTrophies()">
                     <select id="trophy-filter" onchange="renderTrophies()">
                         <option value="all">Todos</option>
                         <option value="unlocked">Desbloqueados</option>
@@ -710,35 +682,12 @@
         <div id="tab-story" class="tab-content">
             <div class="section-box">
                 <div class="section-header">
-                    <span class="section-title">Modo Historia — Bahía Ceniza</span>
+                    <span class="section-title">Modo Historia</span>
                     <span class="section-ornament"></span>
                 </div>
                
-                <details class="wb-dropdown">
-                    <summary style="color:var(--text-muted);">📝 Notas <span class="wb-sub" id="notes-count"></span></summary>
-                    <div class="wb-dropdown-body">
-                        <div class="wb-notes">
-                            <div class="wb-notes-side">
-                                <div class="wb-notes-tools">
-                                    <input type="text" id="notes-search" class="wb-input" placeholder="Buscar..." oninput="renderNotesList()">
-                                    <button class="action-btn" onclick="newNote()">＋ Nueva</button>
-                                </div>
-                                <div id="notes-list"></div>
-                            </div>
-                            <div class="wb-notes-editor" id="notes-editor"></div>
-                        </div>
-                    </div>
-                </details>
-
-                <details class="wb-dropdown">
-                    <summary style="color:var(--text-muted);">🌙 Reflexiones <span class="wb-sub" id="refl-count"></span></summary>
-                    <div class="wb-dropdown-body">
-                        <div id="reflection-card"></div>
-                    </div>
-                </details>
-
-                <details class="wb-dropdown">
-                    <summary style="color:var(--text-muted);">📖 Capítulos <span class="wb-sub" id="story-progress"></span></summary>
+                <details class="wb-dropdown" open>
+                    <summary>Primer Arco <span class="wb-sub">Bahía Ceniza</span> <span class="wb-sub" id="story-progress"></span></summary>
                     <div class="wb-dropdown-body">
                         <div id="story-container"></div>
                     </div>
@@ -748,6 +697,28 @@
 
         <!-- ========== PESTAÑA CONFIGURACIÓN ========== -->
         <div id="tab-config" class="tab-content">
+
+            <!-- GESTIÓN DE PARTIDA -->
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Gestión de Partida</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <br>
+                <div class="save-manage-actions">
+                    <div class="save-manage-item">
+                        <button class="action-btn" onclick="exportData()">Guardar Partida</button>
+                        <div class="save-manage-note">Descarga un archivo con todo tu progreso: personaje, runas, misiones, metas, eventos, trofeos y diario.</div>
+                    </div>
+                    <div class="save-manage-item">
+                        <input type="file" id="import-file" accept=".json" style="display:none;"
+                            onchange="importData(event)">
+                        <button class="action-btn" onclick="document.getElementById('import-file').click()">Cargar Partida</button>
+                        <div class="save-manage-note">Reemplaza tu progreso actual con el de un archivo de partida guardado.</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="section-box">
                 <div class="section-header">
                     <span class="section-title">Centro de Configuración</span>
@@ -760,10 +731,10 @@
                         <div class="config-title">Dificultad</div>
                         <br>
                         <select class="config-select" id="config-difficulty" onchange="applyDifficulty(this.value)">
-                            <option value="easy">🟢 Fácil</option>
-                            <option value="normal" selected>🟡 Normal</option>
-                            <option value="hard">🟠 Difícil</option>
-                            <option value="expert">🔴 Experto</option>
+                            <option value="easy">Fácil</option>
+                            <option value="normal" selected>Normal</option>
+                            <option value="hard">Difícil</option>
+                            <option value="expert">Experto</option>
                         </select>
 
                         <div
@@ -777,12 +748,12 @@
                         <div class="config-title">Runas</div>
                         <br>
                         <div class="config-file-input" onclick="document.getElementById('rune-file-config').click()">
-                            📂 Seleccionar archivo JSON de runas
+                            <span class="ui-emoji">📂</span> Seleccionar archivo JSON de runas
                             <input type="file" id="rune-file-config" accept=".json" onchange="importRunesConfig(event)">
                         </div>
                         <div class="config-import-list" id="rune-import-list"></div>
                         <div class="config-actions">
-                            <button class="action-btn danger" onclick="clearAllRunes()">🗑️ Eliminar Todas</button>
+                            <button class="action-btn danger" onclick="clearAllRunes()">Eliminar Todas</button>
                         </div>
                     </div>
 
@@ -790,27 +761,27 @@
                         <div class="config-title">DLCs de Misiones</div>
                         <br>
                         <div class="config-file-input" onclick="document.getElementById('dlc-file-config').click()">
-                            📂 Seleccionar archivo JSON de DLC
+                            <span class="ui-emoji">📂</span> Seleccionar archivo JSON de DLC
                             <input type="file" id="dlc-file-config" accept=".json" onchange="importDLCConfig(event)">
                         </div>
                         <div class="config-import-list" id="dlc-import-list"></div>
                         <div class="config-actions">
-                            <button class="action-btn danger" onclick="clearAllDLCs()">🗑️ Eliminar Todos</button>
+                            <button class="action-btn danger" onclick="clearAllDLCs()">Eliminar Todos</button>
                         </div>
                     </div>
 
                     <div class="config-card">
-                        <div class="config-title">Aventuras</div>
+                        <div class="config-title">Eventos</div>
                         <br>
                         <div class="config-file-input" onclick="document.getElementById('events-file-config').click()">
-                            📂 Seleccionar archivo JSON de aventuras
+                            <span class="ui-emoji">📂</span> Seleccionar archivo JSON de eventos
                             <input type="file" id="events-file-config" accept=".json"
                                 onchange="importEventsConfig(event)">
                         </div>
                         <div class="config-import-list" id="events-import-list"></div>
                         <div class="config-actions">
                             <button class="action-btn danger" onclick="clearAllEvents()"
-                                style="border-color:rgba(239,68,68,0.15); background:rgba(239,68,68,0.08); color:var(--danger); padding:6px 16px;">🗑️
+                                style="border-color:rgba(190,82,74,0.15); background:rgba(190,82,74,0.08); color:var(--danger); padding:6px 16px;">
                                 Eliminar Todas</button>
                         </div>
                     </div>
@@ -819,29 +790,29 @@
                         <div class="config-title">Metas</div>
                         <br>
                         <div class="config-file-input" onclick="document.getElementById('boss-file-config').click()">
-                            📂 Seleccionar archivo JSON de metas
+                            <span class="ui-emoji">📂</span> Seleccionar archivo JSON de metas
                             <input type="file" id="boss-file-config" accept=".json"
                                 onchange="importBossesConfig(event)">
                         </div>
                         <div class="config-import-list" id="boss-import-list"></div>
                         <div class="config-actions">
-                            <button class="action-btn danger" onclick="resetBosses()">🗑️ Eliminar Todos</button>
+                            <button class="action-btn danger" onclick="resetBosses()">Eliminar Todos</button>
                         </div>
                     </div>
 
-                    <div class="config-card" style="border-color:rgba(239,68,68,0.2);">
+                    <div class="config-card" style="border-color:rgba(190,82,74,0.2);">
                         <div class="config-title" style="color:var(--danger);">Zona de Peligro</div>
                         <br>
                         <div class="config-actions">
                             <button class="action-btn danger" onclick="resetFullGame()"
-                                style="border-color:rgba(239,68,68,0.3); background:rgba(239,68,68,0.08); color:var(--danger); font-weight:bold; padding:8px 16px;">
+                                style="border-color:rgba(190,82,74,0.3); background:rgba(190,82,74,0.08); color:var(--danger); font-weight:bold; padding:8px 16px;">
                                 Borrar Partida
                             </button>
                         </div>
                         <br>
                         <div
                             style="font-size:0.65rem; color:var(--text-muted); opacity:0.4; margin-top:4px; font-family:'Georgia','Times New Roman',serif;">
-                            ⚠️ Esto eliminará TODOS los datos: personaje, runas, misiones, metas, eventos, tienda,
+                            Esto eliminará TODOS los datos: personaje, runas, misiones, metas, eventos, tienda,
                             trofeos y diario.
                         </div>
                     </div>
@@ -853,7 +824,7 @@
     <!-- DESHABILITADO: Mascota flotante. Para reactivarla: sacá el <template> y poné FEATURES.pets = true en js/config.js -->
     <template data-disabled="pets">
     <div class="pet-container" id="pet-container" onclick="petClick()">
-        <div class="pet-bubble" id="pet-bubble">🐾 ¡Hola, aventurero!</div>
+        <div class="pet-bubble" id="pet-bubble">¡Hola, aventurero!</div>
         <span class="pet-emoji" id="pet-emoji"></span>
         <span class="pet-level" id="pet-level">Nv. 1</span>
     </div>

@@ -11,13 +11,15 @@
                 toast.className = 'toast ' + type;
 
                 var icons = {
-                    success: '✅',
-                    error: '❌',
-                    warning: '⚠️',
-                    info: 'ℹ️'
+                    success: '✦',
+                    error: '✕',
+                    warning: '◆',
+                    info: '·'
                 };
 
-                var icon = icons[type] || 'ℹ️';
+                var icon = icons[type] || '·';
+                message = stripEmoji(message);
+                title = stripEmoji(title);
 
                 toast.innerHTML = `
         <div class="toast-title">${icon} ${title || type.toUpperCase()}</div>
@@ -41,7 +43,8 @@
             }
 
             function showModal(icon, title, message, confirmText, callback, isDanger) {
-                document.getElementById('modal-icon').innerHTML = renderIconHTML(icon, '⚠️');
+                document.getElementById('modal-icon').innerHTML = '✦';
+                title = stripEmoji(title); message = stripEmoji(message);
                 document.getElementById('modal-title').textContent = title || 'Confirmar';
                 document.getElementById('modal-message').textContent = message || '¿Estás seguro?';
 

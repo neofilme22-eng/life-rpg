@@ -21,7 +21,7 @@
                                 if (card && typeof triggerFxBurst === 'function') {
                                     var mult = getDifficultyMultipliers();
                                     var expPreview = Math.floor(boss.expReward * mult.exp);
-                                    triggerFxBurst(card, '+' + expPreview + ' EXP', '#dc2626', { big: true });
+                                    triggerFxBurst(card, '+' + expPreview + ' EXP', '#a1443d', { big: true });
                                     setTimeout(function () { defeatBoss(bossId); }, 650);
                                 } else {
                                     defeatBoss(bossId);
@@ -45,7 +45,7 @@
                             var expGain = Math.floor(boss.expReward * mult.exp);
                             var goldGain = Math.floor(boss.goldReward * mult.gold);
 
-                            gainRewards(expGain, goldGain, boss.attrReward, 'boss', '🎯 Meta "' + boss.name + '" cumplida', '¡Cumplida!');
+                            gainRewards(expGain, goldGain, boss.attrReward, 'boss', 'Meta "' + boss.name + '" cumplida', '¡Cumplida!');
 
                             renderBosses();
                             renderBestiary();
@@ -67,7 +67,7 @@
                                 if (boss.deadline && new Date(boss.deadline) < now && !boss.defeated && !boss.vencido) {
                                     boss.vencido = true;
                                     updated = true;
-                                    addLogEntry('boss', '⏰ Meta "' + boss.name + '" vencida', 'Se acabó el plazo', 0, 0, null);
+                                    addLogEntry('boss', 'Meta "' + boss.name + '" vencida', 'Se acabó el plazo', 0, 0, null);
                                     applyDamage(30, 'Meta vencida', 15);
                                 }
                             });
@@ -140,7 +140,7 @@
                                     }
                                     deadlineHTML = `
                         <div class="boss-deadline">
-                            📅 <strong>Fecha límite:</strong> ${formatted} ${daysText}
+                            <strong>Fecha límite:</strong> ${formatted} ${daysText}
                         </div>
                     `;
                                 }
@@ -185,7 +185,7 @@
                     </div>
                     ${tasksHTML}
                     <div class="boss-reward">
-                        <span>🏆 Recompensa: +${Math.floor(boss.expReward * getDifficultyMultipliers().exp)} EXP${goldText(Math.floor(boss.goldReward * getDifficultyMultipliers().gold))}</span>
+                        <span>Recompensa: +${Math.floor(boss.expReward * getDifficultyMultipliers().exp)} EXP${goldText(Math.floor(boss.goldReward * getDifficultyMultipliers().gold))}</span>
                     </div>
                 `;
 
@@ -226,7 +226,7 @@
                             }
 
                             if (entries.length === 0) {
-                                container.innerHTML = '<div class="boss-record-empty">Todavía no hay metas cumplidas ni fallidas.</div>';
+                                container.innerHTML = '<div class="boss-record-empty event-empty">Todavía no hay metas cumplidas ni fallidas.</div>';
                                 return;
                             }
 
@@ -258,7 +258,7 @@
                             }
 
                             showModal(
-                                '🎯',
+                                '',
                                 'Resetear Metas',
                                 '¿Estás seguro de resetear todas las metas? Las perderás todas.',
                                 'Resetear',
@@ -268,7 +268,7 @@
                                     renderBosses();
                                     renderBestiary();
                                     if (typeof renderBossImportList === 'function') renderBossImportList();
-                                    showToast('🎯 Todas las metas han sido eliminadas.', 'info', 'Metas');
+                                    showToast('Todas las metas han sido eliminadas.', 'info', 'Metas');
                                 },
                                 true
                             );

@@ -70,7 +70,7 @@ function renderEvents() {
                     evt.status = 'active';
                     evt.startedAt = Date.now();
                     if (typeof showToast === 'function') {
-                        showToast('🎉 Evento "' + evt.title + '" ha comenzado', 'info', 'Evento');
+                        showToast('Evento "' + evt.title + '" ha comenzado', 'info', 'Evento');
                     }
                 }
             } else if (now > endDate) {
@@ -85,18 +85,18 @@ function renderEvents() {
                     var expGain = Math.floor((evt.expReward || 20) * (0.3 + 0.4 * porcentaje));
                     var goldGain = Math.floor((evt.goldReward || 10) * (0.3 + 0.4 * porcentaje));
                     if (typeof gainRewards === 'function') {
-                        gainRewards(expGain, goldGain, 'social', 'event', '⏰ Evento "' + evt.title + '" finalizado', completadas + '/' + total + ' tareas');
+                        gainRewards(expGain, goldGain, 'social', 'event', 'Evento "' + evt.title + '" finalizado', completadas + '/' + total + ' tareas');
                     }
                     if (typeof showToast === 'function') {
-                        showToast('⏰ Evento "' + evt.title + '" finalizado. +' + expGain + ' EXP' + goldText(goldGain), 'info', 'Evento');
+                        showToast('Evento "' + evt.title + '" finalizado. +' + expGain + ' EXP' + goldText(goldGain), 'info', 'Evento');
                     }
                 } else {
                     // No hay recompensas si no se completó ninguna tarea
                     if (typeof addLogEntry === 'function') {
-                        addLogEntry('event', '⏰ Evento "' + evt.title + '" finalizado', 'Sin tareas completadas - Sin recompensa', 0, 0, null);
+                        addLogEntry('event', 'Evento "' + evt.title + '" finalizado', 'Sin tareas completadas - Sin recompensa', 0, 0, null);
                     }
                     if (typeof showToast === 'function') {
-                        showToast('⏰ Evento "' + evt.title + '" finalizado sin completar tareas. Sin recompensa.', 'warning', 'Evento');
+                        showToast('Evento "' + evt.title + '" finalizado sin completar tareas. Sin recompensa.', 'warning', 'Evento');
                     }
                 }
             }
@@ -116,13 +116,13 @@ function renderEvents() {
                 var petDamage = Math.ceil(damageAmount / 2);
 
                 if (typeof applyDamage === 'function') {
-                    applyDamage(damageAmount, 'Mazmorra "' + evt.title + '" expiró sin completar', petDamage);
+                    applyDamage(damageAmount, 'Evento "' + evt.title + '" expiró sin completar', petDamage);
                 }
                 if (typeof addLogEntry === 'function') {
-                    addLogEntry('dungeon', '⏰ Mazmorra "' + evt.title + '" expiró', completadas + '/' + total + ' tareas', 0, 0, null);
+                    addLogEntry('dungeon', 'Evento "' + evt.title + '" expiró', completadas + '/' + total + ' tareas', 0, 0, null);
                 }
                 if (typeof showToast === 'function') {
-                    showToast('⏰ Mazmorra "' + evt.title + '" expiró sin completar. -' + damageAmount + ' HP', 'error', 'Mazmorra');
+                    showToast('Evento "' + evt.title + '" expiró sin completar. -' + damageAmount + ' HP', 'error', 'Evento');
                 }
             }
         }
@@ -234,9 +234,9 @@ function renderEventCards(container, events, type) {
         }
 
         var statusMap = {
-            'pending': { text: '⏳ Pendiente', cls: 'pending' },
-            'active': { text: '🟢 Activo', cls: 'active' },
-            'finished': { text: '✅ Finalizado', cls: 'finished' }
+            'pending': { text: 'Pendiente', cls: 'pending' },
+            'active': { text: 'Activo', cls: 'active' },
+            'finished': { text: 'Finalizado', cls: 'finished' }
         };
         var status = statusMap[evt.status] || statusMap['pending'];
 
@@ -253,19 +253,19 @@ function renderEventCards(container, events, type) {
                 if (diff > 0) {
                     var horas = Math.floor(diff / (1000 * 60 * 60));
                     var minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    timerHTML = '<div class="event-timer">⏱️ ' + horas + 'h ' + minutos + 'm restantes</div>';
+                    timerHTML = '<div class="event-timer">' + horas + 'h ' + minutos + 'm restantes</div>';
                 } else {
-                    timerHTML = '<div class="event-timer urgent">⏱️ ¡Finalizando!</div>';
+                    timerHTML = '<div class="event-timer urgent">¡Finalizando!</div>';
                 }
             }
         }
 
         var periodText = '';
         var periodMap = {
-            'once': '📌 Una vez',
-            'daily': '🔄 Diario',
-            'weekly': '🔄 Semanal',
-            'monthly': '🔄 Mensual'
+            'once': 'Una vez',
+            'daily': 'Diario',
+            'weekly': 'Semanal',
+            'monthly': 'Mensual'
         };
         if (evt.period && evt.period !== 'once') {
             periodText = '<span style="font-size:0.6rem; color:var(--primary); opacity:0.7;">' + (periodMap[evt.period] || '') + '</span>';
@@ -315,15 +315,15 @@ function renderEventCards(container, events, type) {
                 </div>
                 ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
                 <div class="event-meta">
-                    <span>📅 ${startStr}</span>
-                    <span>⏱️ ${evt.duration || 3}h</span>
-                    <span>📋 Evento</span>
+                    <span>${startStr}</span>
+                    <span>${evt.duration || 3}h</span>
+                    <span>Evento</span>
                     ${periodText}
                 </div>
                 ${timerHTML}
                 ${tasksHTML}
                 <div class="event-reward">
-                    <span>🏆 +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
+                    <span>+${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
                 </div>
             </div>
         `;
@@ -336,7 +336,7 @@ function renderDungeonCards(container, mazmorras) {
     if (!container) return;
 
     if (mazmorras.length === 0) {
-        container.innerHTML = '<div class="event-empty">No hay mazmorras.</div>';
+        container.innerHTML = '<div class="event-empty">No hay eventos.</div>';
         return;
     }
 
@@ -346,10 +346,10 @@ function renderDungeonCards(container, mazmorras) {
         var icon = renderIconHTML(evt.icon, '');
 
         var statusMap = {
-            'pending': { text: '⏳ Pendiente', cls: 'pending' },
-            'active': { text: '🟢 En progreso', cls: 'active' },
-            'finished': { text: '⏰ Expirada', cls: 'finished' },
-            'completed': { text: '✅ Completada', cls: 'finished' }
+            'pending': { text: 'Pendiente', cls: 'pending' },
+            'active': { text: 'En progreso', cls: 'active' },
+            'finished': { text: 'Expirada', cls: 'finished' },
+            'completed': { text: 'Completada', cls: 'finished' }
         };
         var status = statusMap[evt.status] || statusMap['pending'];
 
@@ -360,9 +360,9 @@ function renderDungeonCards(container, mazmorras) {
             if (diff > 0) {
                 var horas = Math.floor(diff / (1000 * 60 * 60));
                 var minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                timerHTML = '<div class="event-timer">⏱️ ' + horas + 'h ' + minutos + 'm restantes</div>';
+                timerHTML = '<div class="event-timer">' + horas + 'h ' + minutos + 'm restantes</div>';
             } else {
-                timerHTML = '<div class="event-timer urgent">⏱️ ¡Finalizando!</div>';
+                timerHTML = '<div class="event-timer urgent">¡Finalizando!</div>';
             }
         }
 
@@ -392,8 +392,8 @@ function renderDungeonCards(container, mazmorras) {
 
         if (evt.status === 'pending') {
             var puedeIniciar = (player ? player.level >= (evt.levelRequired || 1) : false) && !(player && player.gameOver) && !hayMazmorraActiva;
-            var textoBoton = (player && player.level < (evt.levelRequired || 1)) ? '🔒 Nivel ' + (evt.levelRequired || 1) + ' req.' :
-                (hayMazmorraActiva ? '⏳ Otra campaña en curso' : 'Iniciar');
+            var textoBoton = (player && player.level < (evt.levelRequired || 1)) ? 'Nivel ' + (evt.levelRequired || 1) + ' req.' :
+                (hayMazmorraActiva ? 'Otro evento en curso' : 'Iniciar');
             actionsHTML = `
                 <button class="start-btn" onclick="iniciarMazmorra('${evt.id}')" ${!puedeIniciar ? 'disabled' : ''}>
                     ${textoBoton}
@@ -409,7 +409,7 @@ function renderDungeonCards(container, mazmorras) {
         } else if (evt.status === 'completed') {
             actionsHTML = '<span style="color:var(--success); font-size:0.8rem; font-weight:bold;">Completada - Vuelve mañana</span>';
         } else if (evt.status === 'finished') {
-            actionsHTML = '<span style="color:var(--danger); font-size:0.8rem; font-weight:bold;">⏰ Expirada</span>';
+            actionsHTML = '<span style="color:var(--danger); font-size:0.8rem; font-weight:bold;">Expirada</span>';
         }
 
         html += `
@@ -420,14 +420,14 @@ function renderDungeonCards(container, mazmorras) {
                 </div>
                 ${renderEntityImageBlock(evt.image, evt.icon, evt.title)}
                 <div class="event-meta">
-                    <span>📋 Campaña</span>
-                    <span>⏱️ ${evt.duration || 3}h</span>
-                    ${evt.levelRequired ? '<span>🏷️ Nivel ' + evt.levelRequired + ' req.</span>' : ''}
+                    <span>Evento</span>
+                    <span>${evt.duration || 3}h</span>
+                    ${evt.levelRequired ? '<span>Nivel ' + evt.levelRequired + ' req.</span>' : ''}
                 </div>
                 ${timerHTML}
                 ${tasksHTML}
                 <div class="event-reward">
-                    <span>🏆 +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
+                    <span>+${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
                 </div>
                 <div class="event-actions">
                     ${actionsHTML}
@@ -491,7 +491,7 @@ function toggleEventTask(eventId, taskIndex) {
             evt.status = 'active';
             evt.startedAt = Date.now();
             if (typeof showToast === 'function') {
-                showToast('🎉 Evento "' + evt.title + '" activado automáticamente', 'info', 'Evento');
+                showToast('Evento "' + evt.title + '" activado automáticamente', 'info', 'Evento');
             }
         }
     }
@@ -521,10 +521,10 @@ function toggleEventTask(eventId, taskIndex) {
         var evtCard = document.querySelector('.event-card[data-event-id="' + eventId + '"]');
         var applyEventRewards = function () {
             if (typeof gainRewards === 'function') {
-                gainRewards(evt.expReward + bonusExp, evt.goldReward + bonusGold, 'disciplina', 'event', '🎉 Evento "' + evt.title + '" completado', 'Todas las tareas completadas');
+                gainRewards(evt.expReward + bonusExp, evt.goldReward + bonusGold, 'disciplina', 'event', 'Evento "' + evt.title + '" completado', 'Todas las tareas completadas');
             }
             if (typeof showToast === 'function') {
-                showToast('🎉 ¡Todas las tareas completadas en "' + evt.title + '"!', 'success', 'Evento');
+                showToast('¡Todas las tareas completadas en "' + evt.title + '"!', 'success', 'Evento');
             }
             if (typeof checkAndUnlockTrophies === 'function') {
                 checkAndUnlockTrophies();
@@ -533,7 +533,7 @@ function toggleEventTask(eventId, taskIndex) {
         };
 
         if (evtCard && typeof triggerFxBurst === 'function') {
-            triggerFxBurst(evtCard, '+' + totalExpPreview + ' EXP', '#a855f7', { big: true });
+            triggerFxBurst(evtCard, '+' + totalExpPreview + ' EXP', '#9c87ab', { big: true });
             setTimeout(applyEventRewards, 650);
             return;
         }
@@ -543,7 +543,7 @@ function toggleEventTask(eventId, taskIndex) {
     } else if (completadas > 0 && totalTareas > 0 && evt.status === 'active') {
         // ALGUNAS tareas completadas -> solo notificar progreso
         if (typeof showToast === 'function') {
-            showToast('📋 ' + completadas + '/' + totalTareas + ' tareas completadas en "' + evt.title + '". Seguí así!', 'info', 'Evento');
+            showToast('' + completadas + '/' + totalTareas + ' tareas completadas en "' + evt.title + '". Seguí así!', 'info', 'Evento');
         }
     }
 
@@ -562,14 +562,14 @@ function toggleDungeonTask(eventId, taskIndex) {
 
     var evt = window.eventosCache.find(function (e) { return e.id === eventId; });
     if (!evt) {
-        if (typeof showToast === 'function') showToast('No se encontró la mazmorra.', 'error', 'Error');
+        if (typeof showToast === 'function') showToast('No se encontró el evento.', 'error', 'Error');
         return;
     }
     if (evt.status === 'finished' || evt.status === 'completed') return;
 
     if (evt.status !== 'active') {
         if (typeof showToast === 'function') {
-            showToast('Primero tenés que iniciar la mazmorra con el botón "🏰 Iniciar Mazmorra".', 'warning', 'Mazmorra');
+            showToast('Primero tenés que iniciar el evento con el botón "Iniciar".', 'warning', 'Evento');
         }
         renderEvents();
         return;
@@ -581,7 +581,7 @@ function toggleDungeonTask(eventId, taskIndex) {
     var allDone = evt.taskStatus.every(function (s) { return s === true; });
     if (allDone && evt.tasks.length > 0 && evt.status === 'active') {
         if (typeof showToast === 'function') {
-            showToast('✅ ¡Todas las tareas completadas! Finaliza la mazmorra.', 'success', 'Mazmorra');
+            showToast('¡Todas las tareas completadas! Finalizá el evento.', 'success', 'Evento');
         }
     }
 
@@ -600,28 +600,28 @@ function iniciarMazmorra(id) {
 
     var evt = window.eventosCache.find(function (e) { return e.id === id; });
     if (!evt) {
-        if (typeof showToast === 'function') showToast('No se encontró la mazmorra.', 'error', 'Error');
+        if (typeof showToast === 'function') showToast('No se encontró el evento.', 'error', 'Error');
         return;
     }
 
     if (evt.status === 'completed') {
-        if (typeof showToast === 'function') showToast('Esta mazmorra ya fue completada hoy. Vuelve mañana.', 'warning', 'Mazmorra');
+        if (typeof showToast === 'function') showToast('Este evento ya fue completada hoy. Vuelve mañana.', 'warning', 'Evento');
         return;
     }
 
     if (evt.status === 'active') {
-        if (typeof showToast === 'function') showToast('Esta mazmorra ya está en progreso.', 'warning', 'Mazmorra');
+        if (typeof showToast === 'function') showToast('Este evento ya está en progreso.', 'warning', 'Evento');
         return;
     }
 
     if (evt.status === 'finished') {
-        if (typeof showToast === 'function') showToast('Esta mazmorra expiró.', 'warning', 'Mazmorra');
+        if (typeof showToast === 'function') showToast('Este evento expiró.', 'warning', 'Evento');
         return;
     }
 
     if (player && player.level < (evt.levelRequired || 1)) {
         if (typeof showToast === 'function') {
-            showToast('Necesitas nivel ' + evt.levelRequired + ' para esta mazmorra.', 'error', 'Mazmorra');
+            showToast('Necesitas nivel ' + evt.levelRequired + ' para este evento.', 'error', 'Evento');
         }
         return;
     }
@@ -629,7 +629,7 @@ function iniciarMazmorra(id) {
     var otraActiva = window.eventosCache.find(function (e) { return e.type === 'dungeon' && e.status === 'active' && e.id !== id; });
     if (otraActiva) {
         if (typeof showToast === 'function') {
-            showToast('Ya tenés "' + otraActiva.title + '" en progreso. Finalizala antes de iniciar otra mazmorra.', 'warning', 'Mazmorra');
+            showToast('Ya tenés "' + otraActiva.title + '" en progreso. Finalizalo antes de iniciar otro evento.', 'warning', 'Evento');
         }
         return;
     }
@@ -645,10 +645,10 @@ function iniciarMazmorra(id) {
     renderEvents();
 
     if (typeof showToast === 'function') {
-        showToast('🏰 Mazmorra "' + evt.title + '" iniciada! Duración: ' + (evt.duration || 3) + ' horas', 'success', 'Mazmorra');
+        showToast('Evento "' + evt.title + '" iniciada! Duración: ' + (evt.duration || 3) + ' horas', 'success', 'Evento');
     }
     if (typeof addLogEntry === 'function') {
-        addLogEntry('dungeon', '🏰 Mazmorra "' + evt.title + '" iniciada', 'Duración: ' + (evt.duration || 3) + 'h', 0, 0, null);
+        addLogEntry('dungeon', 'Evento "' + evt.title + '" iniciada', 'Duración: ' + (evt.duration || 3) + 'h', 0, 0, null);
     }
 }
 
@@ -660,12 +660,12 @@ function finalizarMazmorra(event, id) {
 
     var evt = window.eventosCache.find(function (e) { return e.id === id; });
     if (!evt) {
-        if (typeof showToast === 'function') showToast('No se encontró la mazmorra.', 'error', 'Error');
+        if (typeof showToast === 'function') showToast('No se encontró el evento.', 'error', 'Error');
         return;
     }
 
     if (evt.status !== 'active') {
-        if (typeof showToast === 'function') showToast('Esta mazmorra no está en progreso.', 'warning', 'Mazmorra');
+        if (typeof showToast === 'function') showToast('Este evento no está en progreso.', 'warning', 'Evento');
         return;
     }
 
@@ -680,7 +680,7 @@ function finalizarMazmorra(event, id) {
 
         var applyDungeonReward = function () {
             if (typeof gainRewards === 'function') {
-                gainRewards(expGain, goldGain, 'social', 'dungeon', '🏰 Mazmorra "' + evt.title + '" completada', completadas + '/' + total + ' tareas');
+                gainRewards(expGain, goldGain, 'social', 'dungeon', 'Evento "' + evt.title + '" completada', completadas + '/' + total + ' tareas');
             }
 
             evt.status = 'completed';
@@ -691,7 +691,7 @@ function finalizarMazmorra(event, id) {
             renderEvents();
 
             if (typeof showToast === 'function') {
-                showToast('🏰 ¡Mazmorra "' + evt.title + '" completada! +' + expGain + ' EXP' + goldText(goldGain), 'success', 'Mazmorra');
+                showToast('¡Evento "' + evt.title + '" completada! +' + expGain + ' EXP' + goldText(goldGain), 'success', 'Evento');
             }
             if (typeof checkAndUnlockTrophies === 'function') {
                 checkAndUnlockTrophies();
@@ -700,7 +700,7 @@ function finalizarMazmorra(event, id) {
 
         var card = event && event.currentTarget ? event.currentTarget.closest('.event-card') : document.querySelector('.event-card[data-event-id="' + id + '"]');
         if (card && typeof triggerFxBurst === 'function') {
-            triggerFxBurst(card, '+' + expGain + ' EXP', '#f59e0b', { big: true });
+            triggerFxBurst(card, '+' + expGain + ' EXP', '#af893d', { big: true });
             setTimeout(applyDungeonReward, 650);
         } else {
             applyDungeonReward();
@@ -713,10 +713,10 @@ function finalizarMazmorra(event, id) {
         renderEvents();
 
         if (typeof addLogEntry === 'function') {
-            addLogEntry('dungeon', '⏰ Mazmorra "' + evt.title + '" finalizada', 'Sin tareas completadas - Sin recompensa', 0, 0, null);
+            addLogEntry('dungeon', 'Evento "' + evt.title + '" finalizada', 'Sin tareas completadas - Sin recompensa', 0, 0, null);
         }
         if (typeof showToast === 'function') {
-            showToast('⏰ Mazmorra "' + evt.title + '" finalizada sin completar tareas. Sin recompensa.', 'warning', 'Mazmorra');
+            showToast('Evento "' + evt.title + '" finalizada sin completar tareas. Sin recompensa.', 'warning', 'Evento');
         }
     }
 }
@@ -789,7 +789,7 @@ function renovarEventosPeriodicos() {
         guardarEventos();
         window.ultimaFechaRenovacion = hoy;
         window.eventosRenovadosHoy = true;
-        console.log('🔄 Eventos periódicos reiniciados');
+        console.log('Eventos periódicos reiniciados');
     }
 }
 
@@ -810,7 +810,7 @@ function addSampleEvents() {
     nextWeek.setDate(nextWeek.getDate() + 7);
 
     var samples = [{
-        title: '⚡ Torneo de Habilidades',
+        title: 'Torneo de Habilidades',
         type: 'event',
         start: tomorrow.toISOString().slice(0, 16),
         duration: 2,
@@ -820,7 +820,7 @@ function addSampleEvents() {
         goldReward: 12,
         period: 'once'
     }, {
-        title: '🎯 Maratón de Creatividad',
+        title: 'Maratón de Creatividad',
         type: 'event',
         start: nextWeek.toISOString().slice(0, 16),
         duration: 6,
@@ -830,7 +830,7 @@ function addSampleEvents() {
         goldReward: 40,
         period: 'once'
     }, {
-        title: '🏰 Mazmorra del Bosque Oscuro',
+        title: 'Evento del Bosque Oscuro',
         type: 'dungeon',
         start: null,
         duration: 2,
@@ -840,7 +840,7 @@ function addSampleEvents() {
         goldReward: 8,
         period: 'once'
     }, {
-        title: '🐉 Cueva del Dragón',
+        title: 'Cueva del Dragón',
         type: 'dungeon',
         start: null,
         duration: 4,
@@ -877,7 +877,7 @@ function addSampleEvents() {
     guardarEventos();
     renderEvents();
     if (typeof showToast === 'function') {
-        showToast('📋 ¡' + samples.length + ' eventos y mazmorras de ejemplo agregados!', 'success', 'Aventuras');
+        showToast('¡' + samples.length + ' eventos de ejemplo agregados!', 'success', 'Eventos');
     }
 }
 
@@ -894,16 +894,16 @@ function clearAllEvents() {
 
     if (typeof showModal === 'function') {
         showModal(
-            '⚠️',
+            '',
             'Eliminar Todos los Eventos',
-            '¿Eliminar TODOS los eventos y mazmorras (' + window.eventosCache.length + ')?',
+            '¿Eliminar TODOS los eventos (' + window.eventosCache.length + ')?',
             'Eliminar Todos',
             function () {
                 window.eventosCache = [];
                 guardarEventos();
                 renderEvents();
                 if (typeof renderEventImportList === 'function') renderEventImportList();
-                if (typeof showToast === 'function') showToast('🗑️ Todos los eventos eliminados.', 'info', 'Eventos');
+                if (typeof showToast === 'function') showToast('Todos los eventos eliminados.', 'info', 'Eventos');
             },
             true
         );
@@ -916,7 +916,7 @@ function renderEventImportList() {
     var packs = {};
     (window.eventosCache || []).forEach(function (e) {
         var pid = e.packId || 'legacy_events';
-        if (!packs[pid]) packs[pid] = { id: pid, name: e.packName || 'Aventuras', count: 0 };
+        if (!packs[pid]) packs[pid] = { id: pid, name: e.packName || 'Eventos', count: 0 };
         packs[pid].count++;
     });
     renderImportPackList('events-import-list', Object.keys(packs).map(function (k) { return packs[k]; }), deleteEventPack);
@@ -930,7 +930,7 @@ function deleteEventPack(packId) {
     guardarEventos();
     renderEvents();
     renderEventImportList();
-    if (typeof showToast === 'function') showToast('🗺️ Paquete de aventuras eliminado.', 'info', 'Aventuras');
+    if (typeof showToast === 'function') showToast('Paquete de eventos eliminado.', 'info', 'Eventos');
 }
 
 function importEventsConfig(event) {
@@ -992,7 +992,7 @@ function importEventsConfig(event) {
             renderEvents();
             renderEventImportList();
             if (typeof showToast === 'function') {
-                showToast('📂 ¡' + count + ' campañas importadas!' + (skippedEvents ? ' (' + skippedEvents + ' eventos omitidos: están deshabilitados)' : ''), 'success', 'Importar');
+                showToast('¡' + count + ' eventos importados!' + (skippedEvents ? ' (' + skippedEvents + ' eventos omitidos: están deshabilitados)' : ''), 'success', 'Importar');
             }
         } catch (error) {
             if (typeof showToast === 'function') {

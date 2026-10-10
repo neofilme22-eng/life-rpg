@@ -141,7 +141,7 @@
                                                     renderRunes();
                                                     saveGame();
                                                     renderRuneImportList();
-                                                    showToast('💠 ¡Paquete de runas "' + runeSetName + '" instalado con éxito!', 'success', 'Runas');
+                                                    showToast('¡Paquete de runas "' + runeSetName + '" instalado con éxito!', 'success', 'Runas');
                                                     checkAndUnlockTrophies();
                                                 } else {
                                                     showToast('Formato de JSON de runas inválido.', 'error', 'Error');
@@ -174,7 +174,7 @@
                                     renderRunes();
                                     renderRuneImportList();
                                     saveGame();
-                                    showToast('💠 Paquete de runas eliminado.', 'info', 'Runas');
+                                    showToast('Paquete de runas eliminado.', 'info', 'Runas');
                                 }
 
                                 function clearAllRunes() {
@@ -189,7 +189,7 @@
                                     }
 
                                     showModal(
-                                        '💠',
+                                        '',
                                         'Eliminar Todas las Runas',
                                         '¿Eliminar TODAS las runas (' + player.rawRunes.length + ')?',
                                         'Eliminar',
@@ -198,7 +198,7 @@
                                             renderRunes();
                                             renderRuneImportList();
                                             saveGame();
-                                            showToast('💠 Todas las runas eliminadas.', 'info', 'Runas');
+                                            showToast('Todas las runas eliminadas.', 'info', 'Runas');
                                         },
                                         true
                                     );
@@ -260,7 +260,7 @@
                                                 renderBosses();
                                                 renderBestiary();
                                                 renderBossImportList();
-                                                showToast('🎯 ¡' + count + ' meta(s) instalada(s) con éxito!', 'success', 'Metas');
+                                                showToast('¡' + count + ' meta(s) instalada(s) con éxito!', 'success', 'Metas');
                                                 checkAndUnlockTrophies();
                                             } else {
                                                 showToast('Formato de JSON de metas inválido.', 'error', 'Error');
@@ -293,7 +293,7 @@
                                     renderBosses();
                                     renderBestiary();
                                     renderBossImportList();
-                                    showToast('🎯 Paquete de metas eliminado.', 'info', 'Metas');
+                                    showToast('Paquete de metas eliminado.', 'info', 'Metas');
                                 }
 
                                 // ============================================================
@@ -302,9 +302,9 @@
 
                                 function resetFullGame() {
                                     showModal(
-                                        '💀',
+                                        '',
                                         'Borrar Partida',
-                                        '⚠️⚠️⚠️ ¿Estás ABSOLUTAMENTE SEGURO? Esto borrará TODOS los datos de tu partida. No se puede deshacer.',
+                                        '¿Estás ABSOLUTAMENTE SEGURO? Esto borrará TODOS los datos de tu partida. No se puede deshacer.',
                                         'Borrar Todo',
                                         function () {
                                             localStorage.removeItem('life_rpg_save');
@@ -341,7 +341,7 @@
                                             var overlay = document.getElementById('game-over-overlay');
                                             if (overlay) overlay.remove();
 
-                                            showToast('🔥 Juego completamente resetado.', 'info', 'Reset');
+                                            showToast('Juego completamente resetado.', 'info', 'Reset');
                                         },
                                         true
                                     );
@@ -359,7 +359,7 @@
                                     }
 
                                     showModal(
-                                        '📦',
+                                        '',
                                         'Eliminar Todos los DLCs',
                                         '¿Eliminar TODOS los DLCs (' + player.dlcs.length + ') y sus misiones?',
                                         'Eliminar',
@@ -375,7 +375,7 @@
                                             saveGame();
                                             renderTrophies();
                                             renderDLCImportList();
-                                            showToast('📦 Todos los DLCs y sus misiones eliminados.', 'info', 'DLCs');
+                                            showToast('Todos los DLCs y sus misiones eliminados.', 'info', 'DLCs');
                                         },
                                         true
                                     );
@@ -402,7 +402,7 @@
                                     saveGame();
                                     renderTrophies();
                                     renderDLCImportList();
-                                    showToast('📦 DLC "' + dlcName + '" eliminado.', 'info', 'DLCs');
+                                    showToast('DLC "' + dlcName + '" eliminado.', 'info', 'DLCs');
                                 }
 
                                 // ============================================================
@@ -425,7 +425,7 @@
                                     document.body.appendChild(downloadAnchor);
                                     downloadAnchor.click();
                                     downloadAnchor.remove();
-                                    showToast('💾 Partida guardada como archivo JSON.', 'success', 'Guardado');
+                                    showToast('Partida guardada como archivo JSON.', 'success', 'Guardado');
                                 }
 
                                 function importData(event) {
@@ -492,7 +492,7 @@
                                                     setTimeout(showGameOverScreen, 500);
                                                 }
 
-                                                showToast('📂 ¡Partida importada con éxito!', 'success', 'Importar');
+                                                showToast('¡Partida importada con éxito!', 'success', 'Importar');
                                             } catch (error) {
                                                 showToast('Error al leer el archivo JSON de respaldo: ' + error.message, 'error', 'Error');
                                                 console.error("Error detallado:", error);

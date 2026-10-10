@@ -31,7 +31,6 @@
                 if (tabId === 'tab-shop') renderShop();
                 if (tabId === 'tab-logbook') renderLogbook();
                 if (tabId === 'tab-story') renderStory();
-                if (tabId === 'tab-story') { renderReflection(); renderNotes(); }
                 if (tabId === 'tab-inventory') renderInventory();
                 if (tabId === 'tab-runas') {
                     renderCheckin();

@@ -8,6 +8,14 @@
 // ============================================================
 
 var MOOD_EMOJIS = ['😢', '😕', '😐', '🙂', '😄'];
+var MOOD_LABELS = ['Muy mal', 'Mal', 'Regular', 'Bien', 'Muy bien'];
+var MOOD_DESCS = [
+    'Tristeza, angustia o mucho estrés.',
+    'Desanimado, con poca energía.',
+    'Ni bien ni mal, un día normal.',
+    'De buen ánimo, tranquilo y con energía.',
+    'Feliz, motivado y con mucha energía.'
+];
 var REFLECTION_QUESTIONS = [
     '¿Qué salió bien hoy?',
     '¿Qué te costó, o qué podrías haber hecho mejor?',
@@ -52,7 +60,8 @@ function renderCheckin() {
     if (today && !checkinEditing) {
         box.innerHTML =
             '<div class="wb-card wb-checkin-done">' +            
-            '<span style="color:var(--text-muted);">' + MOOD_EMOJIS[today.mood - 1] + ' Ánimo ' + today.mood + '/5</span>' +
+            '<span class="wb-mood-now"><span class="wb-emoji">' + MOOD_EMOJIS[today.mood - 1] + '</span>' +
+            '<span class="wb-mood-text"><strong>' + MOOD_LABELS[today.mood - 1] + '</strong> — ' + MOOD_DESCS[today.mood - 1] + '</span></span>' +
             '<button class="action-btn wb-small" onclick="editCheckin()">Cambiar</button>' +
             '</div>';
         return;
@@ -62,8 +71,8 @@ function renderCheckin() {
         '<div class="wb-scale">';
     for (var n = 1; n <= 5; n++) {
         h += '<button class="wb-scale-btn' + (today && today.mood === n ? ' active' : '') +
-            '" onclick="pickMood(' + n + ')" aria-label="Ánimo ' + n + '">' +
-            '<span class="wb-emoji">' + MOOD_EMOJIS[n - 1] + '</span><span class="wb-num">' + n + '</span></button>';
+            '" onclick="pickMood(' + n + ')" aria-label="' + MOOD_LABELS[n - 1] + '" title="' + MOOD_LABELS[n - 1] + '">' +
+            '<span class="wb-emoji">' + MOOD_EMOJIS[n - 1] + '</span></button>';
     }
     box.innerHTML = h + '</div></div>';
 }
@@ -86,7 +95,7 @@ function pickMood(n) {
     checkinEditing = false;
     saveGame();
     renderCheckin();
-    showToast('Check-in guardado 📊', 'success', 'Bienestar');
+    showToast('Ánimo guardado', 'success', 'Bienestar');
 }
 
 // ============================================================
@@ -117,7 +126,7 @@ function renderReflection() {
     var html = '';
 
     if (today && !reflectionEditing) {
-        html += '<div class="wb-card"><div class="wb-title">🌙 Reflexión de hoy </div>' +
+        html += '<div class="wb-card"><div class="wb-title">Reflexión de hoy </div>' +
             reflectionAnswersHTML(today) +
             '<div style="margin-top:10px;"><button class="action-btn wb-small" onclick="editReflection()">Editar</button></div></div>';
     } else {
@@ -135,7 +144,7 @@ function renderReflection() {
     var past = player.reflections.filter(function (r) { return r.date !== wbDate(); })
         .sort(function (a, b) { return a.date < b.date ? 1 : -1; }).slice(0, 14);
     if (past.length) {
-        html += '<div class="wb-card wb-history"><div class="wb-title">📚 Anteriores</div>';
+        html += '<div class="wb-card wb-history"><div class="wb-title">Anteriores</div>';
         past.forEach(function (r) {
             html += '<div class="wb-hist-day">' + escapeHtml(wbPrettyDate(r.date)) + '</div>' + reflectionAnswersHTML(r);
         });
@@ -187,11 +196,11 @@ function saveReflection() {
 
     player.reflections.push({ date: wbDate(), answers: answers, ts: Date.now() });
     reflectionEditing = false;
-    gainRewards(REFLECTION_EXP, REFLECTION_GOLD, 'mente', 'reflection', '🌙 Reflexión nocturna', 'Cierre del día');
+    gainRewards(REFLECTION_EXP, REFLECTION_GOLD, 'mente', 'reflection', 'Reflexión nocturna', 'Cierre del día');
     saveGame();
     updateHUD();
     renderReflection();
-    showToast('🌙 Reflexión guardada: +' + REFLECTION_EXP + ' EXP' + goldText(REFLECTION_GOLD), 'success', 'Reflexión');
+    showToast('Reflexión guardada: +' + REFLECTION_EXP + ' EXP' + goldText(REFLECTION_GOLD), 'success', 'Reflexión');
 }
 
 // ============================================================
@@ -238,7 +247,7 @@ function renderNotesList() {
         var preview = (n.text || '').trim().replace(/\s+/g, ' ').slice(0, 60);
         var date = new Date(n.updated || n.created || Date.now()).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
         return '<div class="wb-note-item' + (n.id === currentNoteId ? ' active' : '') + '" onclick="openNote(\'' + n.id + '\')">' +
-            '<div class="wb-note-title">' + (n.pinned ? '📌 ' : '') + escapeHtml(noteDisplayTitle(n)) + '</div>' +
+            '<div class="wb-note-title">' + (n.pinned ? '' : '') + escapeHtml(noteDisplayTitle(n)) + '</div>' +
             '<div class="wb-note-preview">' + escapeHtml(preview) + '</div>' +
             '<div class="wb-note-date">' + escapeHtml(date) + '</div></div>';
     }).join('');
@@ -257,8 +266,8 @@ function renderNotesEditor() {
         '<textarea id="note-text" class="wb-textarea wb-note-body" placeholder="Escribí acá..." oninput="onNoteInput()"></textarea>' +
         '<div class="wb-note-actions">' +
         '<span id="note-status" class="wb-sub"></span>' +
-        '<button class="action-btn wb-small" onclick="toggleNotePin()">' + (note.pinned ? '📌 Desfijar' : '📌 Fijar') + '</button>' +
-        '<button class="action-btn danger wb-small" onclick="deleteNote()">🗑️ Eliminar</button>' +
+        '<button class="action-btn wb-small" onclick="toggleNotePin()">' + (note.pinned ? 'Desfijar' : 'Fijar') + '</button>' +
+        '<button class="action-btn danger wb-small" onclick="deleteNote()">Eliminar</button>' +
         '</div>';
     document.getElementById('note-title').value = note.title || '';
     document.getElementById('note-text').value = note.text || '';
@@ -325,7 +334,7 @@ function toggleNotePin() {
 function deleteNote() {
     var note = player.notes.find(function (n) { return n.id === currentNoteId; });
     if (!note) return;
-    showModal('🗑️', 'Eliminar nota', '¿Eliminar "' + noteDisplayTitle(note) + '"? No se puede deshacer.', 'Eliminar', function () {
+    showModal('', 'Eliminar nota', '¿Eliminar "' + noteDisplayTitle(note) + '"? No se puede deshacer.', 'Eliminar', function () {
         if (noteSaveTimer) { clearTimeout(noteSaveTimer); noteSaveTimer = null; }
         player.notes = player.notes.filter(function (n) { return n.id !== note.id; });
         currentNoteId = null;
@@ -367,7 +376,7 @@ function moodInsightHTML(expByDate) {
     }
     var a = group('mood', 'Ánimo');
     if (!a) {
-        return '<div class="wb-insight-line wb-sub">Seguí haciendo el check-in: con unos 7–10 días ya se empiezan a ver patrones.</div>';
+        return '';
     }
     return a + '<div class="wb-insight-line wb-sub">Es una correlación, no prueba que una cosa cause la otra.</div>';
 }
@@ -378,13 +387,14 @@ function moodInsightHTML(expByDate) {
 // player.moodLog para el ánimo.
 // ------------------------------------------------------------
 var STATS_CHART_DAYS = 14;
-var statsChartKey = 'missions';
+var statsChartKey = 'mood';
 
 var STATS_CHARTS = {
-    missions: { label: 'Misiones', title: 'Misiones completadas por día', color: '#22c55e', unit: 'misiones' },
-    runes:    { label: 'Runas',    title: 'Runas canalizadas por día',    color: '#a855f7', unit: 'runas' },
-    mood:     { label: 'Ánimo',    title: 'Estado de ánimo por día',      color: '#fbbf24', unit: 'ánimo' },
-    goals:    { label: 'Metas',    title: 'Metas cumplidas por día',      color: '#38bdf8', unit: 'metas' }
+    mood:     { label: 'Ánimo',    title: 'Estado de ánimo por día',      color: '#86a96c', unit: 'ánimo', fem: false },     // verde
+    missions: { label: 'Misiones', title: 'Misiones completadas por día', color: '#d9b968', unit: 'misiones', fem: true },   // amarillo
+    runes:    { label: 'Runas',    title: 'Runas canalizadas por día',    color: '#7ea7bd', unit: 'runas', fem: true },      // celeste
+    events:   { label: 'Eventos',  title: 'Eventos completados por día',  color: '#9c87ab', unit: 'eventos', fem: false },  // lila
+    goals:    { label: 'Metas',    title: 'Metas cumplidas por día',      color: '#be524a', unit: 'metas', fem: true }       // rojo
 };
 
 function wbLastDays(n) {
@@ -423,6 +433,11 @@ function wbStatsSeries(key) {
     if (key === 'goals') {
         return wbCountByDate(function (e) { return e.type === 'boss' && title(e).indexOf('cumplida') !== -1; });
     }
+    if (key === 'events') {
+        return wbCountByDate(function (e) {
+            return (e.type === 'dungeon' || e.type === 'event') && title(e).indexOf('completad') !== -1;
+        });
+    }
     return {};
 }
 
@@ -444,7 +459,7 @@ function wbLineChartSVG(days, values, cfg) {
     var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="' + cfg.title + '">';
 
     cfg.ticks.forEach(function (t) {
-        svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + yAt(t) + '" y2="' + yAt(t) + '" stroke="rgba(255,255,255,0.06)"/>' +
+        svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + yAt(t) + '" y2="' + yAt(t) + '" stroke="rgba(227,220,200,0.06)"/>' +
             '<text x="' + (padL - 8) + '" y="' + (yAt(t) + 4) + '" text-anchor="end" font-size="11" style="fill:var(--text-muted)">' + t + '</text>';
     });
 
@@ -474,13 +489,13 @@ function renderStatsCharts() {
     var old = document.getElementById('stats-charts-card');
     if (old) old.remove();
 
-    var key = STATS_CHARTS[statsChartKey] ? statsChartKey : 'missions';
+    var key = STATS_CHARTS[statsChartKey] ? statsChartKey : 'mood';
     var meta = STATS_CHARTS[key];
     var days = wbLastDays(STATS_CHART_DAYS);
 
     var toggles = '<div class="stats-chart-toggle" role="tablist">';
     Object.keys(STATS_CHARTS).forEach(function (k) {
-        toggles += '<button type="button" class="stats-chart-btn' + (k === key ? ' active' : '') + '" onclick="setStatsChart(\'' + k + '\')">' + STATS_CHARTS[k].label + '</button>';
+        toggles += '<button type="button" style="--c:' + STATS_CHARTS[k].color + '" class="stats-chart-btn' + (k === key ? ' active' : '') + '" onclick="setStatsChart(\'' + k + '\')">' + STATS_CHARTS[k].label + '</button>';
     });
     toggles += '</div>';
 
@@ -491,10 +506,10 @@ function renderStatsCharts() {
         var values = days.map(function (k) { return checks[k] ? checks[k].mood : null; });
         var filled = values.filter(function (v) { return v !== null; });
         if (!filled.length) {
-            body = '<div class="wb-empty">Todavía no hay check-ins en los últimos ' + STATS_CHART_DAYS + ' días. Hacé el primero en la pestaña Misiones y acá aparece el gráfico.</div>';
+            body = '<div class="wb-empty event-empty">Todavía no hay registros de ánimo en los últimos ' + STATS_CHART_DAYS + ' días.</div>';
         } else {
             var avg = (filled.reduce(function (s, x) { return s + x; }, 0) / filled.length).toFixed(1);
-            summary = '<div class="stats-chart-summary">Promedio: <b>' + avg + '/5</b> · Días con check-in: <b>' + filled.length + '</b></div>';
+            summary = '<div class="stats-chart-summary">Total: <b>' + filled.length + '</b> · Promedio: <b>' + avg + '/5</b> · Mejor día: <b>' + Math.max.apply(null, filled) + '/5</b></div>';
             body = wbLineChartSVG(days, values, {
                 title: meta.title, color: meta.color, yMin: 1, yMax: 5, ticks: [1, 2, 3, 4, 5],
                 tooltip: function (v) { return 'ánimo ' + v + '/5'; }
@@ -505,7 +520,7 @@ function renderStatsCharts() {
         var vals = days.map(function (k) { return map[k] || 0; });
         var total = vals.reduce(function (s, x) { return s + x; }, 0);
         if (!total) {
-            body = '<div class="wb-empty">Todavía no hay ' + meta.unit + ' registradas en los últimos ' + STATS_CHART_DAYS + ' días.</div>';
+            body = '<div class="wb-empty event-empty">Todavía no hay ' + meta.unit + ' registradas en los últimos ' + STATS_CHART_DAYS + ' días.</div>';
         } else {
             var best = Math.max.apply(null, vals);
             var yMax = Math.max(4, best);
@@ -533,8 +548,6 @@ window.addEventListener('load', function () {
     setTimeout(function () {
         wbEnsure();
         renderCheckin();
-        renderReflection();
-        renderNotes();
     }, 500);
 });
 

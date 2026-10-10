@@ -1,13 +1,13 @@
 {
   "name": "Life RPG",
   "short_name": "Life RPG",
-  "description": "Tu vida convertida en una aventura épica",
+  "description": "Un expediente abierto en un pueblo que no quiere ser resuelto",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#0b100f",
+  "theme_color": "#0b100f",
   "icons": [
     {
       "src": "assets/icons/icon-192.png",

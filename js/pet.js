@@ -24,7 +24,7 @@
                                         petLevel.textContent += ' ❤️' + healthPercent + '%';
                                         petContainer.style.borderColor = 'var(--danger)';
                                     } else {
-                                        petContainer.style.borderColor = 'rgba(56, 189, 248, 0.2)';
+                                        petContainer.style.borderColor = 'rgba(113, 167, 156, 0.2)';
                                     }
 
                                     var scale = 1 + (level / 50);
@@ -39,7 +39,7 @@
                                     petEmoji.textContent = '🐾';
                                     petLevel.textContent = 'Nv. 1';
                                     petContainer.style.transform = 'scale(1)';
-                                    petContainer.style.borderColor = 'rgba(56, 189, 248, 0.2)';
+                                    petContainer.style.borderColor = 'rgba(113, 167, 156, 0.2)';
                                     showPetBubble('¡Consigue una mascota en la tienda!');
                                 }
                             }

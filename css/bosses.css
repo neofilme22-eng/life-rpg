@@ -7,7 +7,6 @@
             padding: 10px 4px 15px 4px;
             margin-top: 15px;
             scrollbar-width: thin;
-            scrollbar-color: rgba(220, 38, 38, 0.3) transparent;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -16,25 +15,25 @@
         }
 
         .boss-grid::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(227, 220, 200, 0.02);
             border-radius: 4px;
         }
 
         .boss-grid::-webkit-scrollbar-thumb {
-            background: rgba(220, 38, 38, 0.3);
+            background: var(--line);
             border-radius: 4px;
         }
 
         .boss-grid::-webkit-scrollbar-thumb:hover {
-            background: rgba(220, 38, 38, 0.5);
+            background: var(--line);
         }
 
         .boss-card {
             min-width: 280px;
             max-width: 320px;
             flex-shrink: 0;
-            background: linear-gradient(145deg, #1a0a0a, #0f0505);
-            border: 1px solid rgba(220, 38, 38, 0.2);
+            background: linear-gradient(145deg, #160d0c, #0c0707);
+            border: 1px solid rgba(161, 68, 61, 0.2);
             border-radius: 12px;
             padding: 18px 16px;
             transition: all 0.3s ease;
@@ -53,7 +52,7 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(ellipse at 20% 80%, rgba(220, 38, 38, 0.04), transparent 50%);
+                radial-gradient(ellipse at 20% 80%, rgba(161, 68, 61, 0.04), transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -65,15 +64,15 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(161, 68, 61, 0.08), transparent);
             pointer-events: none;
             z-index: 1;
         }
 
         .boss-card:hover {
-            border-color: rgba(220, 38, 38, 0.35);
+            border-color: rgba(161, 68, 61, 0.35);
             transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.05);
+            box-shadow: 0 4px 20px rgba(161, 68, 61, 0.05);
         }
 
         .boss-card>* {
@@ -82,12 +81,12 @@
         }
 
         .boss-card.defeated {
-            border-color: rgba(34, 197, 94, 0.25);
-            background: linear-gradient(145deg, #0a1a0a, #050f05);
+            border-color: rgba(101, 131, 81, 0.25);
+            background: linear-gradient(145deg, #0e1311, #080a09);
         }
 
         .boss-card.defeated::after {
-            background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(101, 131, 81, 0.08), transparent);
         }
 
         .boss-card.defeated .boss-name {
@@ -95,13 +94,13 @@
         }
 
         .boss-card.defeated .boss-status {
-            background: rgba(34, 197, 94, 0.12);
+            background: rgba(101, 131, 81, 0.12);
             color: var(--success);
-            border: 1px solid rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(101, 131, 81, 0.15);
         }
 
         .boss-card.overdue {
-            border-color: rgba(220, 38, 38, 0.4);
+            border-color: rgba(161, 68, 61, 0.4);
         }
 
         .boss-card.overdue .boss-deadline {
@@ -119,15 +118,15 @@
         .boss-name {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #ef4444;
+            color: #be524a;
             margin: 0;
-            text-shadow: 0 0 20px rgba(239, 68, 68, 0.05);
+            text-shadow: 0 0 20px rgba(190, 82, 74, 0.05);
             font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .boss-icon {
             font-size: 2rem;
-            filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.1));
+            filter: drop-shadow(0 0 10px rgba(190, 82, 74, 0.1));
         }
 
         .boss-status {
@@ -135,9 +134,9 @@
             font-weight: bold;
             padding: 2px 12px;
             border-radius: 12px;
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.12);
+            background: rgba(190, 82, 74, 0.1);
+            color: #be524a;
+            border: 1px solid rgba(190, 82, 74, 0.12);
             align-self: center;
             font-family: 'Georgia', 'Times New Roman', serif;
         }
@@ -168,27 +167,27 @@
         }
 
         .boss-progress-bar {
-            background: #1a1a2a;
+            background: #1a2320;
             border-radius: 4px;
             height: 8px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(227, 220, 200, 0.03);
         }
 
         .boss-progress-bar .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #dc2626, #ef4444);
+            background: linear-gradient(90deg, #a1443d, #be524a);
             transition: width 0.5s ease;
             border-radius: 4px;
         }
 
         .boss-card.defeated .boss-progress-bar .progress-fill {
-            background: linear-gradient(90deg, #16a34a, #22c55e);
+            background: linear-gradient(90deg, #516941, #658351);
         }
 
         .boss-tasks {
             margin-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 1px solid rgba(227, 220, 200, 0.04);
             padding-top: 10px;
             flex: 1;
         }
@@ -232,15 +231,15 @@
             color: var(--gold);
             margin-top: 8px;
             padding-top: 8px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 1px solid rgba(227, 220, 200, 0.04);
             font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .boss-reward span {
-            background: rgba(251, 191, 36, 0.06);
+            background: rgba(193, 152, 71, 0.06);
             padding: 2px 10px;
             border-radius: 12px;
-            border: 1px solid rgba(251, 191, 36, 0.06);
+            border: 1px solid rgba(193, 152, 71, 0.06);
         }
 
         .boss-empty {
@@ -297,7 +296,7 @@
         .boss-card .entity-image-block .boss-emoji {
             font-size: 5rem;
             line-height: 1;
-            text-shadow: 0 0 40px rgba(220, 38, 38, 0.2);
+            text-shadow: 0 0 40px rgba(161, 68, 61, 0.2);
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
             transition: all 0.3s ease;
             display: flex;
@@ -355,7 +354,7 @@
         .bestiary-card .entity-image-block .boss-emoji {
             font-size: 3.5rem;
             line-height: 1;
-            text-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
+            text-shadow: 0 0 30px rgba(161, 68, 61, 0.15);
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
             transition: all 0.3s ease;
             display: flex;
@@ -376,11 +375,11 @@
 
         /* ===== ESTILO ADICIONAL PARA BOSSES VENCIDOS ===== */
         .boss-card.defeated .entity-image-block {
-            background: rgba(34, 197, 94, 0.05);
+            background: rgba(101, 131, 81, 0.05);
         }
 
         .boss-card.defeated .entity-image-block .boss-emoji {
-            text-shadow: 0 0 40px rgba(34, 197, 94, 0.2);
+            text-shadow: 0 0 40px rgba(101, 131, 81, 0.2);
         }
 
         /* ===== BESTIARIO ===== */
@@ -392,8 +391,8 @@
         }
 
         .bestiary-filter-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(227, 220, 200, 0.03);
+            border: 1px solid rgba(227, 220, 200, 0.08);
             color: var(--text-muted);
             font-family: 'Georgia', 'Times New Roman', serif;
             font-size: 0.8rem;
@@ -404,13 +403,13 @@
         }
 
         .bestiary-filter-btn:hover {
-            border-color: rgba(220, 38, 38, 0.3);
+            border-color: rgba(161, 68, 61, 0.3);
             color: var(--text);
         }
 
         .bestiary-filter-btn.active {
-            background: rgba(220, 38, 38, 0.12);
-            border-color: rgba(220, 38, 38, 0.4);
+            background: rgba(161, 68, 61, 0.12);
+            border-color: rgba(161, 68, 61, 0.4);
             color: var(--text);
         }
 
@@ -435,8 +434,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(145deg, #1a0a0a, #0f0505);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: linear-gradient(145deg, #160d0c, #0c0707);
+            border: 1px solid rgba(227, 220, 200, 0.06);
             border-radius: 8px;
             padding: 8px 10px;
             cursor: pointer;
@@ -444,7 +443,7 @@
         }
 
         .bestiary-list-item:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(227, 220, 200, 0.15);
             transform: translateX(2px);
         }
 
@@ -457,8 +456,8 @@
         }
 
         .bestiary-list-item.active {
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            background: rgba(227, 220, 200, 0.05);
+            box-shadow: 0 0 0 1px rgba(227, 220, 200, 0.1) inset;
         }
 
         .bestiary-list-icon {
@@ -504,18 +503,18 @@
         }
 
         .bestiary-type-tag.boss {
-            background: rgba(220, 38, 38, 0.15);
-            color: #f87171;
+            background: rgba(161, 68, 61, 0.15);
+            color: #cb716b;
         }
 
         .bestiary-type-tag.champ {
-            background: rgba(139, 92, 246, 0.15);
-            color: #c4b5fd;
+            background: rgba(158, 138, 173, 0.15);
+            color: #c9bed1;
         }
 
         .bestiary-detail {
-            background: linear-gradient(145deg, #1a0a0a, #0f0505);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(145deg, #160d0c, #0c0707);
+            border: 1px solid rgba(227, 220, 200, 0.08);
             border-radius: 12px;
             padding: 18px;
             min-height: 320px;
@@ -559,7 +558,7 @@
             gap: 10px 18px;
             margin-top: 14px;
             padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid rgba(227, 220, 200, 0.06);
             font-size: 0.78rem;
             color: var(--text-muted);
             font-family: 'Georgia', 'Times New Roman', serif;
@@ -623,7 +622,7 @@
 .boss-record {
     margin-top: 22px;
     padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(227, 220, 200, 0.05);
 }
 
 .boss-record-header {
@@ -661,8 +660,8 @@
     gap: 10px;
     padding: 8px 12px;
     border-radius: 8px;
-    background: rgba(34, 197, 94, 0.06);
-    border: 1px solid rgba(34, 197, 94, 0.22);
+    background: rgba(101, 131, 81, 0.06);
+    border: 1px solid rgba(101, 131, 81, 0.22);
 }
 
 .boss-record-icon {
@@ -706,8 +705,8 @@
 
 /* Fallidas (se les acabó el tiempo): en gris */
 .boss-record-item.failed {
-    background: rgba(148, 163, 184, 0.04);
-    border-color: rgba(148, 163, 184, 0.15);
+    background: rgba(147, 154, 141, 0.04);
+    border-color: rgba(147, 154, 141, 0.15);
     opacity: 0.6;
 }
 

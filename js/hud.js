@@ -124,7 +124,7 @@
 
             function gainRewards(expGain, goldGain, attrKey, logType, logTitle, logDetails) {
                 if (player.gameOver) {
-                    addLogEntry('damage', '⚠️ Intento de ganar EXP en Game Over', 'Ignorado', 0, 0, null);
+                    addLogEntry('damage', 'Intento de ganar EXP en Game Over', 'Ignorado', 0, 0, null);
                     return;
                 }
 
@@ -163,8 +163,8 @@
                     player.expToNextLevel = Math.floor(player.expToNextLevel * (1.1 + (mult.levelCurve - 0.8) * 0.3));
                     player.maxHp = Math.floor(player.maxHp * 1.05);
                     player.hp = player.maxHp;
-                    addLogEntry('level', '🎉 ¡Nivel ' + player.level + '!', 'Subida de nivel', 0, 0, null);
-                    showToast('🎉 ¡Subiste a Nivel ' + player.level + '! HP restaurados.', 'success', 'Nivel');
+                    addLogEntry('level', '¡Nivel ' + player.level + '!', 'Subida de nivel', 0, 0, null);
+                    showToast('¡Subiste a Nivel ' + player.level + '! HP restaurados.', 'success', 'Nivel');
                     checkAndUnlockTrophies();
                 }
                 updateHUD();

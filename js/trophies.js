@@ -14,8 +14,8 @@
                                         console.log('🏆 ¡Trofeo desbloqueado! ' + trophy.icon + ' ' + trophy.name);
 
                                         setTimeout(function () {
-                                            addLogEntry('trophy', '🏆 Trofeo "' + trophy.name + '" desbloqueado', trophy.desc, 0, 0, null);
-                                            showToast('🏆 ¡Trofeo "' + trophy.name + '" desbloqueado!', 'success', 'Trofeo');
+                                            addLogEntry('trophy', 'Trofeo "' + trophy.name + '" desbloqueado', trophy.desc, 0, 0, null);
+                                            showToast('¡Trofeo "' + trophy.name + '" desbloqueado!', 'success', 'Trofeo');
                                         }, 300);
                                     }
                                 });
@@ -42,8 +42,8 @@
                                         player.trophies.push(trophyId);
                                         console.log('🏆 ¡Trofeo de DLC desbloqueado! ' + trophyDef.icon + ' ' + trophyDef.name);
                                         setTimeout(function () {
-                                            addLogEntry('trophy', '🏆 Trofeo "' + trophyDef.name + '" desbloqueado', 'DLC: ' + dlcName, 0, 0, null);
-                                            showToast('🏆 ¡Trofeo "' + trophyDef.name + '" desbloqueado por DLC "' + dlcName + '"!', 'success', 'Trofeo');
+                                            addLogEntry('trophy', 'Trofeo "' + trophyDef.name + '" desbloqueado', 'DLC: ' + dlcName, 0, 0, null);
+                                            showToast('¡Trofeo "' + trophyDef.name + '" desbloqueado por DLC "' + dlcName + '"!', 'success', 'Trofeo');
                                         }, 400);
                                         saveGame();
                                         renderTrophies();

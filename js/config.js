@@ -458,7 +458,7 @@ const VARIANTES = {
 };
 
 const EVENT_ICONS = { event: '⚡', dungeon: '🏰' };
-const EVENT_TYPE_LABELS = { event: 'Evento', dungeon: 'Mazmorra' };
+const EVENT_TYPE_LABELS = { event: 'Evento', dungeon: 'Evento' };
 const LOG_ICONS = {
     mission: '📜',
     rune: '💠',

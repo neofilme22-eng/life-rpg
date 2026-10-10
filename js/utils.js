@@ -73,3 +73,9 @@ function hexToRgbString(hex) {
 function triggerFxBurst(cardEl, label, colorHex, options) {
     return;
 }
+
+
+// Quita emojis decorativos de textos de interfaz (toasts, modales)
+function stripEmoji(s) {
+    return String(s == null ? '' : s).replace(/(?:[\u{1F300}-\u{1FAFF}\u2600-\u26FF\u2705\u2728\u2B1B\u2B1C\u2B50\u2B55\u23E9-\u23FA\u274C\u274E\u2753-\u2755\u2757\u2764\u2795-\u2797\uFE0F\u200D])+ ?/gu, '').trim();
+}

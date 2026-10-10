@@ -140,7 +140,7 @@
                                     </div>
                                 `;
                     }).join('') : ''}
-                            <div class="log-summary" style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(251,191,36,0.08); color:var(--gold); font-weight:bold; font-size:0.8rem;">
+                            <div class="log-summary" style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(193,152,71,0.08); color:var(--gold); font-weight:bold; font-size:0.8rem;">
                                 📊 Resumen del día: ${summaryParts.join(' · ')}
                             </div>
                         </div>

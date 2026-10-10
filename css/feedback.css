@@ -12,8 +12,8 @@
         }
 
         .toast {
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(251, 191, 36, 0.2);
+            background: rgba(22, 30, 27, 0.95);
+            border: 1px solid rgba(193, 152, 71, 0.2);
             border-radius: 12px;
             padding: 14px 18px;
             color: var(--text);
@@ -79,8 +79,8 @@
         }
 
         .modal-box {
-            background: linear-gradient(145deg, #1a1a2a, #0f0f1a);
-            border: 1px solid rgba(251, 191, 36, 0.15);
+            background: linear-gradient(145deg, #1a2320, #0f1513);
+            border: 1px solid rgba(193, 152, 71, 0.15);
             border-radius: 16px;
             padding: 30px 32px;
             max-width: 440px;
@@ -131,35 +131,35 @@
         }
 
         .modal-box .modal-actions .modal-btn-cancel {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(227, 220, 200, 0.05);
             color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(227, 220, 200, 0.06);
         }
 
         .modal-box .modal-actions .modal-btn-cancel:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(227, 220, 200, 0.1);
             color: var(--text);
         }
 
         .modal-box .modal-actions .modal-btn-confirm {
-            background: linear-gradient(145deg, #d97706, #fbbf24);
-            color: #0f172a;
-            border: 1px solid rgba(251, 191, 36, 0.3);
+            background: linear-gradient(145deg, #975d36, #c19847);
+            color: #161e1b;
+            border: 1px solid rgba(193, 152, 71, 0.3);
         }
 
         .modal-box .modal-actions .modal-btn-confirm:hover {
             transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.2);
+            box-shadow: 0 4px 20px rgba(193, 152, 71, 0.2);
         }
 
         .modal-box .modal-actions .modal-btn-confirm.danger {
             background: var(--danger);
-            color: white;
-            border-color: rgba(239, 68, 68, 0.3);
+            color: #e3dcc8;
+            border-color: rgba(190, 82, 74, 0.3);
         }
 
         .modal-box .modal-actions .modal-btn-confirm.danger:hover {
-            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+            box-shadow: 0 4px 20px rgba(190, 82, 74, 0.2);
         }
 
         

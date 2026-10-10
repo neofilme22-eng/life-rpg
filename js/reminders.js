@@ -89,8 +89,6 @@ function rBuildMessage() {
         if (typeof player !== 'undefined') {
             var checked = (player.moodLog || []).some(function (e) { return e.date === today; });
             if (!checked) ctxMsgs.push(['📊 ¿Cómo estás hoy?', 'Hacé tu check-in de ánimo, tarda 5 segundos.']);
-            var reflected = (player.reflections || []).some(function (e) { return e.date === today; });
-            if (hour >= 19 && !reflected) ctxMsgs.push(['🌙 Cerrá el día', 'Escribí tu reflexión en Historia y ganá EXP.']);
         }
         if (ctxMsgs.length && Math.random() < 0.6) return ctxMsgs[Math.floor(Math.random() * ctxMsgs.length)];
     } catch (e) { }

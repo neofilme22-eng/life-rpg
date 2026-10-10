@@ -1,17 +1,17 @@
         /* ===== SANTUARIO ===== */
         .sanctuary-container {
-            background: linear-gradient(145deg, #111827, #0a0f1a);
+            background: linear-gradient(145deg, #151d1b, #0e1311);
             border: 1px solid var(--card-border);
             border-radius: 12px;
             padding: 24px 20px 20px 20px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 40px rgba(251, 191, 36, 0.01);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 40px rgba(193, 152, 71, 0.01);
             transition: all 0.3s ease;
         }
 
         .sanctuary-container:hover {
-            border-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(227, 220, 200, 0.08);
         }
 
         .sanctuary-container::before {
@@ -22,8 +22,8 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(ellipse at 30% 20%, rgba(251, 191, 36, 0.02), transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(56, 189, 248, 0.02), transparent 50%);
+                radial-gradient(ellipse at 30% 20%, rgba(193, 152, 71, 0.02), transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(113, 167, 156, 0.02), transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -35,7 +35,7 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(193, 152, 71, 0.1), transparent);
             pointer-events: none;
             z-index: 1;
         }
@@ -57,7 +57,7 @@
         .sanctuary-header-custom .sanctuary-icon {
             font-size: 1.2rem;
             opacity: 0.6;
-            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.05));
+            filter: drop-shadow(0 0 10px rgba(193, 152, 71, 0.05));
         }
 
         .sanctuary-header-custom .sanctuary-title {
@@ -74,7 +74,7 @@
         .sanctuary-header-custom .sanctuary-ornament {
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, rgba(251, 191, 36, 0.1), transparent);
+            background: linear-gradient(90deg, rgba(193, 152, 71, 0.1), transparent);
             margin-left: 8px;
         }
 
@@ -102,11 +102,11 @@
             flex: 1;
             height: 1px;
             max-width: 120px;
-            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(193, 152, 71, 0.15), transparent);
         }
 
         .sanctuary-divider .ornament {
-            color: rgba(251, 191, 36, 0.2);
+            color: rgba(193, 152, 71, 0.2);
             font-size: 0.6rem;
             letter-spacing: 4px;
             font-family: 'Georgia', 'Times New Roman', serif;
@@ -122,9 +122,9 @@
 
         .variant-btn {
             padding: 6px 16px;
-            border: 1px solid rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(193, 152, 71, 0.1);
             border-radius: 20px;
-            background: rgba(251, 191, 36, 0.03);
+            background: rgba(193, 152, 71, 0.03);
             color: var(--text-muted);
             cursor: pointer;
             font-size: 0.75rem;
@@ -134,15 +134,15 @@
         }
 
         .variant-btn:hover {
-            border-color: rgba(251, 191, 36, 0.25);
+            border-color: rgba(193, 152, 71, 0.25);
             color: var(--sanctuary-silver);
         }
 
         .variant-btn.active {
-            background: rgba(251, 191, 36, 0.08);
+            background: rgba(193, 152, 71, 0.08);
             border-color: var(--sanctuary-gold);
             color: var(--sanctuary-gold);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.05);
+            box-shadow: 0 0 20px rgba(193, 152, 71, 0.05);
         }
 
         .variant-btn .variant-time {
@@ -169,8 +169,8 @@
             text-align: center;
             letter-spacing: 6px;
             font-family: 'Georgia', 'Times New Roman', serif;
-            text-shadow: 0 0 40px rgba(226, 232, 240, 0.05), 0 0 80px rgba(251, 191, 36, 0.02);
-            background: linear-gradient(180deg, #f8fafc 60%, #94a3b8);
+            text-shadow: 0 0 40px rgba(228, 223, 211, 0.05), 0 0 80px rgba(193, 152, 71, 0.02);
+            background: linear-gradient(180deg, #e4dfd3 60%, #939a8d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -185,7 +185,7 @@
             transform: translateX(-50%);
             width: 60px;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(193, 152, 71, 0.15), transparent);
             border-radius: 2px;
         }
 
@@ -231,55 +231,55 @@
         }
 
         .sanctuary-btn-start {
-            background: linear-gradient(145deg, #d97706, #fbbf24);
-            color: #0f0f1a;
-            box-shadow: 0 2px 20px rgba(251, 191, 36, 0.15);
+            background: linear-gradient(145deg, #975d36, #c19847);
+            color: #0f1513;
+            box-shadow: 0 2px 20px rgba(193, 152, 71, 0.15);
         }
 
         .sanctuary-btn-start:hover:not(:disabled) {
             transform: scale(1.02);
-            box-shadow: 0 4px 30px rgba(251, 191, 36, 0.3);
+            box-shadow: 0 4px 30px rgba(193, 152, 71, 0.3);
         }
 
         .sanctuary-btn-start:disabled {
-            background: #2a2a3a;
-            color: #4a4a5a;
+            background: #26342f;
+            color: #2c3834;
             cursor: not-allowed;
             box-shadow: none;
             transform: none;
         }
 
         .sanctuary-btn-start.running {
-            background: linear-gradient(145deg, #dc2626, #ef4444);
-            color: white;
-            box-shadow: 0 2px 20px rgba(239, 68, 68, 0.15);
+            background: linear-gradient(145deg, #a1443d, #be524a);
+            color: #e3dcc8;
+            box-shadow: 0 2px 20px rgba(190, 82, 74, 0.15);
         }
 
         .sanctuary-btn-start.running:hover:not(:disabled) {
-            box-shadow: 0 4px 30px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 30px rgba(190, 82, 74, 0.3);
         }
 
         .sanctuary-btn-reset {
             background: transparent;
             color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(227, 220, 200, 0.05);
         }
 
         .sanctuary-btn-reset:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(227, 220, 200, 0.15);
             color: var(--text);
         }
 
         .sanctuary-btn-skip {
             background: transparent;
             color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(227, 220, 200, 0.05);
             font-size: 0.8rem;
             padding: 10px 18px;
         }
 
         .sanctuary-btn-skip:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(227, 220, 200, 0.15);
             color: var(--text);
         }
 

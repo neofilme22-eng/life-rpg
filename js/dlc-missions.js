@@ -58,7 +58,7 @@
                     saveGame();
                     renderMissions();
 
-                    showToast('🎲 Misiones actualizadas!', 'info', 'Re-roll');
+                    showToast('Misiones actualizadas!', 'info', 'Re-roll');
                 }
 
                 function handleMissionCardClick(event, id) {
@@ -77,7 +77,7 @@
                     var mult = getDifficultyMultipliers();
                     var expBoost = player.expBoost || 0;
                     var totalExp = Math.floor((mission.expReward + expBoost) * mult.exp);
-                    var color = mission.type === 'main' ? '#a855f7' : '#38bdf8';
+                    var color = mission.type === 'main' ? '#9c87ab' : '#71a79c';
 
                     if (card && typeof triggerFxBurst === 'function') {
                         triggerFxBurst(card, '+' + totalExp + ' EXP', color);
@@ -101,7 +101,7 @@
 
                         var expBoost = player.expBoost || 0;
                         var goldBoost = player.goldBoost || 0;
-                        gainRewards(mission.expReward + expBoost, mission.goldReward + goldBoost, mission.attr, 'mission', '📜 Misión "' + mission.title + '"', 'DLC: ' + dlcName);
+                        gainRewards(mission.expReward + expBoost, mission.goldReward + goldBoost, mission.attr, 'mission', 'Misión "' + mission.title + '"', 'DLC: ' + dlcName);
                         checkCampaignCompletion();
                         checkDLCCompletion(dlcName);
 
@@ -132,14 +132,14 @@
                         updateHUD();
                         checkAndUnlockTrophies();
 
-                        showToast('✅ Misión "' + mission.title + '" completada!', 'success', 'Misión');
+                        showToast('Misión "' + mission.title + '" completada!', 'success', 'Misión');
                     }
                 }
 
                 function checkCampaignCompletion() {
                     var allMissions = player.rawMissions;
                     if (allMissions.length > 0 && allMissions.every(function (m) { return m.completed; })) {
-                        showToast('🏆 ¡FELICIDADES! Has completado todas las misiones de tus DLCs activos.', 'success', '¡Logro!');
+                        showToast('¡FELICIDADES! Has completado todas las misiones de tus DLCs activos.', 'success', '¡Logro!');
                         checkAndUnlockTrophies();
                     }
                 }
@@ -167,12 +167,12 @@
                         }
 
                         container.innerHTML = `
-                    <p style="color: var(--text-muted); grid-column: 1 / -1; font-family:'Georgia','Times New Roman',serif; text-align:center; padding:20px 0;">
+                    <div class="event-empty" style="grid-column: 1 / -1;">
                         No hay misiones activas. 
                         ${(availableMain.length === 0 && availableSec.length === 0) ?
                                 'Instala DLCs desde Configuración para obtener misiones.' :
-                                '💡 Usa el botón "Re-roll" para ver nuevas misiones.'}
-                    </p>`;
+                                'Usa el botón "Re-roll" para ver nuevas misiones.'}
+                    </div>`;
                         return;
                     }
 
@@ -192,7 +192,7 @@
 
                         card.innerHTML = `
                     <div class="mission-card-content">
-                        <div class="mission-dlc-name">📦 ${m.dlcName}</div>
+                        <div class="mission-dlc-name">${m.dlcName}</div>
                         <div class="mission-title">${m.title}</div>
                         <div class="mission-card-spacer"></div>
                         <div class="mission-attr-display">${attrNames[m.attr] || m.attr}</div>

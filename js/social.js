@@ -309,7 +309,7 @@
 
                                 if (dateInput) dateInput.value = '';
                                 addLogEntry('flock', '📅 Cita programada con ' + member.name, '', 0, 0, null);
-                                showToast('📅 ¡Cita con ' + member.name + ' programada! La vas a ver también en Aventuras.', 'success', 'Círculo Social');
+                                showToast('📅 ¡Cita con ' + member.name + ' programada! La vas a ver también en Eventos.', 'success', 'Círculo Social');
                                 renderFlock();
                             }
 

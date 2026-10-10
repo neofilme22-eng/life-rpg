@@ -6,7 +6,7 @@
         }
 
         .stats-card {
-            background: linear-gradient(145deg, #111827, #0a0f1a);
+            background: linear-gradient(145deg, #151d1b, #0e1311);
             border: 1px solid var(--card-border);
             border-radius: 12px;
             padding: 18px 16px;
@@ -17,7 +17,7 @@
         }
 
         .stats-card:hover {
-            border-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(227, 220, 200, 0.08);
             transform: translateY(-2px);
         }
 
@@ -74,11 +74,11 @@
         .stats-card .stats-bar {
             width: 100%;
             height: 6px;
-            background: #1a1a2a;
+            background: #1a2320;
             border-radius: 4px;
             overflow: hidden;
             margin-top: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(227, 220, 200, 0.03);
         }
 
         .stats-card .stats-bar-fill {
@@ -98,40 +98,40 @@
             font-size: 0.75rem;
             padding: 2px 10px;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(227, 220, 200, 0.03);
+            border: 1px solid rgba(227, 220, 200, 0.04);
             color: var(--text-muted);
             font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .stats-tag.active {
-            border-color: rgba(56, 189, 248, 0.15);
+            border-color: rgba(113, 167, 156, 0.15);
             color: var(--primary);
-            background: rgba(56, 189, 248, 0.05);
+            background: rgba(113, 167, 156, 0.05);
         }
 
         .stats-tag.done {
-            border-color: rgba(34, 197, 94, 0.15);
+            border-color: rgba(101, 131, 81, 0.15);
             color: var(--success);
-            background: rgba(34, 197, 94, 0.05);
+            background: rgba(101, 131, 81, 0.05);
         }
 
         .stats-tag.fail {
-            border-color: rgba(239, 68, 68, 0.15);
+            border-color: rgba(190, 82, 74, 0.15);
             color: var(--danger);
-            background: rgba(239, 68, 68, 0.05);
+            background: rgba(190, 82, 74, 0.05);
         }
 
         .stats-tag.warning-tag {
-            border-color: rgba(245, 158, 11, 0.15);
+            border-color: rgba(175, 137, 61, 0.15);
             color: var(--warning);
-            background: rgba(245, 158, 11, 0.05);
+            background: rgba(175, 137, 61, 0.05);
         }
 
         .stats-tag.romance-tag {
-            border-color: rgba(236, 72, 153, 0.15);
+            border-color: rgba(169, 114, 123, 0.15);
             color: var(--romance);
-            background: rgba(236, 72, 153, 0.05);
+            background: rgba(169, 114, 123, 0.05);
         }
 
         .stats-card-full {
@@ -148,8 +148,8 @@
 }
 
 .stats-chart-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(227, 220, 200, 0.03);
+    border: 1px solid rgba(227, 220, 200, 0.05);
     color: var(--text-muted);
     padding: 5px 14px;
     border-radius: 16px;
@@ -161,14 +161,14 @@
 }
 
 .stats-chart-btn:hover:not(.active) {
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(227, 220, 200, 0.12);
     color: var(--text);
 }
 
 .stats-chart-btn.active {
-    background: var(--primary, #a855f7);
-    color: #0f172a;
-    border-color: var(--primary, #a855f7);
+    background: var(--primary, #9c87ab);
+    color: #161e1b;
+    border-color: var(--primary, #9c87ab);
     font-weight: bold;
 }
 

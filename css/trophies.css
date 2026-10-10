@@ -7,7 +7,7 @@
         }
 
         .trophy-card {
-            background: linear-gradient(145deg, #111827, #0a0f1a);
+            background: linear-gradient(145deg, #151d1b, #0e1311);
             border: 1px solid var(--card-border);
             border-radius: 12px;
             padding: 16px 14px;
@@ -32,7 +32,7 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(ellipse at 20% 80%, rgba(255, 255, 255, 0.02), transparent 50%);
+                radial-gradient(ellipse at 20% 80%, rgba(227, 220, 200, 0.02), transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -44,7 +44,7 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            background: linear-gradient(90deg, transparent, rgba(227, 220, 200, 0.04), transparent);
             pointer-events: none;
             z-index: 1;
         }
@@ -55,29 +55,29 @@
         }
 
         .trophy-card:hover {
-            border-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(227, 220, 200, 0.08);
             transform: translateY(-2px);
         }
 
         .trophy-card.unlocked {
-            border-color: rgba(251, 191, 36, 0.15);
-            background: linear-gradient(145deg, #1a1508, #0f0b04);
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.02), inset 0 0 60px rgba(251, 191, 36, 0.02);
+            border-color: rgba(193, 152, 71, 0.15);
+            background: linear-gradient(145deg, #15120b, #0c0a06);
+            box-shadow: 0 0 30px rgba(193, 152, 71, 0.02), inset 0 0 60px rgba(193, 152, 71, 0.02);
         }
 
         .trophy-card.unlocked::before {
             background:
-                radial-gradient(ellipse at 20% 80%, rgba(251, 191, 36, 0.04), transparent 50%);
+                radial-gradient(ellipse at 20% 80%, rgba(193, 152, 71, 0.04), transparent 50%);
         }
 
         .trophy-card.unlocked::after {
-            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.06), transparent);
+            background: linear-gradient(90deg, transparent, rgba(193, 152, 71, 0.06), transparent);
         }
 
         .trophy-card.unlocked .trophy-icon {
             filter: none;
             opacity: 1;
-            text-shadow: 0 0 20px rgba(251, 191, 36, 0.15);
+            text-shadow: 0 0 20px rgba(193, 152, 71, 0.15);
         }
 
         .trophy-card.unlocked .trophy-name {
@@ -85,9 +85,9 @@
         }
 
         .trophy-card.unlocked .trophy-status {
-            background: rgba(251, 191, 36, 0.08);
+            background: rgba(193, 152, 71, 0.08);
             color: var(--gold);
-            border: 1px solid rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(193, 152, 71, 0.08);
         }
 
         .trophy-card.locked {
@@ -101,17 +101,17 @@
         }
 
         .trophy-card.locked .trophy-name {
-            color: #4a4a5a;
+            color: #2c3834;
         }
 
         .trophy-card.locked .trophy-desc {
-            color: #3a3a4a;
+            color: #25302c;
         }
 
         .trophy-card.locked .trophy-status {
-            background: rgba(255, 255, 255, 0.02);
-            color: #4a4a5a;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(227, 220, 200, 0.02);
+            color: #2c3834;
+            border: 1px solid rgba(227, 220, 200, 0.03);
         }
 
         .trophy-icon {            

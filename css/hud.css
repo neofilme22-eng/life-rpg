@@ -4,22 +4,22 @@
 
 /* ===== BOTÓN DE ACCIÓN PRINCIPAL UNIFICADO ===== */
 .action-btn {
-    color: #0f172a;
-    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #161e1b;
+    border: 1px solid rgba(193, 152, 71, 0.3);
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     font-size: 0.9rem;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 12px rgba(251, 191, 36, 0.1);
+    box-shadow: 0 2px 12px rgba(193, 152, 71, 0.1);
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     position: relative;
     overflow: hidden;
     font-family: 'Georgia', 'Times New Roman', serif;
     letter-spacing: 0.3px;
-    background: linear-gradient(145deg, #d97706, #fbbf24);
-    border-color: rgba(251, 191, 36, 0.3);
+    background: linear-gradient(145deg, #975d36, #c19847);
+    border-color: rgba(193, 152, 71, 0.3);
 }
 
 .action-btn::before {
@@ -29,15 +29,15 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent);
+    background: linear-gradient(180deg, rgba(227, 220, 200, 0.15), transparent);
     pointer-events: none;
     border-radius: 8px;
 }
 
 .action-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.25);
-    border-color: rgba(251, 191, 36, 0.5);
+    box-shadow: 0 4px 20px rgba(193, 152, 71, 0.25);
+    border-color: rgba(193, 152, 71, 0.5);
 }
 
 .action-btn:active:not(:disabled) {
@@ -53,45 +53,45 @@
 
 .action-btn.danger {
     background: var(--danger);
-    border-color: rgba(239, 68, 68, 0.3);
-    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.1);
-    color: white;
+    border-color: rgba(190, 82, 74, 0.3);
+    box-shadow: 0 2px 12px rgba(190, 82, 74, 0.1);
+    color: #e3dcc8;
 }
 
 .action-btn.danger:hover:not(:disabled) {
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
-    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 20px rgba(190, 82, 74, 0.2);
+    border-color: rgba(190, 82, 74, 0.4);
 }
 
 .action-btn.warning {
     background: var(--warning);
-    border-color: rgba(245, 158, 11, 0.3);
-    box-shadow: 0 2px 12px rgba(245, 158, 11, 0.1);
-    color: #0f172a;
+    border-color: rgba(175, 137, 61, 0.3);
+    box-shadow: 0 2px 12px rgba(175, 137, 61, 0.1);
+    color: #161e1b;
 }
 
 .action-btn.warning:hover:not(:disabled) {
-    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2);
-    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: 0 4px 20px rgba(175, 137, 61, 0.2);
+    border-color: rgba(175, 137, 61, 0.4);
 }
 
 .action-btn.success {
     background: var(--success);
-    border-color: rgba(34, 197, 94, 0.3);
-    box-shadow: 0 2px 12px rgba(34, 197, 94, 0.1);
-    color: white;
+    border-color: rgba(101, 131, 81, 0.3);
+    box-shadow: 0 2px 12px rgba(101, 131, 81, 0.1);
+    color: #e3dcc8;
 }
 
 .action-btn.success:hover:not(:disabled) {
-    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
-    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 0 4px 20px rgba(101, 131, 81, 0.2);
+    border-color: rgba(101, 131, 81, 0.4);
 }
 
 /* ===== BOTÓN DE RUNAS (AZUL - ESTILO ORO) ===== */
 .rune-channel-btn {
     background: transparent;
-    color: #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    color: #71a79c;
+    border: 1px solid rgba(113, 167, 156, 0.2);
     padding: 5px 14px;
     border-radius: 6px;
     cursor: pointer;
@@ -104,7 +104,7 @@
     letter-spacing: 0.5px;
     position: relative;
     overflow: hidden;
-    text-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+    text-shadow: 0 0 20px rgba(113, 167, 156, 0.1);
     z-index: 10;
 }
 
@@ -116,16 +116,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(56, 189, 248, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(113, 167, 156, 0.05), transparent);
     pointer-events: none;
     border-radius: 6px;
 }
 
 .rune-channel-btn:hover:not(:disabled) {
-    border-color: rgba(56, 189, 248, 0.4);
+    border-color: rgba(113, 167, 156, 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 2px 16px rgba(56, 189, 248, 0.15);
-    background: rgba(56, 189, 248, 0.03);
+    box-shadow: 0 2px 16px rgba(113, 167, 156, 0.15);
+    background: rgba(113, 167, 156, 0.03);
 }
 
 .rune-channel-btn:active:not(:disabled) {
@@ -137,13 +137,13 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(227, 220, 200, 0.05);
 }
 
 /* Versión completada (más tenue) */
 .rune-channel-btn.completed-btn {
-    color: rgba(56, 189, 248, 0.5);
-    border-color: rgba(56, 189, 248, 0.08);
+    color: rgba(113, 167, 156, 0.5);
+    border-color: rgba(113, 167, 156, 0.08);
     opacity: 0.6;
 }
 
@@ -156,18 +156,18 @@
     flex-direction: column;
     gap: 4px;
     padding: 14px 16px 16px 16px;
-    background: linear-gradient(160deg, rgba(17, 24, 39, 0.92), rgba(8, 12, 22, 0.96));
+    background: linear-gradient(160deg, rgba(21, 29, 27, 0.92), rgba(11, 16, 14, 0.96));
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(227, 220, 200, 0.06);
     box-shadow: 
         0 4px 24px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        inset 0 1px 0 rgba(227, 220, 200, 0.03);
     position: relative;
     transition: all 0.3s ease;
 }
 
 .character-panel:hover {
-    border-color: rgba(168, 85, 247, 0.15);
+    border-color: rgba(156, 135, 171, 0.15);
 }
 
 /* Borde decorativo superior */
@@ -178,7 +178,7 @@
     left: 25%;
     right: 25%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(156, 135, 171, 0.2), transparent);
     pointer-events: none;
     border-radius: 0 0 2px 2px;
 }
@@ -203,7 +203,7 @@
 .section-ornament {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, rgba(168, 85, 247, 0.1), transparent);
+    background: linear-gradient(90deg, rgba(156, 135, 171, 0.1), transparent);
     margin-left: 8px;
 }
 
@@ -224,7 +224,7 @@
 .bar-row .level-value {
     font-size: 2.1rem;
     font-weight: bold;
-    color: #a78bfa;
+    color: #b5a6c0;
     min-width: 18px;
     text-align: right;
     opacity: 0.7;
@@ -272,7 +272,7 @@
 .bar-track-thin {
     flex: 1;
     height: 6px;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(227, 220, 200, 0.06);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -289,14 +289,14 @@
 
 /* --- Barra de VIDA --- */
 .hp-fill-thin {
-    background: linear-gradient(90deg, #991b1b, #dc2626);
-    box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+    background: linear-gradient(90deg, #702f2b, #a1443d);
+    box-shadow: 0 0 12px rgba(190, 82, 74, 0.15);
 }
 
 /* --- Barra de EXPERIENCIA --- */
 .exp-fill-thin {
-    background: linear-gradient(90deg, #4c1d95, #7c3aed);
-    box-shadow: 0 0 12px rgba(139, 92, 246, 0.15);
+    background: linear-gradient(90deg, #54455f, #8b739c);
+    box-shadow: 0 0 12px rgba(158, 138, 173, 0.15);
 }
 
 /* --- Estado crítico de HP --- */
@@ -323,25 +323,25 @@
 
 .radar-grid-ring {
     fill: none;
-    stroke: rgba(255, 255, 255, 0.07);
+    stroke: rgba(227, 220, 200, 0.07);
     stroke-width: 1;
 }
 
 .radar-axis-line {
-    stroke: rgba(255, 255, 255, 0.04);
+    stroke: rgba(227, 220, 200, 0.04);
     stroke-width: 1;
 }
 
 .radar-data-polygon {
-    fill: rgba(168, 85, 247, 0.2);
-    stroke: #8b5cf6;
+    fill: rgba(156, 135, 171, 0.2);
+    stroke: #9e8aad;
     stroke-width: 2;
     stroke-linejoin: round;
     transition: all 0.4s ease;
 }
 
 .radar-data-dot {
-    fill: #a78bfa;
+    fill: #b5a6c0;
     stroke: rgba(0, 0, 0, 0.6);
     stroke-width: 1.5;
 }
@@ -393,8 +393,8 @@
 .panel-gold .gold-value {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #fbbf24;
-    text-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+    color: #c19847;
+    text-shadow: 0 0 20px rgba(193, 152, 71, 0.1);
 }
 
 /* ================================================================ */
@@ -403,8 +403,8 @@
 
 .mobile-toggle-btn {
     display: none;
-    color: #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.2);
+    color: #71a79c;
+    border: 1px solid rgba(113, 167, 156, 0.2);
     padding: 6px 18px;
     border-radius: 6px;
     cursor: pointer;
@@ -412,7 +412,7 @@
     font-size: 0.85rem;
     font-family: 'Georgia', 'Times New Roman', serif;
     letter-spacing: 0.3px;
-    text-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+    text-shadow: 0 0 20px rgba(113, 167, 156, 0.1);
     white-space: nowrap;
     transition: all 0.3s ease;
     background: transparent;
@@ -428,16 +428,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(56, 189, 248, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(113, 167, 156, 0.05), transparent);
     pointer-events: none;
     border-radius: 6px;
 }
 
 .mobile-toggle-btn:hover {
-    border-color: rgba(56, 189, 248, 0.4);
+    border-color: rgba(113, 167, 156, 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 2px 16px rgba(56, 189, 248, 0.15);
-    background: rgba(56, 189, 248, 0.03);
+    box-shadow: 0 2px 16px rgba(113, 167, 156, 0.15);
+    background: rgba(113, 167, 156, 0.03);
 }
 
 .mobile-toggle-btn:active {
@@ -446,19 +446,19 @@
 
 /* Versión atributos (morado) */
 .mobile-toggle-btn.attr-toggle {
-    color: #a78bfa;
-    border-color: rgba(167, 139, 250, 0.2);
-    text-shadow: 0 0 20px rgba(167, 139, 250, 0.1);
+    color: #b5a6c0;
+    border-color: rgba(181, 166, 192, 0.2);
+    text-shadow: 0 0 20px rgba(181, 166, 192, 0.1);
 }
 
 .mobile-toggle-btn.attr-toggle::before {
-    background: linear-gradient(180deg, rgba(167, 139, 250, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(181, 166, 192, 0.05), transparent);
 }
 
 .mobile-toggle-btn.attr-toggle:hover {
-    border-color: rgba(167, 139, 250, 0.4);
-    box-shadow: 0 2px 16px rgba(167, 139, 250, 0.15);
-    background: rgba(167, 139, 250, 0.03);
+    border-color: rgba(181, 166, 192, 0.4);
+    box-shadow: 0 2px 16px rgba(181, 166, 192, 0.15);
+    background: rgba(181, 166, 192, 0.03);
 }
 
 /* ===== PANEL DE PERSONAJE SOLO (las runas ahora son una pestaña aparte) ===== */

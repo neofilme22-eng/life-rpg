@@ -2,7 +2,7 @@
                                 // ============================================================
 
                                 function forceInitialRender() {
-                                    console.log("🔄 Forzando renderizado inicial...");
+                                    console.log("Forzando renderizado inicial...");
 
                                     var runeContainer = document.getElementById('rune-container');
                                     var petEmoji = document.getElementById('pet-emoji');
@@ -13,7 +13,7 @@
                                         if (player.rawRunes && player.rawRunes.length > 0) {
                                             renderRunes();
                                         } else {
-                                            runeContainer.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1; font-family:\'Georgia\',\'Times New Roman\',serif; text-align:center; padding:10px 0;">No hay runas instaladas. Ve a Configuración para instalar o crear runas.</p>';
+                                            runeContainer.innerHTML = '<div class="event-empty" style="grid-column: 1 / -1;">No hay runas instaladas. Ve a Configuración para instalar o crear runas.</div>';
                                         }
                                     }
 
@@ -25,23 +25,23 @@
                                             petLevel.textContent = 'Nv. ' + player.level;
                                             var healthPercent = Math.round((player.petHealth / player.petMaxHealth) * 100);
                                             if (healthPercent < 30) {
-                                                petLevel.textContent += ' ❤️' + healthPercent + '%';
+                                                petLevel.textContent += ' ' + healthPercent + '%';
                                                 petContainer.style.borderColor = 'var(--danger)';
                                             } else {
-                                                petContainer.style.borderColor = 'rgba(56, 189, 248, 0.2)';
+                                                petContainer.style.borderColor = 'rgba(113, 167, 156, 0.2)';
                                             }
                                             var scale = 1 + (player.level / 50);
                                             petContainer.style.transform = 'scale(' + Math.min(scale, 1.6) + ')';
                                         } else {
-                                            petEmoji.textContent = '🐾';
+                                            petEmoji.textContent = '';
                                             petLevel.textContent = 'Nv. 1';
                                             petContainer.style.transform = 'scale(1)';
-                                            petContainer.style.borderColor = 'rgba(56, 189, 248, 0.2)';
+                                            petContainer.style.borderColor = 'rgba(113, 167, 156, 0.2)';
                                         }
                                     }
 
                                     updateHUD();
-                                    console.log("✅ Renderizado inicial forzado completado");
+                                    console.log("Renderizado inicial forzado completado");
                                 }
 
                                 // ===== LISTAS DE ARCHIVOS IMPORTADOS EN CONFIGURACIÓN =====
@@ -59,7 +59,7 @@
                                 // ============================================================
 
                                 window.onload = function () {
-                                    console.log("🔄 Cargando juego...");
+                                    console.log("Cargando juego...");
 
                                     loadGame();
 
@@ -128,10 +128,10 @@
                                         renderRunes();
                                         updatePet();
                                         updateHUD();
-                                        console.log("✅ Carga completada");
+                                        console.log("Carga completada");
                                     }, 400);
 
-                                    console.log("✅ Juego cargado.");
+                                    console.log("Juego cargado.");
                                 };
 
                                 setTimeout(forceInitialRender, 100);

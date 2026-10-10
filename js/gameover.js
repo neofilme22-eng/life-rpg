@@ -15,19 +15,19 @@
 
                                     overlay.innerHTML = `
                 <div class="game-over-box">
-                    <h1>💀 GAME OVER</h1>
+                    <h1>GAME OVER</h1>
                     <div class="subtitle">El héroe ha caído en batalla...</div>
                     <div class="penalty-info">
                         <strong>Penalizaciones:</strong><br>
-                        ⭐ Perderás ${expPenalty} EXP<br>
-                        ${(typeof FEATURES !== 'undefined' && FEATURES.gold) ? '🟡 Perderás ' + goldPenalty + ' ORO<br>' : ''}
-                        📉 Todos los atributos bajan 1 punto<br>
-                        ${(typeof FEATURES !== 'undefined' && FEATURES.pets && player.equipment.mascota) ? '🐾 Tu mascota ha muerto' : ''}
+                        Perderás ${expPenalty} EXP<br>
+                        ${(typeof FEATURES !== 'undefined' && FEATURES.gold) ? 'Perderás ' + goldPenalty + ' ORO<br>' : ''}
+                        Todos los atributos bajan 1 punto<br>
+                        ${(typeof FEATURES !== 'undefined' && FEATURES.pets && player.equipment.mascota) ? 'Tu mascota ha muerto' : ''}
                         <br><br>
                         <em style="font-size:0.7rem;">La dificultad afecta las penalizaciones.</em>
                     </div>
-                    <button class="game-over-btn" onclick="respawnPlayer()">🔥 ¡Reiniciar!</button>
-                    <button class="game-over-btn secondary" onclick="resetFullGame()">🗑️ Borrar Partida</button>
+                    <button class="game-over-btn" onclick="respawnPlayer()">¡Reiniciar!</button>
+                    <button class="game-over-btn secondary" onclick="resetFullGame()">Borrar Partida</button>
                 </div>
             `;
 
@@ -62,8 +62,8 @@
                                     renderInventory();
                                     updatePet();
 
-                                    addLogEntry('level', '🔥 ¡El héroe ha renacido!', 'Penalizaciones aplicadas', 0, 0, null);
-                                    showToast('🔥 ¡Has renacido! Penalizaciones aplicadas.', 'success', 'Renacer');
+                                    addLogEntry('level', '¡El héroe ha renacido!', 'Penalizaciones aplicadas', 0, 0, null);
+                                    showToast('¡Has renacido! Penalizaciones aplicadas.', 'success', 'Renacer');
                                     checkAndUnlockTrophies();
                                 }
 

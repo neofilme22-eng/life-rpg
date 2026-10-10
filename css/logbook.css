@@ -1,7 +1,7 @@
         /* ===== BITÁCORA ===== */
         .logbook-entry {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(227, 220, 200, 0.02);
+            border: 1px solid rgba(227, 220, 200, 0.05);
             border-radius: 8px;
             margin-bottom: 6px;
             transition: all 0.3s ease;
@@ -9,8 +9,8 @@
         }
 
         .logbook-entry:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(227, 220, 200, 0.1);
+            background: rgba(227, 220, 200, 0.03);
         }
 
         .logbook-entry-header {
@@ -27,7 +27,7 @@
         }
 
         .logbook-entry-header:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(227, 220, 200, 0.02);
         }
 
         .logbook-entry-header .entry-left {
@@ -96,7 +96,7 @@
 
         .logbook-entry-body .log-detail {
             padding: 2px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(227, 220, 200, 0.03);
             display: flex;
             flex-wrap: wrap;
             align-items: baseline;

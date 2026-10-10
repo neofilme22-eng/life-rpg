@@ -62,13 +62,13 @@ function completeRune(id) {
 
     if (typeof FEATURES === 'undefined' || FEATURES.pp) player.pp = (player.pp || 0) + 1;
 
-    gainRewards(totalExpReward, rune.goldReward, rune.attr, 'rune', '💠 Runa "' + rune.title + '"', 'Racha: ' + rune.streak + ' días');
+    gainRewards(totalExpReward, rune.goldReward, rune.attr, 'rune', 'Runa "' + rune.title + '"', 'Racha: ' + rune.streak + ' días');
 
     saveGame();
     renderRunes();
     checkAndUnlockTrophies();
 
-    showToast('✨ Runa "' + rune.title + '" canalizada con éxito! +' + totalExpReward + ' EXP' + goldText(rune.goldReward), 'success', 'Runa');
+    showToast('Runa "' + rune.title + '" canalizada con éxito! +' + totalExpReward + ' EXP' + goldText(rune.goldReward), 'success', 'Runa');
 }
 
 // ===== ANIMACIÓN DE CANALIZACIÓN (desactivada) =====
@@ -135,17 +135,17 @@ function checkAndResetRunes() {
             var damageAmount = lostRunes.length * 3;
             applyDamage(damageAmount, 'Pérdida automática de rachas de runas', lostRunes.length * 2);
 
-            var msg = '📅 Nuevo día: ' + todayStr + '\n\n';
-            msg += '💔 ' + lostRunes.length + ' runa(s) perdieron su racha:\n';
+            var msg = 'Nuevo día: ' + todayStr + '\n\n';
+            msg += '' + lostRunes.length + ' runa(s) perdieron su racha:\n';
             lostRunes.forEach(function (r) {
                 msg += '• ' + r.name + ' (perdió ' + r.streak + ' días)\n';
             });
-            msg += '\n💔 Daño recibido: ' + damageAmount + ' HP';
+            msg += '\nDaño recibido: ' + damageAmount + ' HP';
 
             showToast(msg, 'warning', 'Runas - Nuevo Día');
-            addLogEntry('damage', '📅 Pérdida automática de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);
+            addLogEntry('damage', 'Pérdida automática de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);
         } else {
-            showToast('📅 ¡Nuevo día! Runas recargadas. ¡A canalizar!', 'success', 'Runas');
+            showToast('¡Nuevo día! Runas recargadas. ¡A canalizar!', 'success', 'Runas');
         }
 
         saveGame();
@@ -170,13 +170,13 @@ function resetDailyRunes() {
     }
 
     showModal(
-        '🔄',
+        '',
         'Reiniciar Runas Manualmente',
         '¿Estás seguro de reiniciar las runas manualmente?\n\n' +
-        '📌 Las runas que NO completaste hoy perderán su racha.\n' +
-        '📌 Las runas que YA completaste hoy mantendrán su racha.\n' +
-        '📌 Esto aplica daño por las rachas perdidas.\n\n' +
-        '💡 Normalmente esto ocurre automáticamente cada día.',
+        'Las runas que NO completaste hoy perderán su racha.\n' +
+        'Las runas que YA completaste hoy mantendrán su racha.\n' +
+        'Esto aplica daño por las rachas perdidas.\n\n' +
+        'Normalmente esto ocurre automáticamente cada día.',
         'Reiniciar',
         function () {
             executeManualResetRunes(todayStr);
@@ -209,16 +209,16 @@ function executeManualResetRunes(todayStr) {
         var damageAmount = lostRunes.length * 3;
         applyDamage(damageAmount, 'Pérdida manual de rachas de runas', lostRunes.length * 2);
 
-        var msg = '💔 ' + lostRunes.length + ' runa(s) perdieron su racha:\n';
+        var msg = '' + lostRunes.length + ' runa(s) perdieron su racha:\n';
         lostRunes.forEach(function (r) {
             msg += '• ' + r.name + ' (perdió ' + r.streak + ' días)\n';
         });
-        msg += '\n💔 Daño recibido: ' + damageAmount + ' HP';
+        msg += '\nDaño recibido: ' + damageAmount + ' HP';
 
         showToast(msg, 'warning', 'Runas Reiniciadas');
-        addLogEntry('damage', '🔄 Pérdida manual de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);
+        addLogEntry('damage', 'Pérdida manual de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);
     } else {
-        showToast('☀️ ¡Runas recargadas! Todas las rachas se mantuvieron. ¡A canalizar!', 'success', 'Runas');
+        showToast('¡Runas recargadas! Todas las rachas se mantuvieron. ¡A canalizar!', 'success', 'Runas');
     }
 
     saveGame();
@@ -232,9 +232,7 @@ function renderRunes() {
 
     if (!player.rawRunes || player.rawRunes.length === 0) {
         container.innerHTML = `
-            <div style="text-align:center; padding:20px 0; color: var(--text-muted); font-family:'Georgia',serif;">
-                No hay runas instaladas.
-            </div>
+            <div class="event-empty" style="grid-column: 1 / -1; text-align:center;">No hay runas instaladas.</div>
         `;
         return;
     }
@@ -262,7 +260,7 @@ function renderRunes() {
                 <span class="rune-title">${runa.title}</span>
                 <div class="rune-stats">
                     <span class="rune-badge level">✦ Nv.${prog.level}</span>
-                    <span class="rune-badge streak">🔥 ${runa.streak || 0}d</span>
+                    <span class="rune-badge streak">${runa.streak || 0}d</span>
                 </div>
                 <div class="rune-progress">
                     <div class="progress-track">

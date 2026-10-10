@@ -9,9 +9,9 @@
     gap: 12px;
     margin-bottom: 14px;
     padding: 8px 14px;
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(227, 220, 200, 0.02);
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(227, 220, 200, 0.04);
     flex-wrap: wrap;
 }
 
@@ -44,8 +44,8 @@
 .shop-filter-select,
 .shop-filters-row input[type="text"],
 .shop-filters-row select {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(227, 220, 200, 0.05);
+    border: 1px solid rgba(227, 220, 200, 0.08);
     border-radius: 6px;
     padding: 6px 12px;
     color: var(--text);
@@ -78,21 +78,21 @@
 .shop-filter-select:hover,
 .shop-filters-row input[type="text"]:hover,
 .shop-filters-row select:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(227, 220, 200, 0.08);
+    border-color: rgba(227, 220, 200, 0.15);
 }
 
 .shop-filter-select:focus,
 .shop-filters-row input[type="text"]:focus,
 .shop-filters-row select:focus {
     outline: none;
-    border-color: rgba(168, 85, 247, 0.3);
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.05);
+    border-color: rgba(156, 135, 171, 0.3);
+    box-shadow: 0 0 20px rgba(156, 135, 171, 0.05);
 }
 
 .shop-filter-select option,
 .shop-filters-row select option {
-    background: #1a1a2e;
+    background: #1b2622;
     color: var(--text);
     padding: 4px 8px;
 }
@@ -120,8 +120,8 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(227, 220, 200, 0.02);
+    border: 1px solid rgba(227, 220, 200, 0.05);
 }
 
 .shop-item::before {
@@ -148,7 +148,7 @@
 
 .shop-item:hover {
     transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(227, 220, 200, 0.12);
 }
 
 .shop-item>* {
@@ -166,129 +166,129 @@
 
 /* ===== CATEGORÍAS ===== */
 .shop-item.category-upgrade {
-    background: rgba(56, 189, 248, 0.03);
-    border-color: rgba(56, 189, 248, 0.08);
+    background: rgba(113, 167, 156, 0.03);
+    border-color: rgba(113, 167, 156, 0.08);
 }
 
 .shop-item.category-upgrade::before {
-    background: radial-gradient(ellipse at 20% 80%, rgba(56, 189, 248, 0.05), transparent 50%);
+    background: radial-gradient(ellipse at 20% 80%, rgba(113, 167, 156, 0.05), transparent 50%);
 }
 
 .shop-item.category-upgrade::after {
-    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(113, 167, 156, 0.06), transparent);
 }
 
 .shop-item.category-upgrade:hover {
-    border-color: rgba(56, 189, 248, 0.3);
-    box-shadow: 0 6px 24px rgba(56, 189, 248, 0.06);
+    border-color: rgba(113, 167, 156, 0.3);
+    box-shadow: 0 6px 24px rgba(113, 167, 156, 0.06);
 }
 
 .shop-item.category-real {
-    background: rgba(251, 191, 36, 0.03);
-    border-color: rgba(251, 191, 36, 0.10);
+    background: rgba(193, 152, 71, 0.03);
+    border-color: rgba(193, 152, 71, 0.10);
 }
 
 .shop-item.category-real::before {
-    background: radial-gradient(ellipse at 20% 80%, rgba(251, 191, 36, 0.05), transparent 50%);
+    background: radial-gradient(ellipse at 20% 80%, rgba(193, 152, 71, 0.05), transparent 50%);
 }
 
 .shop-item.category-real::after {
-    background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(193, 152, 71, 0.06), transparent);
 }
 
 .shop-item.category-real:hover {
-    border-color: rgba(251, 191, 36, 0.3);
-    box-shadow: 0 6px 24px rgba(251, 191, 36, 0.06);
+    border-color: rgba(193, 152, 71, 0.3);
+    box-shadow: 0 6px 24px rgba(193, 152, 71, 0.06);
 }
 
 .shop-item.category-consumable {
-    background: rgba(34, 197, 94, 0.03);
-    border-color: rgba(34, 197, 94, 0.08);
+    background: rgba(101, 131, 81, 0.03);
+    border-color: rgba(101, 131, 81, 0.08);
 }
 
 .shop-item.category-consumable::before {
-    background: radial-gradient(ellipse at 20% 80%, rgba(34, 197, 94, 0.05), transparent 50%);
+    background: radial-gradient(ellipse at 20% 80%, rgba(101, 131, 81, 0.05), transparent 50%);
 }
 
 .shop-item.category-consumable::after {
-    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(101, 131, 81, 0.06), transparent);
 }
 
 .shop-item.category-consumable:hover {
-    border-color: rgba(34, 197, 94, 0.25);
-    box-shadow: 0 6px 24px rgba(34, 197, 94, 0.06);
+    border-color: rgba(101, 131, 81, 0.25);
+    box-shadow: 0 6px 24px rgba(101, 131, 81, 0.06);
 }
 
 .shop-item.category-pet {
-    background: rgba(236, 72, 153, 0.03);
-    border-color: rgba(236, 72, 153, 0.08);
+    background: rgba(169, 114, 123, 0.03);
+    border-color: rgba(169, 114, 123, 0.08);
 }
 
 .shop-item.category-pet::before {
-    background: radial-gradient(ellipse at 20% 80%, rgba(236, 72, 153, 0.05), transparent 50%);
+    background: radial-gradient(ellipse at 20% 80%, rgba(169, 114, 123, 0.05), transparent 50%);
 }
 
 .shop-item.category-pet::after {
-    background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(169, 114, 123, 0.06), transparent);
 }
 
 .shop-item.category-pet:hover {
-    border-color: rgba(236, 72, 153, 0.25);
-    box-shadow: 0 6px 24px rgba(236, 72, 153, 0.06);
+    border-color: rgba(169, 114, 123, 0.25);
+    box-shadow: 0 6px 24px rgba(169, 114, 123, 0.06);
 }
 
 .shop-item.category-arma {
-    background: rgba(96, 165, 250, 0.03);
-    border-color: rgba(96, 165, 250, 0.08);
+    background: rgba(137, 182, 173, 0.03);
+    border-color: rgba(137, 182, 173, 0.08);
 }
 
 .shop-item.category-arma::before {
-    background: radial-gradient(ellipse at 20% 80%, rgba(96, 165, 250, 0.05), transparent 50%);
+    background: radial-gradient(ellipse at 20% 80%, rgba(137, 182, 173, 0.05), transparent 50%);
 }
 
 .shop-item.category-arma::after {
-    background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(137, 182, 173, 0.06), transparent);
 }
 
 .shop-item.category-arma:hover {
-    border-color: rgba(96, 165, 250, 0.25);
-    box-shadow: 0 6px 24px rgba(96, 165, 250, 0.06);
+    border-color: rgba(137, 182, 173, 0.25);
+    box-shadow: 0 6px 24px rgba(137, 182, 173, 0.06);
 }
 
 .shop-item.category-armadura {
-    background: rgba(52, 211, 153, 0.03);
-    border-color: rgba(52, 211, 153, 0.08);
+    background: rgba(115, 149, 93, 0.03);
+    border-color: rgba(115, 149, 93, 0.08);
 }
 
 .shop-item.category-armadura::before {
-    background: radial-gradient(ellipse at 20% 80%, rgba(52, 211, 153, 0.05), transparent 50%);
+    background: radial-gradient(ellipse at 20% 80%, rgba(115, 149, 93, 0.05), transparent 50%);
 }
 
 .shop-item.category-armadura::after {
-    background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(115, 149, 93, 0.06), transparent);
 }
 
 .shop-item.category-armadura:hover {
-    border-color: rgba(52, 211, 153, 0.25);
-    box-shadow: 0 6px 24px rgba(52, 211, 153, 0.06);
+    border-color: rgba(115, 149, 93, 0.25);
+    box-shadow: 0 6px 24px rgba(115, 149, 93, 0.06);
 }
 
 .shop-item.category-reliquia {
-    background: rgba(167, 139, 250, 0.03);
-    border-color: rgba(167, 139, 250, 0.08);
+    background: rgba(181, 166, 192, 0.03);
+    border-color: rgba(181, 166, 192, 0.08);
 }
 
 .shop-item.category-reliquia::before {
-    background: radial-gradient(ellipse at 20% 80%, rgba(167, 139, 250, 0.05), transparent 50%);
+    background: radial-gradient(ellipse at 20% 80%, rgba(181, 166, 192, 0.05), transparent 50%);
 }
 
 .shop-item.category-reliquia::after {
-    background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.06), transparent);
+    background: linear-gradient(90deg, transparent, rgba(181, 166, 192, 0.06), transparent);
 }
 
 .shop-item.category-reliquia:hover {
-    border-color: rgba(167, 139, 250, 0.25);
-    box-shadow: 0 6px 24px rgba(167, 139, 250, 0.06);
+    border-color: rgba(181, 166, 192, 0.25);
+    box-shadow: 0 6px 24px rgba(181, 166, 192, 0.06);
 }
 
 /* ===== HEADER DEL ITEM ===== */
@@ -321,10 +321,10 @@
     font-size: 0.85rem;
     font-weight: bold;
     color: var(--gold);
-    background: rgba(251, 191, 36, 0.08);
+    background: rgba(193, 152, 71, 0.08);
     padding: 3px 12px;
     border-radius: 20px;
-    border: 1px solid rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(193, 152, 71, 0.08);
     font-family: 'Georgia', 'Times New Roman', serif;
     white-space: nowrap;
     min-width: 60px;
@@ -354,19 +354,19 @@
 }
 
 .shop-item.category-pet .shop-item-category {
-    color: #ec4899;
+    color: #a9727b;
 }
 
 .shop-item.category-arma .shop-item-category {
-    color: #60a5fa;
+    color: #89b6ad;
 }
 
 .shop-item.category-armadura .shop-item-category {
-    color: #34d399;
+    color: #73955d;
 }
 
 .shop-item.category-reliquia .shop-item-category {
-    color: #a78bfa;
+    color: #b5a6c0;
 }
 
 /* ===== DESCRIPCIÓN Y EFECTO ===== */
@@ -386,7 +386,7 @@
     font-family: 'Georgia', 'Times New Roman', serif;
     opacity: 0.7;
     padding: 2px 8px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(227, 220, 200, 0.03);
     border-radius: 4px;
     display: inline-block;
     align-self: flex-start;
@@ -402,9 +402,9 @@
 
 /* ===== BOTÓN DE COMPRA ===== */
 .shop-buy-btn {
-    background: linear-gradient(145deg, #d97706, #fbbf24);
-    color: #0f172a;
-    border: 1px solid rgba(251, 191, 36, 0.3);
+    background: linear-gradient(145deg, #975d36, #c19847);
+    color: #161e1b;
+    border: 1px solid rgba(193, 152, 71, 0.3);
     padding: 7px 16px;
     border-radius: 6px;
     cursor: pointer;
@@ -414,21 +414,21 @@
     margin-top: 6px;
     width: 100%;
     font-family: 'Georgia', 'Times New Roman', serif;
-    box-shadow: 0 2px 12px rgba(251, 191, 36, 0.08);
+    box-shadow: 0 2px 12px rgba(193, 152, 71, 0.08);
 }
 
 .shop-buy-btn:hover:not(:disabled) {
     transform: scale(1.02);
-    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.15);
+    box-shadow: 0 4px 20px rgba(193, 152, 71, 0.15);
 }
 
 .shop-buy-btn:disabled {
-    background: #1e293b;
+    background: #222e2a;
     color: var(--text-muted);
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
-    border-color: rgba(255, 255, 255, 0.06);
+    border-color: rgba(227, 220, 200, 0.06);
 }
 
 .shop-buy-btn.purchased-btn {
@@ -439,7 +439,7 @@
 }
 
 .shop-buy-btn.purchased-btn:hover:not(:disabled) {
-    background: rgba(34, 197, 94, 0.05);
+    background: rgba(101, 131, 81, 0.05);
 }
 
 /* ===== ORO DISPLAY ===== */
@@ -449,10 +449,10 @@
     gap: 8px;
     font-size: 1.1rem;
     color: var(--gold);
-    background: rgba(251, 191, 36, 0.06);
+    background: rgba(193, 152, 71, 0.06);
     padding: 6px 16px;
     border-radius: 12px;
-    border: 1px solid rgba(251, 191, 36, 0.06);
+    border: 1px solid rgba(193, 152, 71, 0.06);
     font-family: 'Georgia', 'Times New Roman', serif;
 }
 
@@ -463,8 +463,8 @@
 /* ===== PP DISPLAY (Runas) — mismo estilo que el oro, con acento violeta ===== */
 .shop-gold-display.pp-badge {
     color: var(--accent);
-    background: rgba(168, 85, 247, 0.06);
-    border: 1px solid rgba(168, 85, 247, 0.08);
+    background: rgba(156, 135, 171, 0.06);
+    border: 1px solid rgba(156, 135, 171, 0.08);
 }
 
 /* ===== RESPONSIVE ===== */

@@ -1,42 +1,78 @@
-        @import url('https://fonts.googleapis.com/css2?family=Georgia&display=swap');
+/* ================================================================
+   PALETA ÚNICA — "Expediente Bahía Ceniza"
+   Todo el color de la aplicación sale de estas variables.
+   ================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap');
 
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --primary: #38bdf8;
-            --accent: #a855f7;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --rune-cyan: #06b6d4;
-            --rune-border: #2dd4bf;
-            --gold: #fbbf24;
-            --gold-dark: #d97706;
-            --gold-glow: rgba(251, 191, 36, 0.15);
-            --boss-red: #dc2626;
-            --sky-blue: #7dd3fc;
-            --sky-dark: #0ea5e9;
-            --sky-glow: rgba(56, 189, 248, 0.15);
-            --sanctuary-gold: #fbbf24;
-            --sanctuary-gold-dark: #d97706;
-            --sanctuary-silver: #e2e8f0;
-            --sanctuary-white: #f8fafc;
-            --sanctuary-glow: rgba(251, 191, 36, 0.15);
-            --hud-border: rgba(251, 191, 36, 0.15);
-            --hud-glow: rgba(251, 191, 36, 0.05);
-            --card-border: rgba(255, 255, 255, 0.06);
-            --card-glow-start: rgba(251, 191, 36, 0.02);
-            --card-glow-end: rgba(56, 189, 248, 0.02);
-            --romance: #ec4899;
-            --social: #8b5cf6;
-            --work: #f59e0b;
-            --family: #22c55e;
-            --event-gold: #fbbf24;
-            --event-purple: #a855f7;
-            --event-blue: #38bdf8;
-            --dungeon-red: #dc2626;
-            --dungeon-orange: #f59e0b;
-        }
+:root {
+    /* Tintas (fondos) */
+    --ink: #0b100f;
+    --ink-2: #0e1311;
+    --surface: #141b19;
+    --surface-2: #1b2622;
+    --line: #2c3834;
 
+    /* Papel y niebla (texto) */
+    --bone: #e3dcc8;
+    --bone-dim: #b9b29d;
+    --fog: #939a8d;
+    --fog-dim: #6b7269;
+
+    /* Acentos */
+    --brass: #c19847;          /* linterna / latón */
+    --brass-dark: #8f6f2e;
+    --brass-light: #d9b968;
+    --blood: #be524a;          /* globo rojo, peligro */
+    --blood-dark: #702f2b;
+    --rust: #975d36;           /* óxido */
+    --verdigris: #71a79c;      /* cardenillo, niebla marina */
+    --verdigris-light: #9ac1b9;
+    --celeste: #7ea7bd;        /* celeste (gráfico de runas) */
+    --lichen: #73955d;         /* musgo, éxito */
+    --dusk: #9c87ab;           /* crepúsculo, lo raro */
+    --rose: #b0707c;
+
+    /* Fuentes */
+    --font-display: 'IM Fell English', 'Georgia', 'Times New Roman', serif;
+    --font-body: 'Georgia', 'Times New Roman', serif;
+    --font-label: 'Special Elite', 'Courier New', monospace;
+
+    /* ===== Alias heredados (apuntan a la paleta) ===== */
+    --bg-color: var(--ink);
+    --card-bg: var(--surface);
+    --primary: var(--brass);
+    --accent: var(--dusk);
+    --success: var(--lichen);
+    --danger: var(--blood);
+    --warning: var(--brass);
+    --text: var(--bone);
+    --text-muted: var(--fog);
+    --rune-cyan: var(--verdigris);
+    --rune-border: var(--verdigris-light);
+    --gold: var(--brass);
+    --gold-dark: var(--brass-dark);
+    --gold-glow: rgba(193, 152, 71, 0.15);
+    --boss-red: var(--blood);
+    --sky-blue: var(--verdigris-light);
+    --sky-dark: var(--verdigris);
+    --sky-glow: rgba(113, 167, 156, 0.15);
+    --sanctuary-gold: var(--brass);
+    --sanctuary-gold-dark: var(--brass-dark);
+    --sanctuary-silver: var(--bone-dim);
+    --sanctuary-white: var(--bone);
+    --sanctuary-glow: rgba(193, 152, 71, 0.15);
+    --hud-border: rgba(193, 152, 71, 0.18);
+    --hud-glow: rgba(193, 152, 71, 0.05);
+    --card-border: rgba(227, 220, 200, 0.08);
+    --card-glow-start: rgba(193, 152, 71, 0.03);
+    --card-glow-end: rgba(113, 167, 156, 0.03);
+    --romance: var(--rose);
+    --social: var(--dusk);
+    --work: var(--brass);
+    --family: var(--lichen);
+    --event-gold: var(--brass);
+    --event-purple: var(--dusk);
+    --event-blue: var(--verdigris);
+    --dungeon-red: var(--blood);
+    --dungeon-orange: var(--rust);
+}

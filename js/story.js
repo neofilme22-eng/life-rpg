@@ -474,7 +474,7 @@ function makeStoryChoice(chapterId, choiceId) {
     var chapter = STORY_CHAPTERS.find(function (c) { return c.id === chapterId; });
     var choiceObj = chapter ? chapter.choices.find(function (c) { return c.id === choiceId; }) : null;
 
-    showToast('🖤 Elegiste: "' + (choiceObj ? choiceObj.label : choiceId) + '"', 'info', 'Historia');
+    showToast('Elegiste: "' + (choiceObj ? choiceObj.label : choiceId) + '"', 'info', 'Historia');
     addLogEntry('story', '🖤 Decisión tomada en "' + (chapter ? chapter.title : chapterId) + '"', choiceObj ? choiceObj.label : '', 0, 0, null);
 
     renderStory();
@@ -514,7 +514,7 @@ function renderStory() {
             var madeChoice = player.storyChoices ? player.storyChoices[chapter.id] : null;
             if (madeChoice) {
                 var chosenLabel = chapter.choices.find(function (c) { return c.id === madeChoice; });
-                choicesHTML = '<div class="story-choice-made">🖤 Elegiste: "' + (chosenLabel ? chosenLabel.label : madeChoice) + '"</div>';
+                choicesHTML = '<div class="story-choice-made">Elegiste: "' + (chosenLabel ? chosenLabel.label : madeChoice) + '"</div>';
             } else {
                 choicesHTML = '<div class="story-choices">';
                 chapter.choices.forEach(function (choice) {
