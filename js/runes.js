@@ -257,14 +257,19 @@ function renderRunes() {
                  onclick="${isCompleted ? '' : `handleRuneClick(event, '${runa.id}')`}"
                  style="${isCompleted ? 'cursor:default;' : ''}">
                 <div class="rune-icon">${renderIconHTML(icon, '💠')}</div>
-                <span class="rune-title">${runa.title}</span>
-                <div class="rune-stats">
-                    <span class="rune-badge level">✦ Nv.${prog.level}</span>
-                    <span class="rune-badge streak">${runa.streak || 0}d</span>
-                </div>
-                <div class="rune-progress">
-                    <div class="progress-track">
-                        <div class="progress-fill" style="width: ${percent}%;"></div>
+                <div class="rune-body">
+                    <div class="rune-top">
+                        <span class="rune-title">${runa.title}</span>
+                        ${isCompleted ? '<span class="rune-done">Hecha</span>' : ''}
+                    </div>
+                    <div class="rune-stats">
+                        <span class="rune-badge level">Nv.${prog.level}</span>
+                        <span class="rune-badge streak">Racha ${runa.streak || 0}d</span>
+                    </div>
+                    <div class="rune-progress">
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: ${percent}%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>

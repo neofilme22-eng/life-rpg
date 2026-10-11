@@ -140,7 +140,8 @@
                                     }
                                     deadlineHTML = `
                         <div class="boss-deadline">
-                            <strong>Fecha límite:</strong> ${formatted} ${daysText}
+                            <span><span class="ui-emoji">📅</span> ${formatted}</span>
+                            <span class="${daysLeft < 0 ? 'late' : ''}"><span class="ui-emoji">⏳</span> ${daysText.replace(/[()]/g, '')}</span>
                         </div>
                     `;
                                 }
@@ -165,23 +166,24 @@
 
                                 var statusText = isOverdue ? 'VENCIDA' : 'En curso';
 
+                                var segs = '';
+                                boss.tasks.forEach(function (_, i) { segs += '<i class="' + (boss.taskStatus[i] ? 'on' : '') + '"></i>'; });
+
                                 card.innerHTML = `
                     <div class="boss-header">
-                        <div>
-                            <h3 class="boss-name"><span class="boss-title-icon">${renderIconHTML(boss.icon, '🎯')}</span> ${boss.name}</h3>
-                        </div>
+                        <span class="boss-kicker">Meta</span>
                         <span class="boss-status">${statusText}</span>
                     </div>
+                    <h3 class="boss-name"><span class="boss-title-icon">${renderIconHTML(boss.icon, '🎯')}</span> ${boss.name}</h3>
+                    <div class="boss-ornament"></div>
                     ${renderEntityImageBlock(boss.image, boss.icon, boss.name)}
                     ${deadlineHTML}
                     <div class="boss-progress">
                         <div class="boss-progress-info">
-                            <span>Progreso</span>
-                            <span>${completedTasks} / ${totalTasks} tareas</span>
+                            <span>${completedTasks} / ${totalTasks} hitos</span>
+                            <span>${Math.round(progress)}%</span>
                         </div>
-                        <div class="boss-progress-bar">
-                            <div class="progress-fill" style="width: ${progress}%;"></div>
-                        </div>
+                        <div class="boss-segments">${segs}</div>
                     </div>
                     ${tasksHTML}
                     <div class="boss-reward card-reward">
@@ -238,9 +240,10 @@
                                     '<div class="boss-record-info">' +
                                     '<span class="boss-record-name">' + esc(b.name) + '</span>' +
                                     '<span class="boss-record-date">' + (e.failed
-                                        ? '✖ Fallida · venció el ' + fmt(e.date)
-                                        : '✔ Cumplida el ' + fmt(e.date)) + '</span>' +
+                                        ? 'Venció el ' + fmt(e.date)
+                                        : 'Cumplida el ' + fmt(e.date)) + '</span>' +
                                     '</div>' +
+                                    '<span class="boss-record-seal">' + (e.failed ? 'Fallida' : 'Cumplida') + '</span>' +
                                     '</div>';
                             });
                             container.innerHTML = html;

@@ -275,7 +275,12 @@ function renderEventCards(container, events, type) {
         var total = evt.tasks.length;
 
         var tasksHTML = '';
+        var progressHTML = '';
         if (evt.tasks.length > 0) {
+            var doneCount = 0;
+            evt.tasks.forEach(function (_, i) { if (evt.taskStatus[i]) doneCount++; });
+            progressHTML = '<div class="event-progress"><span class="event-progress-label">' + doneCount + ' / ' + evt.tasks.length + ' tareas</span>' +
+                '<div class="event-progress-bar"><div class="event-progress-fill" style="width:' + Math.round((doneCount / evt.tasks.length) * 100) + '%"></div></div></div>';
             tasksHTML = '<div class="event-tasks">';
             evt.tasks.forEach(function (task, index) {
                 var isCompleted = evt.taskStatus[index] || false;
@@ -320,6 +325,7 @@ function renderEventCards(container, events, type) {
                     ${periodText}
                 </div>
                 ${timerHTML}
+                ${progressHTML}
                 ${tasksHTML}
                 <div class="event-reward card-reward">
                     <span class="reward-chip">Recompensa: +${evt.expReward || 20} EXP${goldText(evt.goldReward || 10)}</span>
