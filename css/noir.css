@@ -633,7 +633,7 @@ input::placeholder, textarea::placeholder {
 }
 .event-card::after { display: none; }
 
-.event-card .event-title { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; line-height: 1.3; color: var(--ca); }
+.event-card .event-title { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; line-height: 1.3; color: var(--text); }
 
 /* estado como sello */
 .event-card .event-status-badge, .event-card .event-status-badge.pending, .event-card .event-status-badge.active, .event-card .event-status-badge.finished {
@@ -867,7 +867,8 @@ input::placeholder, textarea::placeholder {
     border: 1px solid color-mix(in srgb, var(--ca) 40%, transparent);
     border-radius: 2px;
     background: var(--ink);
-    filter: none;
+    filter: grayscale(1) sepia(0.55) saturate(0.9) brightness(0.95);
+    transition: filter 0.3s ease;
     position: relative;
 }
 #rune-container .rune-icon::before {
@@ -993,3 +994,7 @@ input::placeholder, textarea::placeholder {
 .boss-title-icon, .boss-icon { filter: none; }
 .boss-record-icon { filter: grayscale(1) sepia(0.55) saturate(0.9) brightness(0.95); }
 .boss-record-icon:has(img) { filter: none; }
+
+/* Runa: ícono en sepia; a color cuando está canalizada */
+#rune-container .rune-card.completed .rune-icon,
+#rune-container .rune-card.channeling .rune-icon { filter: none; }

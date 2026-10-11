@@ -94,6 +94,7 @@ function pickMood(n) {
     }
     checkinEditing = false;
     saveGame();
+    if (typeof checkAndUnlockTrophies === 'function') checkAndUnlockTrophies();
     renderCheckin();
     showToast('Ánimo guardado', 'success', 'Bienestar');
 }

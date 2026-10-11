@@ -50,6 +50,9 @@
                         if (!player.pp) player.pp = 0;
                         if (!player.defeatedChamps) player.defeatedChamps = {};
                         if (!player.logbook) player.logbook = [];
+                        if (parsed.totalExpEarned === undefined) {
+                            player.totalExpEarned = player.logbook.reduce(function (s, d) { return s + (d.totalExp || 0); }, 0);
+                        }
                         if (!player.events) player.events = [];
                         if (!player.inventory) player.inventory = [];
                         if (!player.equipment) {

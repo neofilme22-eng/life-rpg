@@ -16,8 +16,9 @@
                 if (levelEl) levelEl.innerText = player.level;
                 if (goldEl) goldEl.innerText = player.gold;
                 if (expEl) expEl.innerText = player.exp;
+                player.expToNextLevel = nextLevelExp(player.level);
                 if (expMaxEl) expMaxEl.innerText = player.expToNextLevel;
-                var expPercent = (player.exp / player.expToNextLevel) * 100;
+                var expPercent = Math.min(100, (player.exp / player.expToNextLevel) * 100);
                 if (expBarEl) expBarEl.style.width = Math.min(100, expPercent) + '%';
                 if (expPercentEl) expPercentEl.innerText = Math.round(Math.min(100, expPercent)) + '%';
 
@@ -145,6 +146,7 @@
                 if (typeof FEATURES !== 'undefined' && !FEATURES.gold) totalGold = 0;
 
                 player.exp += totalExp;
+                player.totalExpEarned = (player.totalExpEarned || 0) + totalExp;
                 player.gold += totalGold;
 
                 var attrGain = null;
@@ -157,14 +159,19 @@
                     addLogEntry(logType, logTitle, logDetails || '', totalExp, totalGold, attrGain);
                 }
 
-                if (player.exp >= player.expToNextLevel) {
+                // Un premio grande puede subir varios niveles de una vez
+                var levelsGained = 0;
+                while (player.exp >= player.expToNextLevel && levelsGained < 100) {
                     player.exp -= player.expToNextLevel;
                     player.level++;
-                    player.expToNextLevel = Math.floor(player.expToNextLevel * (1.1 + (mult.levelCurve - 0.8) * 0.3));
+                    levelsGained++;
+                    player.expToNextLevel = nextLevelExp(player.level);
                     player.maxHp = Math.floor(player.maxHp * 1.05);
-                    player.hp = player.maxHp;
                     addLogEntry('level', '¡Nivel ' + player.level + '!', 'Subida de nivel', 0, 0, null);
-                    showToast('¡Subiste a Nivel ' + player.level + '! HP restaurados.', 'success', 'Nivel');
+                }
+                if (levelsGained > 0) {
+                    player.hp = player.maxHp;
+                    showToast('¡Subiste a Nivel ' + player.level + '!' + (levelsGained > 1 ? ' (+' + levelsGained + ' niveles)' : '') + ' HP restaurados.', 'success', 'Nivel');
                     checkAndUnlockTrophies();
                 }
                 updateHUD();

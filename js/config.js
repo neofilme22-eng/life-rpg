@@ -29,7 +29,8 @@ function goldText(n) {
 const defaultPlayer = {
     level: 1,
     exp: 0,
-    expToNextLevel: 100,
+    expToNextLevel: 140,
+    totalExpEarned: 0,
     gold: 0,
     pp: 0,
     hp: 100,
@@ -477,20 +478,65 @@ const LOG_ICONS = {
     reflection: '🌙'
 };
 
+// Cuenta entradas del diario (logbook) que cumplan una condición. El diario no tiene límite de días.
+function countLogEntries(p, test) {
+    var n = 0;
+    (p.logbook || []).forEach(function (day) {
+        (day.entries || []).forEach(function (e) { if (test(e)) n++; });
+    });
+    return n;
+}
+
+// ===== TROFEOS (18 base + 1 por cada DLC) =====
+// Los de EXP usan la EXP total ganada (totalExpEarned), no la del nivel actual.
 const BASE_TROPHY_DEFINITIONS = [
-                { id: 'level_2', icon: 'https://cdn-icons-png.flaticon.com/512/3429/3429417.png', name: 'Aprendiz', desc: 'Alcanza el nivel 2', check: function (p) { return p.level >= 2; } },
-                { id: 'level_5', icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822323.png', name: 'Explorador', desc: 'Alcanza el nivel 5', check: function (p) { return p.level >= 5; } },
-                { id: 'level_10', icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822332.png', name: 'Guerrero', desc: 'Alcanza el nivel 10', check: function (p) { return p.level >= 10; } },
-                { id: 'level_20', icon: 'https://cdn-icons-png.flaticon.com/512/3943/3943804.png', name: 'Campeón', desc: 'Alcanza el nivel 20', check: function (p) { return p.level >= 20; } },
-                { id: 'exp_500', icon: 'https://cdn-icons-png.flaticon.com/512/2811/2811490.png', name: 'Esfuerzo Constante', desc: 'Acumula 500 EXP', check: function (p) { return p.exp >= 500; } },
-                { id: 'exp_2000', icon: 'https://cdn-icons-png.flaticon.com/512/3755/3755147.png', name: 'Fuego Interior', desc: 'Acumula 2000 EXP', check: function (p) { return p.exp >= 2000; } },
-                { id: 'exp_10000', icon: 'https://cdn-icons-png.flaticon.com/512/5080/5080344.png', name: 'Leyenda', desc: 'Acumula 10000 EXP', check: function (p) { return p.exp >= 10000; } },
-            ];
+    // --- Niveles ---
+    { id: 'level_2',  icon: 'https://cdn-icons-png.flaticon.com/512/3429/3429417.png', name: 'Primera Pista',            desc: 'Alcanza el nivel 2',  check: function (p) { return p.level >= 2; } },
+    { id: 'level_5',  icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822323.png', name: 'Placa de Detective',       desc: 'Alcanza el nivel 5',  check: function (p) { return p.level >= 5; } },
+    { id: 'level_10', icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822332.png', name: 'Inspector de Guardia',     desc: 'Alcanza el nivel 10', check: function (p) { return p.level >= 10; } },
+    { id: 'level_20', icon: 'https://cdn-icons-png.flaticon.com/512/3943/3943804.png', name: 'Veterano del Cuerpo', desc: 'Alcanza el nivel 20', check: function (p) { return p.level >= 20; } },
+    { id: 'level_30', icon: '🗼', name: 'El Último Faro', desc: 'Alcanza el nivel 30', check: function (p) { return p.level >= 30; } },
+
+    // --- EXP total ganada ---
+    { id: 'exp_500',   icon: 'https://cdn-icons-png.flaticon.com/512/2811/2811490.png', name: 'Primer Expediente',   desc: 'Acumula 500 EXP en total',    check: function (p) { return (p.totalExpEarned || 0) >= 500; } },
+    { id: 'exp_2000',  icon: 'https://cdn-icons-png.flaticon.com/512/3755/3755147.png', name: 'Luz de Linterna',     desc: 'Acumula 2.000 EXP en total',  check: function (p) { return (p.totalExpEarned || 0) >= 2000; } },
+    { id: 'exp_10000', icon: 'https://cdn-icons-png.flaticon.com/512/5080/5080344.png', name: 'Archivo Clasificado', desc: 'Acumula 10.000 EXP en total', check: function (p) { return (p.totalExpEarned || 0) >= 10000; } },
+
+    // --- Misiones y tareas ---
+    { id: 'missions_10', icon: '🗂️', name: 'Caso en Marcha',    desc: 'Completa 10 misiones',      check: function (p) { return countLogEntries(p, function (e) { return e.type === 'mission'; }) >= 10; } },
+    { id: 'missions_50', icon: '📋', name: 'Informe de Campo',  desc: 'Completa 50 misiones',      check: function (p) { return countLogEntries(p, function (e) { return e.type === 'mission'; }) >= 50; } },
+    { id: 'daily_50',    icon: '🌙', name: 'Ronda Nocturna',    desc: 'Completa 50 tareas diarias', check: function (p) { return countLogEntries(p, function (e) { return e.type === 'daily' && (e.title || '').indexOf('Día perdido') === -1; }) >= 50; } },
+
+    // --- Runas ---
+    { id: 'rune_streak_7',  icon: '🕯️', name: 'Ritual de Medianoche', desc: 'Mantén una runa 7 días seguidos',  check: function (p) { return (p.rawRunes || []).some(function (r) { return (r.streak || 0) >= 7; }); } },
+    { id: 'rune_streak_30', icon: '🪵', name: 'Marca en la Madera',   desc: 'Mantén una runa 30 días seguidos', check: function (p) { return (p.rawRunes || []).some(function (r) { return (r.streak || 0) >= 30; }); } },
+
+    // --- Eventos ---
+    { id: 'events_1', icon: '🧭', name: 'Primera Salida',     desc: 'Completa tu primer evento', check: function (p) { return countLogEntries(p, function (e) { return (e.type === 'dungeon' || e.type === 'event') && /completad/i.test(e.title || ''); }) >= 1; } },
+    { id: 'events_6', icon: '🗺️', name: 'Ronda de Reconocimiento', desc: 'Completa 6 eventos',        check: function (p) { return countLogEntries(p, function (e) { return (e.type === 'dungeon' || e.type === 'event') && /completad/i.test(e.title || ''); }) >= 6; } },
+
+    // --- Metas ---
+    { id: 'goals_1', icon: '🔍', name: 'Caso Resuelto',       desc: 'Cumple tu primera meta', check: function (p) { return (p.bosses || []).filter(function (b) { return b.defeated; }).length >= 1; } },
+    { id: 'goals_5', icon: '📜', name: 'Expediente del Año',  desc: 'Cumple 5 metas',         check: function (p) { return (p.bosses || []).filter(function (b) { return b.defeated; }).length >= 5; } },
+
+    // --- Ánimo ---
+    { id: 'mood_7', icon: '📓', name: 'Diario del Detective', desc: 'Registra tu ánimo durante 7 días', check: function (p) { return (p.moodLog || []).length >= 7; } }
+];
 
 let dynamicTrophyDefinitions = [];
 
 function getTrophyDefinitions() {
     return BASE_TROPHY_DEFINITIONS.concat(dynamicTrophyDefinitions);
+}
+
+// ===== CURVA DE NIVELES =====
+// EXP necesaria para pasar de `level` al siguiente (dificultad Normal): 100 + 40 * nivel^1.3, redondeada a 5.
+// Acumulada aprox. (Normal): nivel 5 = 950, nivel 10 = 3.975, nivel 20 = 18.010, nivel 30 = 44.665.
+// La dificultad la multiplica por levelCurve (Fácil 0.65, Normal 1, Difícil 1.45, Experto 2).
+function nextLevelExp(level) {
+    var base = Math.round((100 + 40 * Math.pow(level, 1.3)) / 5) * 5;
+    var curve = (typeof getDifficultyMultipliers === 'function') ? getDifficultyMultipliers().levelCurve : 1;
+    return Math.max(5, Math.round((base * curve) / 5) * 5);
 }
 
 let player = JSON.parse(JSON.stringify(defaultPlayer));
