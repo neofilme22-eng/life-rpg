@@ -365,16 +365,6 @@ input:focus, textarea:focus, select:focus {
 .boss-card.overdue .boss-progress-bar .progress-fill { background: linear-gradient(90deg, #8a3b35, var(--blood)); }
 .boss-title-icon { margin-right: 4px; }
 
-/* Trofeos: fondo verde pino con bordes y detalles en latón */
-.trophy-card.unlocked {
-    background: linear-gradient(145deg, var(--plum), var(--plum-dark));
-    border-color: rgba(115, 149, 93, 0.3);
-    box-shadow: 0 0 30px rgba(115, 149, 93, 0.04), inset 0 0 60px rgba(115, 149, 93, 0.05);
-}
-.trophy-card.unlocked::after { background: linear-gradient(90deg, transparent, rgba(115, 149, 93, 0.10), transparent); }
-.trophy-card.unlocked .trophy-icon { text-shadow: 0 0 20px rgba(115, 149, 93, 0.25); }
-.trophy-card.unlocked .trophy-status { background: rgba(193, 152, 71, 0.10); border-color: rgba(193, 152, 71, 0.18); color: var(--brass-light); }
-
 /* Gráficos: leyenda de varias líneas */
 .stats-chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 4px 0 6px; font-family: var(--font-label); font-size: 0.72rem; color: var(--fog); letter-spacing: 0.5px; }
 .stats-chart-legend-item { display: inline-flex; align-items: center; gap: 6px; }
@@ -930,76 +920,6 @@ input::placeholder, textarea::placeholder {
 #rune-container .rune-progress .progress-track { height: 4px; border-radius: 1px; background: rgba(227, 220, 200, 0.08); }
 #rune-container .rune-progress .progress-fill { border-radius: 1px; background: var(--ca); box-shadow: none; }
 
-/* ================= Trofeos (rediseño: placa con medalla) ================= */
-.trophy-card {
-    border-radius: 3px;
-    text-align: center;
-    padding: 20px 14px 16px;
-    position: relative;
-}
-.trophy-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) 9px 9px / 10px 1px no-repeat,
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) 9px 9px / 1px 10px no-repeat,
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) calc(100% - 9px) 9px / 10px 1px no-repeat,
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) calc(100% - 9px) 9px / 1px 10px no-repeat,
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) 9px calc(100% - 9px) / 10px 1px no-repeat,
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) 9px calc(100% - 9px) / 1px 10px no-repeat,
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) calc(100% - 9px) calc(100% - 9px) / 10px 1px no-repeat,
-        linear-gradient(var(--tc, var(--brass)), var(--tc, var(--brass))) calc(100% - 9px) calc(100% - 9px) / 1px 10px no-repeat;
-    opacity: 0.5;
-}
-.trophy-card.unlocked { --tc: var(--lichen); }
-.trophy-card.locked {
-    --tc: var(--fog-dim);
-    opacity: 0.7;
-    border: 1px dashed rgba(227, 220, 200, 0.16);
-    background: repeating-linear-gradient(45deg, rgba(227, 220, 200, 0.02) 0 6px, transparent 6px 12px), var(--ink-2);
-    box-shadow: none;
-}
-.trophy-card .trophy-icon {
-    width: 84px;
-    height: 84px;
-    margin: 0 auto 12px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    border: 1px solid color-mix(in srgb, var(--brass) 55%, transparent);
-    box-shadow: 0 0 0 4px var(--plum-dark), 0 0 0 5px color-mix(in srgb, var(--brass) 30%, transparent);
-    background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--lichen) 14%, transparent), transparent 70%);
-    font-size: 2.2rem;
-}
-.trophy-card .trophy-icon img { max-width: 58px; max-height: 58px; object-fit: contain; }
-.trophy-card.locked .trophy-icon { border: 1px dashed rgba(227, 220, 200, 0.25); box-shadow: 0 0 0 4px var(--ink-2), 0 0 0 5px rgba(227, 220, 200, 0.08); background: none; filter: grayscale(1); opacity: 0.55; }
-.trophy-card .trophy-name { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; letter-spacing: 0.4px; color: var(--brass-light); }
-.trophy-card.locked .trophy-name { color: var(--fog); }
-.trophy-card .trophy-desc { font-size: 0.72rem; line-height: 1.5; color: var(--fog); margin: 4px 0 12px; }
-.trophy-card .trophy-status, .trophy-card.unlocked .trophy-status, .trophy-card.locked .trophy-status {
-    display: inline-block;
-    font-family: var(--font-label);
-    font-size: 0.64rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-radius: 2px;
-    padding: 3px 12px;
-    position: relative;
-}
-.trophy-card.unlocked .trophy-status { color: var(--brass-light); background: rgba(193, 152, 71, 0.10); border: 1px solid rgba(193, 152, 71, 0.4); }
-.trophy-card.locked .trophy-status { color: var(--fog-dim); background: transparent; border: 1px dashed rgba(227, 220, 200, 0.2); }
-
-/* Íconos de metas en color (sin tono sepia) */
-.boss-title-icon, .boss-icon { filter: none; }
-.boss-record-icon { filter: grayscale(1) sepia(0.55) saturate(0.9) brightness(0.95); }
-.boss-record-icon:has(img) { filter: none; }
-
-/* Runa: ícono en sepia; a color cuando está canalizada */
-#rune-container .rune-card.completed .rune-icon,
-#rune-container .rune-card.channeling .rune-icon { filter: none; }
-
 /* ================= Evento sorpresa (arriba en Eventos) y aviso en la pestaña ================= */
 .tab-btn.has-alert::after, .mobile-menu-item.has-alert::after {
     content: '';
@@ -1044,3 +964,108 @@ input::placeholder, textarea::placeholder {
 .surprise-task input[type="checkbox"]:checked { background: var(--ca); }
 .surprise-task input[type="checkbox"]:checked::after { opacity: 1; }
 .surprise-card .card-reward { --ca: var(--blood); margin-top: 12px; }
+
+/* ================= Trofeos (rediseño: vitrina de condecoraciones) =================
+   Cada trofeo cuelga de una cinta del color de su categoría (el mismo de los gráficos y tarjetas). */
+.trophy-grid { gap: 14px; }
+.trophy-card {
+    --tc: var(--brass);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px 14px 16px;
+    border-radius: 3px;
+    border: 1px solid color-mix(in srgb, var(--tc) 32%, var(--line));
+    background:
+        radial-gradient(ellipse 80% 55% at 50% 0%, color-mix(in srgb, var(--tc) 14%, transparent), transparent 70%),
+        linear-gradient(170deg, var(--surface), var(--ink-2));
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+.trophy-card::after { display: none; }
+.trophy-card:hover { border-color: color-mix(in srgb, var(--tc) 55%, var(--line)); transform: none; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45); }
+.trophy-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(var(--tc), var(--tc)) 8px 8px / 9px 1px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) 8px 8px / 1px 9px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) calc(100% - 8px) 8px / 9px 1px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) calc(100% - 8px) 8px / 1px 9px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) 8px calc(100% - 8px) / 9px 1px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) 8px calc(100% - 8px) / 1px 9px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) calc(100% - 8px) calc(100% - 8px) / 9px 1px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) calc(100% - 8px) calc(100% - 8px) / 1px 9px no-repeat;
+    opacity: 0.45;
+}
+
+.trophy-top { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 4px; font-family: var(--font-label); font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; }
+.trophy-no { color: var(--fog); }
+.trophy-cat { color: var(--tc); }
+
+/* cinta con muesca */
+.trophy-ribbon {
+    width: 30px;
+    height: 30px;
+    margin: 8px 0 -18px;
+    background: linear-gradient(180deg, var(--tc), color-mix(in srgb, var(--tc) 55%, #000));
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    position: relative;
+    z-index: 0;
+}
+
+/* medalla */
+.trophy-card .trophy-icon {
+    position: relative;
+    z-index: 1;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--tc) 75%, #000);
+    box-shadow: 0 0 0 4px var(--ink-2), 0 0 0 5px color-mix(in srgb, var(--tc) 38%, transparent), 0 6px 14px rgba(0, 0, 0, 0.5);
+    background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--tc) 22%, var(--ink)), var(--ink) 75%);
+    font-size: 2.1rem;
+    text-shadow: none;
+}
+.trophy-card .trophy-icon img { max-width: 52px; max-height: 52px; object-fit: contain; }
+
+.trophy-card .trophy-name { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.25; letter-spacing: 0.3px; color: var(--text); }
+.trophy-card .trophy-desc { font-size: 0.72rem; line-height: 1.5; color: var(--fog); margin: 5px 0 12px; }
+.trophy-card .trophy-status {
+    margin-top: auto;
+    display: inline-block;
+    font-family: var(--font-label);
+    font-size: 0.62rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    padding: 3px 12px;
+}
+.trophy-card.unlocked .trophy-status { color: var(--tc); background: color-mix(in srgb, var(--tc) 10%, transparent); border: 1px solid color-mix(in srgb, var(--tc) 45%, transparent); }
+
+/* bloqueados: la vitrina vacía */
+.trophy-card.locked {
+    --tc: var(--fog-dim);
+    opacity: 0.72;
+    border: 1px dashed rgba(227, 220, 200, 0.16);
+    background: repeating-linear-gradient(45deg, rgba(227, 220, 200, 0.02) 0 6px, transparent 6px 12px), var(--ink-2);
+    box-shadow: none;
+}
+.trophy-card.locked .trophy-cat { color: var(--fog-dim); }
+.trophy-card.locked .trophy-icon { border: 1px dashed rgba(227, 220, 200, 0.25); box-shadow: 0 0 0 4px var(--ink-2), 0 0 0 5px rgba(227, 220, 200, 0.08); background: none; filter: grayscale(1); opacity: 0.5; }
+.trophy-card.locked .trophy-name { color: var(--fog); }
+.trophy-card.locked .trophy-status { color: var(--fog-dim); border: 1px dashed rgba(227, 220, 200, 0.2); background: transparent; }
+
+@media (max-width: 640px) {
+    .trophy-card { padding: 10px 8px 14px; }
+    .trophy-card .trophy-icon { width: 68px; height: 68px; font-size: 1.8rem; }
+    .trophy-card .trophy-icon img { max-width: 44px; max-height: 44px; }
+    .trophy-card .trophy-name { font-size: 1rem; }
+}

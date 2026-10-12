@@ -500,36 +500,36 @@ function countLogEntries(p, test) {
 // Los de EXP usan la EXP total ganada (totalExpEarned), no la del nivel actual.
 const BASE_TROPHY_DEFINITIONS = [
     // --- Niveles ---
-    { id: 'level_2',  icon: 'https://cdn-icons-png.flaticon.com/512/3429/3429417.png', name: 'Primera Pista',            desc: 'Alcanza el nivel 2',  check: function (p) { return p.level >= 2; } },
-    { id: 'level_5',  icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822323.png', name: 'Placa de Detective',       desc: 'Alcanza el nivel 5',  check: function (p) { return p.level >= 5; } },
-    { id: 'level_10', icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822332.png', name: 'Inspector de Guardia',     desc: 'Alcanza el nivel 10', check: function (p) { return p.level >= 10; } },
-    { id: 'level_20', icon: 'https://cdn-icons-png.flaticon.com/512/3943/3943804.png', name: 'Veterano del Cuerpo', desc: 'Alcanza el nivel 20', check: function (p) { return p.level >= 20; } },
-    { id: 'level_30', icon: '🗼', name: 'El Último Faro', desc: 'Alcanza el nivel 30', check: function (p) { return p.level >= 30; } },
+    { id: 'level_2', cat: 'nivel',  icon: 'https://cdn-icons-png.flaticon.com/512/3429/3429417.png', name: 'Primera Pista',            desc: 'Alcanza el nivel 2',  check: function (p) { return p.level >= 2; } },
+    { id: 'level_5', cat: 'nivel',  icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822323.png', name: 'Placa de Detective',       desc: 'Alcanza el nivel 5',  check: function (p) { return p.level >= 5; } },
+    { id: 'level_10', cat: 'nivel', icon: 'https://cdn-icons-png.flaticon.com/512/2822/2822332.png', name: 'Inspector de Guardia',     desc: 'Alcanza el nivel 10', check: function (p) { return p.level >= 10; } },
+    { id: 'level_20', cat: 'nivel', icon: 'https://cdn-icons-png.flaticon.com/512/3943/3943804.png', name: 'Veterano del Cuerpo', desc: 'Alcanza el nivel 20', check: function (p) { return p.level >= 20; } },
+    { id: 'level_30', cat: 'nivel', icon: '🗼', name: 'El Último Faro', desc: 'Alcanza el nivel 30', check: function (p) { return p.level >= 30; } },
 
     // --- EXP total ganada ---
-    { id: 'exp_500',   icon: 'https://cdn-icons-png.flaticon.com/512/2811/2811490.png', name: 'Primer Expediente',   desc: 'Acumula 500 EXP en total',    check: function (p) { return (p.totalExpEarned || 0) >= 500; } },
-    { id: 'exp_2000',  icon: 'https://cdn-icons-png.flaticon.com/512/3755/3755147.png', name: 'Luz de Linterna',     desc: 'Acumula 2.000 EXP en total',  check: function (p) { return (p.totalExpEarned || 0) >= 2000; } },
-    { id: 'exp_10000', icon: 'https://cdn-icons-png.flaticon.com/512/5080/5080344.png', name: 'Archivo Clasificado', desc: 'Acumula 10.000 EXP en total', check: function (p) { return (p.totalExpEarned || 0) >= 10000; } },
+    { id: 'exp_500', cat: 'exp',   icon: 'https://cdn-icons-png.flaticon.com/512/2811/2811490.png', name: 'Primer Expediente',   desc: 'Acumula 500 EXP en total',    check: function (p) { return (p.totalExpEarned || 0) >= 500; } },
+    { id: 'exp_2000', cat: 'exp',  icon: 'https://cdn-icons-png.flaticon.com/512/3755/3755147.png', name: 'Luz de Linterna',     desc: 'Acumula 2.000 EXP en total',  check: function (p) { return (p.totalExpEarned || 0) >= 2000; } },
+    { id: 'exp_10000', cat: 'exp', icon: 'https://cdn-icons-png.flaticon.com/512/5080/5080344.png', name: 'Archivo Clasificado', desc: 'Acumula 10.000 EXP en total', check: function (p) { return (p.totalExpEarned || 0) >= 10000; } },
 
     // --- Misiones y tareas ---
-    { id: 'missions_10', icon: '🗂️', name: 'Caso en Marcha',    desc: 'Completa 10 misiones',      check: function (p) { return countLogEntries(p, function (e) { return e.type === 'mission'; }) >= 10; } },
-    { id: 'missions_50', icon: '📋', name: 'Informe de Campo',  desc: 'Completa 50 misiones',      check: function (p) { return countLogEntries(p, function (e) { return e.type === 'mission'; }) >= 50; } },
-    { id: 'daily_50',    icon: '🌙', name: 'Ronda Nocturna',    desc: 'Completa 50 tareas diarias', check: function (p) { return countLogEntries(p, function (e) { return e.type === 'daily' && (e.title || '').indexOf('Día perdido') === -1; }) >= 50; } },
+    { id: 'missions_10', cat: 'misiones', icon: '🗂️', name: 'Caso en Marcha',    desc: 'Completa 10 misiones',      check: function (p) { return countLogEntries(p, function (e) { return e.type === 'mission'; }) >= 10; } },
+    { id: 'missions_50', cat: 'misiones', icon: '📋', name: 'Informe de Campo',  desc: 'Completa 50 misiones',      check: function (p) { return countLogEntries(p, function (e) { return e.type === 'mission'; }) >= 50; } },
+    { id: 'daily_50', cat: 'tareas',    icon: '🌙', name: 'Ronda Nocturna',    desc: 'Completa 50 tareas diarias', check: function (p) { return countLogEntries(p, function (e) { return e.type === 'daily' && (e.title || '').indexOf('Día perdido') === -1; }) >= 50; } },
 
     // --- Runas ---
-    { id: 'rune_streak_7',  icon: '🕯️', name: 'Ritual de Medianoche', desc: 'Mantén una runa 7 días seguidos',  check: function (p) { return (p.rawRunes || []).some(function (r) { return (r.streak || 0) >= 7; }); } },
-    { id: 'rune_streak_30', icon: '🪵', name: 'Marca en la Madera',   desc: 'Mantén una runa 30 días seguidos', check: function (p) { return (p.rawRunes || []).some(function (r) { return (r.streak || 0) >= 30; }); } },
+    { id: 'rune_streak_7', cat: 'runas',  icon: '🕯️', name: 'Ritual de Medianoche', desc: 'Mantén una runa 7 días seguidos',  check: function (p) { return (p.rawRunes || []).some(function (r) { return (r.streak || 0) >= 7; }); } },
+    { id: 'rune_streak_30', cat: 'runas', icon: '🪵', name: 'Marca en la Madera',   desc: 'Mantén una runa 30 días seguidos', check: function (p) { return (p.rawRunes || []).some(function (r) { return (r.streak || 0) >= 30; }); } },
 
     // --- Eventos ---
-    { id: 'events_1', icon: '🧭', name: 'Primera Salida',     desc: 'Completa tu primer evento', check: function (p) { return countLogEntries(p, function (e) { return (e.type === 'dungeon' || e.type === 'event') && /completad/i.test(e.title || ''); }) >= 1; } },
-    { id: 'events_6', icon: '🗺️', name: 'Ronda de Reconocimiento', desc: 'Completa 6 eventos',        check: function (p) { return countLogEntries(p, function (e) { return (e.type === 'dungeon' || e.type === 'event') && /completad/i.test(e.title || ''); }) >= 6; } },
+    { id: 'events_1', cat: 'eventos', icon: '🧭', name: 'Primera Salida',     desc: 'Completa tu primer evento', check: function (p) { return countLogEntries(p, function (e) { return (e.type === 'dungeon' || e.type === 'event') && /completad/i.test(e.title || ''); }) >= 1; } },
+    { id: 'events_6', cat: 'eventos', icon: '🗺️', name: 'Ronda de Reconocimiento', desc: 'Completa 6 eventos',        check: function (p) { return countLogEntries(p, function (e) { return (e.type === 'dungeon' || e.type === 'event') && /completad/i.test(e.title || ''); }) >= 6; } },
 
     // --- Metas ---
-    { id: 'goals_1', icon: '🔍', name: 'Caso Resuelto',       desc: 'Cumple tu primera meta', check: function (p) { return (p.bosses || []).filter(function (b) { return b.defeated; }).length >= 1; } },
-    { id: 'goals_5', icon: '📜', name: 'Expediente del Año',  desc: 'Cumple 5 metas',         check: function (p) { return (p.bosses || []).filter(function (b) { return b.defeated; }).length >= 5; } },
+    { id: 'goals_1', cat: 'metas', icon: '🔍', name: 'Caso Resuelto',       desc: 'Cumple tu primera meta', check: function (p) { return (p.bosses || []).filter(function (b) { return b.defeated; }).length >= 1; } },
+    { id: 'goals_5', cat: 'metas', icon: '📜', name: 'Expediente del Año',  desc: 'Cumple 5 metas',         check: function (p) { return (p.bosses || []).filter(function (b) { return b.defeated; }).length >= 5; } },
 
     // --- Ánimo ---
-    { id: 'mood_7', icon: '📓', name: 'Diario del Detective', desc: 'Registra tu ánimo durante 7 días', check: function (p) { return (p.moodLog || []).length >= 7; } }
+    { id: 'mood_7', cat: 'animo', icon: '📓', name: 'Diario del Detective', desc: 'Registra tu ánimo durante 7 días', check: function (p) { return (p.moodLog || []).length >= 7; } }
 ];
 
 let dynamicTrophyDefinitions = [];
@@ -564,7 +564,7 @@ let interval = null;
 let shopCurrentPage = 1;
 let shopItemsPerPage = 6;
 let trophyCurrentPage = 1;
-let trophyItemsPerPage = 8;
+let trophyItemsPerPage = 10;
 let petBubbleTimeout = null;
 let modalCallback = null;
 let currentEventFilter = 'all';

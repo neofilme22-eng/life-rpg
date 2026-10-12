@@ -76,6 +76,19 @@
                                 return trophies;
                             }
 
+                            // Categorías: el color de cada una es el de su sistema en la app
+                            var TROPHY_CATS = {
+                                nivel:    { label: 'Nivel',       color: '#c19847' },
+                                exp:      { label: 'Experiencia', color: '#e6dcb8' },
+                                misiones: { label: 'Misiones',    color: '#cc7f3e' },
+                                tareas:   { label: 'Tareas',      color: '#d9b968' },
+                                runas:    { label: 'Runas',       color: '#7ea7bd' },
+                                eventos:  { label: 'Eventos',     color: '#9c87ab' },
+                                metas:    { label: 'Metas',       color: '#b9c0ba' },
+                                animo:    { label: 'Ánimo',       color: '#86a96c' },
+                                dlc:      { label: 'DLC',         color: '#b0707c' }
+                            };
+
                             function renderTrophies() {
                                 var container = document.getElementById('trophy-container');
                                 var pagination = document.getElementById('trophy-pagination');
@@ -107,17 +120,24 @@
                                 }
 
                                 container.innerHTML = '';
+                                var allDefs = getTrophyDefinitions();
                                 pageTrophies.forEach(function (trophy) {
                                     var isUnlocked = player.trophies.indexOf(trophy.id) !== -1;
 
                                     var card = document.createElement('div');
                                     card.className = 'trophy-card ' + (isUnlocked ? 'unlocked' : 'locked');
 
+                                    var cat = TROPHY_CATS[trophy.cat] || TROPHY_CATS.dlc;
+                                    var number = allDefs.findIndex(function (d) { return d.id === trophy.id; }) + 1;
+                                    card.style.setProperty('--tc', cat.color);
+
                                     card.innerHTML = `
+                    <div class="trophy-top"><span class="trophy-no">N.º ${number < 10 ? '0' + number : number}</span><span class="trophy-cat">${cat.label}</span></div>
+                    <div class="trophy-ribbon"></div>
                     <div class="trophy-icon">${renderIconHTML(trophy.icon, '🏆')}</div>
                     <div class="trophy-name">${trophy.name}</div>
                     <div class="trophy-desc">${trophy.desc}</div>
-                    <div class="trophy-status">${isUnlocked ? ' Desbloqueado' : ' Bloqueado'}</div>
+                    <div class="trophy-status">${isUnlocked ? 'Desbloqueado' : 'Bloqueado'}</div>
                 `;
 
                                     container.appendChild(card);
