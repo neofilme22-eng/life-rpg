@@ -11,6 +11,7 @@
                             if (!boss || boss.defeated) return;
 
                             boss.taskStatus[taskIndex] = !boss.taskStatus[taskIndex];
+                            if (boss.taskStatus[taskIndex]) { boss.lastTaskAt = Date.now(); player.goalLastTaskAt = Date.now(); }
                             var willDefeat = boss.taskStatus.every(function (status) { return status === true; });
 
                             renderBosses();
@@ -68,7 +69,7 @@
                                     boss.vencido = true;
                                     updated = true;
                                     addLogEntry('boss', 'Meta "' + boss.name + '" vencida', 'Se acabó el plazo', 0, 0, null);
-                                    applyDamage(30, 'Meta vencida', 15);
+                                    applyDamagePct(30, 'Meta vencida', 15);
                                 }
                             });
 

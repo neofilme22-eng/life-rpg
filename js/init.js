@@ -64,6 +64,7 @@
                                     loadGame();
 
                                     checkInactivityDamage();
+                                    if (typeof runPressureChecks === 'function') runPressureChecks();
 
                                     cleanOldDailyMissions();
 

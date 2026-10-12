@@ -251,7 +251,8 @@
                                                         expReward: b.expReward || 50,
                                                         goldReward: b.goldReward || 25,
                                                         attrReward: b.attrReward || null,
-                                                        vencido: false
+                                                        vencido: false,
+                                                        createdAt: Date.now()
                                                     });
                                                     count++;
                                                 });

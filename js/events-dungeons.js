@@ -116,7 +116,7 @@ function renderEvents() {
                 var petDamage = Math.ceil(damageAmount / 2);
 
                 if (typeof applyDamage === 'function') {
-                    applyDamage(damageAmount, 'Evento "' + evt.title + '" expiró sin completar', petDamage);
+                    applyDamagePct(damageAmount, 'Evento "' + evt.title + '" expiró sin completar', petDamage);
                 }
                 if (typeof addLogEntry === 'function') {
                     addLogEntry('dungeon', 'Evento "' + evt.title + '" expiró', completadas + '/' + total + ' tareas', 0, 0, null);
@@ -640,6 +640,7 @@ function iniciarMazmorra(id) {
 
     evt.status = 'active';
     evt.startedAt = Date.now();
+    evt.coolPenalty = false;
 
     var endDate = new Date();
     endDate.setHours(endDate.getHours() + (evt.duration || 3));

@@ -102,6 +102,13 @@ function handleRuneClick(event, runeId) {
     }, 400);
 }
 
+// Lo que Costó Construir: cuanto más larga era la racha perdida, más duele (3% a 20% del HP por runa, tope 40%)
+function runeStreakDamagePct(lost) {
+    var sum = 0;
+    lost.forEach(function (r) { sum += Math.min(20, Math.max(3, r.streak || 0)); });
+    return Math.min(40, sum);
+}
+
 function checkAndResetRunes() {
     if (player.gameOver) return;
     if (!player.rawRunes || player.rawRunes.length === 0) return;
@@ -114,6 +121,8 @@ function checkAndResetRunes() {
     if (lastReset !== todayStr) {
         var lostRunes = [];
         var keptRunes = [];
+        var totalBefore = player.rawRunes.length;
+        var doneBefore = player.rawRunes.filter(function (r) { return r.completed; }).length;
 
         player.rawRunes.forEach(function (r) {
             if (r.completed === undefined) r.completed = false;
@@ -131,16 +140,22 @@ function checkAndResetRunes() {
 
         player.lastRuneReset = todayStr;
 
+        // Ritual a Medias: ayer canalizaste menos de la mitad de tus runas
+        if (lastReset && totalBefore > 0 && doneBefore * 2 < totalBefore) {
+            applyDamagePct(5, 'Ritual a medias: ' + doneBefore + ' de ' + totalBefore + ' runas canalizadas', 0);
+            showToast('Ayer canalizaste ' + doneBefore + ' de ' + totalBefore + ' runas. Ritual a medias: -5% de tu HP.', 'warning', 'Runas');
+        }
+
         if (lostRunes.length > 0) {
-            var damageAmount = lostRunes.length * 3;
-            applyDamage(damageAmount, 'Pérdida automática de rachas de runas', lostRunes.length * 2);
+            var damageAmount = runeStreakDamagePct(lostRunes);
+            applyDamagePct(damageAmount, 'Pérdida automática de rachas de runas', 0);
 
             var msg = 'Nuevo día: ' + todayStr + '\n\n';
             msg += '' + lostRunes.length + ' runa(s) perdieron su racha:\n';
             lostRunes.forEach(function (r) {
                 msg += '• ' + r.name + ' (perdió ' + r.streak + ' días)\n';
             });
-            msg += '\nDaño recibido: ' + damageAmount + ' HP';
+            msg += '\nDaño recibido: ' + damageAmount + '% de tu HP';
 
             showToast(msg, 'warning', 'Runas - Nuevo Día');
             addLogEntry('damage', 'Pérdida automática de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);
@@ -206,14 +221,14 @@ function executeManualResetRunes(todayStr) {
     player.lastRuneReset = todayStr;
 
     if (lostRunes.length > 0) {
-        var damageAmount = lostRunes.length * 3;
-        applyDamage(damageAmount, 'Pérdida manual de rachas de runas', lostRunes.length * 2);
+        var damageAmount = runeStreakDamagePct(lostRunes);
+        applyDamagePct(damageAmount, 'Pérdida manual de rachas de runas', 0);
 
         var msg = '' + lostRunes.length + ' runa(s) perdieron su racha:\n';
         lostRunes.forEach(function (r) {
             msg += '• ' + r.name + ' (perdió ' + r.streak + ' días)\n';
         });
-        msg += '\nDaño recibido: ' + damageAmount + ' HP';
+        msg += '\nDaño recibido: ' + damageAmount + '% de tu HP';
 
         showToast(msg, 'warning', 'Runas Reiniciadas');
         addLogEntry('damage', 'Pérdida manual de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);

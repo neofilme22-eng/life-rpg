@@ -143,6 +143,9 @@ function renderHospitalStatus() {
     if (player.gameOver) note = 'Estás en Game Over. El hospital no puede atenderte hasta que reinicies tu partida.';
     else if (hp >= max) note = 'Alta médica: tu HP está al máximo. No necesitás medicinas ni tratamientos por ahora.';
     else note = 'Te faltan ' + (max - hp) + ' HP. Las medicinas curan poco y los tratamientos mucho; los mejores se desbloquean al subir de nivel.';
+    if (!player.gameOver && typeof tensionLevel === 'function' && tensionLevel() > 0) {
+        note += ' Tensión activa: hoy recibís +' + (tensionLevel() * 10) + '% de daño. Un día sin daño la reinicia.';
+    }
     el.innerHTML =
         '<div class="hosp-status">' +
         '<div class="hosp-emblem"><span class="hosp-cross"></span></div>' +

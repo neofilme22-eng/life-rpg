@@ -1,12 +1,49 @@
                                 // ===== FUNCIONES DE SISTEMA DE DAÑO =====
                                 // ============================================================
 
+                                // ===== TENSIÓN: cada día seguido con daño suma +10% al daño del día siguiente (hasta +50%) =====
+                                function dayBeforeStr(dateStr) {
+                                    var d = new Date(dateStr + 'T00:00:00');
+                                    d.setDate(d.getDate() - 1);
+                                    return localDateStr(d);
+                                }
+
+                                function tensionLevel() {
+                                    var t = player.tension;
+                                    if (!t || !t.lastHitDay) return 0;
+                                    var today = localDateStr();
+                                    if (t.lastHitDay === today) return Math.max(0, (t.streak || 1) - 1);
+                                    if (t.lastHitDay === dayBeforeStr(today)) return t.streak || 0;
+                                    return 0;
+                                }
+
+                                function tensionMultiplier() {
+                                    return 1 + 0.1 * Math.min(5, tensionLevel());
+                                }
+
+                                function registerTensionHit() {
+                                    var today = localDateStr();
+                                    if (!player.tension) player.tension = { streak: 0, lastHitDay: null };
+                                    var t = player.tension;
+                                    if (t.lastHitDay === today) return;
+                                    t.streak = (t.lastHitDay === dayBeforeStr(today)) ? (t.streak || 0) + 1 : 1;
+                                    t.lastHitDay = today;
+                                }
+
+                                // Daño como porcentaje del HP máximo (así sigue pesando al subir de nivel)
+                                function applyDamagePct(pct, source, petDamage) {
+                                    var amount = Math.max(1, Math.round(player.maxHp * pct / 100));
+                                    applyDamage(amount, source, petDamage);
+                                    return amount;
+                                }
+
                                 function applyDamage(amount, source, petDamage) {
                                     petDamage = petDamage || 0;
                                     if (player.gameOver) return;
 
                                     var mult = getDifficultyMultipliers();
-                                    var adjustedDamage = Math.floor(amount * mult.damageMod);
+                                    var tension = tensionMultiplier();
+                                    var adjustedDamage = Math.floor(amount * mult.damageMod * tension);
                                     var adjustedPetDamage = Math.floor(petDamage * mult.damageMod);
                                     var petsOn = (typeof FEATURES === 'undefined') || FEATURES.pets;
 
@@ -18,7 +55,9 @@
 
                                     shakeScreen();
 
+                                    registerTensionHit();
                                     var logMsg = '💔 Recibiste ' + adjustedDamage + ' de daño';
+                                    if (tension > 1) logMsg += ' (Tensión +' + Math.round((tension - 1) * 100) + '%)';
                                     if (petsOn && player.equipment && player.equipment.mascota && petDamage > 0) {
                                         logMsg += ' (mascota: -' + adjustedPetDamage + ' HP)';
                                     }
@@ -98,7 +137,7 @@
                                         var damageAmount = Math.min(60, inactiveDays * 10);
                                         var petDamage = Math.min(30, inactiveDays * 5);
 
-                                        applyDamage(damageAmount, diffDays + ' días sin abrir el juego', petDamage);
+                                        applyDamagePct(damageAmount, diffDays + ' días sin abrir el juego', petDamage);
                                         addLogEntry('damage', '🌧️ La ciudad no te esperó: ' + diffDays + ' días sin aparecer', '-' + damageAmount + ' HP', 0, 0, null);
                                         showToast('🌧️ Estuviste ' + diffDays + ' días sin jugar. La rutina te pasó factura: -' + damageAmount + ' HP', 'error', 'Inactividad');
                                     }

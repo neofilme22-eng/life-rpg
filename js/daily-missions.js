@@ -141,6 +141,7 @@
                     saveDailyMissions(missions);
                     renderDailyMissions();
 
+                    player.lastDailyDoneDate = localDateStr();
                     gainRewards(8, 3, 'disciplina', 'daily', 'Tarea diaria "' + mission.title + '"', 'Completada');
                     showToast('Misión "' + mission.title + '" completada! +8 EXP' + goldText(3), 'success', 'Misión');
                     checkAndUnlockTrophies();
@@ -179,7 +180,7 @@
                             m.penaltyApplied = true;
                             damageCount++;
                             changed = true;
-                            applyDamage(15, 'Tarea diaria vencida: "' + m.title + '"', 8);
+                            applyDamagePct(15, 'Tarea diaria vencida: "' + m.title + '"', 8);
                         }
                     });
 
@@ -191,7 +192,7 @@
 
                     if (zeroMissionDay && player.lastZeroMissionDayPenalty !== todayStr) {
                         player.lastZeroMissionDayPenalty = todayStr;
-                        applyDamage(15, 'Día completo sin ninguna tarea diaria completada', 8);
+                        applyDamagePct(15, 'Día completo sin ninguna tarea diaria completada', 8);
                         addLogEntry('daily', 'Día perdido: ninguna tarea diaria completada', '', 0, 0, null);
                         showToast('No completaste ninguna tarea diaria hoy. Daño extra.', 'error', 'Tareas');
                         saveGame();
@@ -304,6 +305,7 @@
                         if (player.rawRunes && player.rawRunes.length > 0) {
                             checkAndResetRunes();
                         }
+                        if (typeof runPressureChecks === 'function') runPressureChecks();
                     }, 30000);
                 }
 
