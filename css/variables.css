@@ -35,6 +35,10 @@
     --c-secondary: #e6dcb8;    /* misiones secundarias */
     --c-event: #9c87ab;        /* eventos */
     --c-goal: #b9c0ba;         /* metas */
+    --hosp: #6fbf9f;           /* verde farmacia */
+    --hosp-light: #a6dcc6;
+    --hosp-dark: #173a31;
+    --hosp-red: #d4524b;       /* cruz roja */
     --celeste: #7ea7bd;        /* celeste (gráfico de runas) */
     --lichen: #73955d;         /* musgo, éxito */
     --dusk: #9c87ab;           /* crepúsculo, lo raro */

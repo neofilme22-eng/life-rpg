@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="css/stats.css">
     <link rel="stylesheet" href="css/wellbeing.css">
     <link rel="stylesheet" href="css/noir.css">
+    <link rel="stylesheet" href="css/hospital.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
@@ -135,6 +136,7 @@
             <button class="tab-btn" onclick="switchTab('tab-runes')">Runas</button>
             <button class="tab-btn" onclick="switchTab('tab-events')">Eventos</button>
             <button class="tab-btn" onclick="switchTab('tab-bosses')">Metas</button>
+            <button class="tab-btn" onclick="switchTab('tab-hospital')">Hospital</button>
             <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-battles')">Batallas</button> -->
             <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-bestiary')">Bestiario</button> -->
             <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-inventory')">Inventario</button> -->
@@ -156,6 +158,7 @@
             <button class="mobile-menu-item" onclick="switchTab('tab-runes')">Runas</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-events')">Eventos</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-bosses')">Metas</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-hospital')">Hospital</button>
             <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-battles')">Batallas</button> -->
             <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-bestiary')">Bestiario</button> -->
             <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-inventory')">Inventario</button> -->
@@ -399,6 +402,37 @@
                 </div>
                 <br>
                 <div id="boss-record-container" class="boss-record-list"></div>
+            </div>
+        </div>
+
+        <!-- ========== PESTAÑA HOSPITAL ========== -->
+        <div id="tab-hospital" class="tab-content">
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Estado del Paciente</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <div id="hospital-status"></div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Farmacia — Medicinas</span>
+                    <span class="section-ornament"></span>
+                    <span class="section-counter" id="hospital-med-count"></span>
+                </div>
+                <br>
+                <div id="hospital-medicines" class="hospital-grid"></div>
+            </div>
+
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Tratamientos</span>
+                    <span class="section-ornament"></span>
+                    <span class="section-counter" id="hospital-trt-count"></span>
+                </div>
+                <br>
+                <div id="hospital-treatments" class="hospital-grid"></div>
             </div>
         </div>
 
@@ -847,6 +881,7 @@
     <script src="js/daily-missions.js"></script>
     <script src="js/dlc-missions.js"></script>
     <script src="js/events-dungeons.js"></script>
+    <script src="js/hospital.js"></script>
     <script src="js/bosses.js"></script>
     <script src="js/battles.js"></script>
     <script src="js/bestiary.js"></script>

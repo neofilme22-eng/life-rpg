@@ -78,7 +78,7 @@
                                 function checkInactivityDamage() {
                                     if (player.gameOver) return;
 
-                                    var todayStr = new Date().toISOString().split('T')[0];
+                                    var todayStr = localDateStr();
 
                                     if (!player.lastActiveDate) {
                                         player.lastActiveDate = todayStr;

@@ -50,6 +50,7 @@
                         if (!player.pp) player.pp = 0;
                         if (!player.defeatedChamps) player.defeatedChamps = {};
                         if (!player.logbook) player.logbook = [];
+                        if (!player.hospital) player.hospital = { cooldowns: {}, progress: {} };
                         if (parsed.totalExpEarned === undefined) {
                             player.totalExpEarned = player.logbook.reduce(function (s, d) { return s + (d.totalExp || 0); }, 0);
                         }

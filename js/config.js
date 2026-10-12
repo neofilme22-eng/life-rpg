@@ -17,6 +17,14 @@ const FEATURES = {
     pp: false          // PP al canalizar runas
 };
 
+// Fecha YYYY-MM-DD en hora LOCAL del dispositivo (Argentina), no en UTC.
+// Con UTC, después de las 21:00 (UTC-3) el "día" ya contaba como el siguiente.
+function localDateStr(d) {
+    d = d || new Date();
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' : '') + m + '-' + (day < 10 ? '0' : '') + day;
+}
+
 // Texto de ORO para toasts/tarjetas: vacío si el ORO está deshabilitado.
 function goldText(n) {
     return (typeof FEATURES !== 'undefined' && FEATURES.gold) ? ', +' + n + ' ORO' : '';
@@ -31,6 +39,7 @@ const defaultPlayer = {
     exp: 0,
     expToNextLevel: 140,
     totalExpEarned: 0,
+    hospital: { cooldowns: {}, progress: {} },
     gold: 0,
     pp: 0,
     hp: 100,

@@ -22,7 +22,7 @@
                     if (!missions || missions.length === 0) return;
 
                     var today = new Date();
-                    var todayStr = today.toISOString().split('T')[0];
+                    var todayStr = localDateStr(today);
 
                     var filtered = missions.filter(function (m) {
                         if (!m.date) return false;
@@ -57,7 +57,7 @@
                     var missions = loadDailyMissions();
 
                     var today = new Date();
-                    var dateStr = today.toISOString().split('T')[0];
+                    var dateStr = localDateStr(today);
 
                     var newMission = {
                         id: 'daily_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
@@ -150,7 +150,7 @@
                     if (mission.completed) return false;
 
                     var now = new Date();
-                    var todayStr = now.toISOString().split('T')[0];
+                    var todayStr = localDateStr(now);
                     var missionDateStr = mission.date;
 
                     if (missionDateStr < todayStr) return true;
@@ -183,7 +183,7 @@
                         }
                     });
 
-                    var todayStr = new Date().toISOString().split('T')[0];
+                    var todayStr = localDateStr();
                     var todaysMissions = missions.filter(function (m) { return m.date === todayStr; });
                     var zeroMissionDay = todaysMissions.length > 0 && todaysMissions.every(function (m) {
                         return !m.completed && m.penaltyApplied;

@@ -5,7 +5,7 @@
 // así que todo lo que necesita la app queda guardado localmente.
 // ============================================================
 
-const CACHE_VERSION = 'life-rpg-v7';
+const CACHE_VERSION = 'life-rpg-v8';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_SHELL = [
@@ -51,6 +51,7 @@ const APP_SHELL = [
     "css/logbook.css",
     "css/missions.css",
     "css/noir.css",
+    "css/hospital.css",
     "css/pet.css",
     "css/responsive.css",
     "css/runes.css",
@@ -70,6 +71,7 @@ const APP_SHELL = [
     "js/damage-system.js",
     "js/dlc-missions.js",
     "js/events-dungeons.js",
+    "js/hospital.js",
     "js/gameover.js",
     "js/hud.js",
     "js/icon-utils.js",

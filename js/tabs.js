@@ -40,6 +40,7 @@
                 }
                 if (tabId === 'tab-runes') renderRunes();
                 if (tabId === 'tab-events') renderEvents();
+                if (tabId === 'tab-hospital') renderHospital();
                 if (tabId === 'tab-config') {
                     loadDifficulty();
                 }
