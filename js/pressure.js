@@ -1,7 +1,7 @@
 // ============================================================
 // ===== PRESIÓN: daño extra por descuido y evento sorpresa =====
-// Todo el daño va en % del HP máximo (así sigue pesando al subir de nivel)
-// y se multiplica por la dificultad y por la Tensión (ver damage-system.js).
+// Todo el daño va en HP fijos y se multiplica por la dificultad y por la Tensión (ver damage-system.js).
+// Metas, eventos y runas pueden traer `damage` en su JSON para fijar su propio daño (no se muestra en las tarjetas).
 // ============================================================
 
 var PRESSURE_DAY_MS = 86400000;
@@ -23,7 +23,7 @@ function lastDailyDoneFromLog() {
     return last;
 }
 
-// Silencio Radial: 3 días seguidos sin completar ninguna tarea diaria -> 10% del HP (se repite cada 3 días)
+// Silencio Radial: 3 días seguidos sin completar ninguna tarea diaria -> 10 HP (se repite cada 3 días)
 function checkSilencioRadial() {
     var today = localDateStr();
     if (!player.lastDailyDoneDate) {
@@ -35,12 +35,12 @@ function checkSilencioRadial() {
     if (silent < 3) return;
     if (player.silenceLastHit && daysBetweenStr(player.silenceLastHit, today) < 3) return;
     player.silenceLastHit = today;
-    applyDamagePct(10, 'Silencio radial: ' + silent + ' días sin completar tareas diarias', 0);
-    showToast('Llevás ' + silent + ' días sin completar ninguna tarea diaria. Silencio radial: -10% de tu HP.', 'warning', 'Silencio Radial');
+    applyDamage(10, 'Silencio radial: ' + silent + ' días sin completar tareas diarias', 0);
+    showToast('Llevás ' + silent + ' días sin completar ninguna tarea diaria. Silencio radial: -10 HP.', 'warning', 'Silencio Radial');
     saveGame();
 }
 
-// Caso Frío: ninguna meta tuvo una tarea cumplida en 30 días -> 10% del HP (se repite cada 30 días)
+// Caso Frío: ninguna meta tuvo una tarea cumplida en 30 días -> 10 HP (se repite cada 30 días)
 function checkColdCase() {
     var active = (player.bosses || []).filter(function (b) { return !b.defeated && !b.vencido; });
     if (!active.length) return;
@@ -49,12 +49,12 @@ function checkColdCase() {
     var ref = Math.max(player.goalLastTaskAt, player.coldCaseLastHit || 0);
     if (now - ref < 30 * PRESSURE_DAY_MS) return;
     player.coldCaseLastHit = now;
-    applyDamagePct(10, 'Caso frío: ninguna meta tuvo avances en 30 días', 0);
-    showToast('Ninguna de tus metas avanzó en 30 días. Caso frío: -10% de tu HP.', 'warning', 'Caso Frío');
+    applyDamage(10, 'Caso frío: ninguna meta tuvo avances en 30 días', 0);
+    showToast('Ninguna de tus metas avanzó en 30 días. Caso frío: -10 HP.', 'warning', 'Caso Frío');
     saveGame();
 }
 
-// Reloj en Contra: pasó la mitad del plazo de una meta y no completaste ni una tarea -> 20% del HP (una vez por meta)
+// Reloj en Contra: pasó la mitad del plazo de una meta y no completaste ni una tarea -> 20 HP, o 2/3 del daño de la meta (una vez por meta)
 function checkGoalClock() {
     var now = Date.now(), dirty = false;
     (player.bosses || []).forEach(function (b) {
@@ -67,14 +67,15 @@ function checkGoalClock() {
         if (now >= half && now < end && done === 0) {
             b.clockPenalty = true;
             dirty = true;
-            applyDamagePct(20, 'Reloj en contra: la meta "' + b.name + '" va por la mitad del plazo sin avances', 0);
-            showToast('La meta "' + b.name + '" pasó la mitad del plazo sin ningún avance. Reloj en contra: -20% de tu HP.', 'error', 'Reloj en Contra');
+            var clockDmg = Math.ceil(contentDamage(b, 30) * 2 / 3);
+            applyDamage(clockDmg, 'Reloj en contra: la meta "' + b.name + '" va por la mitad del plazo sin avances', 0);
+            showToast('La meta "' + b.name + '" pasó la mitad del plazo sin ningún avance. Reloj en contra: -' + clockDmg + ' HP.', 'error', 'Reloj en Contra');
         }
     });
     if (dirty) saveGame();
 }
 
-// Pista que se Enfría: evento iniciado, pasó la mitad de su tiempo y no marcaste ninguna tarea -> 8% del HP (una vez por evento)
+// Pista que se Enfría: evento iniciado, pasó la mitad de su tiempo y no marcaste ninguna tarea -> 8 HP, o ~1/3 del daño del evento (una vez por evento)
 function checkEventCooling() {
     if (typeof cargarEventos !== 'function') return;
     var evs = cargarEventos(), now = Date.now(), changed = false;
@@ -87,8 +88,9 @@ function checkEventCooling() {
         if (now >= half && now < end && done === 0) {
             e.coolPenalty = true;
             changed = true;
-            applyDamagePct(8, 'Pista que se enfría: el evento "' + e.title + '" va por la mitad del tiempo sin avances', 0);
-            showToast('El evento "' + e.title + '" va por la mitad del tiempo sin avances. Pista que se enfría: -8% de tu HP.', 'warning', 'Pista que se Enfría');
+            var coolDmg = Math.ceil(contentDamage(e, 25) * 0.32);
+            applyDamage(coolDmg, 'Pista que se enfría: el evento "' + e.title + '" va por la mitad del tiempo sin avances', 0);
+            showToast('El evento "' + e.title + '" va por la mitad del tiempo sin avances. Pista que se enfría: -' + coolDmg + ' HP.', 'warning', 'Pista que se Enfría');
         }
     });
     if (changed) guardarEventos();
@@ -96,10 +98,10 @@ function checkEventCooling() {
 
 // ============================================================
 // ===== EVENTO SORPRESA =====
-// Aparece al azar (cada ~1 semana). Tenés 24 h para resolverlo: si no, -40% del HP.
+// Aparece al azar (cada ~1 semana). Tenés 24 h para resolverlo: si no, -40 HP.
 // ============================================================
 
-var SURPRISE_DAMAGE_PCT = 40;
+var SURPRISE_DAMAGE = 40;
 var SURPRISE_WINDOW_H = 24;
 var SURPRISE_MIN_GAP_DAYS = 4;
 var SURPRISE_DAILY_CHANCE = 0.35;
@@ -145,9 +147,8 @@ function surpriseEnsure() {
 }
 
 function surpriseDamageEstimate() {
-    var base = Math.max(1, Math.round(player.maxHp * SURPRISE_DAMAGE_PCT / 100));
     var mult = getDifficultyMultipliers();
-    return Math.floor(base * mult.damageMod * tensionMultiplier());
+    return Math.floor(SURPRISE_DAMAGE * mult.damageMod * tensionMultiplier());
 }
 
 function checkSurprise() {
@@ -158,8 +159,8 @@ function checkSurprise() {
         if (now > s.active.expiresAt) {
             var failed = s.active;
             s.active = null;
-            applyDamagePct(SURPRISE_DAMAGE_PCT, 'Evento sorpresa "' + failed.title + '" sin resolver', 0);
-            showToast('No resolviste "' + failed.title + '" a tiempo. -' + SURPRISE_DAMAGE_PCT + '% de tu HP.', 'error', 'Evento Sorpresa');
+            applyDamage(SURPRISE_DAMAGE, 'Evento sorpresa "' + failed.title + '" sin resolver', 0);
+            showToast('No resolviste "' + failed.title + '" a tiempo. -' + SURPRISE_DAMAGE + ' HP.', 'error', 'Evento Sorpresa');
             saveGame();
             updateSurpriseAlert();
             renderSurprise();
@@ -240,7 +241,7 @@ function renderSurprise() {
         '<span class="section-counter surprise-timer">' + surpriseFmt(left) + '</span></div>' +
         '<div class="surprise-card">' +
         '<h3 class="surprise-name">' + a.title + '</h3>' +
-        '<div class="surprise-warn">Si no lo resolvés antes de que se acabe el tiempo, perdés el ' + SURPRISE_DAMAGE_PCT + '% de tu HP (unos ' + surpriseDamageEstimate() + ' HP).</div>' +
+        '<div class="surprise-warn">Si no lo resolvés antes de que se acabe el tiempo, perdés ' + surpriseDamageEstimate() + ' HP.</div>' +
         '<div class="surprise-progress">' + done + ' / ' + a.tasks.length + ' tareas</div>' +
         '<div class="surprise-tasks">' + tasks + '</div>' +
         '<div class="card-reward"><span class="reward-chip">Recompensa: +' + a.exp + ' EXP</span></div>' +

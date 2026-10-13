@@ -112,11 +112,12 @@ function renderEvents() {
                 evt.status = 'finished';
                 evt.finishedAt = Date.now();
 
-                var damageAmount = Math.max(8, Math.ceil(25 * (1 - porcentaje)));
+                var baseDmg = contentDamage(evt, 25);
+                var damageAmount = Math.max(Math.ceil(baseDmg * 0.32), Math.ceil(baseDmg * (1 - porcentaje)));
                 var petDamage = Math.ceil(damageAmount / 2);
 
                 if (typeof applyDamage === 'function') {
-                    applyDamagePct(damageAmount, 'Evento "' + evt.title + '" expiró sin completar', petDamage);
+                    applyDamage(damageAmount, 'Evento "' + evt.title + '" expiró sin completar', petDamage);
                 }
                 if (typeof addLogEntry === 'function') {
                     addLogEntry('dungeon', 'Evento "' + evt.title + '" expiró', completadas + '/' + total + ' tareas', 0, 0, null);
@@ -872,6 +873,7 @@ function addSampleEvents() {
             completedDate: null,
             endTime: null,
             createdAt: Date.now(),
+            damage: Number(s.damage) > 0 ? Math.round(Number(s.damage)) : null,
             expReward: s.expReward || Math.floor(s.duration * 2) + 5,
             goldReward: s.goldReward || Math.floor(s.duration * 1.5) + 3,
             period: s.period || 'once'
@@ -985,6 +987,7 @@ function importEventsConfig(event) {
                     completedDate: null,
                     endTime: null,
                     createdAt: Date.now(),
+                    damage: Number(s.damage) > 0 ? Math.round(Number(s.damage)) : null,
                     expReward: s.expReward || Math.floor((s.duration || 3) * 2) + 5,
                     goldReward: s.goldReward || Math.floor((s.duration || 3) * 1.5) + 3,
                     period: s.period || 'once'

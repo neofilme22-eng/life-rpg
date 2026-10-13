@@ -1069,3 +1069,10 @@ input::placeholder, textarea::placeholder {
     .trophy-card .trophy-icon img { max-width: 44px; max-height: 44px; }
     .trophy-card .trophy-name { font-size: 1rem; }
 }
+
+/* Íconos de metas en color (el del historial queda en sepia) */
+.boss-title-icon, .boss-icon { filter: none; }
+
+/* Runa: el ícono está en sepia hasta que la canalizás; entonces pasa a color */
+#rune-container .rune-card.completed .rune-icon,
+#rune-container .rune-card.channeling .rune-icon { filter: none; }

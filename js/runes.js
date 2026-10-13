@@ -102,11 +102,16 @@ function handleRuneClick(event, runeId) {
     }, 400);
 }
 
-// Lo que Costó Construir: cuanto más larga era la racha perdida, más duele (3% a 20% del HP por runa, tope 40%)
-function runeStreakDamagePct(lost) {
-    var sum = 0;
-    lost.forEach(function (r) { sum += Math.min(20, Math.max(3, r.streak || 0)); });
-    return Math.min(40, sum);
+// Lo que Costó Construir: cuanto más larga era la racha perdida, más duele (1 HP por día de racha, mínimo 3).
+// Cada runa puede fijar su tope con `damage` en el JSON (predeterminado 20). Tope total por cambio de día: 40 HP.
+function runeStreakDamage(lost) {
+    var sum = 0, maxCap = 40;
+    lost.forEach(function (r) {
+        var cap = r.cap > 0 ? r.cap : 20;
+        if (cap > maxCap) maxCap = cap;
+        sum += Math.min(cap, Math.max(3, r.streak || 0));
+    });
+    return Math.min(maxCap, sum);
 }
 
 function checkAndResetRunes() {
@@ -134,7 +139,7 @@ function checkAndResetRunes() {
             } else if (r.streak > 0) {
                 var oldStreak = r.streak;
                 r.streak = 0;
-                lostRunes.push({ name: r.title, streak: oldStreak });
+                lostRunes.push({ name: r.title, streak: oldStreak, cap: r.damage });
             }
         });
 
@@ -142,20 +147,20 @@ function checkAndResetRunes() {
 
         // Ritual a Medias: ayer canalizaste menos de la mitad de tus runas
         if (lastReset && totalBefore > 0 && doneBefore * 2 < totalBefore) {
-            applyDamagePct(5, 'Ritual a medias: ' + doneBefore + ' de ' + totalBefore + ' runas canalizadas', 0);
-            showToast('Ayer canalizaste ' + doneBefore + ' de ' + totalBefore + ' runas. Ritual a medias: -5% de tu HP.', 'warning', 'Runas');
+            applyDamage(5, 'Ritual a medias: ' + doneBefore + ' de ' + totalBefore + ' runas canalizadas', 0);
+            showToast('Ayer canalizaste ' + doneBefore + ' de ' + totalBefore + ' runas. Ritual a medias: -5 HP.', 'warning', 'Runas');
         }
 
         if (lostRunes.length > 0) {
-            var damageAmount = runeStreakDamagePct(lostRunes);
-            applyDamagePct(damageAmount, 'Pérdida automática de rachas de runas', 0);
+            var damageAmount = runeStreakDamage(lostRunes);
+            applyDamage(damageAmount, 'Pérdida automática de rachas de runas', 0);
 
             var msg = 'Nuevo día: ' + todayStr + '\n\n';
             msg += '' + lostRunes.length + ' runa(s) perdieron su racha:\n';
             lostRunes.forEach(function (r) {
                 msg += '• ' + r.name + ' (perdió ' + r.streak + ' días)\n';
             });
-            msg += '\nDaño recibido: ' + damageAmount + '% de tu HP';
+            msg += '\nDaño recibido: ' + damageAmount + ' HP';
 
             showToast(msg, 'warning', 'Runas - Nuevo Día');
             addLogEntry('damage', 'Pérdida automática de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);
@@ -214,21 +219,21 @@ function executeManualResetRunes(todayStr) {
         } else if (r.streak > 0) {
             var oldStreak = r.streak;
             r.streak = 0;
-            lostRunes.push({ name: r.title, streak: oldStreak });
+            lostRunes.push({ name: r.title, streak: oldStreak, cap: r.damage });
         }
     });
 
     player.lastRuneReset = todayStr;
 
     if (lostRunes.length > 0) {
-        var damageAmount = runeStreakDamagePct(lostRunes);
-        applyDamagePct(damageAmount, 'Pérdida manual de rachas de runas', 0);
+        var damageAmount = runeStreakDamage(lostRunes);
+        applyDamage(damageAmount, 'Pérdida manual de rachas de runas', 0);
 
         var msg = '' + lostRunes.length + ' runa(s) perdieron su racha:\n';
         lostRunes.forEach(function (r) {
             msg += '• ' + r.name + ' (perdió ' + r.streak + ' días)\n';
         });
-        msg += '\nDaño recibido: ' + damageAmount + '% de tu HP';
+        msg += '\nDaño recibido: ' + damageAmount + ' HP';
 
         showToast(msg, 'warning', 'Runas Reiniciadas');
         addLogEntry('damage', 'Pérdida manual de rachas de runas', lostRunes.map(function (r) { return r.name + ' (' + r.streak + 'd)'; }).join(', '), 0, 0, null);

@@ -132,6 +132,7 @@
                                                             attr: r.attr || "disciplina",
                                                             expReward: r.expReward || 10,
                                                             goldReward: r.goldReward || 5,
+                                                            damage: Number(r.damage) > 0 ? Math.round(Number(r.damage)) : null,
                                                             totalExp: 0,
                                                             streak: 0,
                                                             completed: false
@@ -244,6 +245,7 @@
                                                         image: b.image || null,
                                                         desc: b.desc || b.description || '',
                                                         deadline: b.deadline || null,
+                                                        damage: Number(b.damage) > 0 ? Math.round(Number(b.damage)) : null,
                                                         tasks: b.tasks || [],
                                                         taskStatus: (b.tasks || []).map(function () { return false; }),
                                                         defeated: false,

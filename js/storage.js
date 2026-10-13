@@ -50,6 +50,12 @@
                         if (!player.pp) player.pp = 0;
                         if (!player.defeatedChamps) player.defeatedChamps = {};
                         if (!player.logbook) player.logbook = [];
+                        // HP lineal: 100 + 5 por nivel (antes crecía 5% compuesto). Se normaliza una sola vez.
+                        if (player.hpModel !== 'linear') {
+                            player.maxHp = 100 + 5 * ((player.level || 1) - 1);
+                            player.hp = Math.min(player.hp, player.maxHp);
+                            player.hpModel = 'linear';
+                        }
                         if (!player.hospital) player.hospital = { cooldowns: {}, progress: {} };
                         if (parsed.totalExpEarned === undefined) {
                             player.totalExpEarned = player.logbook.reduce(function (s, d) { return s + (d.totalExp || 0); }, 0);

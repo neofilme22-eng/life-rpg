@@ -166,7 +166,7 @@
                     player.level++;
                     levelsGained++;
                     player.expToNextLevel = nextLevelExp(player.level);
-                    player.maxHp = Math.floor(player.maxHp * 1.05);
+                    player.maxHp += 5;
                     addLogEntry('level', '¡Nivel ' + player.level + '!', 'Subida de nivel', 0, 0, null);
                 }
                 if (levelsGained > 0) {

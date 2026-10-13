@@ -30,11 +30,10 @@
                                     t.lastHitDay = today;
                                 }
 
-                                // Daño como porcentaje del HP máximo (así sigue pesando al subir de nivel)
-                                function applyDamagePct(pct, source, petDamage) {
-                                    var amount = Math.max(1, Math.round(player.maxHp * pct / 100));
-                                    applyDamage(amount, source, petDamage);
-                                    return amount;
+                                // Daño fijo definido por el contenido: si el JSON trae `damage`, se usa ese valor; si no, el predeterminado.
+                                function contentDamage(obj, fallback) {
+                                    var d = Number(obj && obj.damage);
+                                    return d > 0 ? Math.round(d) : fallback;
                                 }
 
                                 function applyDamage(amount, source, petDamage) {
@@ -137,7 +136,7 @@
                                         var damageAmount = Math.min(60, inactiveDays * 10);
                                         var petDamage = Math.min(30, inactiveDays * 5);
 
-                                        applyDamagePct(damageAmount, diffDays + ' días sin abrir el juego', petDamage);
+                                        applyDamage(damageAmount, diffDays + ' días sin abrir el juego', petDamage);
                                         addLogEntry('damage', '🌧️ La ciudad no te esperó: ' + diffDays + ' días sin aparecer', '-' + damageAmount + ' HP', 0, 0, null);
                                         showToast('🌧️ Estuviste ' + diffDays + ' días sin jugar. La rutina te pasó factura: -' + damageAmount + ' HP', 'error', 'Inactividad');
                                     }

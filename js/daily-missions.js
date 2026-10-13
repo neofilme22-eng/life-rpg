@@ -180,7 +180,7 @@
                             m.penaltyApplied = true;
                             damageCount++;
                             changed = true;
-                            applyDamagePct(15, 'Tarea diaria vencida: "' + m.title + '"', 8);
+                            applyDamage(15, 'Tarea diaria vencida: "' + m.title + '"', 8);
                         }
                     });
 
@@ -192,7 +192,7 @@
 
                     if (zeroMissionDay && player.lastZeroMissionDayPenalty !== todayStr) {
                         player.lastZeroMissionDayPenalty = todayStr;
-                        applyDamagePct(15, 'Día completo sin ninguna tarea diaria completada', 8);
+                        applyDamage(15, 'Día completo sin ninguna tarea diaria completada', 8);
                         addLogEntry('daily', 'Día perdido: ninguna tarea diaria completada', '', 0, 0, null);
                         showToast('No completaste ninguna tarea diaria hoy. Daño extra.', 'error', 'Tareas');
                         saveGame();

@@ -69,7 +69,7 @@
                                     boss.vencido = true;
                                     updated = true;
                                     addLogEntry('boss', 'Meta "' + boss.name + '" vencida', 'Se acabó el plazo', 0, 0, null);
-                                    applyDamagePct(30, 'Meta vencida', 15);
+                                    applyDamage(contentDamage(boss, 30), 'Meta vencida: "' + boss.name + '"', 15);
                                 }
                             });
 
