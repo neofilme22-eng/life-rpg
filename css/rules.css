@@ -1,0 +1,45 @@
+/* ================================================================
+   REGLAMENTO — artículos con tablas en máquina de escribir
+   ================================================================ */
+
+.rules-body { margin-top: 12px; }
+.rules-p { margin: 12px 0 8px; font-size: 0.92rem; line-height: 1.7; color: var(--bone-dim); }
+.rules-p b { color: var(--text); font-weight: normal; border-bottom: 1px dashed rgba(193, 152, 71, 0.5); }
+
+.rules-wrap { overflow-x: auto; margin: 6px 0 12px; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.rules-wrap::-webkit-scrollbar { height: 6px; }
+.rules-wrap::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+.rules-table { width: 100%; border-collapse: collapse; min-width: 420px; }
+.rules-table th {
+    text-align: left;
+    font-family: var(--font-label); font-weight: normal; font-size: 0.66rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--brass-light);
+    padding: 8px 10px;
+    border-bottom: 1px solid color-mix(in srgb, var(--brass) 40%, transparent);
+}
+.rules-table td {
+    vertical-align: top;
+    padding: 9px 10px;
+    font-size: 0.84rem; line-height: 1.5;
+    color: var(--bone-dim);
+    border-bottom: 1px dashed rgba(227, 220, 200, 0.1);
+}
+.rules-table td:first-child { color: var(--text); font-family: var(--font-display); font-size: 0.95rem; }
+.rules-table tr.current td { background: rgba(193, 152, 71, 0.07); color: var(--text); }
+
+.rules-tag {
+    display: inline-block;
+    font-family: var(--font-label); font-size: 0.74rem; letter-spacing: 0.5px;
+    color: var(--brass-light);
+    background: rgba(193, 152, 71, 0.08);
+    border: 1px solid rgba(193, 152, 71, 0.25);
+    border-radius: 2px;
+    padding: 0 6px;
+    margin: 1px 2px;
+}
+.rules-code { font-family: var(--font-label); font-size: 0.74rem; line-height: 1.7; color: var(--fog); overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+    .rules-table td, .rules-table th { padding: 7px 8px; }
+}

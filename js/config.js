@@ -40,6 +40,7 @@ const defaultPlayer = {
     expToNextLevel: 140,
     totalExpEarned: 0,
     hospital: { cooldowns: {}, progress: {} },
+    contacts: [],
     gold: 0,
     pp: 0,
     hp: 100,

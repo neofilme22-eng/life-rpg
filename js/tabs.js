@@ -41,6 +41,8 @@
                 if (tabId === 'tab-runes') renderRunes();
                 if (tabId === 'tab-events') { renderEvents(); renderSurprise(); }
                 if (tabId === 'tab-hospital') renderHospital();
+                if (tabId === 'tab-contacts') renderContacts();
+                if (tabId === 'tab-rules') renderRules();
                 if (tabId === 'tab-config') {
                     loadDifficulty();
                 }

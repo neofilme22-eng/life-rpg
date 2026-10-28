@@ -57,6 +57,7 @@
                             player.hpModel = 'linear';
                         }
                         if (!player.hospital) player.hospital = { cooldowns: {}, progress: {} };
+                        if (!player.contacts) player.contacts = [];
                         if (parsed.totalExpEarned === undefined) {
                             player.totalExpEarned = player.logbook.reduce(function (s, d) { return s + (d.totalExp || 0); }, 0);
                         }

@@ -90,6 +90,10 @@ function rBuildMessage() {
             var checked = (player.moodLog || []).some(function (e) { return e.date === today; });
             if (!checked) ctxMsgs.push(['📊 ¿Cómo estás hoy?', 'Hacé tu check-in de ánimo, tarda 5 segundos.']);
         }
+        if (typeof getOverdueContacts === 'function') {
+            var dueContacts = getOverdueContacts().length;
+            if (dueContacts > 0) ctxMsgs.push(['Libreta de contactos', 'Tenés ' + dueContacts + (dueContacts === 1 ? ' persona' : ' personas') + ' a las que les toca un mensaje o una llamada.']);
+        }
         if (ctxMsgs.length && Math.random() < 0.6) return ctxMsgs[Math.floor(Math.random() * ctxMsgs.length)];
     } catch (e) { }
     return R_GENERIC_MESSAGES[Math.floor(Math.random() * R_GENERIC_MESSAGES.length)];

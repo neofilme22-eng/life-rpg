@@ -41,6 +41,8 @@
     <link rel="stylesheet" href="css/wellbeing.css">
     <link rel="stylesheet" href="css/noir.css">
     <link rel="stylesheet" href="css/hospital.css">
+    <link rel="stylesheet" href="css/contacts.css">
+    <link rel="stylesheet" href="css/rules.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 
@@ -137,6 +139,7 @@
             <button class="tab-btn" onclick="switchTab('tab-events')">Eventos</button>
             <button class="tab-btn" onclick="switchTab('tab-bosses')">Metas</button>
             <button class="tab-btn" onclick="switchTab('tab-hospital')">Hospital</button>
+            <button class="tab-btn" onclick="switchTab('tab-contacts')">Contactos</button>
             <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-battles')">Batallas</button> -->
             <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-bestiary')">Bestiario</button> -->
             <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-inventory')">Inventario</button> -->
@@ -145,6 +148,7 @@
             <!-- DESHABILITADO: <button class="tab-btn" onclick="switchTab('tab-shop')">Tienda</button> -->
             <button class="tab-btn" onclick="switchTab('tab-trophies')">Trofeos</button>
             <button class="tab-btn" onclick="switchTab('tab-stats')">Estadísticas</button>
+            <button class="tab-btn" onclick="switchTab('tab-rules')">Reglamento</button>
             <button class="tab-btn" onclick="switchTab('tab-config')">Configuración</button>
         </div>
 
@@ -159,6 +163,7 @@
             <button class="mobile-menu-item" onclick="switchTab('tab-events')">Eventos</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-bosses')">Metas</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-hospital')">Hospital</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-contacts')">Contactos</button>
             <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-battles')">Batallas</button> -->
             <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-bestiary')">Bestiario</button> -->
             <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-inventory')">Inventario</button> -->
@@ -167,6 +172,7 @@
             <!-- DESHABILITADO: <button class="mobile-menu-item" onclick="switchTab('tab-shop')">Tienda</button> -->
             <button class="mobile-menu-item" onclick="switchTab('tab-trophies')">Trofeos</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-stats')">Estadísticas</button>
+            <button class="mobile-menu-item" onclick="switchTab('tab-rules')">Reglamento</button>
             <button class="mobile-menu-item" onclick="switchTab('tab-config')">Configuración</button>
         </nav>
 
@@ -435,6 +441,71 @@
                 <br>
                 <div id="hospital-treatments" class="hospital-grid"></div>
             </div>
+        </div>
+
+        <!-- ========== PESTAÑA CONTACTOS ========== -->
+        <div id="tab-contacts" class="tab-content">
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Libreta de Contactos</span>
+                    <span class="section-ornament"></span>
+                    <span class="section-counter" id="contacts-count"></span>
+                </div>
+                <br>
+                <div id="contacts-list" class="contacts-list"></div>
+            </div>
+
+            <div class="section-box" id="contact-form-box">
+                <div class="section-header">
+                    <span class="section-title" id="contact-form-title">Agregar Contacto</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <br>
+                <div class="contact-form">
+                    <div class="full">
+                        <label for="contact-name">Nombre</label>
+                        <input type="text" id="contact-name" maxlength="40" placeholder="¿A quién querés mantener cerca?">
+                    </div>
+                    <div>
+                        <label for="contact-tag">Vínculo</label>
+                        <select id="contact-tag">
+                            <option value="amistad">Amistad</option>
+                            <option value="familia">Familia</option>
+                            <option value="ligue">Ligue</option>
+                            <option value="pareja">Pareja</option>
+                            <option value="trabajo">Trabajo</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="contact-freq">Frecuencia deseada</label>
+                        <select id="contact-freq">
+                            <option value="1">Diaria</option>
+                            <option value="3">Cada 3 días</option>
+                            <option value="7" selected>Cada semana</option>
+                            <option value="30">Cada mes</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="contact-last">Último contacto (opcional)</label>
+                        <input type="date" id="contact-last">
+                    </div>
+                    <div>
+                        <label for="contact-note">Nota (opcional)</label>
+                        <input type="text" id="contact-note" maxlength="80" placeholder="Algo para recordar">
+                    </div>
+                    <div class="full contact-form-actions">
+                        <button class="action-btn" id="contact-save-btn" onclick="saveContact()">Agregar a la libreta</button>
+                        <button class="action-btn" id="contact-cancel-btn" style="display:none;" onclick="cancelContactEdit()">Cancelar</button>
+                    </div>
+                </div>
+                <p class="contact-hint">Tocá la ficha de una persona cuando hables con ella. Sumás EXP solo si ya tocaba (de 3 a 15 según la frecuencia, hasta 30 por día en total). La libreta nunca te quita HP: solo te avisa.</p>
+            </div>
+        </div>
+
+        <!-- ========== PESTAÑA REGLAMENTO ========== -->
+        <div id="tab-rules" class="tab-content">
+            <div id="rules-content"></div>
         </div>
 
         <!-- DESHABILITADO: Bestiario, Batallas, Inventario y Tienda.
@@ -884,6 +955,8 @@
     <script src="js/events-dungeons.js"></script>
     <script src="js/hospital.js"></script>
     <script src="js/pressure.js"></script>
+    <script src="js/contacts.js"></script>
+    <script src="js/rules.js"></script>
     <script src="js/bosses.js"></script>
     <script src="js/battles.js"></script>
     <script src="js/bestiary.js"></script>
