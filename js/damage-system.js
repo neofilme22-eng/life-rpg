@@ -55,6 +55,7 @@
                                     shakeScreen();
 
                                     registerTensionHit();
+                                    if (typeof checkStoryUnlocks === 'function') setTimeout(checkStoryUnlocks, 400);
                                     var logMsg = '💔 Recibiste ' + adjustedDamage + ' de daño';
                                     if (tension > 1) logMsg += ' (Tensión +' + Math.round((tension - 1) * 100) + '%)';
                                     if (petsOn && player.equipment && player.equipment.mascota && petDamage > 0) {

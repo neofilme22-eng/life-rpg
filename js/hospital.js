@@ -6,57 +6,57 @@
 // ============================================================
 
 var HOSPITAL_MEDICINES = [
-    { id: 'med_suero',          name: 'Suero Oral',          task: 'Tomar un vaso grande de agua (unos 500 ml), despacio.',                level: 1,  heal: 8,  cooldownH: 4 },
-    { id: 'med_vitd',           name: 'Vitamina D',          task: 'Salir 15 minutos a la luz natural, sin pantallas.',                    level: 1,  heal: 8,  cooldownH: 4 },
-    { id: 'med_fibra',          name: 'Fibra Natural',       task: 'Comer una fruta o una porción de verduras.',                           level: 1,  heal: 8,  cooldownH: 4 },
-    { id: 'med_magnesio',       name: 'Magnesio',            task: 'Estirar cuello, espalda y piernas durante 5 minutos.',                 level: 3,  heal: 12,  cooldownH: 4 },
-    { id: 'med_aire',           name: 'Aire Puro',           task: 'Ventilar el ambiente y respirar profundo durante 5 minutos.',          level: 3,  heal: 12,  cooldownH: 4 },
-    { id: 'med_probiotico',     name: 'Probiótico',          task: 'Hacer una comida sin ultraprocesados.',                                level: 3,  heal: 12,  cooldownH: 4 },
-    { id: 'med_melatonina',     name: 'Melatonina',          task: 'Apagar las pantallas 30 minutos antes de dormir.',                     level: 6,  heal: 20,  cooldownH: 6 },
-    { id: 'med_calmante',       name: 'Calmante Natural',    task: 'Hacer 10 minutos de respiración lenta o meditación.',                  level: 6,  heal: 20,  cooldownH: 6 },
-    { id: 'med_analgesico',     name: 'Analgésico Postural', task: 'Caminar 15 minutos sin el celular.',                                   level: 6,  heal: 20,  cooldownH: 6 },
-    { id: 'med_omega',          name: 'Omega 3',             task: 'Cocinar y comer una comida casera equilibrada.',                       level: 10, heal: 30, cooldownH: 6 },
-    { id: 'med_antiestres',     name: 'Antiestrés',          task: 'Escribir 10 minutos lo que te preocupa y cerrar la libreta.',          level: 10, heal: 30, cooldownH: 6 },
-    { id: 'med_complejob',      name: 'Complejo B',          task: 'Hacer 20 minutos de ejercicio moderado.',                              level: 15, heal: 40, cooldownH: 8 },
-    { id: 'med_reconstituyente', name: 'Reconstituyente',    task: 'Acostarte a la hora que te propusiste, sin postergar.',                level: 20, heal: 50, cooldownH: 8 }
+    { id: 'med_suero',          name: 'Suero Oral',          task: 'Tomar un vaso grande de agua (unos 500 ml), despacio.',                level: 1,  heal: 3,  cooldownH: 4 },
+    { id: 'med_vitd',           name: 'Vitamina D',          task: 'Salir 15 minutos a la luz natural, sin pantallas.',                    level: 1,  heal: 3,  cooldownH: 4 },
+    { id: 'med_fibra',          name: 'Fibra Natural',       task: 'Comer una fruta o una porción de verduras.',                           level: 1,  heal: 3,  cooldownH: 4 },
+    { id: 'med_magnesio',       name: 'Magnesio',            task: 'Estirar cuello, espalda y piernas durante 5 minutos.',                 level: 3,  heal: 5,  cooldownH: 4 },
+    { id: 'med_aire',           name: 'Aire Puro',           task: 'Ventilar el ambiente y respirar profundo durante 5 minutos.',          level: 3,  heal: 5,  cooldownH: 4 },
+    { id: 'med_probiotico',     name: 'Probiótico',          task: 'Hacer una comida sin ultraprocesados.',                                level: 3,  heal: 5,  cooldownH: 4 },
+    { id: 'med_melatonina',     name: 'Melatonina',          task: 'Apagar las pantallas 30 minutos antes de dormir.',                     level: 6,  heal: 8,  cooldownH: 6 },
+    { id: 'med_calmante',       name: 'Calmante Natural',    task: 'Hacer 10 minutos de respiración lenta o meditación.',                  level: 6,  heal: 8,  cooldownH: 6 },
+    { id: 'med_analgesico',     name: 'Analgésico Postural', task: 'Caminar 15 minutos sin el celular.',                                   level: 6,  heal: 8,  cooldownH: 6 },
+    { id: 'med_omega',          name: 'Omega 3',             task: 'Cocinar y comer una comida casera equilibrada.',                       level: 10, heal: 12, cooldownH: 6 },
+    { id: 'med_antiestres',     name: 'Antiestrés',          task: 'Escribir 10 minutos lo que te preocupa y cerrar la libreta.',          level: 10, heal: 12, cooldownH: 6 },
+    { id: 'med_complejob',      name: 'Complejo B',          task: 'Hacer 20 minutos de ejercicio moderado.',                              level: 15, heal: 16, cooldownH: 8 },
+    { id: 'med_reconstituyente', name: 'Reconstituyente',    task: 'Acostarte a la hora que te propusiste, sin postergar.',                level: 20, heal: 20, cooldownH: 8 }
 ];
 
 var HOSPITAL_TREATMENTS = [
-    { id: 'trt_hidro', name: 'Hidroterapia', level: 2, heal: 30, cooldownH: 24, tasks: [
+    { id: 'trt_hidro', name: 'Hidroterapia', level: 2, heal: 15, cooldownH: 24, tasks: [
         'Darte una ducha templada de 10 minutos, sin apuro',
         'Tomar 2 litros de agua a lo largo del día',
         'Evitar las bebidas azucaradas hoy',
         'Estirar 5 minutos al salir de la ducha'
     ] },
-    { id: 'trt_fisio', name: 'Fisioterapia Casera', level: 5, heal: 50, cooldownH: 24, tasks: [
+    { id: 'trt_fisio', name: 'Fisioterapia Casera', level: 5, heal: 25, cooldownH: 24, tasks: [
         'Entrar en calor con 5 minutos de movilidad articular',
         'Hacer 15 minutos de estiramientos o yoga suave',
         'Automasajear cuello y hombros durante 5 minutos',
         'Caminar 20 minutos a un ritmo cómodo',
         'Tomar agua al terminar la sesión'
     ] },
-    { id: 'trt_sueno', name: 'Terapia del Sueño', level: 8, heal: 70, cooldownH: 24, tasks: [
+    { id: 'trt_sueno', name: 'Terapia del Sueño', level: 8, heal: 35, cooldownH: 24, tasks: [
         'Definir hora de dormir y de despertar, y respetarlas',
         'No tomar cafeína después de las 15:00',
         'Apagar las pantallas una hora antes de dormir',
         'Dejar el cuarto oscuro y ventilado',
         'Dormir entre 7 y 8 horas'
     ] },
-    { id: 'trt_calma', name: 'Aromaterapia y Calma', level: 12, heal: 90, cooldownH: 36, tasks: [
+    { id: 'trt_calma', name: 'Aromaterapia y Calma', level: 12, heal: 45, cooldownH: 36, tasks: [
         'Ordenar y airear tu espacio',
         'Preparar un ambiente tranquilo: luz baja y música suave',
         'Hacer 15 minutos de respiración consciente',
         'Darte un baño o una ducha relajante',
         'Leer 20 minutos sin pantallas'
     ] },
-    { id: 'trt_dieta', name: 'Dieta Depurativa', level: 16, heal: 110, cooldownH: 36, tasks: [
+    { id: 'trt_dieta', name: 'Dieta Depurativa', level: 16, heal: 55, cooldownH: 36, tasks: [
         'Desayunar algo completo',
         'Comer tres porciones de frutas o verduras',
         'Pasar el día sin ultraprocesados',
         'Cenar liviano y temprano',
         'Tomar 2 litros de agua'
     ] },
-    { id: 'trt_rehab', name: 'Rehabilitación Completa', level: 22, heal: 140, cooldownH: 48, tasks: [
+    { id: 'trt_rehab', name: 'Rehabilitación Completa', level: 22, heal: 70, cooldownH: 48, tasks: [
         'Hacer 30 minutos de ejercicio',
         'Estirar 10 minutos al terminar',
         'Comer una comida casera equilibrada',
@@ -64,7 +64,7 @@ var HOSPITAL_TREATMENTS = [
         'No tomar alcohol hoy',
         'Dormir entre 7 y 8 horas'
     ] },
-    { id: 'trt_chequeo', name: 'Chequeo Médico', level: 25, heal: 160, cooldownH: 72, tasks: [
+    { id: 'trt_chequeo', name: 'Chequeo Médico', level: 25, heal: 80, cooldownH: 72, tasks: [
         'Sacar turno para un control (médico, dentista u otro)',
         'Ir al control y hacerte los estudios indicados',
         'Anotar las indicaciones que te dieron',
@@ -106,6 +106,7 @@ function hospitalApplyHeal(item, kind) {
     if (typeof addLogEntry === 'function') addLogEntry('heal', (kind === 'med' ? 'Medicina "' : 'Tratamiento "') + item.name + '"', '+' + healed + ' HP', 0, 0, null);
     if (typeof updateHUD === 'function') updateHUD();
     saveGame();
+    if (typeof checkStoryUnlocks === 'function') setTimeout(checkStoryUnlocks, 200);
     showToast(item.name + ': +' + healed + ' HP', 'success', kind === 'med' ? 'Farmacia' : 'Tratamiento');
     return healed;
 }

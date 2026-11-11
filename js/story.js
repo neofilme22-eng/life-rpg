@@ -1,13 +1,16 @@
 // ============================================================
-// ===== MODO HISTORIA — TEMPORADA 1: "BAHÍA CENIZA" =====
-// Thriller neo-noir. Tu progreso real (niveles, rituales, metas,
-// campañas) abre los capítulos. Algunos capítulos piden una decisión
-// y esas decisiones abren capítulos alternos y finales distintos.
+// ===== MODO HISTORIA — TEMPORADA 1: "PUERTO CALMA" =====
+// Thriller noir en primera persona. El progreso real (niveles, rituales,
+// metas, eventos, la libreta de contactos, el Hospital, el ánimo) abre los
+// capítulos. Algunos piden una decisión y esas decisiones cambian los capítulos
+// siguientes. El final depende del atributo que más desarrollaste, y queda
+// entreabierto para una próxima campaña.
 // ============================================================
 
 // Si cambia este valor, el progreso de la historia se reinicia (los capítulos nuevos no encajan con los viejos).
-const STORY_VERSION = 'noir-1';
+const STORY_VERSION = 'puerto-calma-1';
 
+// ---------- Contadores que leen tu progreso real ----------
 function dungeonsCompletadasCount(p) {
     if (!p.events) return 0;
     return p.events.filter(function (e) {
@@ -15,17 +18,29 @@ function dungeonsCompletadasCount(p) {
     }).length;
 }
 
-function dlcsCompletadosCount(p) {
-    if (!p.dlcs || !p.rawMissions) return 0;
-    return p.dlcs.filter(function (d) {
-        var missions = p.rawMissions.filter(function (m) { return m.dlcName === d.name; });
-        return missions.length > 0 && missions.every(function (m) { return m.completed; });
-    }).length;
-}
-
 function bossesDerrotadosCount(p) {
     return (p.bosses || []).filter(function (b) { return b.defeated; }).length;
 }
+
+function contactsCount(p) { return (p.contacts || []).length; }
+
+function contactsTalked(p) {
+    return (p.contacts || []).reduce(function (s, c) { return s + (c.count || 0); }, 0);
+}
+
+function healCount(p) {
+    return countLogEntries(p, function (e) { return e.type === 'heal'; });
+}
+
+function surpriseSolvedCount(p) {
+    return countLogEntries(p, function (e) { return (e.title || '').indexOf('Evento sorpresa') === 0 && /completado/i.test(e.title); });
+}
+
+function maxRuneStreak(p) {
+    return (p.rawRunes || []).reduce(function (m, r) { return Math.max(m, r.streak || 0); }, 0);
+}
+
+function everHurt(p) { return !!(p.tension && p.tension.lastHitDay); }
 
 function attr(p, key) {
     return (p.attributes && p.attributes[key]) || 1;
@@ -36,13 +51,33 @@ function storyChoice(p, chapterId) {
     return (p.storyChoices && p.storyChoices[chapterId]) || null;
 }
 
-// Cuántas decisiones "abiertas" tomaste (pedir ayuda, dejar la botella, decir la verdad en voz alta)
-function openCount(p) {
-    var n = 0;
-    if (storyChoice(p, 'n03_botella') === 'dejar') n++;
-    if (storyChoice(p, 'n06_lena') === 'aceptar') n++;
-    if (storyChoice(p, 'n09_nora') === 'llamar') n++;
-    return n;
+// El ánimo que anotaste por última vez, como palabra ("bien", "regular"...)
+function lastMoodWord(p) {
+    var log = p.moodLog || [];
+    if (!log.length) return 'sin registrar';
+    var last = log[log.length - 1];
+    var labels = (typeof MOOD_LABELS !== 'undefined') ? MOOD_LABELS : ['Muy mal', 'Mal', 'Regular', 'Bien', 'Muy bien'];
+    return labels[(last.mood || 3) - 1].toLowerCase();
+}
+
+// La voz de tu libreta: la persona a la que hace más tiempo que no le hablás
+function contactVoice(p) {
+    var list = p.contacts || [];
+    if (!list.length) return 'alguien a quien hace demasiado que no llamás';
+    var best = list[0], bestDays = -1;
+    list.forEach(function (c) {
+        var d = (typeof contactElapsed === 'function') ? contactElapsed(c) : 0;
+        if (d > bestDays) { bestDays = d; best = c; }
+    });
+    return escapeHtml(best.name);
+}
+
+// El atributo más desarrollado. Si empatan, gana el primero de este orden.
+const STORY_ATTR_ORDER = ['mente', 'relaciones', 'social', 'creatividad', 'disciplina', 'fuerza', 'carrera', 'finanzas'];
+function topAttrKey(p) {
+    var best = STORY_ATTR_ORDER[0];
+    STORY_ATTR_ORDER.forEach(function (k) { if (attr(p, k) > attr(p, best)) best = k; });
+    return best;
 }
 
 // Texto según qué atributo es mayor (a vs b); si empatan, tie
@@ -53,348 +88,614 @@ function cmpAttr(p, a, b, textA, textB, tie) {
     return tie;
 }
 
-function topAttrLine(p) {
-    var attrs = p.attributes || {};
-    var keys = Object.keys(attrs);
-    if (keys.length === 0) return '';
-    var topKey = keys.reduce(function (best, key) {
-        return attrs[key] > (attrs[best] || 0) ? key : best;
-    }, keys[0]);
-    var lines = {
-        fuerza: 'Lo ganaste a fuerza de no aflojar, de ponerle el cuerpo a cada mañana.',
-        disciplina: 'Lo ganaste con rutina, noche tras noche, sin excepciones heroicas.',
-        mente: 'Lo ganaste pensando cada paso antes de darlo, y nombrando cada impulso antes de obedecerlo.',
-        creatividad: 'Lo ganaste encontrando salidas que nadie más buscó.',
-        carrera: 'Lo ganaste construyendo algo con tu nombre, de a un ladrillo por día.',
-        finanzas: 'Lo ganaste con paciencia, cuidando lo que otros hubieran gastado sin mirar.',
-        social: 'Lo ganaste sin caminar nunca del todo solo por esta ciudad.',
-        relaciones: 'Lo ganaste gracias a los pocos vínculos en los que de verdad confiaste.'
-    };
-    return lines[topKey] || '';
-}
+// Párrafos separados
+function P() { return Array.prototype.slice.call(arguments).join('<br><br>'); }
 
 const STORY_CHAPTERS = [
-    // ───────────── ACTO I — LA NIEBLA ─────────────
+    // ───────────── ACTO I — LA LLEGADA ─────────────
     {
-        id: 'n01_bahia',
-        icon: '🌫️',
-        title: '3:07 a.m.',
+        id: 'c01_llegada',
+        act: 'Acto I — La Llegada',
+        icon: '🌧️',
+        title: '4:44 a.m.',
         check: function (p) { return true; },
-        text: 'Bahía Ceniza queda donde termina el mapa y empieza la niebla. A las 3:07 de la madrugada, El Último Faro es el único lugar con luz en tres cuadras, y vos sos el único cliente. Ismael te sirve el tercer whisky sin preguntar; hace dos años que dejó de preguntar. Hace dos años que dejaste la placa en un cajón, después del caso Rojas, y desde entonces la ciudad te devuelve el favor: no te pide nada. En la radio, una voz de mujer lee cartas de gente que no puede dormir. Entonces lo notás: en el bolsillo del saco hay una hoja doblada, escrita a máquina. Describe tu noche con exactitud quirúrgica: el tercer whisky, la radio, el frío en la nuca. Termina con una sola línea: «Mañana empezás. Firmado: Mañana.»'
+        text: P(
+            `El colectivo me dejó en Puerto Calma a las 4:44 de la madrugada, con ese suspiro de frenos de los vehículos que ya no esperan pasajeros. Bajé yo solo. La lluvia no caía: se quedaba, como una opinión que nadie se anima a discutir.`,
+            `Soy perito de siniestros de Mutual Horizonte. Mi trabajo es llegar cuando ya pasó todo y decidir cuánto vale lo que se perdió. No fumo —lo aclaro siempre primero, porque en estos pueblos fumar es una forma de saludar—, pero bebo: un whisky con una sola piedra de hielo, despacio, hasta que el vaso y yo dejamos de discutir. Me parece más honesto que el cigarrillo. El vaso, al menos, se vacía.`,
+            `En el bolsillo interior del saco llevaba el expediente: <em>Siniestro 1208. Asegurado: Teodoro Ibarra, propietario de La Conservera Ibarra. Incendio parcial. El asegurado figura desaparecido desde hace once años.</em> Mutual Horizonte quería cerrarlo: pagar a quien apareciera o archivarlo para siempre. Lo que nadie me explicó es por qué mandaban a alguien por un caso de once años, ni por qué el cheque tenía fecha de mañana.`,
+            `Sobre el puerto flotaba una niebla espesa que los vecinos llaman la Calma, con mayúscula y sin ironía. A las 4:44 sonó una sirena lejana, una sola, larga, que no avisaba de nada. Cuando terminó, el pueblo volvió a hacer ruido de pueblo, pero con un retardo, como una película mal doblada.`,
+            `<em>Me pregunté, con esa fiebre fría de siempre, si había venido a averiguar algo sobre el siniestro de otro o a esconderme dentro del mío. Fue la primera de las mil preguntas que no iba a poder contestar. Ya me había acostumbrado: una pregunta sin respuesta pesa menos si la llevás en el bolsillo del saco.</em>`,
+            `Al fondo de la calle mojada había un letrero que decía HOTEL ÁMBAR, en un neón que tartamudeaba. Caminé hacia la luz. Hay que caminar hacia algo.`
+        )
     },
     {
-        id: 'n02_primera_linea',
-        icon: '✏️',
-        title: 'La Primera Línea Propia',
-        check: function (p) { return (p.rawRunes || []).length >= 1; },
-        text: 'Esa noche no dormiste, pero hiciste algo distinto: agarraste un lápiz y escribiste una palabra al margen de la hoja, con tu letra torcida. «Hoy.» Después, un gesto chico: un vaso de agua en lugar del cuarto whisky, la cama hecha, algo que no vale la pena contar. Ismael los llama rituales. Vos, por ahora, los llamás «lo que hice hoy». Al amanecer la hoja había cambiado. La máquina de escribir no puede borrar lo que está escrito a lápiz; solo puede escribir alrededor. En el margen, tu «Hoy» seguía ahí, y la niebla de la ventana, esa que lleva meses pegada al vidrio, retrocedió un centímetro. Un centímetro. En Bahía Ceniza, un centímetro es una confesión.'
-    },
-    {
-        id: 'n03_botella',
-        icon: '🥃',
-        title: 'La Botella',
+        id: 'c02_bar',
+        act: 'Acto I — La Llegada',
+        icon: '🕰️',
+        title: 'El Bar de las Once',
         check: function (p) { return p.level >= 2; },
-        text: 'La segunda noche, Ismael te cobra y empuja la botella hacia vos: casi vacía de ganas, pero todavía con whisky. «Para el camino», dice sin mirarte, como quien ofrece un favor que sabe que es una trampa. Afuera la lluvia dibuja los mismos rieles de siempre. La hoja a máquina, plegada en tu bolsillo, pesa más que la botella. Tenés que decidir qué hacer con ella antes de cruzar la puerta.',
+        text: P(
+            `El Bar de las Once tiene once relojes en la pared y ninguno marca la misma hora. Cosme, el que atiende, dice que es para que nadie pueda decir que llegó tarde. Tiene las manos grandes de quien alguna vez cargó cajones de pescado y la mirada de quien aprendió a no mirar la hora que le conviene.`,
+            `Pregunté por Teodoro Ibarra. Cosme limpió un vaso que ya estaba limpio. «Teo se fue antes de que te dieran el expediente», dijo, y no supe si hablaba de once años o de esa misma tarde. En la rockola alguien había puesto un bolero lento; en el fondo, entre las mesas vacías, una mujer tarareaba bajito, sin micrófono, una melodía que ya había escuchado en otra vida.`,
+            `<em>Hay una pregunta que todo hombre se hace frente a una barra, y no es qué va a tomar. Es qué va a hacer con el rato que le queda hasta el próximo vaso. Yo siempre contesté lo mismo, con cierto orgullo cansado: esperar. Esperar es mi talento. Podría dar clases.</em>`,
+            `Cosme apoyó las dos manos en la madera y me miró, por fin, a los ojos. «¿Qué te sirvo, perito?»`
+        ),
         choices: [
-            { id: 'dejar', label: 'Dejarla en la barra: «Guardámela. Si la quiero, vengo a buscarla acá.»' },
-            { id: 'llevar', label: 'Llevártela. Por si la noche se pone larga.' }
+            { id: 'whisky', label: 'Lo de siempre: un whisky con una sola piedra.' },
+            { id: 'cafe', label: 'Un café negro. Esta noche necesito la cabeza fría.' }
         ]
     },
     {
-        id: 'n04a_ismael_guarda',
-        icon: '🕯️',
-        title: 'Lo que Guarda Ismael',
-        visible: function (p) { return storyChoice(p, 'n03_botella') === 'dejar'; },
+        id: 'c03a_hielo',
+        act: 'Acto I — La Llegada',
+        icon: '🥃',
+        title: 'La Piedra de Hielo',
+        visible: function (p) { return storyChoice(p, 'c02_bar') === 'whisky'; },
         check: function (p) { return p.level >= 3; },
-        text: 'Ismael guardó la botella en el estante de abajo, detrás de las servilletas, y no hizo ningún comentario. En un hombre que lleva seis años sobrio, eso es un discurso entero. A la mañana siguiente pasaste por El Último Faro a las once, con luz de día, algo que no hacías desde el caso Rojas. La botella seguía donde la dejaste. Fue raro ver cómo un objeto puede esperar sin exigir nada. «Cuando quieras sacarla, sacala», dijo. «Pero va a seguir ahí mañana. Eso lo aprendí yo.» Por primera vez en meses, la palabra mañana no sonó como una amenaza.'
+        text: P(
+            `El hielo se deshizo despacio, sin apuro, con el mismo desinterés con que se deshace todo. Bebí en tres tiempos, como me enseñaron a hacer las cosas que me hacen bien: sin prisa y sin testigos.`,
+            `<em>Mi relación con el whisky es la de un matrimonio sin mala fe. No nos mentimos. Él sabe lo que prometo cada mañana y yo sé lo que me responde cada noche. Lo curioso es que nunca me prometió nada. Esa es la parte que no le perdono: me acompaña sin pedirme que sea otro.</em>`,
+            `«Acá se bebe para que el tiempo se aguante a sí mismo», dijo Cosme, y rellenó el vaso con una sola gota más, como quien deja una propina. Los relojes de la pared siguieron discutiendo entre ellos. Ninguno me dio la razón.`
+        )
     },
     {
-        id: 'n04b_mesa_de_luz',
-        icon: '🛏️',
-        title: 'Una Botella en la Mesa de Luz',
-        visible: function (p) { return storyChoice(p, 'n03_botella') === 'llevar'; },
-        check: function (p) { return p.level >= 3; },
-        text: 'La botella pasó la noche sobre la mesa de luz, mirándote como un testigo que no necesita declarar. Dormiste mal, con ese sueño liviano en el que cada ruido es un paso. A las seis, la hoja a máquina tenía una línea nueva, escrita debajo de la tuya: «Siempre vuelve a la botella. Mañana, tal vez.» No era una acusación. Era una predicción, que es peor. Te quedaste mirando la letra hasta que el sol se animó a aparecer detrás de la niebla. Si la historia de Bahía Ceniza se escribe sola, alguien tiene que empezar a pelear por la tinta.'
-    },
-    {
-        id: 'n05_cafe_buho',
+        id: 'c03b_taza',
+        act: 'Acto I — La Llegada',
         icon: '☕',
-        title: 'Café Búho',
+        title: 'La Taza Fría',
+        visible: function (p) { return storyChoice(p, 'c02_bar') === 'cafe'; },
+        check: function (p) { return p.level >= 3; },
+        text: P(
+            `El café llegó negro, humeante, con un platito de tarta de membrillo que no había pedido. «La mejor del condado», dijo Cosme, y señaló un cartel amarillento que nadie recuerda haber colgado. La probé por educación y me quedé por otra cosa: tenía el sabor exacto de una tarde de la infancia que nunca viví.`,
+            `Pedir café en un bar es una declaración de guerra pequeña. El vaso de whisky lo sirve la costumbre; el café lo sirve una decisión. Me quedé mirando la taza hasta que dejó de humear, como se mira a un animal que se queda quieto para que no lo veas respirar.`,
+            `<em>No bebí. Y me pregunté, con la lucidez incómoda de la cafeína, si me estaba cuidando o si solo estaba aplazando el vaso: postergar, esa vieja especialidad. Los dos hombres que llevo adentro discutieron un rato en voz baja. Ganó el que tenía sueño.</em>`
+        )
+    },
+    {
+        id: 'c04_libreta',
+        act: 'Acto I — La Llegada',
+        icon: '📖',
+        title: 'La Libreta del Hotel',
+        check: function (p) { return contactsCount(p) >= 1; },
+        text: function (p) {
+            var n = contactsCount(p);
+            return P(
+                `Ofelia Rinaldi atendía la recepción del Hotel Ámbar desde que el hotel era hotel. Pelo recogido, reloj de hombre, una paciencia de enfermera. Cuando bajé a pagar la primera noche me alcanzó un libro de tapas verdes, muy usado, y una lapicera atada con un hilo.`,
+                `«No es el registro de huéspedes», aclaró. «Es la libreta. Acá nadie se va sin dejar el nombre de alguien a quien volver. Es el reglamento del hotel, no el del pueblo.» Después, más bajo: «Las puertas de Puerto Calma se abren desde adentro de la gente. Desde afuera solo se oxidan.»`,
+                `Escribí un nombre. Después otro, si había otro. La libreta ya llevaba ` + n + (n === 1 ? ' nombre mío' : ' nombres míos') + `, y me sentí culpable de lo corta que era la lista, de lo fácil que había sido anotarla, de lo poco que me costaba escribir la palabra «extraño» sin llamar a nadie.`,
+                `<em>Hay culpas que no tienen delito. Se parecen a las deudas de un banco al que nunca entraste: crecen sin que las veas, con una paciencia que ningún acreedor humano tendría. Quizás la primera deuda que contraje fue esa: con cada persona a la que dejé de hablarle por no saber cómo empezar.</em>`,
+                `Ofelia guardó la libreta bajo el mostrador. «Volvé a hablarles», dijo, como quien comenta el clima. «Cuando los llames, la Calma se afloja. No mucho. Lo justo.»`
+            );
+        }
+    },
+    {
+        id: 'c05_oficina',
+        act: 'Acto I — La Llegada',
+        icon: '🏛️',
+        title: 'Oficina de Asuntos Pendientes',
+        check: function (p) { return p.level >= 4; },
+        text: P(
+            `La Oficina de Asuntos Pendientes ocupa un bloque de hormigón en el centro de la plaza, sin ventanas, sin cartel y con una sola puerta, que está abierta. No hay fila. Yo era la fila. Un empleado de saco gris, con una placa que decía A. VIGIL, me esperaba detrás de un mostrador tan largo que no se le veía el final.`,
+            `«Su expediente ya está iniciado», dijo, sin levantar la vista. «Solo falta su conformidad.» Pregunté de qué se me acusaba. «Acá no acusamos a nadie. Simplemente figuramos.» Y me deslizó un formulario: <em>77-B, Declaración de Pendientes</em>, catorce páginas en letra diminuta, con una línea en blanco al pie y el sello rojo todavía húmedo.`,
+            `Había algo en esa oficina que me recordaba a un tribunal al que uno llega tarde, siempre tarde, sin haber sido citado. Una culpa sin acusación es la más cómoda de las culpas: no hay con quién discutir, así que uno discute consigo mismo, con ese rigor de abogado de oficio que siempre pierde.`,
+            `<em>Pensé en firmar: era lo que hace la gente razonable, y yo siempre quise parecer razonable. Pensé en leer: era lo que hace la gente que desconfía, y yo, por oficio, desconfío hasta de lo que firmo con gusto.</em>`,
+            `Vigil me alcanzó la lapicera. Su sonrisa tenía la paciencia de un reloj que nunca tuvo que apurarse.`
+        ),
+        choices: [
+            { id: 'firmar', label: 'Firmar sin leer: «Total, es un trámite.»' },
+            { id: 'leer', label: 'Leer las catorce páginas antes de firmar nada.' }
+        ]
+    },
+    {
+        id: 'c06a_conforme',
+        act: 'Acto I — La Llegada',
+        icon: '🖋️',
+        title: 'Conforme',
+        visible: function (p) { return storyChoice(p, 'c05_oficina') === 'firmar'; },
+        check: function (p) { return p.level >= 4; },
+        text: P(
+            `Firmé. La tinta se me metió en la piel de la muñeca como si la lapicera hubiera tenido hambre. Vigil estampó el sello sobre el formulario y, por un instante, lo vi brillar también sobre mi piel, rojo y húmedo, antes de apagarse.`,
+            `«De ahora en más, cada cosa que deje sin hacer tendrá su casillero», dijo, casi con ternura. «Es una comodidad, créame. Nadie se pierde nada.»`,
+            `Salí a la plaza con la sensación de haber vendido algo que no sabía que tenía. <em>La libertad, supongo, se pierde igual que un paraguas: no el día en que te la roban sino el día en que dejás de notar que no la llevás en la mano.</em> Una gaviota que no existía en ninguna estación del año gritó sobre el hormigón. Después, silencio. El peor de los ruidos.`
+        )
+    },
+    {
+        id: 'c06b_letra_chica',
+        act: 'Acto I — La Llegada',
+        icon: '🔍',
+        title: 'La Letra Chica',
+        visible: function (p) { return storyChoice(p, 'c05_oficina') === 'leer'; },
+        check: function (p) { return p.level >= 4; },
+        text: P(
+            `Leí las catorce páginas. Tardé cuarenta minutos y Vigil no se movió, no tosió, no miró el reloj: esperó con la paciencia de lo que no corre peligro. En la página nueve, entre dos cláusulas sobre la custodia de pendientes, encontré una frase en letra todavía más chica: <em>«El compareciente reconoce que la persona declarada desaparecida y el compareciente comparten...»</em> y el resto del renglón estaba tachado con una raya prolija, como si alguien se hubiera arrepentido a tiempo.`,
+            `«Nadie llega a la página nueve», murmuró Vigil, por primera vez sin sonreír.`,
+            `Firmé al final, con una condición escrita al margen, de mi puño, que él aceptó con un gesto de fastidio: <em>«Conforme con lo leído.»</em> Son tres palabras que pocos hombres escriben, y que sin embargo rinden más que una vida de firmas. Salí de la oficina con la sensación incómoda de haber ganado una discusión que todavía no entendía.`
+        )
+    },
+    {
+        id: 'c07_reglamento',
+        act: 'Acto I — La Llegada',
+        icon: '📋',
+        title: 'Detrás de la Puerta',
+        check: function (p) { return p.level >= 5; },
+        text: P(
+            `Mi habitación era la 18, cuarto piso, con una ventana que daba a la nada y una cortina bordó tan pesada que parecía tener opiniones. Detrás de la puerta, enmarcado con una prolijidad que me inquietó, colgaba un cartel amarillento: <em>REGLAMENTO DEL HUÉSPED.</em>`,
+            `Lo leí de pie, con el saco puesto. Establecía cuánto costaba cada cosa en Puerto Calma: lo que se pierde cuando algo vence, lo que cuesta una noche sin ritual, lo que debe el que se calla demasiado tiempo, lo que cura una medicina y lo que cura un tratamiento. Estaba escrito con una claridad de manual de instrucciones, y eso era lo más inquietante: en este pueblo, las reglas eran lo único que no tenía niebla.`,
+            `<em>Una ley injusta que se conoce es más soportable que una ley justa que se ignora. Kafka lo sabía; yo lo sospechaba. Quien conoce el precio de las cosas puede, al menos, elegir qué cosas pagar. Esa es toda la libertad que ofrecen los hoteles, los bancos y los pueblos pequeños.</em>`,
+            `Antes de apagar la luz, volví a leerlo, en voz baja, como un conjuro. Si alguna vez dudo de cuánto cuesta algo, ahí está el reglamento. Pegado detrás de la puerta. A mano, como las cosas importantes.`
+        )
+    },
+    {
+        id: 'c08_telefono',
+        act: 'Acto I — La Llegada',
+        icon: '☎️',
+        title: 'Teléfono, 4:44',
+        check: function (p) { return contactsTalked(p) >= 1; },
+        text: function (p) {
+            return P(
+                `A las 4:44, el teléfono de la habitación 18 sonó una sola vez, larga, igual que la sirena. Era un aparato negro, de disco, sin cable visible. Lo levanté pensando que se habían equivocado de cuarto, o de siglo.`,
+                `No dijeron nada. Había una respiración, nada más, y debajo de la respiración, algo que reconocí antes que a la voz: el modo de callar. Era ` + contactVoice(p) + `. No lo supe por el nombre sino por el silencio, por esa manera de no decir que tienen las personas que nos quisieron y a las que dejamos de llamar.`,
+                `<em>Murakami escribió alguna vez sobre un hombre que bajaba a un pozo seco para escuchar lo que pasaba afuera. Yo no tenía pozo: tenía un teléfono. Pero entendí lo mismo que él: hay llamadas que no se hacen para hablar, se hacen para comprobar que todavía existe alguien del otro lado.</em>`,
+                `Del otro lado esperaban. No me apuraban. Esa es la forma más cruel de la paciencia: la que no reclama.`
+            );
+        },
+        choices: [
+            { id: 'hablar', label: 'Hablar. Decir su nombre y lo que no dije en todo este tiempo.' },
+            { id: 'colgar', label: 'Colgar. Todavía no estoy listo.' }
+        ]
+    },
+    {
+        id: 'c09a_voz',
+        act: 'Acto I — La Llegada',
+        icon: '🎧',
+        title: 'Lo que Dije en Voz Baja',
+        visible: function (p) { return storyChoice(p, 'c08_telefono') === 'hablar'; },
         check: function (p) { return p.level >= 5; },
         text: function (p) {
-            var base = 'Café Búho abre a las seis y tiene la mejor tarta de ciruela del condado, según un cartel que nadie recuerda haber colgado. En el corcho del fondo hay tres avisos de personas desaparecidas en un solo mes: un pianista que dejó de tocar, una estudiante que dejó de ir a clases, un corredor que dejó de salir a correr. Ningún cuerpo, ninguna escena, ningún sospechoso. Los tres recibieron una hoja a máquina antes de desaparecer. ';
-            var variante = cmpAttr(p, 'mente', 'creatividad',
-                'Lo armaste como se arman estos casos: una hoja, tres columnas, descartando hasta que quedó el patrón. No los eligieron por lo que tenían, sino por lo que habían abandonado.',
-                'No lo armaste en columnas. Lo viste: tres fotos y un hueco en el medio, la forma exacta de algo que falta. Una corazonada con forma de sombra. No desaparecieron: se vaciaron.',
-                'El orden y el instinto coincidieron esta vez: el patrón no es lo que tenían, es lo que dejaron.');
-            return base + variante + ' Había un cuarto aviso, sin foto y sin nombre. En blanco. Todavía.';
+            return P(
+                `Hablé. Dije el nombre, primero, y fue como abrir una ventana en una habitación cerrada desde hace años: entró el aire y con el aire, el polvo. Después dije lo demás: que me había ido sin avisar, que había dejado pasar tanto tiempo que ya no sabía cómo se retomaba una conversación, que estaba en un pueblo que no figuraba en el mapa y que tenía miedo.`,
+                `La respiración del otro lado cambió. Entonces habló ` + contactVoice(p) + `: una frase corta, de esas que sirven para todo. «Ya sé. Acá estoy.»`,
+                `Colgué con las manos mojadas. En la ventana la niebla se había retirado unos metros, como un animal que ya no sabe si atacar. <em>No fue una victoria. Las victorias no tienen ese gusto a cansancio dulce. Fue algo más pequeño y más difícil: una puerta que quedó abierta, y yo parado en el marco, sin saber todavía si salir o seguir mirando.</em>`
+            );
         }
     },
     {
-        id: 'n06_lena',
+        id: 'c09b_timbre',
+        act: 'Acto I — La Llegada',
+        icon: '📞',
+        title: 'El Timbre que no Atendí',
+        visible: function (p) { return storyChoice(p, 'c08_telefono') === 'colgar'; },
+        check: function (p) { return p.level >= 5; },
+        text: function (p) {
+            return P(
+                `Colgué. El auricular quedó caliente en mi mano, como un animal pequeño que ha dejado de temblar. Me quedé mirando el teléfono un buen rato, esperando que volviera a sonar, deseando secretamente que no lo hiciera.`,
+                `Volvió a sonar a la noche siguiente, a las 4:44. Y a la otra. No lo atendí ninguna de las veces, pero aprendí a reconocer el timbre en la oscuridad, a esperarlo, a contar los segundos hasta que se detenía. Era ` + contactVoice(p) + `, estoy seguro: nadie más puede ser tan paciente.`,
+                `<em>Hay silencios que son una forma de ladrar. Otros, una forma de pedir perdón. El mío, esa noche, era una tercera cosa: la de quien tiene la respuesta en la punta de la lengua y la cambia, por prudencia, por cualquier cosa. La cobardía, en los hombres pequeños, se parece sospechosamente a la delicadeza.</em>`,
+                `Una cosa es no llamar. Otra, peor, es oír que te llaman y quedarte quieto.`
+            );
+        }
+    },
+
+    // ───────────── ACTO II — EL EXPEDIENTE ─────────────
+    {
+        id: 'c10_conservera',
+        act: 'Acto II — El Expediente',
+        icon: '🏭',
+        title: 'La Conservera',
+        check: function (p) { return p.level >= 6; },
+        text: P(
+            `La Conservera Ibarra se levantaba al final del muelle como una catedral que hubiera perdido la fe. Chapa acanalada, ventanas rotas con forma de bocas, un cartel desteñido que prometía <em>«Pescado de la Bahía, Hecho con Cariño»</em>. El óxido le había subido por las paredes hasta la mitad, y de ahí para arriba, en el punto exacto donde llegaba la luz de mi linterna, se detenía. Como si dudara.`,
+            `Adentro, el aire olía a metal mojado y a algo dulce, descompuesto, que no pude nombrar. Las cintas transportadoras estaban quietas desde hace once años, cargadas todavía de latas sin etiquetar. Tomé una. Del lado de abajo, grabada con la precisión de las máquinas, figuraba una fecha de vencimiento. Tomé otra. La misma fecha. Y otra. <em>Todas vencían mañana.</em>`,
+            `Una vez me contaron de un hombre que compraba latas de ananá con fecha de vencimiento y las comía el último día, sin falta, como quien cumple una cita con el tiempo. Yo tenía delante diez mil. <em>¿Qué se hace con diez mil promesas que expiran el mismo día? ¿Se las come uno? ¿Se las cobra? ¿O se las deja vencer, con la elegancia de quien sabe que no hay nada que perder?</em>`,
+            `En el suelo de la oficina, bajo una pila de papeles húmedos, encontré una tapa de hierro con un asa oxidada. Una escotilla circular, sellada con candado nuevo, sin una sola gota de óxido. Alguien venía a cuidarla. Con la linterna entre los dientes, apoyé la oreja contra el metal y escuché, muy abajo, el eco de un goteo. O de un pozo.`
+        )
+    },
+    {
+        id: 'c11_brandan',
+        act: 'Acto II — El Expediente',
         icon: '🕵️',
-        title: 'Lena Varga',
-        check: function (p) { return bossesDerrotadosCount(p) >= 1; },
-        text: 'Cuando saliste del Café Búho había un auto sin patente en doble fila y una mujer apoyada en el capó, con el piloto mojado y esa manera de mirar que no pide permiso. Lena Varga, ex compañera de Homicidios, la única que no te dio vuelta la cara después del caso Rojas. «Me llegó una hoja a máquina», dijo. «Con mi nombre, mi horario, y una línea que dice que mañana dejo de buscar. Y vos sos el único que sabe leer estas cosas.» Su voz tenía un temblor mínimo. Era la primera vez que la veías necesitar algo.',
-        choices: [
-            { id: 'aceptar', label: 'Aceptar: investigar juntos, con ella adentro desde el principio' },
-            { id: 'solo', label: 'Decirle que no: investigar solo, como siempre' }
-        ]
-    },
-    {
-        id: 'n07a_dos_paraguas',
-        icon: '☔',
-        title: 'Dos Paraguas',
-        visible: function (p) { return storyChoice(p, 'n06_lena') === 'aceptar'; },
-        check: function (p) { return p.level >= 8; },
-        text: 'Trabajar con alguien después de dos años de hacerlo solo es como caminar sin el yeso recién sacado: los músculos no se acuerdan, pero el cuerpo sí. Lena llevaba el termo y los mapas; vos, las preguntas torcidas. Entre las dos libretas apareció algo que ninguno hubiera visto solo: las hojas llegan siempre el mismo día en que alguien por fin iba a empezar algo. El pianista tenía una audición. La estudiante, un examen. Lena, esa misma semana, pensaba pedir un traslado que venía postergando. «Es verdad», admitió. «Me da miedo.» Compartieron un paraguas hasta el auto y no dijeron nada. A veces lo que más falta es que alguien camine al lado.'
-    },
-    {
-        id: 'n07b_cuaderno_propio',
-        icon: '📓',
-        title: 'Cuaderno Propio',
-        visible: function (p) { return storyChoice(p, 'n06_lena') === 'solo'; },
-        check: function (p) { return p.level >= 8; },
-        text: 'Preferiste el cuaderno de tapa dura, la lámpara de escritorio y la lluvia en el vidrio: la vieja receta del que no le debe explicaciones a nadie. Y funcionó, hasta cierto punto. Armaste el patrón en tres noches: las hojas llegan justo cuando alguien está por empezar algo. Pero la cuarta noche notaste lo que ningún cuaderno anota: llevabas tres días sin hablar con nadie, y la voz que te contestaba al leer en voz alta se parecía cada vez más a la de la hoja a máquina. Lena te dejó un mensaje que no devolviste. Resolver solo es más rápido. Quedarse solo es más fácil. Son cosas distintas, y en Bahía Ceniza se confunden a propósito.'
-    },
-
-    // ───────────── ACTO II — LOS EXPEDIENTES ─────────────
-    {
-        id: 'n08_san_dimas',
-        icon: '🏚️',
-        title: 'San Dimas',
+        title: 'El Inspector',
         check: function (p) { return dungeonsCompletadasCount(p) >= 1; },
-        text: function (p) {
-            var base = 'El Hospital San Dimas cerró hace veinte años, pero sus pasillos todavía huelen a desinfectante y a algo más viejo. Bajaste al subsuelo con una linterna y la certeza de que nadie te esperaba. En la sala B-7, entre camillas oxidadas, había una máquina de escribir de cinta seca, todavía tibia, sin nadie sentado. En el espejo roto de atrás, un hombre con tu abrigo bebía en silencio y te miraba sin parpadear: tu yo de mañana, el que no cambió. El pasillo de salida parecía más largo que el de entrada. ';
-            var variante = cmpAttr(p, 'disciplina', 'fuerza',
-                'Lo que te sacó de ahí no fue valentía, fue método: contar los pasos, anotar cada puerta, volver por donde viniste sin apurarte.',
-                'Lo que te sacó de ahí fue terquedad pura: avanzaste contra la niebla como contra una pared, hasta que la pared cedió.',
-                'Lo que te sacó de ahí fue una mezcla de orden y de testarudez, empujando parejo.');
-            return base + variante + ' Sobre el rodillo de la máquina quedó una frase sin terminar: «Mañana, él».';
-        }
-    },
-    {
-        id: 'n09_nora',
-        icon: '📻',
-        title: 'Después de las Tres',
-        check: function (p) { return p.level >= 10; },
-        text: 'Todas las noches, a las tres, Radio Faro 88.1 emite «Después de las Tres», el programa de Nora Quiroga para quienes no pueden dormir. Nora lee cartas, pone discos viejos y de vez en cuando deja un silencio demasiado largo, como si escuchara algo detrás del micrófono. Esa noche dijo tu nombre de pila, con el tono de quien lee un guion. «Hay un hombre en Bahía Ceniza que se está por quedar sin mañanas. Si está escuchando, la línea está abierta.» Tenías el teléfono en la mano. En la mesa, la hoja a máquina ya tenía escrita la escena siguiente: «Cortás la radio. Como siempre.»',
+        text: P(
+            `El inspector Aurelio Brandán me esperaba en la barra del Bar de las Once con un impermeable que había visto mejores guerras y un tic en el hombro izquierdo, como si todavía cargara un fusil que nadie le había pedido que devolviera. Hablaba despacio, con la voz de quien ha repetido muchas veces la misma conversación con gente distinta.`,
+            `«El tiempo no pasa, forastero», dijo, mientras revolvía el café. «Da vueltas. Uno gira la cuchara y cree que avanza.» Le dije que eso sonaba más a una frase de cantina que a una teoría. «Todas las teorías son frases de cantina», respondió. «Las buenas terminan con el que las dice en la cárcel o en la cama.»`,
+            `Me estudió con un cuidado de entomólogo. Sabía quién era; sabía a qué venía. Pero había en su manera de mirar algo más: la curiosidad de quien ve entrar a un testigo que no sabe que lo es. <em>Una conversación entre hombres cansados tiene siempre dos niveles: lo que se dicen y lo que cada uno prefiere no saber.</em>`,
+            `«Hace once años se perdieron tres personas en este pueblo», dijo al fin, sin levantar la voz. «Un dueño de fábrica, una enfermera y una maestra. Ninguno dejó una nota. Todos dejaron algo sin terminar.» Me clavó los ojos. «Decime, perito, ¿qué sabés vos del Siniestro 1208 que no figura en el expediente?»`
+        ),
         choices: [
-            { id: 'llamar', label: 'Llamar al aire y decir en voz alta lo que venís evitando' },
-            { id: 'cortar', label: 'Apagar la radio. Todavía no estás listo para decirlo' }
+            { id: 'contar', label: 'Contarle todo: la oficina, las latas, la escotilla.' },
+            { id: 'mentir', label: 'Mentirle: «Solo soy un perito. Vine a tasar daños.»' }
         ]
     },
     {
-        id: 'n10a_al_aire',
-        icon: '🎙️',
-        title: 'En el Aire',
-        visible: function (p) { return storyChoice(p, 'n09_nora') === 'llamar'; },
-        check: function (p) { return p.level >= 10; },
-        text: 'Dijiste tu nombre. Después, lo que venías esquivando: que dejaste de buscar a Elena Rojas porque te daba más miedo no encontrarla que no intentarlo; que desde entonces cada noche empieza y termina en un vaso. Hablaste cuatro minutos que se sintieron como cuatro años. Nora no te interrumpió. Cuando terminaste, dejó el silencio más largo de todo el programa, pero esta vez era un silencio abierto, como una puerta. Esa noche llamaron tres personas más. Una dijo: «Yo también tengo una hoja.» A la mañana siguiente, la niebla del puerto estaba más delgada. No había desaparecido. Pero tenía grietas, y por las grietas entraba la luz.'
-    },
-    {
-        id: 'n10b_estatica',
-        icon: '📡',
-        title: 'Estática',
-        visible: function (p) { return storyChoice(p, 'n09_nora') === 'cortar'; },
-        check: function (p) { return p.level >= 10; },
-        text: 'Apagaste la radio. El silencio que quedó tenía textura, como de tela mojada. La hoja se actualizó sola: «Cortó la radio. Tiene miedo.» Era injusto lo bien que te conocía. Pero algo se coló por la estática: la voz de Nora, apenas audible, diciendo despacio una frase que no estaba en ningún guion: «No tenés que decirlo hoy. Pero la línea sigue abierta.» No te estaba juzgando. No te estaba apurando. Estaba, simplemente, esperando. Y eso, para alguien que se pasó dos años siendo esperado nada más que por una botella, fue demasiado nuevo para ignorarlo del todo.'
-    },
-    {
-        id: 'n11_patron',
-        icon: '🧩',
-        title: 'El Patrón',
-        check: function (p) { return (p.trophies || []).length >= 3; },
+        id: 'c12a_aliado',
+        act: 'Acto II — El Expediente',
+        icon: '🚔',
+        title: 'Dos en el Mismo Coche',
+        visible: function (p) { return storyChoice(p, 'c11_brandan') === 'contar'; },
+        check: function (p) { return p.level >= 7; },
         text: function (p) {
-            var base = 'Lo viste cuando dejaste de mirar los casos y miraste el calendario. Cada hoja llegaba la víspera de un comienzo: una audición, un examen, una carrera, un llamado. Mañana no escribe el fracaso de la gente; escribe la excusa. Es la voz amable que dice «mejor la semana que viene», «hoy no estás en condiciones», «ya habrá tiempo». Y mientras la gente la escucha, la niebla se espesa un poco más. No es un asesino. Es un anestesista. ';
-            var variante = cmpAttr(p, 'social', 'relaciones',
-                'Conocés a media ciudad de vista y de nombre, y sin embargo fue a casi un extraño a quien se lo contaste primero. Hay vínculos que se miden por ancho y otros por hondura; los tuyos, hasta ahora, eran de los anchos.',
-                'Hace tiempo que preferís pocas conversaciones de verdad a muchas de compromiso. Esta vez te sirvió: sabés exactamente a quién llamar cuando la voz amable empieza a sonar.',
-                'Lo ancho y lo hondo tiraron parejo esta vez, y el patrón quedó a la vista.');
-            return base + variante;
+            var firma = storyChoice(p, 'c05_oficina') === 'firmar'
+                ? '«Firmaste sin leer», dijo, y no fue una pregunta. «Todos firman sin leer. Yo no firmé nunca, y por eso sigo acá, aunque nunca me haya ido.»'
+                : '«Leíste el formulario», dijo, y por primera vez lo vi sonreír de lado. «Nadie llega a la página nueve. Yo llegué. Por eso estoy acá, y por eso no puedo irme.»';
+            return P(
+                `Le conté todo. Hablar con alguien que no te interrumpe es una forma rara de higiene. Brandán fumaba sin parar, los cigarrillos terminándose como frases cortadas, y cada tanto asentía con una lentitud de juez.`,
+                firma,
+                `Subimos a su patrullero, un modelo viejo con olor a cuero y a lluvia. Manejó sin destino por las calles vacías, con la radio en una estación que solo emitía estática y a veces un murmullo, como si alguien rezara muy lejos. «Las tres personas que se perdieron firmaron el 77-B», dijo. «Los tres tenían algo pendiente. Y a los tres, la Calma les llegó antes que la fecha.»`,
+                `<em>Me sentí, por primera vez en mucho tiempo, menos solo, y eso me asustó más que cualquier cosa que hubiera visto en la Conservera. Cuando uno deja de estar solo, deja también de tener excusas.</em>`
+            );
         }
     },
     {
-        id: 'n12_seis_anios',
-        icon: '🍵',
-        title: 'Seis Años',
-        check: function (p) { return p.level >= 12; },
-        text: function (p) {
-            var base = 'Esa noche Ismael cerró temprano y se sentó del lado de los clientes, algo que nunca había hecho. «Seis años», dijo, mirando su vaso de soda. «Pensé que lo difícil era no tomar. Lo difícil es el día después, y el siguiente: el mañana de verdad, el que nadie te escribe.» Le preguntaste por qué te servía, entonces. «Porque si alguien va a caer, prefiero que caiga acá, donde hay luz y alguien que le tire una frase.» Te contó que Mañana también lo visitó a él, años atrás, con otra letra y otra hoja. «El whisky no es el monstruo. Es la prórroga que el monstruo firma.» ';
-            var choice = storyChoice(p, 'n03_botella');
-            if (choice === 'dejar') {
-                return base + 'Miró el estante de abajo, donde la botella seguía sin reclamar nada. «Esa botella me dice cómo venís. No por lo que tiene adentro: por cuánto tiempo lleva ahí.»';
-            }
-            if (choice === 'llevar') {
-                return base + 'Miró tus manos, tu cara, la ojera nueva. «No hace falta que me cuentes qué hiciste con la botella. Pero cuando quieras traerla de vuelta, acá hay estante.»';
-            }
-            return base;
-        }
+        id: 'c12b_mentira',
+        act: 'Acto II — El Expediente',
+        icon: '🤥',
+        title: 'Lo que Callé',
+        visible: function (p) { return storyChoice(p, 'c11_brandan') === 'mentir'; },
+        check: function (p) { return p.level >= 7; },
+        text: P(
+            `Mentí. Dije que era solo un perito, que venía a tasar daños, que el seguro quería cerrar el expediente de una vez. Lo dije con la voz prolija de las mentiras de oficina, esas que no necesitan creerse: solo necesitan sonar a trabajo.`,
+            `Brandán me escuchó con una paciencia que me pareció, de pronto, una forma de desprecio. «Mentís mal», dijo al fin, sin enojo. «Tenés cara de hombre que no miente seguido. Eso, en un pueblo como este, es peor que mentir bien.»`,
+            `Pagó los cafés. Antes de irse, dejó sobre la barra una tarjeta con un número de teléfono y una sola palabra al dorso: <em>«Cuando quieras.»</em> Me quedé mirándola mucho tiempo, entendiendo que hay dos clases de soledad: la que nos toca y la que elegimos para no tener que explicarnos.`,
+            `<em>Yo había elegido la segunda. Como siempre. Con la elegancia de un hombre que se cree prudente y que en realidad solo tiene miedo de que lo conozcan.</em>`
+        )
     },
     {
-        id: 'n13_manana',
-        icon: '🧥',
-        title: 'Mañana',
-        check: function (p) { return bossesDerrotadosCount(p) >= 3; },
-        text: 'Se sentó frente a vos en la barra de El Último Faro, un martes cualquiera, con el abrigo gris seco aunque llovía a baldazos. Sin sombra bajo la luz del techo. Sin edad: podía tener treinta o sesenta, según cómo lo miraras. «Me dicen Mañana», dijo, con una simpatía casi insoportable. «No quiero hacerte daño. Nunca quise. Solo quiero que descanses. Mirá todo lo que hiciste este mes: ¿no merecés una pausa? ¿Una copa, un fin de semana, un lunes de nuevo?» Cada frase sonaba razonable, y ese era el truco. Ismael, del otro lado de la barra, no se movió. Tenías ganas de decirle que sí, de aceptar el descanso. Notaste que lo que sentías no era cansancio. Era costumbre.'
+        id: 'c13_clinica',
+        act: 'Acto II — El Expediente',
+        icon: '🏥',
+        title: 'La Clínica del Ámbar',
+        check: function (p) { return healCount(p) >= 1; },
+        text: P(
+            `La Clínica del Ámbar quedaba detrás del hotel, por un pasillo de baldosas blancas que olía a lavandina y a alcohol etílico. Una sirena —otra vez la sirena— sonó dos veces mientras caminaba. En las paredes, la pintura se caía en láminas, y debajo de la pintura había otra pintura, igual de blanca, igual de vieja.`,
+            `Las enfermeras no tenían rostro: tenían una expresión puesta, como un uniforme. Me atendieron con una eficiencia que no preguntaba nada. Me trataron como a una pared que se descascara: con paciencia, con pomada, sin mirarme nunca a los ojos. Y sin embargo, cuando salí, algo en mi cuerpo había vuelto a un lugar que había olvidado.`,
+            `<em>Nadie nos dice que cuidarse es lo único que se parece a la fe: no pide un dios, pide un martes. Un vaso de agua, una caminata, una comida a hora. Camus pidió imaginar a Sísifo feliz; yo me conformo con imaginarlo cuidándose los tobillos. La roca no cambia. Pero los tobillos sí aguantan, y todo lo que sigue depende de que aguanten.</em>`,
+            `En el pasillo, una enfermera me alcanzó un papel doblado. Adentro, escrita con letra de médico, una sola recomendación: <em>«Después del daño, tratamiento. Después del tratamiento, descanso. Y después, volver a salir.»</em> Hay verdades que solo se dicen con membrete.`
+        )
     },
     {
-        id: 'n14_caso_rojas',
-        icon: '🗂️',
-        title: 'El Caso Rojas',
-        check: function (p) { return dlcsCompletadosCount(p) >= 1; },
-        text: function (p) {
-            var base = 'Elena Rojas desapareció hace dos años, en tu último caso. La versión oficial: fuga voluntaria. Tu versión: fracaso personal. Esa noche, releyendo el expediente con los ojos de ahora, encontraste lo que no habías querido ver: la primera hoja a máquina del caso estaba dirigida a vos, no a ella. «Mañana retomás la búsqueda.» Era la primera línea de Mañana, y no la escribió para Elena: te la escribió a vos, para que la dejaras pasar. Elena no desapareció porque vos fallaste. Desapareció porque dejó de intentar, como los demás. Y vos dejaste de buscarla por la misma razón. ';
-            var variante = cmpAttr(p, 'relaciones', 'carrera',
-                'Lo que más te pesaba no era el caso, era haberle fallado a una persona. Eso se repara con otras personas.',
-                'Lo que más te pesaba era la placa, el nombre en el expediente, la derrota profesional. Eso se repara con trabajo, pero también con perdón.',
-                'Te pesaba el trabajo y te pesaba la persona, y por primera vez pudiste mirar las dos cosas sin apartar la vista.');
-            return base + variante;
-        }
-    },
-    {
-        id: 'n15_pagina_en_blanco',
+        id: 'c14_hoja',
+        act: 'Acto II — El Expediente',
         icon: '📄',
-        title: 'La Página en Blanco',
-        check: function (p) { return (p.rawRunes || []).length >= 6; },
+        title: 'La Hoja que Escribe',
+        check: function (p) { return maxRuneStreak(p) >= 3; },
         text: function (p) {
-            var base = 'En el cajón del escritorio apareció una hoja distinta: sin tipografía, sin firma, sin una sola palabra. Blanca. No era de Mañana. Era para vos. Entendiste lo que significaba: hasta ahora habías peleado contra lo que otro escribía; ahora tocaba escribir lo tuyo. ';
-            var variante = cmpAttr(p, 'creatividad', 'disciplina',
-                'Te sentaste y las frases salieron a borbotones, torcidas, tachadas, pero vivas. Escribir sin plan también es una forma de coraje.',
-                'Armaste un horario: veinte minutos por día, el mismo lugar, la misma lapicera. Lo escrito fue menos brillante de lo que soñabas y más real que cualquier cosa que Mañana haya firmado.',
-                'Mezclaste el impulso y el horario: una hora fija para dejar que las frases salgan como quieran.');
-            return base + variante + ' Al final de la primera línea, la tinta tenía tu letra.';
-        }
-    },
-    {
-        id: 'n16_el_costo',
-        icon: '🩹',
-        title: 'El Costo',
-        check: function (p) { return p.level >= 15; },
-        text: function (p) {
-            var base = 'Nada de esto salió gratis. Hay noches de temblor y de silencio, noches en que el cuerpo reclama lo que antes le dabas sin pensar y la cabeza negocia: «Una sola, para dormir.» Lena te escribió, Nora te dejó un disco en el buzón, Ismael te sirvió té sin comentarios. El cambio duele en lugares donde antes ni siquiera sabías que había algo. ';
-            var variante = cmpAttr(p, 'fuerza', 'mente',
-                'Lo que te sostuvo fue el cuerpo: el trote a la mañana, el sudor, la fatiga limpia que reemplaza a la otra.',
-                'Lo que te sostuvo fue entender el mecanismo: ponerle nombre a cada impulso antes de obedecerlo.',
-                'Lo que te sostuvo fue el cuerpo y la cabeza a la vez, cada uno cubriendo al otro.');
-            return base + variante + ' Mañana ya no te ganaba. Pero tampoco se iba.';
-        }
-    },
-    {
-        id: 'n17_rutina',
-        icon: '🕰️',
-        title: 'Rutina sin Miedo',
-        check: function (p) { return (p.rawRunes || []).length >= 10; },
-        text: 'Lo que antes era esfuerzo ahora es simplemente lo que hacés. Nadie te aplaude por cumplir un ritual más, y ya no lo necesitás: el aplauso es de quien todavía duda. Por primera vez en años, las mañanas tienen forma: la ventana, el café, el cuaderno, el paso. Lena dice que se nota en cómo caminás. Ismael dice que se nota en cómo no mirás el estante. Y Mañana, que antes aparecía cada vez que estabas a punto de empezar algo, hace días que no se muestra. Hay un detalle que te inquieta: el silencio de un enemigo siempre es más caro que su ruido.'
-    },
-
-    // ───────────── ACTO III — EL ÚLTIMO FARO ─────────────
-    {
-        id: 'n18_el_archivo',
-        icon: '🗃️',
-        title: 'El Archivo',
-        check: function (p) { return p.level >= 18; },
-        text: 'Te citó en el sótano de San Dimas, sala B-7, ya sin traje: gris de la cabeza a los pies, como si por fin se le cayera el disfraz. En la mesa había una carpeta con tu nombre. «Mirá», dijo. «Tu futuro, redactado con cariño. Sin sobresaltos. Sin pérdidas. Sin esfuerzo. Treinta años de tardes tibias.» Detrás de él, la máquina de escribir esperaba una sola cosa: tu firma. «Si la abrís, vas a saber cómo termina. Si la quemás, te quedás sin guion... y sin red.» En el piso, tu sombra y la suya se tocaban.',
+            return P(
+                `Tres noches seguidas encendí la linterna, cumplí mis rituales y me acosté a la misma hora. A la cuarta, al volver a la habitación 18, encontré una hoja tipeada sobre la almohada. Una sola, con las marcas hundidas de una máquina de escribir vieja y la tinta todavía fresca.`,
+                `Decía: <em>«Hoy el perito se sintió ` + lastMoodWord(p) + `. Bajó las escaleras sin saber por qué. Dudó antes de llamar a alguien. No lo hizo. Después de la medianoche pensó, por primera vez, que quizás no había venido a Puerto Calma por el expediente.»</em> Todo lo que decía había pasado. Casi. Lo último, todavía no.`,
+                `Alguien escribía mi día antes de que yo lo viviera, o después, o a la vez; la diferencia, en una ciudad sin reloj, es solo una cuestión de estilo. En el borde inferior había una segunda hoja, doblada, sin leer. La próxima línea.`,
+                `<em>Si la literatura sirve para algo es para descubrir que la vida ya fue escrita por otro y que a uno solo le queda corregirla. Yo, que firmé informes toda la vida, sabía mejor que nadie lo que cuesta tachar la prosa de otro.</em> La luz de la linterna temblaba sobre el papel como una vela frente a una corriente.`
+            );
+        },
         choices: [
-            { id: 'mirar', label: 'Abrir la carpeta y leer el futuro que te escribió' },
-            { id: 'quemar', label: 'Prenderle fuego al expediente sin abrirlo' }
+            { id: 'leer', label: 'Leer la segunda hoja. Prefiero saber.' },
+            { id: 'quemar', label: 'Quemarla sin abrirla. El futuro no se lee, se hace.' },
+            { id: 'guardar', label: 'Guardarla doblada en la billetera. Por si algún día me animo.' }
         ]
     },
     {
-        id: 'n19a_lo_que_decia',
+        id: 'c15a_leida',
+        act: 'Acto II — El Expediente',
         icon: '📖',
-        title: 'Lo que Decía la Carpeta',
-        visible: function (p) { return storyChoice(p, 'n18_el_archivo') === 'mirar'; },
-        check: function (p) { return p.level >= 18; },
-        text: 'Leíste tu futuro. Era cómodo, bien escrito, sin una sola falta de ortografía: tardes con el mismo disco, la misma barra, la misma voz amable que no pide nada. Te dio pánico lo bien que te quedaba. Cada capítulo estaba firmado con tu letra, en una fecha futura. Pero en la última página había una sola frase subrayada a lápiz, de una época que no recordabas: «Nunca fui yo quien lo escribió.» Entendiste que podés conocer el borrador y aun así no firmarlo. Saber no te condena. Solo te avisa. Cerraste la carpeta con las manos firmes, y fue la primera vez en años que no te temblaron.'
+        title: 'Lo que Decía la Segunda Hoja',
+        visible: function (p) { return storyChoice(p, 'c14_hoja') === 'leer'; },
+        check: function (p) { return p.level >= 9; },
+        text: P(
+            `La abrí. Mi futuro estaba escrito con una prosa impecable, sin una sola falta de ortografía: tardes iguales, la misma barra, las mismas conversaciones con la misma gente, un hombre que envejece con una discreción admirable. Era razonable. <em>Eso era lo terrible.</em> No había tragedia, ni siquiera amenaza: solo una vida cómoda, bien redactada, que nadie iba a lamentar.`,
+            `La leí dos veces, buscando el error. No había error. Quien escribió eso me conocía mejor que yo, y no me odiaba: me cuidaba, a su manera, con el afecto sin ambición de los que no esperan nada de nosotros.`,
+            `<em>Dostoievski creía que el hombre prefiere el sufrimiento a la comodidad si esa comodidad es una jaula. Lo creía porque lo había vivido. Yo, que aún no lo había vivido, lo entendí en el instante exacto en que dejé de poder leer.</em> Doblé la hoja y la dejé donde estaba. Sentí, por primera vez, ganas de contradecirla. Eso, quizás, era el único error de redacción posible.`
+        )
     },
     {
-        id: 'n19b_ceniza',
+        id: 'c15b_ceniza',
+        act: 'Acto II — El Expediente',
         icon: '🔥',
         title: 'Ceniza',
-        visible: function (p) { return storyChoice(p, 'n18_el_archivo') === 'quemar'; },
-        check: function (p) { return p.level >= 18; },
-        text: 'El expediente ardió sin humo, con olor a papel viejo y a tinta mojada. Mañana no gritó. Se rió bajito, casi con ternura. «Sin guion no vas a saber qué hacer», dijo. «Nadie sabe.» Era verdad, y dolió. Pero algo cambió en la sala: la luz de la llama te mostró las paredes por primera vez, sin niebla y sin ilusión. Había cientos de hojas pegadas, una por cada persona que se detuvo en Bahía Ceniza, cada una con una línea final sin firmar. No les faltaba el final: les faltaba la mano. Y vos, sin darte cuenta, ya tenías una lapicera en la tuya.'
+        visible: function (p) { return storyChoice(p, 'c14_hoja') === 'quemar'; },
+        check: function (p) { return p.level >= 9; },
+        text: P(
+            `La quemé con el encendedor del hotel, sobre el lavabo, sin abrirla. Ardió sin humo, con olor a papel viejo y a tinta mojada, y por un instante creí oír, en el pasillo, el golpeteo desesperado de una máquina de escribir que no podía seguir el ritmo.`,
+            `La ceniza no cayó. Flotó un momento sobre la pileta, ordenada en una línea de letras, y después se deshizo sola: <em>«Como quieras.»</em> No fue un reproche. Fue casi un permiso.`,
+            `Dormí esa noche sin soñar, y al despertar tenía la sensación rara de haber quedado, por fin, en blanco. <em>Un hombre que quema su futuro sin leerlo no es valiente: es, a lo sumo, coherente con su miedo. Pero a veces la coherencia con el miedo es la única valentía disponible.</em> En la calle, la niebla parecía un poco menos segura de sí misma.`
+        )
     },
     {
-        id: 'n20_la_tormenta',
-        icon: '⛈️',
-        title: 'La Noche de la Tormenta',
-        check: function (p) { return p.level >= 20; },
+        id: 'c15c_guardada',
+        act: 'Acto II — El Expediente',
+        icon: '👛',
+        title: 'Una Hoja en la Billetera',
+        visible: function (p) { return storyChoice(p, 'c14_hoja') === 'guardar'; },
+        check: function (p) { return p.level >= 9; },
+        text: P(
+            `La guardé doblada en la billetera, entre una foto vieja y un billete que no cambié nunca. No la abrí. A veces la sentía, un rectángulo apenas más grueso que el resto, como un amuleto que no se atreve a ser amuleto.`,
+            `Todos los días la tocaba al pagar el café. Todos los días me decía que la próxima vez, sí, que cuando estuviera más fuerte, que quizás después de la próxima semana. <em>Las cosas que no abrimos se vuelven más grandes por el simple hecho de no haberlas abierto. Cualquier pendiente es más pesado que su contenido.</em>`,
+            `Cosme, un día, vio el borde de la hoja. No dijo nada. Pero esa noche, al servirme, dejó el vaso un poco más cerca, con una amabilidad de cómplice. Cuando se vive con una puerta cerrada en el bolsillo, los demás tienden a hablar más bajito.`
+        )
+    },
+    {
+        id: 'c16_visita',
+        act: 'Acto II — El Expediente',
+        icon: '🚪',
+        title: 'La Visita',
+        check: function (p) { return surpriseSolvedCount(p) >= 1; },
+        text: P(
+            `Esa noche, algo estaba en el pasillo del hotel. No lo vi enseguida. Primero fue una corriente fría bajo la puerta, después un zumbido eléctrico en las paredes, ese ruido de fondo que hacen las cosas cuando están a punto de dejar de ser lo que eran. Las cortinas bordó de la 18 se movieron sin viento.`,
+            `Salí. En el extremo del pasillo, de espaldas, había una figura de traje oscuro, quieta, mirando una pared vacía. Hablaba bajito, con las sílabas al revés, como un disco pasado hacia atrás. Reconocí una palabra: mi nombre. Entonces se dio vuelta y no supe si me miraba o si yo estaba mirándome.`,
+            `No hice lo que hacen en las películas. No corrí, no grité. Caminé hacia ella, y a mitad de camino cumplí con lo que me pedía sin pedírmelo: terminé lo que tenía que terminar. La figura asintió, o eso creí, y la luz del pasillo parpadeó tres veces. Cuando volvió estable, estaba solo.`,
+            `<em>Hay visitas que no se resisten: se atienden. Quien las ignora las agranda. Quien las enfrenta, las vuelve de su tamaño. Aprendí esa noche que casi todo lo que me daba miedo tenía mi talle, y que casi nunca me quedaba ancho.</em>`
+        )
+    },
+    {
+        id: 'c17_mara',
+        act: 'Acto II — El Expediente',
+        icon: '🎤',
+        title: 'Mara',
+        check: function (p) { return contactsTalked(p) >= 3; },
         text: function (p) {
-            var t = 'La tormenta llegó a Bahía Ceniza un jueves, sin avisar. Se cortó la luz en todo el puerto. En las calles, bajo las farolas apagadas, empezaron a aparecer figuras de niebla: el pianista, la estudiante, el corredor, todos los que dejaron. No amenazaban. Solo esperaban que alguien los llamara por su nombre. Al norte, el faro se encendió solo. ';
-            t += 'Ismael apareció en la puerta con una linterna y el delantal puesto: «Cerré el bar. Primera vez en veintiséis años.» ';
-            if (storyChoice(p, 'n06_lena') === 'aceptar') {
-                t += 'Lena llegó en su auto sin patente, con el termo y la placa en el cinturón, como si nunca se hubiera ido: «Dijiste que ibas al faro. Voy.» ';
-            } else {
-                t += 'Lena no estaba. Había una luz en su ventana, pero no vino a buscarte. Todavía no. Iba a ser una noche larga. ';
-            }
-            if (storyChoice(p, 'n09_nora') === 'llamar') {
-                t += 'En la radio, Nora transmitía sin parar: «A todos los que están despiertos: vayan hacia la luz del faro. Digan su nombre. Digan lo que dejaron.» Decenas de linternas empezaron a caminar hacia el norte. ';
-            } else {
-                t += 'La radio solo emitía estática, con un hilo de voz apenas audible. Era la tuya la voz que faltaba. ';
-            }
-            return t + 'Caminaste hacia el faro.';
-        }
-    },
-    {
-        id: 'n21_el_faro',
-        icon: '🗼',
-        title: 'El Último Faro',
-        check: function (p) { return p.level >= 22; },
-        text: 'El faro no era un faro: era una torre vieja con una linterna en la cima. Subiste los ciento doce escalones contando, uno por uno. Arriba, Mañana esperaba sentado frente a la máquina de escribir, con una sola hoja en el rodillo y un vaso de whisky servido hasta el borde. La última hoja tenía un renglón en blanco al final. «Es tuyo», dijo. «Escribí lo que quieras. O tomá el vaso y terminamos. O rompé la máquina, si eso te hace sentir mejor.» Afuera, la niebla se apretaba contra el vidrio. Abajo, las linternas seguían subiendo. El renglón seguía en blanco.',
+            return P(
+                `La mujer que tarareaba en el Bar de las Once se llamaba Mara Olmos, y cantaba solo cuando creía que nadie la escuchaba. Ese día me descubrió escuchándola. No se detuvo; se corrió un poco, como se le hace lugar a alguien en un banco.`,
+                `Nos cruzamos de costado en el pasillo angosto que lleva a los baños, con esa torpeza de dos personas que se rozan sin quererlo y que después no pueden dejar de recordarlo. «Dicen que no hay que contar los días», dijo. «Yo los cuento igual. Llevo mil cuatrocientos noventa y uno. ¿Vos?» No supe qué contestar. Hay números que uno lleva sin saberlo.`,
+                `<em>Las historias de amor que no empiezan son las más largas. Tienen todo el tiempo del mundo para convertirse en otra cosa: en una canción, en un lunes, en una forma de mirar por la ventana. Con Mara no hubo nada, y sin embargo, años después, lo recordaría como lo único que había pasado ese año.</em>`,
+                `Me miró de frente. «¿A quién tenés que llamar?», preguntó. Era una pregunta absurda y exacta. Pensé en la libreta de Ofelia, en las voces que había recuperado, en las que no. «Vení», dijo. «Hay una azotea. Hay lluvia. Y hay un teléfono.»`
+            );
+        },
         choices: [
-            { id: 'escribir', label: 'Sentarte y escribir tu propia línea, con tu letra' },
-            { id: 'destruir', label: 'Romper la máquina de escribir a golpes' },
-            { id: 'beber', label: 'Tomar el vaso. Una última vez' }
+            { id: 'acompanar', label: 'Acompañarla a la azotea, bajo la lluvia.' },
+            { id: 'dejar', label: 'Dejarla ir. Todavía no sé qué hacer con tanto cielo.' }
         ]
     },
+    {
+        id: 'c18a_azotea',
+        act: 'Acto II — El Expediente',
+        icon: '🌧️',
+        title: 'La Azotea',
+        visible: function (p) { return storyChoice(p, 'c17_mara') === 'acompanar'; },
+        check: function (p) { return p.level >= 10; },
+        text: P(
+            `Subimos por una escalera de incendio que gemía con cada escalón. Arriba, la lluvia caía de costado y un teléfono público, absurdo, atornillado a una pared sin edificio, sonaba solo, una vez cada tanto. Mara se quedó a un metro de distancia, mirando la ciudad como se mira a un conocido al que ya no se le teme.`,
+            `Atendí. No sé qué voz esperaba. Era una voz de hombre, serena: «Cuando quieras volver, el camino queda abierto.» Eso fue todo. Colgué. Mara me miró con esa sonrisa de los que han escuchado lo mismo y no les alcanzó. «No es el final», dijo. «Los finales vienen después. Esto es el primer día de cualquier cosa.»`,
+            `<em>Fuimos dos personas bajo la lluvia, sin tocarnos, esperando que algo importante pasara y comprendiendo, con la sabiduría cansada de la noche, que ya había pasado: estábamos ahí, juntos, sin haberlo planeado. Eso, que parece poco, es lo único que no se puede fingir.</em>`
+        )
+    },
+    {
+        id: 'c18b_ausencia',
+        act: 'Acto II — El Expediente',
+        icon: '🌫️',
+        title: 'Lo que no Subí a Decir',
+        visible: function (p) { return storyChoice(p, 'c17_mara') === 'dejar'; },
+        check: function (p) { return p.level >= 10; },
+        text: P(
+            `La dejé ir. Se alejó por el pasillo con ese paso de quien no insiste, y la melodía que tarareaba se fue apagando de a poco, como si la fuera guardando.`,
+            `Volví a mi habitación y me senté frente a la ventana. Hay noches en las que uno se pasa horas imaginando conversaciones que no tuvo, y en las que cada una sale mejor que la verdadera. <em>Esa fue la peor de todas: ensayé la respuesta perfecta, la mirada exacta, el momento en que ella, al fin, sonreía. En ninguna de ellas, yo me quedaba callado.</em>`,
+            `Me imaginé a Sísifo pidiendo un cuarto en un hotel y descubriendo que la roca ya estaba adentro, esperándolo, con la paciencia de lo que no se va. Los arrepentimientos son los pendientes que nadie firmó.`
+        )
+    },
+    {
+        id: 'c19_costo',
+        act: 'Acto II — El Expediente',
+        icon: '🩹',
+        title: 'El Costo',
+        check: function (p) { return everHurt(p); },
+        text: P(
+            `Nada de esto sale gratis. En Puerto Calma, todo se paga por adelantado y en cuotas, con un interés que no figura en ningún contrato. Hay días en que la Calma me golpea de a poco, un poquito más cada vez: uno aprende a reconocer el golpe antes de que llegue, a contar los días seguidos en que dolió, a sospechar que el dolor de mañana es el interés del de hoy.`,
+            `Una noche, al volver, el espejo del hotel devolvió una cara que no reconocí: más delgada, con más pliegues, con una mirada de hombre al que ya le dijeron muchas veces que no. Tenía una herida chica en la mano. No recordaba cuándo me la había hecho. Eso, creo, es lo que más me asustó.`,
+            `<em>Dostoievski escribió que el sufrimiento es la única causa de la conciencia. No lo creo del todo. Pero creo que el sufrimiento llega antes que la conciencia, que la anuncia, que le prepara la cama. Y que una conciencia que se despierta sin dolor es una conciencia que se duerme igual, sin avisar.</em>`,
+            `Fui a la Clínica. Me curaron. Volví a salir. Y esa es, creo, toda la técnica: caerse, curarse, volver a salir. No hay otra. Los que la inventaron la escribieron en letra grande y nadie les hizo caso.`
+        )
+    },
 
-    // ───────────── FINALES ALTERNOS ─────────────
+    // ───────────── ACTO III — EL POZO ─────────────
     {
-        id: 'n22a_final_amanecer',
-        icon: '🌅',
-        title: 'Final: Amanecer en Bahía Ceniza',
-        ending: true,
-        visible: function (p) { return storyChoice(p, 'n21_el_faro') === 'escribir' && openCount(p) >= 2; },
-        check: function (p) { return p.level >= 25; },
+        id: 'c20_asegurado',
+        act: 'Acto III — El Pozo',
+        icon: '🗂️',
+        title: 'El Asegurado',
+        check: function (p) { return p.level >= 14; },
         text: function (p) {
-            return 'Te sentaste frente a la máquina y escribiste: «Hoy.» Solo eso, con tu letra torcida, sin tachar. La máquina crujió, la cinta se cortó, y las hojas del sótano de San Dimas se llenaron de letras distintas, de todas las manos que habían subido esa noche. Mañana se quedó mirándote con algo parecido a la derrota y algo más parecido al alivio. «Qué raro», dijo. «Siempre pensé que ibas a preferir la comodidad.» «Yo también», dijiste. Salió el sol sobre el puerto, pálido, pero sol. Ismael abrió el bar con un cartel nuevo: «Café, té y agua». Lena se quedó dormida en el auto. Nora cerró el programa con un disco nuevo. Y vos supiste, sin ningún guion, que mañana es solo el día que viene después de hoy. ' + topAttrLine(p) + ' — Fin de la Temporada 1. Final: Amanecer.';
+            var cierre = cmpAttr(p, 'mente', 'relaciones',
+                'Lo armé como se arman estos casos: una columna para lo que sabía, otra para lo que había visto, una tercera para lo que me negaba a ver. La tercera era la más larga.',
+                'No lo armé con columnas. Lo supe como se saben las cosas importantes: por el modo en que me dolió el pecho antes de que la cabeza dijera nada.',
+                'El orden y el pálpito coincidieron esta vez, y esa coincidencia, entre hombres cansados, es una forma de certeza.');
+            return P(
+                `Volví a la oficina de la Conservera con la linterna y con todo lo que había recogido en el pueblo. Esta vez no revisé los papeles: me senté en el escritorio de Teodoro Ibarra, en su silla, mirando lo que él habría mirado. Una lámpara verde. Un cajón sin llave. Una hoja en blanco, con el mismo tipo de máquina de escribir que había dejado mi futuro sobre la almohada.`,
+                `En el cajón, la póliza. La leí con atención de perito, que es la atención de los que desconfían de todo. Fecha de nacimiento del asegurado: el mismo día que yo. Domicilio anterior: el mío. Y al pie, la firma de Ibarra, una firma que reconocí con el cuerpo antes que con la cabeza: era mi letra. <em>Tal cual. Con la misma curva torcida en la «T» que corrijo todos los años en los formularios del banco.</em>`,
+                `Detrás de la póliza, la foto. Un hombre mayor que yo, más flaco, con la misma manera de sostener el vaso. Lo miré durante mucho tiempo, esperando que el parecido se disolviera. No se disolvió. <em>Teodoro Ibarra no se había perdido. Era lo que me iba a pasar si me quedaba. Era el hombre que se había quedado.</em>`,
+                cierre,
+                `«Ahora entiende por qué el cheque vence mañana», dijo Vigil desde la puerta, sin ruido, con el saco gris perfectamente seco. «El siniestro es usted. Lleva once años incendiándose despacio, y nadie lo ha reclamado.» Por primera vez, no sonreía.`
+            );
         }
     },
     {
-        id: 'n22b_final_tinta',
-        icon: '🖋️',
-        title: 'Final: Tinta Propia',
-        ending: true,
-        visible: function (p) {
-            var c = storyChoice(p, 'n21_el_faro');
-            return (c === 'escribir' && openCount(p) < 2) || c === 'destruir';
+        id: 'c21_pozo',
+        act: 'Acto III — El Pozo',
+        icon: '🕳️',
+        title: 'El Pozo',
+        check: function (p) { return p.level >= 18; },
+        text: function (p) {
+            return P(
+                `Volví a la Conservera al atardecer, con la linterna, la libreta de Ofelia y todo lo que había juntado en Puerto Calma. Los pasos me llevaron solos hasta la escotilla de hierro, el candado nuevo, el óxido que no se acercaba. Alguien había dejado las llaves colgando del asa, con la prolijidad de quien invita.`,
+                `Vigil esperaba junto al pozo, con un libro mayor abierto sobre los brazos. Había una columna con mi nombre y otra, más larga, con todo lo que había postergado desde que era chico. No eran errores graves: eran pendientes, pequeñas deudas sin vencimiento. «Es el saldo», dijo. «Puede bajar a cancelarlo, o puede cerrar la tapa y seguir como estaba. Esta noche las dos opciones son válidas.»`,
+                `<em>Las últimas decisiones de la vida no se toman de una vez. Se toman a lo largo de años, en voz baja, con pequeños gestos que parecen insignificantes. La única diferencia con las de hoy es que alguien, esta noche, estaba mirando. Hay un pozo, hay una tapa y hay un número escrito en una libreta. Eso es todo lo que ofrece el mundo, siempre: una escalera, una puerta y un teléfono.</em>`,
+                `La niebla se había detenido a pocos metros, esperando. En ninguna parte sonó una sirena. Era mi turno.`
+            );
         },
-        check: function (p) { return p.level >= 25; },
+        choices: [
+            { id: 'bajar', label: 'Bajar al pozo, sin cuerda.' },
+            { id: 'cerrar', label: 'Cerrar la tapa y enfrentar lo que venga desde arriba.' },
+            { id: 'llamar', label: 'Marcar el número de mi libreta y decir mi nombre.' }
+        ],
+        // Al decidir, la historia fija el atributo que más desarrollaste: ese define el final.
+        onChoice: function (p, choiceId) {
+            if (!p.storyMeta) p.storyMeta = {};
+            p.storyMeta.attr = topAttrKey(p);
+            p.storyMeta.final = choiceId;
+        }
+    },
+
+    // ───────────── FINALES (según tu atributo más desarrollado) ─────────────
+    {
+        id: 'f1_fuerza', act: 'Finales', icon: '💪', title: 'Final: Las Manos', ending: true,
+        visible: function (p) { return endingIs(p, 'fuerza'); },
+        check: function (p) { return true; },
         text: function (p) {
-            var c = storyChoice(p, 'n21_el_faro');
-            var cuerpo;
-            if (c === 'destruir') {
-                cuerpo = 'Rompiste la máquina a golpes. Hubo chispas, ruido de metal y, por un instante, tu propio grito. Cuando terminó, no quedaba nada que pudieras vencer: un renglón en blanco pegado a la pared y las manos en carne viva. Entendiste que destruir al enemigo no es lo mismo que escribir. Con el último pedazo de cinta, en la penumbra, escribiste un «Hoy» que temblaba. Alcanzó. No fue un final limpio: Mañana no murió, solo se quedó callado. ';
-            } else {
-                cuerpo = 'Escribiste tu línea sin ayuda: «Hoy.» Y funcionó, pero el faro quedó vacío: nadie había subido con vos. Habías peleado bien, solo. Se puede ganar así, pero la victoria se parece demasiado a una habitación vacía. Bajaste los ciento doce escalones con una promesa pequeña: la próxima vez, avisar. ';
-            }
-            return cuerpo + 'Salió el sol, igual que para todos. La niebla se quedó un rato más en el puerto, pero más fina. Había trabajo por hacer, y ahora era tuyo. ' + topAttrLine(p) + ' — Fin de la Temporada 1. Final: Tinta Propia.';
+            return P(
+                umbral(p),
+                `Lo que vino después no fue pensado: fue cuerpo. La Calma me pesó como agua en los pulmones, y lo único que supe hacer fue lo que mis manos sabían, aprendido en mil mañanas de trote y de sudor: aferrarme y subir. Cada barra de hierro fue una frase corta. Una más. Una más. Perdí la cuenta y seguí.`,
+                `Cuando llegué al borde tenía las manos peladas y el cuerpo temblando. Vigil, con el libro mayor, me esperaba con el sello levantado. «Nadie puede estamparse a un hombre que se mueve», dije, y apenas reconocí mi propia voz. Él bajó el sello. Cerró el libro. Fue la primera vez que lo vi parecer lo que era: un empleado cansado.`,
+                cameo(p),
+                `Salí al muelle con el amanecer encima. Las latas, todas, vencieron en la madrugada con un chasquido de metal, como un aplauso lejano. Me senté en el suelo, con las manos abiertas sobre las rodillas. <em>Estaba cansado y vivo, que son dos formas de decir lo mismo cuando uno hizo, con el cuerpo, todo lo que pudo.</em>`
+            );
         }
     },
     {
-        id: 'n22c_final_copa',
-        icon: '🥃',
-        title: 'Final: La Última Copa',
-        ending: true,
-        visible: function (p) { return storyChoice(p, 'n21_el_faro') === 'beber'; },
-        check: function (p) { return p.level >= 25; },
+        id: 'f2_disciplina', act: 'Finales', icon: '🕰️', title: 'Final: El Horario', ending: true,
+        visible: function (p) { return endingIs(p, 'disciplina'); },
+        check: function (p) { return true; },
         text: function (p) {
-            return 'Tomaste el vaso. Estaba tibio y sabía exactamente igual que siempre. Mañana aplaudió despacio, sin burla, casi con tristeza. «Descansá», dijo. La hoja se llenó de líneas nuevas, prolijas, cómodas. La niebla se cerró sobre el puerto. Bajaste las escaleras sin sentir los escalones. Pero a mitad de camino, entre la gente que subía con linternas, alguien te agarró del brazo: Ismael. No te dijo nada. Te dio un vaso de agua. Y supiste que esa noche había terminado como terminan todas, con niebla, pero que mañana —el mañana de verdad, el que no escribe nadie— todavía estaba por empezar. Esta historia no termina acá. Terminó la temporada; vos seguís. ' + topAttrLine(p) + ' — Fin de la Temporada 1. Final: La Última Copa.';
+            return P(
+                umbral(p),
+                `No hubo épica. Hubo método. Hice lo que hacía todas las noches: ordené lo que tenía a mano y lo hice una cosa por vez. La linterna a la izquierda. La libreta a la derecha. Un ritual, otro ritual, el siguiente. La Calma, que se alimenta del que posterga, no sabía qué hacer con un hombre que hace lo que dijo a la hora que dijo.`,
+                `Vigil abrió el libro mayor y empezó a leer en voz alta mis pendientes. Los fui tachando de a uno, con el sello rojo que me había dejado en la muñeca, esa tinta que alguna vez creí una marca de propiedad. <em>Resultó ser, en las manos correctas, una simple lapicera.</em> Cuando terminé, el libro estaba lleno de líneas rectas y la oficina, vacía.`,
+                cameo(p),
+                `Al amanecer, el pueblo hizo ruido de pueblo, sin retardo, sin doblaje: la voz y la boca, por fin, coincidían. <em>La disciplina no salva a nadie. Pero cualquier salvación, vista de cerca, se parece mucho a un horario cumplido durante el tiempo suficiente.</em> Puse la alarma para las seis. Lo sentí como el mayor acto de fe que había hecho en años.`
+            );
         }
+    },
+    {
+        id: 'f3_mente', act: 'Finales', icon: '🧠', title: 'Final: La Respuesta', ending: true,
+        visible: function (p) { return endingIs(p, 'mente'); },
+        check: function (p) { return true; },
+        text: function (p) {
+            return P(
+                umbral(p),
+                `Lo entendí todo de golpe, con esa claridad fría de los últimos capítulos de una novela policial. Las tres personas desaparecidas, los formularios, las latas que vencían el mismo día, el pozo: era un mismo mecanismo visto desde tres ángulos. <em>La Calma no era un monstruo, ni un castigo, ni un fantasma. Era una función: tomaba lo que alguien dejaba sin terminar y lo conservaba. Como una conserva. Con fecha de vencimiento y todo.</em>`,
+                `Le dije a Vigil el nombre del mecanismo. Se quedó inmóvil. «Nadie me lo había dicho en voz alta», murmuró. Yo tampoco había dicho nunca algo que me costara tanto. Saber una cosa duele; saberla en voz alta duele más; pero ninguna otra clase de saber sirve.`,
+                cameo(p),
+                `La niebla se retiró, no por miedo, sino por falta de trabajo. En el muelle, al amanecer, entendí el precio de la respuesta: nunca más iba a poder no saber. <em>La lucidez es una puerta que solo abre hacia adentro. Una vez que se cruza, se vive del lado de la verdad, que es un lugar luminoso y bastante solitario.</em>`
+            );
+        }
+    },
+    {
+        id: 'f4_creatividad', act: 'Finales', icon: '🎨', title: 'Final: Lo que no Estaba en la Hoja', ending: true,
+        visible: function (p) { return endingIs(p, 'creatividad'); },
+        check: function (p) { return true; },
+        text: function (p) {
+            return P(
+                umbral(p),
+                `No había salida en el expediente. Tampoco en la póliza, ni en el reglamento, ni en el libro mayor de Vigil. Entonces hice lo que no estaba permitido: inventé una. Saqué la lapicera, abrí la hoja en blanco que había quedado en la máquina de Ibarra y escribí, con mi letra torcida, una puerta. Después, la ventana que daba a la puerta. Después, el pasillo.`,
+                `Detrás de la escotilla, las cortinas bordó de la habitación 18 se abrieron como en un teatro, y la luz que entró no era de este mundo ni de ninguno que yo conociera. <em>Lynch decía que todo es un sueño dentro de otro sueño. Yo descubrí que, en un sueño, la persona que escribe es la única que no necesita permiso.</em> Vigil me miró con el desconcierto de un burócrata ante una forma inexistente. «Eso no figura», dijo. «Ahora sí», contesté.`,
+                cameo(p),
+                `Cuando el sol subió, la hoja se había vuelto una calle verdadera. Salí a caminar por ella. No sabía adónde llevaba. <em>Creo que esa es la definición de lo que escribe un hombre libre: una calle que todavía no sabe adónde va.</em>`
+            );
+        }
+    },
+    {
+        id: 'f5_carrera', act: 'Finales', icon: '💼', title: 'Final: La Firma', ending: true,
+        visible: function (p) { return endingIs(p, 'carrera'); },
+        check: function (p) { return true; },
+        text: function (p) {
+            return P(
+                umbral(p),
+                `Hice lo único que sabía hacer con seriedad: cerré el expediente. Con el rigor de quien lleva años redactando informes que nadie lee, escribí el mío, hasta la última cláusula. <em>Siniestro 1208. Causa: pendientes acumulados durante once años. Responsable: el asegurado. Resolución: pago íntegro, a la persona correcta, hoy.</em> Y firmé con mi nombre, no con el de Ibarra, en una línea que no estaba en ningún formulario.`,
+                `Vigil leyó el informe con una atención que nunca le había visto. «Es el primer expediente bien cerrado que veo en mucho tiempo», admitió, y estampó el sello en el margen. El óxido, que subía por las paredes de la Conservera, retrocedió un palmo, como un perro al que le dieran una orden clara.`,
+                cameo(p),
+                `Mutual Horizonte me ofreció, a la semana, un ascenso que parecía un castigo y un castigo que parecía un ascenso. Todavía no sé cuál elegí. <em>Un hombre que hace bien su trabajo se gana el derecho a que le propongan trabajos más difíciles. Una forma sutil de agradecimiento, y de amenaza.</em>`
+            );
+        }
+    },
+    {
+        id: 'f6_finanzas', act: 'Finales', icon: '💰', title: 'Final: Saldo', ending: true,
+        visible: function (p) { return endingIs(p, 'finanzas'); },
+        check: function (p) { return true; },
+        text: function (p) {
+            return P(
+                umbral(p),
+                `Siempre fui un hombre que lleva las cuentas. Cuando Vigil abrió el libro mayor, no vi una condena: vi una planilla. Debe, Haber, columnas prolijas. Pagué lo que debía. A Ibarra, que no era otro que yo, una tarde de descanso sin culpa. A mi cuerpo, la deuda de todas las noches de sueño que le robé. A la gente de la libreta, las llamadas pendientes, con intereses.`,
+                `Cuando saldé la última partida, el libro mayor emitió un sonido breve, como el de una caja registradora que se cierra. Vigil lo cerró. En el casillero final, en tinta roja, apareció una cifra que no entendí hasta que la leí dos veces: <em>«Saldo a favor.»</em> No era dinero. Era algo que no tiene nombre en ninguna contabilidad: tiempo sin deudas.`,
+                cameo(p),
+                `Camus escribió que lo único serio de la vida es la cuenta que uno le debe a sí mismo. Nunca me gustó el tono grave de esa frase. Pero salí al muelle con la sensación liviana de un hombre que, por primera vez, no debe nada a nadie, y menos que a nadie, a sí mismo.`
+            );
+        }
+    },
+    {
+        id: 'f7_social', act: 'Finales', icon: '🍰', title: 'Final: La Mesa Larga', ending: true,
+        visible: function (p) { return endingIs(p, 'social'); },
+        check: function (p) { return true; },
+        text: function (p) {
+            return P(
+                umbral(p),
+                `No lo hice solo. Eso fue lo primero que entendí: la Calma no se enfrenta, se acompaña. Salí de la Conservera sin saber qué esperaba, y al volver al pueblo la plaza estaba llena. Cosme con una bandeja de tarta, Ofelia con su libreta, el inspector con el impermeable seco, Mara cantando bajito. Una mesa larga, de esas que se arman para los velorios y las bodas, y que son, bien miradas, la misma ceremonia.`,
+                `Nadie dijo nada importante. Se habló del clima, de los precios, del mal servicio del colectivo. <em>Es increíble cuánta salvación cabe en las conversaciones que no tratan de nada.</em> En el Bar de las Once, a medianoche, los once relojes marcaron por primera vez la misma hora, aunque ninguno de nosotros pudo ponerse de acuerdo sobre cuál era.`,
+                cameo(p),
+                `Vigil apareció en la puerta, con el saco gris, a mirar. Cosme le ofreció un plato. Lo aceptó, con una cortesía de quien no sabía que existía el gesto. <em>Una mesa llena de gente es la única arma que no mata a nadie y que, sin embargo, deja sin trabajo a las sombras.</em> Me serví una porción. Sabía a tarde de infancia. A esa que, esta vez, sí viví.`
+            );
+        }
+    },
+    {
+        id: 'f8_relaciones', act: 'Finales', icon: '☎️', title: 'Final: La Llamada', ending: true,
+        visible: function (p) { return endingIs(p, 'relaciones'); },
+        check: function (p) { return true; },
+        text: function (p) {
+            return P(
+                umbral(p),
+                `Marqué el número. Esperé. Una vez, dos, tres, con la paciencia de quien sabe que hay llamadas que tardan años en ser atendidas. Del otro lado, ` + contactVoice(p) + ` dijo mi nombre. Solo eso. No preguntó nada, no reclamó nada. <em>Me di cuenta de que había pasado toda la vida esperando que alguien dijera mi nombre así, y que ese alguien siempre había estado a un teléfono de distancia.</em>`,
+                `No hablamos de lo importante. Hablamos de lo que se habla cuando se retoma un hilo: de cómo estaba, de qué hacía, de si el pueblo tenía buen café. Y en algún momento, sin avisar, la niebla se levantó. No de golpe: de a capas, como se levanta el telón al final de una función en la que nadie ha dicho todavía la última línea.`,
+                cameo(p),
+                `Colgué sin despedirme, sabiendo que no hacía falta. <em>El amor, en cualquiera de sus formas, es la decisión de volver a levantar el teléfono. Una y otra vez. Hasta que alguien, del otro lado, ya no necesite preguntar quién es.</em> Salí al muelle con el aire de la mañana, y por primera vez en muchos años no me sentí un hombre de paso.`
+            );
+        }
+    },
+
+    // ───────────── CODA — LO QUE QUEDÓ ABIERTO ─────────────
+    {
+        id: 'z_coda',
+        act: 'Coda',
+        icon: '✉️',
+        title: 'Lo que Quedó Abierto',
+        visible: function (p) { return !!storyChoice(p, 'c21_pozo'); },
+        check: function (p) { return STORY_ENDING_IDS.some(function (id) { return p.storyChapters.indexOf(id) !== -1; }); },
+        text: P(
+            `A la mañana siguiente, el colectivo de las 4:44 salió sin mí. Lo vi partir desde la ventana de la 18, con esa mezcla de alivio y de duda que sienten los que se quedan. Sobre la almohada había un sobre sin remitente, con el sello de Mutual Horizonte, el mismo papel que había llegado en mi bolsillo once días antes, o once años.`,
+            `Adentro, un expediente nuevo. <em>Siniestro 1209. Asegurado: no consta. Lugar: Las Ánimas, un pueblo que no figura en ningún mapa. Perito asignado: usted.</em> Y una fecha. Otra vez mañana. Al pie, una firma que reconocí demasiado tarde: la de Vigil, con una nota a mano, en letra más pequeña: <em>«El suyo estaba cerrado. Este no.»</em>`,
+            `Cosme me contó, después, que los once relojes del bar habían empezado a marcar la misma hora, pero que nadie sabía cuál era. Ofelia guardó la libreta bajo llave. Brandán dejó de fumar, o lo intentó. La sirena de las 4:44 sonó esa madrugada, una vez, larga, y esta vez tuvo respuesta: desde lejos, tan lejos que parecía otro continente, otra sirena le contestó.`,
+            `<em>Hay finales que cierran. Y hay finales que apenas giran la llave en una puerta, y se quedan del lado de adentro, escuchando lo que pasa afuera. El mío era de los segundos. Había respondido a la pregunta que me trajo a Puerto Calma, y la respuesta me había dejado con otra, más grande, y con un teléfono que, a las 4:44, volvía a sonar.</em>`,
+            `<strong>Fin de la Temporada 1.</strong> El expediente 1209 sigue abierto.`
+        )
     }
 ];
+
+const STORY_ENDING_IDS = ['f1_fuerza', 'f2_disciplina', 'f3_mente', 'f4_creatividad', 'f5_carrera', 'f6_finanzas', 'f7_social', 'f8_relaciones'];
+
+// ¿Es este el final que te corresponde? Solo existe después de la decisión del pozo.
+function endingIs(p, key) {
+    return !!(storyChoice(p, 'c21_pozo') && p.storyMeta && p.storyMeta.attr === key);
+}
+
+// Cómo cruzaste el umbral del pozo (depende de tu última decisión)
+function umbral(p) {
+    var c = storyChoice(p, 'c21_pozo');
+    if (c === 'bajar') {
+        return `Bajé al pozo sin cuerda, con la linterna entre los dientes. Los peldaños de hierro eran fríos y exactos, como los de una escalera que alguien mantiene todos los días. A mitad del descenso dejé de contar. Abajo no había agua: había un cuarto, y en el cuarto una mesa, y sobre la mesa un hombre de espaldas, escribiendo, que me dejó pasar sin darse vuelta.`;
+    }
+    if (c === 'cerrar') {
+        return `Cerré la tapa. El candado nuevo cayó solo, con un clic limpio. Me senté encima del metal, esperando lo que fuera a subir. No subió ningún monstruo ni ninguna voz: subió una pregunta, la única que me faltaba. <em>¿Y si lo que hay abajo solo se puede enfrentar desde arriba?</em> La niebla se acercó hasta mis zapatos y se quedó ahí, con la mansedumbre de un animal que reconoce a su dueño.`;
+    }
+    return `Saqué la libreta de Ofelia y marqué el primer número de la lista en el teléfono negro de la oficina, el que no tenía cable. Mientras esperaba, la escotilla se abrió sola, despacio, como si alguien del otro lado hubiera decidido que ya era hora. No bajé. Dejé que lo que estaba abajo subiera a mi encuentro, con el auricular en la mano y el corazón en la boca.`;
+}
+
+// Quién te espera según tus decisiones (aliados, Mara, la hoja)
+function cameo(p) {
+    var t = [];
+    if (storyChoice(p, 'c11_brandan') === 'contar') t.push('Brandán me esperaba sentado en el patrullero, con dos cafés y el impermeable seco, con el aire de quien nunca dudó de que iba a volver.');
+    else if (storyChoice(p, 'c11_brandan') === 'mentir') t.push('Brandán no estaba. Había dejado en el capó de su coche una nota con una sola palabra: «Cuando quieras.» Alcanzaba.');
+    if (storyChoice(p, 'c17_mara') === 'acompanar') t.push('Desde algún lugar del muelle llegaba un tarareo bajito, sin micrófono: Mara cantaba, y esta vez no se corrió.');
+    else if (storyChoice(p, 'c17_mara') === 'dejar') t.push('En la barra del Bar de las Once había un vaso que no era mío, con una nota de Mara que decía «Mil cuatrocientos noventa y uno»: el número de días que llevaba contando. Dejé de contar los míos.');
+    var h = storyChoice(p, 'c14_hoja');
+    if (h === 'guardar') t.push('Saqué la hoja doblada de la billetera. Todavía no era el momento de leerla, pero ya no pesaba.');
+    else if (h === 'quemar') t.push('No me quedaba ninguna hoja. Mi futuro, por una vez, estaba en blanco.');
+    else if (h === 'leer') t.push('Recordé la prosa impecable de la segunda hoja. Esta mañana, sin una sola corrección, la contradije.');
+    return t.length ? t.join(' ') : '';
+}
 
 // ============================================================
 // ===== VISIBILIDAD, VERSIÓN Y DESBLOQUEO =====
@@ -411,6 +712,7 @@ function ensureStoryVersion() {
     player.storyChapters = [];
     player.storyRead = [];
     player.storyChoices = {};
+    player.storyMeta = {};
     player.storyVersion = STORY_VERSION;
 }
 
@@ -432,8 +734,8 @@ function checkStoryUnlocks() {
             unlockedAny = true;
 
             setTimeout(function () {
-                addLogEntry('story', '📖 Nuevo capítulo: "' + chapter.title + '"', 'Modo Historia', 0, 0, null);
-                showToast('📖 Nuevo capítulo desbloqueado: "' + chapter.title + '"', 'success', 'Historia');
+                addLogEntry('story', 'Nuevo capítulo: "' + chapter.title + '"', 'Modo Historia', 0, 0, null);
+                showToast('Nuevo capítulo desbloqueado: "' + chapter.title + '"', 'success', 'Historia');
             }, 500);
         }
     });
@@ -469,13 +771,14 @@ function makeStoryChoice(chapterId, choiceId) {
     if (player.storyChoices[chapterId]) return;
 
     player.storyChoices[chapterId] = choiceId;
-    saveGame();
 
     var chapter = STORY_CHAPTERS.find(function (c) { return c.id === chapterId; });
     var choiceObj = chapter ? chapter.choices.find(function (c) { return c.id === choiceId; }) : null;
+    if (chapter && typeof chapter.onChoice === 'function') chapter.onChoice(player, choiceId);
+    saveGame();
 
     showToast('Elegiste: "' + (choiceObj ? choiceObj.label : choiceId) + '"', 'info', 'Historia');
-    addLogEntry('story', '🖤 Decisión tomada en "' + (chapter ? chapter.title : chapterId) + '"', choiceObj ? choiceObj.label : '', 0, 0, null);
+    addLogEntry('story', 'Decisión tomada en "' + (chapter ? chapter.title : chapterId) + '"', choiceObj ? choiceObj.label : '', 0, 0, null);
 
     renderStory();
     checkStoryUnlocks();
@@ -494,9 +797,15 @@ function renderStory() {
     if (progressEl) progressEl.textContent = unlockedCount + ' / ' + totalCount + ' capítulos';
 
     var html = '';
+    var lastAct = null;
     visibleChapters.forEach(function (chapter, index) {
         var isUnlocked = player.storyChapters.indexOf(chapter.id) !== -1;
         var isRead = player.storyRead.indexOf(chapter.id) !== -1;
+
+        if (chapter.act && chapter.act !== lastAct) {
+            html += '<div class="story-act">' + chapter.act + '</div>';
+            lastAct = chapter.act;
+        }
 
         if (!isUnlocked) {
             html += '<div class="story-card locked">' +
@@ -518,7 +827,8 @@ function renderStory() {
             } else {
                 choicesHTML = '<div class="story-choices">';
                 chapter.choices.forEach(function (choice) {
-                    choicesHTML += '<button class="story-choice-btn" onclick="event.stopPropagation(); makeStoryChoice(\'' + chapter.id + '\', \'' + choice.id + '\')">' + choice.label + '</button>';
+                    choicesHTML += '<button class="story-choice-btn" onclick="event.stopPropagation(); makeStoryChoice(\'' + chapter.id + '\', \'' + choice.id + '\')">' +
+                        choice.label + '</button>';
                 });
                 choicesHTML += '</div>';
             }
@@ -538,5 +848,3 @@ function renderStory() {
 
     container.innerHTML = html;
 }
-
-// ============================================================

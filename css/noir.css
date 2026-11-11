@@ -1076,3 +1076,19 @@ input::placeholder, textarea::placeholder {
 /* Runa: el ícono está en sepia hasta que la canalizás; entonces pasa a color */
 #rune-container .rune-card.completed .rune-icon,
 #rune-container .rune-card.channeling .rune-icon { filter: none; }
+
+/* ================= Modo Historia: actos y monólogos ================= */
+.story-act {
+    margin: 22px 0 10px;
+    padding-bottom: 6px;
+    font-family: var(--font-label);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--brass-light);
+    border-bottom: 1px solid color-mix(in srgb, var(--brass) 35%, transparent);
+}
+.story-act:first-child { margin-top: 4px; }
+.story-body { font-size: 0.95rem; line-height: 1.85; }
+.story-body em { color: var(--bone-dim); font-style: italic; }
+.story-body strong { color: var(--brass-light); font-weight: normal; letter-spacing: 1px; }
