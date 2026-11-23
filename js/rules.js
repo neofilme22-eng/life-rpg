@@ -98,6 +98,7 @@ function renderRules() {
             { cells: ['Evento', 'La de su JSON (expReward)'] },
             { cells: ['Meta', 'La de su JSON (expReward)'] },
             { cells: ['Evento Sorpresa resuelto', '80 a 110 EXP'] },
+            { cells: ['Romper la Calma', '5 EXP al completar 2 minutos de una tarea pendiente (hasta 3 por día)'] },
             { cells: ['Contacto de la libreta', '3 a 15 EXP según la frecuencia (diaria 3, cada 3 días 6, semanal 10, mensual 15), solo si ya tocaba; tope 30 EXP por día'] }
         ]) +
         '<p class="rules-p">Toda la EXP se multiplica por el modificador de EXP de la dificultad. Los trofeos (18 propios y uno por cada DLC) se desbloquean solos al cumplir su condición.</p>');

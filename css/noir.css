@@ -1092,3 +1092,37 @@ input::placeholder, textarea::placeholder {
 .story-body { font-size: 0.95rem; line-height: 1.85; }
 .story-body em { color: var(--bone-dim); font-style: italic; }
 .story-body strong { color: var(--brass-light); font-weight: normal; letter-spacing: 1px; }
+
+/* ================= Historia: que el capítulo se lea completo (también en el celular) ================= */
+.story-card.open .story-body { max-height: none; overflow: visible; }
+
+/* ================= Romper la Calma ================= */
+.calma-box { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; align-items: flex-start; }
+.calma-hint { margin: 0; font-size: 0.88rem; line-height: 1.65; color: var(--bone-dim); }
+.calma-left { font-family: var(--font-label); font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--fog-dim); }
+.calma-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border-radius: 3px;
+    border: 1px solid color-mix(in srgb, var(--brass) 32%, var(--line));
+    border-left: 3px solid var(--brass);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--brass) 8%, var(--ink-2)), var(--ink-2));
+}
+.calma-card.running { border-left-color: var(--verdigris-light); background: linear-gradient(160deg, color-mix(in srgb, var(--verdigris) 9%, var(--ink-2)), var(--ink-2)); }
+.calma-card.done { border-left-color: var(--lichen); background: linear-gradient(160deg, color-mix(in srgb, var(--lichen) 9%, var(--ink-2)), var(--ink-2)); }
+.calma-kind { font-family: var(--font-label); font-size: 0.64rem; letter-spacing: 2px; text-transform: uppercase; color: var(--fog); margin-bottom: 6px; }
+.calma-task { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.3; color: var(--text); overflow-wrap: anywhere; }
+.calma-time { margin: 8px 0 2px; font-family: var(--font-label); font-size: 2.4rem; letter-spacing: 3px; color: var(--verdigris-light); }
+.calma-line { margin-top: 8px; font-family: var(--font-label); font-size: 0.72rem; line-height: 1.6; letter-spacing: 0.4px; color: var(--fog); }
+.calma-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.calma-sub-btn {
+    padding: 8px 14px;
+    border-radius: 2px;
+    border: 1px solid rgba(227, 220, 200, 0.16);
+    background: transparent;
+    color: var(--fog);
+    font-family: var(--font-label); font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+}
+.calma-sub-btn:hover { color: var(--text); border-color: rgba(227, 220, 200, 0.35); }

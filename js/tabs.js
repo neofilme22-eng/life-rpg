@@ -42,6 +42,7 @@
                 if (tabId === 'tab-events') { renderEvents(); renderSurprise(); }
                 if (tabId === 'tab-hospital') renderHospital();
                 if (tabId === 'tab-contacts') renderContacts();
+                if (tabId === 'tab-runas' && typeof renderCalma === 'function') renderCalma();
                 if (tabId === 'tab-rules') renderRules();
                 if (tabId === 'tab-config') {
                     loadDifficulty();

@@ -65,6 +65,7 @@
 
                                     checkInactivityDamage();
                                     if (typeof runPressureChecks === 'function') runPressureChecks();
+                                    if (typeof renderCalma === 'function') renderCalma();
 
                                     cleanOldDailyMissions();
 
