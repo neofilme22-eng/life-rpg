@@ -15,7 +15,7 @@
         }
 
         .boss-grid::-webkit-scrollbar-track {
-            background: rgba(227, 220, 200, 0.02);
+            background: rgba(var(--bone-rgb), 0.02);
             border-radius: 4px;
         }
 
@@ -32,8 +32,8 @@
             min-width: 280px;
             max-width: 320px;
             flex-shrink: 0;
-            background: linear-gradient(145deg, #131918, #0b0f0e);
-            border: 1px solid rgba(150, 158, 153, 0.2);
+            background: linear-gradient(145deg, var(--panel-0), var(--deep));
+            border: 1px solid rgba(var(--fog-rgb), 0.2);
             border-radius: 12px;
             padding: 18px 16px;
             transition: all 0.3s ease;
@@ -52,7 +52,7 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(ellipse at 20% 80%, rgba(150, 158, 153, 0.04), transparent 50%);
+                radial-gradient(ellipse at 20% 80%, rgba(var(--fog-rgb), 0.04), transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -64,15 +64,15 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(150, 158, 153, 0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(var(--fog-rgb), 0.08), transparent);
             pointer-events: none;
             z-index: 1;
         }
 
         .boss-card:hover {
-            border-color: rgba(150, 158, 153, 0.35);
+            border-color: rgba(var(--fog-rgb), 0.35);
             transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(150, 158, 153, 0.05);
+            box-shadow: 0 4px 20px rgba(var(--fog-rgb), 0.05);
         }
 
         .boss-card>* {
@@ -81,12 +81,12 @@
         }
 
         .boss-card.defeated {
-            border-color: rgba(101, 131, 81, 0.25);
-            background: linear-gradient(145deg, #0e1311, #080a09);
+            border-color: rgba(var(--lichen-dark-rgb), 0.25);
+            background: linear-gradient(145deg, var(--ink-2), var(--deep));
         }
 
         .boss-card.defeated::after {
-            background: linear-gradient(90deg, transparent, rgba(101, 131, 81, 0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(var(--lichen-dark-rgb), 0.08), transparent);
         }
 
         .boss-card.defeated .boss-name {
@@ -94,13 +94,13 @@
         }
 
         .boss-card.defeated .boss-status {
-            background: rgba(101, 131, 81, 0.12);
+            background: rgba(var(--lichen-dark-rgb), 0.12);
             color: var(--success);
-            border: 1px solid rgba(101, 131, 81, 0.15);
+            border: 1px solid rgba(var(--lichen-dark-rgb), 0.15);
         }
 
         .boss-card.overdue {
-            border-color: rgba(161, 68, 61, 0.4);
+            border-color: rgba(var(--blood-mid-rgb), 0.4);
         }
 
         .boss-card.overdue .boss-deadline {
@@ -118,15 +118,15 @@
         .boss-name {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #b9c0ba;
+            color: var(--silver);
             margin: 0;
-            text-shadow: 0 0 20px rgba(185, 192, 187, 0.05);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            text-shadow: 0 0 20px rgba(var(--silver-rgb), 0.05);
+            font-family: var(--font-body);
         }
 
         .boss-icon {
             font-size: 2rem;
-            filter: drop-shadow(0 0 10px rgba(185, 192, 187, 0.1));
+            filter: drop-shadow(0 0 10px rgba(var(--silver-rgb), 0.1));
         }
 
         .boss-status {
@@ -134,18 +134,18 @@
             font-weight: bold;
             padding: 2px 12px;
             border-radius: 12px;
-            background: rgba(185, 192, 187, 0.1);
-            color: #b9c0ba;
-            border: 1px solid rgba(185, 192, 187, 0.12);
+            background: rgba(var(--silver-rgb), 0.1);
+            color: var(--silver);
+            border: 1px solid rgba(var(--silver-rgb), 0.12);
             align-self: center;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .boss-deadline {
             font-size: 0.8rem;
             color: var(--text-muted);
             margin: 2px 0 10px 0;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .boss-deadline strong {
@@ -162,32 +162,32 @@
             font-size: 0.8rem;
             color: var(--text-muted);
             margin-bottom: 4px;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             opacity: 0.7;
         }
 
         .boss-progress-bar {
-            background: #1a2320;
+            background: var(--panel-2);
             border-radius: 4px;
             height: 8px;
             overflow: hidden;
-            border: 1px solid rgba(227, 220, 200, 0.03);
+            border: 1px solid rgba(var(--bone-rgb), 0.03);
         }
 
         .boss-progress-bar .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #8f9893, #b9c0ba);
+            background: linear-gradient(90deg, var(--fog), var(--silver));
             transition: width 0.5s ease;
             border-radius: 4px;
         }
 
         .boss-card.defeated .boss-progress-bar .progress-fill {
-            background: linear-gradient(90deg, #516941, #658351);
+            background: linear-gradient(90deg, var(--lichen-deep), var(--lichen-dark));
         }
 
         .boss-tasks {
             margin-top: 10px;
-            border-top: 1px solid rgba(227, 220, 200, 0.04);
+            border-top: 1px solid rgba(var(--bone-rgb), 0.04);
             padding-top: 10px;
             flex: 1;
         }
@@ -200,7 +200,7 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             transition: all 0.2s;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .boss-task-item.completed {
@@ -231,15 +231,15 @@
             color: var(--gold);
             margin-top: 8px;
             padding-top: 8px;
-            border-top: 1px solid rgba(227, 220, 200, 0.04);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            border-top: 1px solid rgba(var(--bone-rgb), 0.04);
+            font-family: var(--font-body);
         }
 
         .boss-reward span {
-            background: rgba(193, 152, 71, 0.06);
+            background: rgba(var(--brass-rgb), 0.06);
             padding: 2px 10px;
             border-radius: 12px;
-            border: 1px solid rgba(193, 152, 71, 0.06);
+            border: 1px solid rgba(var(--brass-rgb), 0.06);
         }
 
         .boss-empty {
@@ -247,7 +247,7 @@
             opacity: 0.5;
             text-align: center;
             font-style: italic;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             padding: 30px 0;
             grid-column: 1 / -1;
             min-width: 100%;
@@ -296,7 +296,7 @@
         .boss-card .entity-image-block .boss-emoji {
             font-size: 5rem;
             line-height: 1;
-            text-shadow: 0 0 40px rgba(150, 158, 153, 0.2);
+            text-shadow: 0 0 40px rgba(var(--fog-rgb), 0.2);
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
             transition: all 0.3s ease;
             display: flex;
@@ -354,7 +354,7 @@
         .bestiary-card .entity-image-block .boss-emoji {
             font-size: 3.5rem;
             line-height: 1;
-            text-shadow: 0 0 30px rgba(150, 158, 153, 0.15);
+            text-shadow: 0 0 30px rgba(var(--fog-rgb), 0.15);
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
             transition: all 0.3s ease;
             display: flex;
@@ -375,11 +375,11 @@
 
         /* ===== ESTILO ADICIONAL PARA BOSSES VENCIDOS ===== */
         .boss-card.defeated .entity-image-block {
-            background: rgba(101, 131, 81, 0.05);
+            background: rgba(var(--lichen-dark-rgb), 0.05);
         }
 
         .boss-card.defeated .entity-image-block .boss-emoji {
-            text-shadow: 0 0 40px rgba(101, 131, 81, 0.2);
+            text-shadow: 0 0 40px rgba(var(--lichen-dark-rgb), 0.2);
         }
 
         /* ===== BESTIARIO ===== */
@@ -391,10 +391,10 @@
         }
 
         .bestiary-filter-btn {
-            background: rgba(227, 220, 200, 0.03);
-            border: 1px solid rgba(227, 220, 200, 0.08);
+            background: rgba(var(--bone-rgb), 0.03);
+            border: 1px solid rgba(var(--bone-rgb), 0.08);
             color: var(--text-muted);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             font-size: 0.8rem;
             padding: 6px 14px;
             border-radius: 20px;
@@ -403,13 +403,13 @@
         }
 
         .bestiary-filter-btn:hover {
-            border-color: rgba(150, 158, 153, 0.3);
+            border-color: rgba(var(--fog-rgb), 0.3);
             color: var(--text);
         }
 
         .bestiary-filter-btn.active {
-            background: rgba(150, 158, 153, 0.12);
-            border-color: rgba(150, 158, 153, 0.4);
+            background: rgba(var(--fog-rgb), 0.12);
+            border-color: rgba(var(--fog-rgb), 0.4);
             color: var(--text);
         }
 
@@ -434,8 +434,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(145deg, #131918, #0b0f0e);
-            border: 1px solid rgba(227, 220, 200, 0.06);
+            background: linear-gradient(145deg, var(--panel-0), var(--deep));
+            border: 1px solid rgba(var(--bone-rgb), 0.06);
             border-radius: 8px;
             padding: 8px 10px;
             cursor: pointer;
@@ -443,7 +443,7 @@
         }
 
         .bestiary-list-item:hover {
-            border-color: rgba(227, 220, 200, 0.15);
+            border-color: rgba(var(--bone-rgb), 0.15);
             transform: translateX(2px);
         }
 
@@ -456,8 +456,8 @@
         }
 
         .bestiary-list-item.active {
-            background: rgba(227, 220, 200, 0.05);
-            box-shadow: 0 0 0 1px rgba(227, 220, 200, 0.1) inset;
+            background: rgba(var(--bone-rgb), 0.05);
+            box-shadow: 0 0 0 1px rgba(var(--bone-rgb), 0.1) inset;
         }
 
         .bestiary-list-icon {
@@ -487,7 +487,7 @@
             font-size: 0.85rem;
             font-weight: bold;
             color: var(--text);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -499,22 +499,22 @@
             padding: 1px 8px;
             border-radius: 10px;
             width: fit-content;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .bestiary-type-tag.boss {
-            background: rgba(150, 158, 153, 0.15);
-            color: #d3d9d4;
+            background: rgba(var(--fog-rgb), 0.15);
+            color: var(--silver-hi);
         }
 
         .bestiary-type-tag.champ {
-            background: rgba(158, 138, 173, 0.15);
-            color: #c9bed1;
+            background: rgba(var(--dusk-rgb), 0.15);
+            color: var(--dusk-hi);
         }
 
         .bestiary-detail {
-            background: linear-gradient(145deg, #131918, #0b0f0e);
-            border: 1px solid rgba(227, 220, 200, 0.08);
+            background: linear-gradient(145deg, var(--panel-0), var(--deep));
+            border: 1px solid rgba(var(--bone-rgb), 0.08);
             border-radius: 12px;
             padding: 18px;
             min-height: 320px;
@@ -539,14 +539,14 @@
 
         .bestiary-detail-name {
             margin: 0;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             color: var(--text);
             font-size: 1.3rem;
         }
 
         .bestiary-detail-desc {
             color: var(--text-muted);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             font-size: 0.9rem;
             line-height: 1.5;
             font-style: italic;
@@ -558,10 +558,10 @@
             gap: 10px 18px;
             margin-top: 14px;
             padding-top: 12px;
-            border-top: 1px solid rgba(227, 220, 200, 0.06);
+            border-top: 1px solid rgba(var(--bone-rgb), 0.06);
             font-size: 0.78rem;
             color: var(--text-muted);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .bestiary-detail-empty {
@@ -569,7 +569,7 @@
             opacity: 0.6;
             text-align: center;
             font-style: italic;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             padding: 40px 0;
         }
 
@@ -579,7 +579,7 @@
             text-align: center;
             grid-column: 1 / -1;
             font-style: italic;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             padding: 20px 0;
         }
 
@@ -622,7 +622,7 @@
 .boss-record {
     margin-top: 22px;
     padding-top: 16px;
-    border-top: 1px solid rgba(227, 220, 200, 0.05);
+    border-top: 1px solid rgba(var(--bone-rgb), 0.05);
 }
 
 .boss-record-header {
@@ -635,7 +635,7 @@
 }
 
 .boss-record-title {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     font-weight: bold;
     font-size: 0.95rem;
     color: var(--text);
@@ -643,7 +643,7 @@
 }
 
 .boss-record-count {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     font-size: 0.8rem;
     color: var(--text-muted);
 }
@@ -660,8 +660,8 @@
     gap: 10px;
     padding: 8px 12px;
     border-radius: 8px;
-    background: rgba(101, 131, 81, 0.06);
-    border: 1px solid rgba(101, 131, 81, 0.22);
+    background: rgba(var(--lichen-dark-rgb), 0.06);
+    border: 1px solid rgba(var(--lichen-dark-rgb), 0.22);
 }
 
 .boss-record-icon {
@@ -688,7 +688,7 @@
 }
 
 .boss-record-name {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     font-size: 0.88rem;
     font-weight: bold;
     color: var(--text);
@@ -698,15 +698,15 @@
 }
 
 .boss-record-date {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     font-size: 0.72rem;
     color: var(--text-muted);
 }
 
 /* Fallidas (se les acabó el tiempo): en gris */
 .boss-record-item.failed {
-    background: rgba(147, 154, 141, 0.04);
-    border-color: rgba(147, 154, 141, 0.15);
+    background: rgba(var(--fog-rgb), 0.04);
+    border-color: rgba(var(--fog-rgb), 0.15);
     opacity: 0.6;
 }
 
@@ -722,7 +722,7 @@
     grid-column: 1 / -1;
     text-align: center;
     padding: 14px 0;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     font-size: 0.85rem;
     color: var(--text-muted);
     opacity: 0.6;

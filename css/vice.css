@@ -1,0 +1,355 @@
+/* ================================================================
+   TEMA VICE CITY — neón al atardecer (inspirado en GTA VI)
+   Se activa con <html data-theme="vice"> desde Configuración.
+   Paletas: Sunset Pink #FF5CA8 · Vice Cyan #00F0FF · Neon Purple #BC6CFF
+            Miami Peach #FFB86B · Ocean Night #0B0F2B
+   ================================================================ */
+
+html[data-theme="vice"] {
+    /* Tintas / fondos */
+    --ink: #0B0F2B;
+    --ink-2: #100f33;
+    --surface: #171340;
+    --surface-2: #211a52;
+    --line: #3b2d7a;
+    --panel-0: #0f0d30;
+    --panel: #151238;
+    --panel-2: #1b1745;
+    --panel-3: #251d58;
+    --panel-4: #35297a;
+    --deep: #070818;
+    --deep-green: #07182b;
+    --deep-warm: #1c0d2b;
+    --deep-red: #260a1c;
+    --page-bg: #0B0F2B;
+
+    /* Texto */
+    --bone: #fdebf5;
+    --bone-dim: #e6c8dd;
+    --fog: #a99bd6;
+    --fog-dim: #7f76b0;
+
+    /* Acento principal: Sunset Pink */
+    --brass: #ff5ca8;
+    --brass-dark: #d13c86;
+    --brass-light: #ff8cc4;
+    --brass-mid: #f0489a;
+    --blood: #ff4d5e;
+    --blood-dark: #712c3e;
+    --blood-mid: #d93a56;
+    --blood-deep: #a12c45;
+    --rust: #ff8a3d;
+    --verdigris: #00f0ff;           /* Vice Cyan */
+    --verdigris-light: #8df7ff;
+    --silver: #c1e1cd;
+    --silver-hi: #e5f5ec;
+    --plum: #1d1046;
+    --plum-dark: #120a30;
+    --peach: #ffb86b;               /* Miami Peach */
+
+    --c-daily: #ffb86b;
+    --c-main: #ff7a3d;
+    --c-secondary: #ffd6a5;
+    --c-event: #bc6cff;
+    --c-goal: #c1e1cd;
+
+    --hosp: #3de0d0;
+    --hosp-light: #a8f5ec;
+    --hosp-dark: #0c3550;
+    --hosp-red: #ff4d5e;
+    --hosp-mid: #2bbfb0;
+    --hosp-hi: #dffbf6;
+    --celeste: #8db4ff;
+    --lichen: #3df5a5;
+    --lichen-dark: #25c98a;
+    --lichen-deep: #158a63;
+    --lichen-light: #6dffbd;
+    --dusk: #bc6cff;                /* Neon Purple */
+    --dusk-light: #d5a3ff;
+    --dusk-dark: #9347e0;
+    --dusk-deep: #5b4d7a;
+    --dusk-hi: #e8cbff;
+    --rose: #e58ad0;
+    --rose-dark: #c468b0;
+
+    /* Canales RGB */
+    --bone-rgb: 253, 235, 245;
+    --brass-rgb: 255, 92, 168;
+    --brass-dark-rgb: 209, 60, 134;
+    --brass-mid-rgb: 240, 72, 154;
+    --verdigris-rgb: 0, 240, 255;
+    --verdigris-light-rgb: 141, 247, 255;
+    --blood-rgb: 255, 77, 94;
+    --blood-mid-rgb: 217, 58, 86;
+    --lichen-rgb: 61, 245, 165;
+    --lichen-dark-rgb: 37, 201, 138;
+    --dusk-rgb: 188, 108, 255;
+    --dusk-light-rgb: 213, 163, 255;
+    --hosp-rgb: 61, 224, 208;
+    --rose-rgb: 229, 138, 208;
+    --rose-dark-rgb: 196, 104, 176;
+    --fog-rgb: 169, 155, 214;
+    --silver-rgb: 193, 225, 205;
+    --panel-rgb: 21, 18, 56;
+    --ink-rgb: 11, 15, 43;
+    --deep-green-rgb: 7, 24, 43;
+    --peach-rgb: 255, 184, 107;
+
+    /* "Oro" = Miami Peach */
+    --gold: var(--peach);
+    --gold-dark: #e08a45;
+    --gold-glow: rgba(var(--peach-rgb), 0.18);
+    --sanctuary-gold: var(--peach);
+    --sanctuary-gold-dark: #e08a45;
+    --sanctuary-glow: rgba(var(--peach-rgb), 0.18);
+    --event-gold: var(--peach);
+    --warning: var(--peach);
+    --work: var(--peach);
+
+    --hud-border: rgba(var(--dusk-rgb), 0.40);
+    --hud-glow: rgba(var(--brass-rgb), 0.08);
+    --card-border: rgba(var(--dusk-rgb), 0.28);
+    --card-glow-start: rgba(var(--brass-rgb), 0.12);
+    --card-glow-end: rgba(var(--verdigris-rgb), 0.09);
+
+    --ui-emoji-filter: saturate(1.2) brightness(1.05);
+
+    /* Fuentes */
+    --font-display: 'Righteous', 'Poppins', 'Trebuchet MS', sans-serif;
+    --font-body: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+    --font-label: 'Rajdhani', 'Poppins', 'Segoe UI', sans-serif;
+    --font-script: 'Yellowtail', 'Brush Script MT', cursive;
+
+    color-scheme: dark;
+}
+
+/* ---------- Fondo: atardecer de Vice City ---------- */
+html[data-theme="vice"] body {
+    font-family: var(--font-body);
+    color: var(--bone);
+    background-color: #0B0F2B;
+    background-image:
+        radial-gradient(ellipse 80% 45% at 50% -5%, rgba(188, 108, 255, 0.30), transparent 62%),
+        radial-gradient(ellipse 70% 40% at 100% 45%, rgba(0, 240, 255, 0.10), transparent 60%),
+        radial-gradient(ellipse 100% 45% at 50% 108%, rgba(255, 92, 168, 0.34), transparent 62%),
+        linear-gradient(180deg, #0B0F2B 0%, #170f3a 50%, #2a1048 78%, #4a1650 100%);
+    background-attachment: fixed;
+}
+html[data-theme="vice"] ::selection { background: var(--brass); color: var(--ink); }
+
+/* ---------- Cabecera ---------- */
+html[data-theme="vice"] header h1 {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: 3rem;
+    letter-spacing: 1px;
+    text-transform: none;
+    -webkit-text-fill-color: #ffe3f1;
+    color: #ffe3f1;
+    text-shadow:
+        0 0 4px rgba(255, 255, 255, 0.55),
+        0 0 12px var(--brass),
+        0 0 28px var(--brass),
+        0 0 52px rgba(var(--dusk-rgb), 0.9);
+}
+html[data-theme="vice"] header h1::before,
+html[data-theme="vice"] header h1::after {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--verdigris));
+    box-shadow: 0 0 10px var(--verdigris);
+}
+html[data-theme="vice"] header h1::after { background: linear-gradient(270deg, transparent, var(--brass)); box-shadow: 0 0 10px var(--brass); }
+html[data-theme="vice"] header p {
+    font-family: var(--font-label);
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--peach);
+    text-shadow: 0 0 10px rgba(var(--peach-rgb), 0.5);
+}
+html[data-theme="vice"] header::after {
+    height: 2px;
+    opacity: 0.9;
+    background: linear-gradient(90deg, transparent, var(--brass) 20%, var(--dusk) 50%, var(--verdigris) 80%, transparent);
+    box-shadow: 0 0 14px rgba(var(--brass-rgb), 0.6);
+}
+
+/* ---------- Pestañas ---------- */
+html[data-theme="vice"] .tabs { border-bottom: 1px solid rgba(var(--dusk-rgb), 0.45); }
+html[data-theme="vice"] .tab-btn {
+    font-family: var(--font-label);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: 10px 10px 0 0;
+    color: var(--fog);
+}
+html[data-theme="vice"] .tab-btn:hover { color: var(--verdigris-light); background: rgba(var(--verdigris-rgb), 0.08); }
+html[data-theme="vice"] .tab-btn.active {
+    color: #fff;
+    background: linear-gradient(180deg, rgba(var(--brass-rgb), 0.22), rgba(var(--dusk-rgb), 0.10));
+    border-color: rgba(var(--brass-rgb), 0.55);
+    box-shadow: inset 0 2px 0 var(--brass), 0 -4px 18px rgba(var(--brass-rgb), 0.28);
+    text-shadow: 0 0 10px var(--brass);
+}
+html[data-theme="vice"] .mobile-menu { background: var(--ink-2); border-color: var(--line); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(var(--dusk-rgb), 0.25); }
+html[data-theme="vice"] .mobile-menu-item.active { color: var(--brass-light); background: rgba(var(--brass-rgb), 0.14); }
+
+/* ---------- Ventanas / secciones ---------- */
+html[data-theme="vice"] .section-box {
+    background: linear-gradient(160deg, rgba(23, 19, 64, 0.94) 0%, rgba(16, 15, 51, 0.96) 100%);
+    border: 1px solid rgba(var(--dusk-rgb), 0.38);
+    border-radius: 16px;
+    box-shadow:
+        0 10px 34px rgba(0, 0, 0, 0.5),
+        0 0 24px rgba(var(--dusk-rgb), 0.16),
+        inset 0 0 30px rgba(var(--dusk-rgb), 0.06);
+}
+html[data-theme="vice"] .section-box:hover {
+    border-color: rgba(var(--brass-rgb), 0.55);
+    box-shadow:
+        0 10px 34px rgba(0, 0, 0, 0.55),
+        0 0 28px rgba(var(--brass-rgb), 0.22),
+        inset 0 0 30px rgba(var(--brass-rgb), 0.06);
+}
+html[data-theme="vice"] .section-box::before {
+    background:
+        radial-gradient(ellipse at 8% 0%, rgba(var(--brass-rgb), 0.16), transparent 55%),
+        radial-gradient(ellipse at 95% 100%, rgba(var(--verdigris-rgb), 0.12), transparent 55%);
+    opacity: 1;
+}
+html[data-theme="vice"] .section-box::after {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--brass), var(--dusk), var(--verdigris), transparent);
+    opacity: 0.8;
+}
+html[data-theme="vice"] .section-box h2,
+html[data-theme="vice"] .section-header .section-title,
+html[data-theme="vice"] .panel-title {
+    font-family: var(--font-display);
+    color: var(--brass-light);
+    text-shadow: 0 0 12px rgba(var(--brass-rgb), 0.55);
+}
+html[data-theme="vice"] .section-header .section-title { letter-spacing: 3px; }
+html[data-theme="vice"] .section-box h3 { color: var(--peach); }
+html[data-theme="vice"] .section-box p { color: var(--bone-dim); }
+html[data-theme="vice"] .section-ornament,
+html[data-theme="vice"] .section-header .section-ornament {
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--brass), var(--dusk), var(--verdigris));
+    box-shadow: 0 0 10px rgba(var(--brass-rgb), 0.6);
+    opacity: 0.9;
+}
+
+/* ---------- Cards ---------- */
+html[data-theme="vice"] .mission-card,
+html[data-theme="vice"] .daily-mission-card,
+html[data-theme="vice"] .event-card,
+html[data-theme="vice"] .boss-card,
+html[data-theme="vice"] .trophy-card,
+html[data-theme="vice"] .rune-card,
+html[data-theme="vice"] .contact-card,
+html[data-theme="vice"] .story-card,
+html[data-theme="vice"] .config-card,
+html[data-theme="vice"] .med-card,
+html[data-theme="vice"] .calma-card,
+html[data-theme="vice"] .wb-card,
+html[data-theme="vice"] .surprise-card,
+html[data-theme="vice"] .trt-card,
+html[data-theme="vice"] .character-panel {
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 14px rgba(var(--dusk-rgb), 0.10);
+}
+html[data-theme="vice"] .mission-card:hover,
+html[data-theme="vice"] .daily-mission-card:hover,
+html[data-theme="vice"] .event-card:hover,
+html[data-theme="vice"] .boss-card:hover,
+html[data-theme="vice"] .trophy-card:hover,
+html[data-theme="vice"] .rune-card:hover {
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45), 0 0 20px rgba(var(--ca, var(--brass-rgb)), 0.25);
+}
+
+/* ---------- Botones ---------- */
+html[data-theme="vice"] .action-btn,
+html[data-theme="vice"] .mission-complete-btn,
+html[data-theme="vice"] .daily-mission-card .complete-btn {
+    font-family: var(--font-label);
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+    color: #14072e;
+    background: linear-gradient(135deg, #ff5ca8 0%, #bc6cff 100%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 10px;
+    box-shadow: 0 0 18px rgba(var(--brass-rgb), 0.45), 0 2px 0 rgba(0, 0, 0, 0.4);
+    text-shadow: none;
+}
+html[data-theme="vice"] .action-btn:hover:not(:disabled),
+html[data-theme="vice"] .mission-complete-btn:hover:not(:disabled),
+html[data-theme="vice"] .daily-mission-card .complete-btn:hover {
+    filter: brightness(1.12) saturate(1.1);
+    box-shadow: 0 0 26px rgba(var(--brass-rgb), 0.7), 0 0 10px rgba(var(--dusk-rgb), 0.6);
+}
+html[data-theme="vice"] .action-btn.danger {
+    background: linear-gradient(135deg, #ff4d5e 0%, #712c3e 100%);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(var(--blood-rgb), 0.45), 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+html[data-theme="vice"] .mission-complete-btn:disabled { background: var(--panel-3); color: var(--fog); box-shadow: none; }
+
+/* ---------- Formularios ---------- */
+html[data-theme="vice"] input[type="text"], html[data-theme="vice"] input[type="number"],
+html[data-theme="vice"] input[type="date"], html[data-theme="vice"] input[type="time"],
+html[data-theme="vice"] input[type="search"], html[data-theme="vice"] textarea, html[data-theme="vice"] select {
+    font-family: var(--font-body);
+    background: rgba(8, 10, 36, 0.75);
+    color: var(--bone);
+    border: 1px solid rgba(var(--dusk-rgb), 0.45);
+    border-radius: 10px;
+}
+html[data-theme="vice"] input:focus, html[data-theme="vice"] textarea:focus, html[data-theme="vice"] select:focus {
+    border-color: var(--verdigris);
+    box-shadow: 0 0 0 1px rgba(var(--verdigris-rgb), 0.5), 0 0 16px rgba(var(--verdigris-rgb), 0.35);
+}
+html[data-theme="vice"] input::placeholder, html[data-theme="vice"] textarea::placeholder { color: var(--fog-dim); }
+html[data-theme="vice"] option { background: var(--ink-2); color: var(--bone); }
+
+/* ---------- Modales / avisos ---------- */
+html[data-theme="vice"] .modal-box {
+    background: linear-gradient(160deg, var(--surface-2), var(--ink-2));
+    border: 1px solid rgba(var(--brass-rgb), 0.6);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 34px rgba(var(--brass-rgb), 0.30);
+}
+html[data-theme="vice"] .modal-box .modal-title { font-family: var(--font-display); color: var(--brass-light); text-shadow: 0 0 12px rgba(var(--brass-rgb), 0.6); }
+html[data-theme="vice"] .modal-box .modal-icon { color: var(--verdigris); }
+html[data-theme="vice"] .toast {
+    font-family: var(--font-body);
+    border-radius: 12px;
+    background: var(--surface-2);
+    border: 1px solid rgba(var(--verdigris-rgb), 0.5);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55), 0 0 18px rgba(var(--verdigris-rgb), 0.25);
+}
+
+/* ---------- Barras de progreso: degradado atardecer ---------- */
+html[data-theme="vice"] .progress-fill,
+html[data-theme="vice"] .stats-bar-fill {
+    background: linear-gradient(90deg, #ff5ca8, #bc6cff 55%, #00f0ff) !important;
+    box-shadow: 0 0 10px rgba(var(--brass-rgb), 0.55);
+}
+html[data-theme="vice"] .boss-card.overdue .boss-progress-bar .progress-fill { background: linear-gradient(90deg, #712c3e, #ff4d5e) !important; }
+
+/* ---------- Detalles ---------- */
+html[data-theme="vice"] * { scrollbar-color: var(--dusk-dark) var(--ink); }
+html[data-theme="vice"] .story-title,
+html[data-theme="vice"] .event-card .event-title { font-family: var(--font-display); }
+html[data-theme="vice"] .story-body { border-top-color: rgba(var(--dusk-rgb), 0.35); }
+
+/* ---------- Vista previa del tema en Configuración ---------- */
+.theme-swatches { display: flex; gap: 6px; margin-top: 10px; }
+.theme-swatches i {
+    flex: 1; height: 26px; border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 10px var(--sw, transparent);
+}

@@ -101,40 +101,40 @@
                     <div class="stats-card stats-card-full">
                         <div class="stats-title">Resumen General</div>
                         <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-top:8px;">
-                            <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalDias}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Días activos</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">Días activos</div>
                             </div>
-                            <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalExpGanada}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">EXP total</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">EXP total</div>
                             </div>
-                            <!-- DESHABILITADO (oro): <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <!-- DESHABILITADO (oro): <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalOroGanado}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">ORO total</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">ORO total</div>
                             </div> -->
-                            <!-- DESHABILITADO (inventario): <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <!-- DESHABILITADO (inventario): <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${totalItems}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Objetos</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">Objetos</div>
                             </div> -->
-                            <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${trofeosDesbloqueados}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Trofeos</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">Trofeos</div>
                             </div>
-                            <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${misionesCompletadas}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Misiones</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">Misiones</div>
                             </div>
-                            <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${mazmorrasCompletadas}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Eventos</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">Eventos</div>
                             </div>
-                            <div style="text-align:center; padding:8px 6px; background:rgba(227,220,200,0.02); border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
+                            <div style="text-align:center; padding:8px 6px; background:rgba(var(--bone-rgb), 0.02); border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
                                 <div style="font-size:1.4rem; font-weight:bold; color:var(--text);">${bossesDerrotados}</div>
-                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:'Georgia','Times New Roman',serif;">Metas</div>
+                                <div style="font-size:0.85rem; color:var(--text-muted); opacity:0.5; font-family:var(--font-body);">Metas</div>
                             </div>
                         </div>
-                        <div style="margin-top:8px; font-size:0.85rem; color:var(--text-muted); opacity:0.3; font-family:'Georgia','Times New Roman',serif; text-align:center;">
+                        <div style="margin-top:8px; font-size:0.85rem; color:var(--text-muted); opacity:0.3; font-family:var(--font-body); text-align:center;">
                             ${totalDias} días de aventura · Nivel ${player.level}
                             ${player.gameOver ? ' GAME OVER' : ''}
                             ${(typeof FEATURES !== 'undefined' && FEATURES.pets && tieneMascota) ? ' · Mascota: ' + petHealthPercent + '% HP' : ''}
@@ -151,7 +151,7 @@
                                     <span>${player.exp} / ${player.expToNextLevel}</span>
                                 </div>
                                 <div class="stats-bar">
-                                    <div class="stats-bar-fill" style="width:${expPercent}%; background:linear-gradient(90deg, #8b739c, #9c87ab);"></div>
+                                    <div class="stats-bar-fill" style="width:${expPercent}%; background:linear-gradient(90deg, var(--dusk-dark), var(--dusk));"></div>
                                 </div>
                                 <div style="font-size:0.6rem; color:var(--text-muted); opacity:0.4; margin-top:2px;">${expPercent}% para nivel ${player.level + 1}</div>
                             </div>
@@ -172,7 +172,7 @@
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${misionesProgress}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${misionesProgress}%; background:linear-gradient(90deg, #658351, #516941);"></div>
+                            <div class="stats-bar-fill" style="width:${misionesProgress}%; background:linear-gradient(90deg, var(--lichen-dark), var(--lichen-deep));"></div>
                         </div>
                         <div class="stats-row">
                             <span class="stats-tag">Principales: ${misionesPrincipalesCompletadas}/${misionesPrincipales}</span>
@@ -188,7 +188,7 @@
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${dailyProgress}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${dailyProgress}%; background:linear-gradient(90deg, #af893d, #c19847);"></div>
+                            <div class="stats-bar-fill" style="width:${dailyProgress}%; background:linear-gradient(90deg, var(--brass-mid), var(--brass));"></div>
                         </div>
                         <div class="stats-row">
                             <span class="stats-tag">Pendientes: ${dailyPendientes}</span>
@@ -204,7 +204,7 @@
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${totalDlcs > 0 ? Math.round((completedDlcs / totalDlcs) * 100) : 0}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${totalDlcs > 0 ? (completedDlcs / totalDlcs) * 100 : 0}%; background:linear-gradient(90deg, #9c87ab, #8b739c);"></div>
+                            <div class="stats-bar-fill" style="width:${totalDlcs > 0 ? (completedDlcs / totalDlcs) * 100 : 0}%; background:linear-gradient(90deg, var(--dusk), var(--dusk-dark));"></div>
                         </div>
                         <div class="stats-row">
                             <span class="stats-tag">Instalados: ${totalDlcs}</span>
@@ -220,7 +220,7 @@
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${totalBosses > 0 ? Math.round((bossesDerrotados / totalBosses) * 100) : 0}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${totalBosses > 0 ? (bossesDerrotados / totalBosses) * 100 : 0}%; background:linear-gradient(90deg, #516941, #658351);"></div>
+                            <div class="stats-bar-fill" style="width:${totalBosses > 0 ? (bossesDerrotados / totalBosses) * 100 : 0}%; background:linear-gradient(90deg, var(--lichen-deep), var(--lichen-dark));"></div>
                         </div>
                         <div class="stats-row">
                             <span class="stats-tag">Activos: ${bossesActivos}</span>
@@ -237,7 +237,7 @@
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${mazmorrasTotales > 0 ? Math.round((mazmorrasCompletadas / mazmorrasTotales) * 100) : 0}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${mazmorrasTotales > 0 ? (mazmorrasCompletadas / mazmorrasTotales) * 100 : 0}%; background:linear-gradient(90deg, #9e8aad, #9c87ab);"></div>
+                            <div class="stats-bar-fill" style="width:${mazmorrasTotales > 0 ? (mazmorrasCompletadas / mazmorrasTotales) * 100 : 0}%; background:linear-gradient(90deg, var(--dusk-light), var(--dusk));"></div>
                         </div>
                         <div class="stats-row">
                             ${mazmorrasActivas > 0 ? '<span class="stats-tag">Activas: ' + mazmorrasActivas + '</span>' : ''}
@@ -253,7 +253,7 @@
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${eventosTotales > 0 ? Math.round((eventosCompletados / eventosTotales) * 100) : 0}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${eventosTotales > 0 ? (eventosCompletados / eventosTotales) * 100 : 0}%; background:linear-gradient(90deg, #af893d, #c19847);"></div>
+                            <div class="stats-bar-fill" style="width:${eventosTotales > 0 ? (eventosCompletados / eventosTotales) * 100 : 0}%; background:linear-gradient(90deg, var(--brass-mid), var(--brass));"></div>
                         </div>
                         <div class="stats-row">
                             ${eventosActivos > 0 ? '<span class="stats-tag">Activos: ' + eventosActivos + '</span>' : ''}
@@ -284,7 +284,7 @@
                             <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); opacity:0.5;">${trofeosProgress}%</span>
                         </div>
                         <div class="stats-bar">
-                            <div class="stats-bar-fill" style="width:${trofeosProgress}%; background:linear-gradient(90deg, #975d36, #c19847);"></div>
+                            <div class="stats-bar-fill" style="width:${trofeosProgress}%; background:linear-gradient(90deg, var(--rust), var(--brass));"></div>
                         </div>
                         <div class="stats-row">
                             <span class="stats-tag">Desbloqueados: ${trofeosDesbloqueados}</span>

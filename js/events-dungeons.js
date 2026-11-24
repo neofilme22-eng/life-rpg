@@ -538,7 +538,7 @@ function toggleEventTask(eventId, taskIndex) {
         };
 
         if (evtCard && typeof triggerFxBurst === 'function') {
-            triggerFxBurst(evtCard, '+' + totalExpPreview + ' EXP', '#9c87ab', { big: true });
+            triggerFxBurst(evtCard, '+' + totalExpPreview + ' EXP', 'var(--dusk)', { big: true });
             setTimeout(applyEventRewards, 650);
             return;
         }
@@ -706,7 +706,7 @@ function finalizarMazmorra(event, id) {
 
         var card = event && event.currentTarget ? event.currentTarget.closest('.event-card') : document.querySelector('.event-card[data-event-id="' + id + '"]');
         if (card && typeof triggerFxBurst === 'function') {
-            triggerFxBurst(card, '+' + expGain + ' EXP', '#af893d', { big: true });
+            triggerFxBurst(card, '+' + expGain + ' EXP', 'var(--brass-mid)', { big: true });
             setTimeout(applyDungeonReward, 650);
         } else {
             applyDungeonReward();

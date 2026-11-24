@@ -15,26 +15,26 @@
         }
 
         .event-filter-btn {
-            background: rgba(227, 220, 200, 0.03);
-            border: 1px solid rgba(227, 220, 200, 0.05);
+            background: rgba(var(--bone-rgb), 0.03);
+            border: 1px solid rgba(var(--bone-rgb), 0.05);
             color: var(--text-muted);
             padding: 4px 14px;
             border-radius: 16px;
             cursor: pointer;
             font-size: 0.7rem;
             transition: all 0.3s;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             letter-spacing: 0.5px;
         }
 
         .event-filter-btn.active {
             background: var(--event-gold);
-            color: #161e1b;
+            color: var(--panel);
             border-color: var(--event-gold);
         }
 
         .event-filter-btn:hover:not(.active) {
-            border-color: rgba(227, 220, 200, 0.12);
+            border-color: rgba(var(--bone-rgb), 0.12);
             color: var(--text);
         }
 
@@ -53,7 +53,7 @@
         }
 
         .event-scroll-container::-webkit-scrollbar-track {
-            background: rgba(227, 220, 200, 0.02);
+            background: rgba(var(--bone-rgb), 0.02);
             border-radius: 4px;
         }
 
@@ -81,8 +81,8 @@
             min-width: 280px;
             max-width: 320px;
             flex-shrink: 0;
-            background: linear-gradient(145deg, #16130c, #0c0a07);
-            border: 1px solid rgba(193, 152, 71, 0.15);
+            background: linear-gradient(145deg, var(--deep-warm), var(--deep-warm));
+            border: 1px solid rgba(var(--brass-rgb), 0.15);
             border-radius: 12px;
             padding: 16px 14px;
             transition: all 0.3s ease;
@@ -101,7 +101,7 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(ellipse at 20% 80%, rgba(193, 152, 71, 0.04), transparent 50%);
+                radial-gradient(ellipse at 20% 80%, rgba(var(--brass-rgb), 0.04), transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -113,15 +113,15 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(193, 152, 71, 0.06), transparent);
+            background: linear-gradient(90deg, transparent, rgba(var(--brass-rgb), 0.06), transparent);
             pointer-events: none;
             z-index: 1;
         }
 
         .event-card:hover {
-            border-color: rgba(193, 152, 71, 0.3);
+            border-color: rgba(var(--brass-rgb), 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(193, 152, 71, 0.05);
+            box-shadow: 0 4px 16px rgba(var(--brass-rgb), 0.05);
         }
 
         .event-card>* {
@@ -130,32 +130,32 @@
         }
 
         .event-card.active {
-            border-color: rgba(113, 167, 156, 0.3);
-            box-shadow: 0 0 30px rgba(113, 167, 156, 0.05);
+            border-color: rgba(var(--verdigris-rgb), 0.3);
+            box-shadow: 0 0 30px rgba(var(--verdigris-rgb), 0.05);
         }
 
         .event-card.finished {
-            border-color: rgba(101, 131, 81, 0.2);
+            border-color: rgba(var(--lichen-dark-rgb), 0.2);
             opacity: 0.7;
         }
 
         .dungeon-section .event-card {
-            background: linear-gradient(145deg, #0e1311, #080a09);
-            border-color: rgba(156, 135, 171, 0.2);
+            background: linear-gradient(145deg, var(--ink-2), var(--deep));
+            border-color: rgba(var(--dusk-rgb), 0.2);
         }
 
         .dungeon-section .event-card::before {
             background:
-                radial-gradient(ellipse at 20% 80%, rgba(156, 135, 171, 0.04), transparent 50%);
+                radial-gradient(ellipse at 20% 80%, rgba(var(--dusk-rgb), 0.04), transparent 50%);
         }
 
         .dungeon-section .event-card::after {
-            background: linear-gradient(90deg, transparent, rgba(156, 135, 171, 0.06), transparent);
+            background: linear-gradient(90deg, transparent, rgba(var(--dusk-rgb), 0.06), transparent);
         }
 
         .dungeon-section .event-card:hover {
-            border-color: rgba(156, 135, 171, 0.35);
-            box-shadow: 0 4px 16px rgba(156, 135, 171, 0.05);
+            border-color: rgba(var(--dusk-rgb), 0.35);
+            box-shadow: 0 4px 16px rgba(var(--dusk-rgb), 0.05);
         }
 
         .event-card .event-header {
@@ -169,7 +169,7 @@
             font-size: 1.1rem;
             font-weight: bold;
             color: var(--text);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .event-card .event-icon {
@@ -182,12 +182,12 @@
             gap: 8px 16px;
             margin: 6px 0 4px 0;
             padding: 6px 10px;
-            background: rgba(227, 220, 200, 0.02);
+            background: rgba(var(--bone-rgb), 0.02);
             border-radius: 6px;
-            border: 1px solid rgba(227, 220, 200, 0.04);
+            border: 1px solid rgba(var(--bone-rgb), 0.04);
             font-size: 0.75rem;
             color: var(--text-muted);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .event-card .event-meta strong {
@@ -198,24 +198,24 @@
             font-size: 0.85rem;
             color: var(--event-gold);
             font-weight: bold;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             padding: 4px 10px;
-            background: rgba(193, 152, 71, 0.06);
+            background: rgba(var(--brass-rgb), 0.06);
             border-radius: 6px;
-            border: 1px solid rgba(193, 152, 71, 0.06);
+            border: 1px solid rgba(var(--brass-rgb), 0.06);
             text-align: center;
         }
 
         .dungeon-section .event-card .event-timer {
             color: var(--event-purple);
-            border-color: rgba(156, 135, 171, 0.15);
-            background: rgba(156, 135, 171, 0.06);
+            border-color: rgba(var(--dusk-rgb), 0.15);
+            background: rgba(var(--dusk-rgb), 0.06);
         }
 
         .event-card .event-timer.urgent {
             color: var(--danger);
-            border-color: rgba(190, 82, 74, 0.15);
-            background: rgba(190, 82, 74, 0.06);
+            border-color: rgba(var(--blood-rgb), 0.15);
+            background: rgba(var(--blood-rgb), 0.06);
         }
 
         .event-card .event-timer .time-remaining {
@@ -224,7 +224,7 @@
 
         .event-card .event-tasks {
             margin-top: 10px;
-            border-top: 1px solid rgba(227, 220, 200, 0.04);
+            border-top: 1px solid rgba(var(--bone-rgb), 0.04);
             padding-top: 10px;
             flex: 1;
         }
@@ -237,7 +237,7 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             transition: all 0.2s;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .event-card .event-task-item .task-label {
@@ -268,8 +268,8 @@
             color: var(--gold);
             margin-top: 8px;
             padding-top: 8px;
-            border-top: 1px solid rgba(227, 220, 200, 0.04);
-            font-family: 'Georgia', 'Times New Roman', serif;
+            border-top: 1px solid rgba(var(--bone-rgb), 0.04);
+            font-family: var(--font-body);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -284,25 +284,25 @@
             font-weight: bold;
             padding: 2px 12px;
             border-radius: 12px;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .event-card .event-status-badge.pending {
-            background: rgba(175, 137, 61, 0.08);
+            background: rgba(var(--brass-dark-rgb), 0.08);
             color: var(--warning);
-            border: 1px solid rgba(175, 137, 61, 0.08);
+            border: 1px solid rgba(var(--brass-dark-rgb), 0.08);
         }
 
         .event-card .event-status-badge.active {
-            background: rgba(113, 167, 156, 0.08);
+            background: rgba(var(--verdigris-rgb), 0.08);
             color: var(--primary);
-            border: 1px solid rgba(113, 167, 156, 0.08);
+            border: 1px solid rgba(var(--verdigris-rgb), 0.08);
         }
 
         .event-card .event-status-badge.finished {
-            background: rgba(101, 131, 81, 0.08);
+            background: rgba(var(--lichen-dark-rgb), 0.08);
             color: var(--success);
-            border: 1px solid rgba(101, 131, 81, 0.08);
+            border: 1px solid rgba(var(--lichen-dark-rgb), 0.08);
         }
 
         
@@ -313,54 +313,54 @@
             flex-wrap: wrap;
             margin-top: 8px;
             padding-top: 8px;
-            border-top: 1px solid rgba(227, 220, 200, 0.04);
+            border-top: 1px solid rgba(var(--bone-rgb), 0.04);
         }
 
         .event-card .event-actions button {
             flex: 1;
             min-width: 60px;
             padding: 5px 12px;
-            border: 1px solid rgba(227, 220, 200, 0.06);
+            border: 1px solid rgba(var(--bone-rgb), 0.06);
             border-radius: 6px;
-            background: rgba(227, 220, 200, 0.02);
+            background: rgba(var(--bone-rgb), 0.02);
             color: var(--text-muted);
             cursor: pointer;
             font-size: 0.75rem;
             transition: all 0.3s ease;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
         }
 
         .event-card .event-actions button:hover:not(:disabled) {
-            border-color: rgba(227, 220, 200, 0.15);
+            border-color: rgba(var(--bone-rgb), 0.15);
             color: var(--text);
-            background: rgba(227, 220, 200, 0.04);
+            background: rgba(var(--bone-rgb), 0.04);
         }
 
         .event-card .event-actions button.delete-btn:hover {
-            border-color: rgba(190, 82, 74, 0.3);
+            border-color: rgba(var(--blood-rgb), 0.3);
             color: var(--danger);
         }
 
         .event-card .event-actions button.start-btn {
-            background: rgba(113, 167, 156, 0.08);
-            border-color: rgba(113, 167, 156, 0.15);
+            background: rgba(var(--verdigris-rgb), 0.08);
+            border-color: rgba(var(--verdigris-rgb), 0.15);
             color: var(--primary);
         }
 
         .event-card .event-actions button.start-btn:hover:not(:disabled) {
-            background: rgba(113, 167, 156, 0.15);
-            border-color: rgba(113, 167, 156, 0.3);
+            background: rgba(var(--verdigris-rgb), 0.15);
+            border-color: rgba(var(--verdigris-rgb), 0.3);
         }
 
         .event-card .event-actions button.finish-btn {
-            background: rgba(101, 131, 81, 0.08);
-            border-color: rgba(101, 131, 81, 0.15);
+            background: rgba(var(--lichen-dark-rgb), 0.08);
+            border-color: rgba(var(--lichen-dark-rgb), 0.15);
             color: var(--success);
         }
 
         .event-card .event-actions button.finish-btn:hover:not(:disabled) {
-            background: rgba(101, 131, 81, 0.15);
-            border-color: rgba(101, 131, 81, 0.3);
+            background: rgba(var(--lichen-dark-rgb), 0.15);
+            border-color: rgba(var(--lichen-dark-rgb), 0.3);
         }
 
         .event-card .event-actions button:disabled {
@@ -374,8 +374,8 @@
             font-weight: bold;
             padding: 2px 10px;
             border-radius: 12px;
-            background: rgba(190, 82, 74, 0.06);
-            border: 1px solid rgba(190, 82, 74, 0.06);
+            background: rgba(var(--blood-rgb), 0.06);
+            border: 1px solid rgba(var(--blood-rgb), 0.06);
         }
 
         .event-empty {
@@ -383,7 +383,7 @@
             opacity: 0.5;
             text-align: center;
             font-style: italic;
-            font-family: 'Georgia', 'Times New Roman', serif;
+            font-family: var(--font-body);
             padding: 20px 0;
             min-width: 100%;
         }

@@ -392,11 +392,11 @@ var STATS_CHART_DAYS = 14;
 var statsChartKey = 'mood';
 
 var STATS_CHARTS = {
-    mood:     { label: 'Ánimo',    title: 'Estado de ánimo por día',      color: '#86a96c', unit: 'ánimo', fem: false },     // verde
-    missions: { label: 'Misiones', title: 'Tareas y misiones completadas por día', color: '#d9b968', unit: 'misiones', fem: true },   // amarillo
-    runes:    { label: 'Runas',    title: 'Runas canalizadas por día',    color: '#7ea7bd', unit: 'runas', fem: true },      // celeste
-    events:   { label: 'Eventos',  title: 'Eventos completados por día',  color: '#9c87ab', unit: 'eventos', fem: false },  // lila
-    goals:    { label: 'Metas',    title: 'Metas cumplidas por día',      color: '#b9c0ba', unit: 'metas', fem: true }       // plateado
+    mood:     { label: 'Ánimo',    title: 'Estado de ánimo por día',      color: 'var(--lichen-light)', unit: 'ánimo', fem: false },     // verde
+    missions: { label: 'Misiones', title: 'Tareas y misiones completadas por día', color: 'var(--c-daily)', unit: 'misiones', fem: true },   // amarillo
+    runes:    { label: 'Runas',    title: 'Runas canalizadas por día',    color: 'var(--celeste)', unit: 'runas', fem: true },      // celeste
+    events:   { label: 'Eventos',  title: 'Eventos completados por día',  color: 'var(--dusk)', unit: 'eventos', fem: false },  // lila
+    goals:    { label: 'Metas',    title: 'Metas cumplidas por día',      color: 'var(--silver)', unit: 'metas', fem: true }       // plateado
 };
 
 function wbLastDays(n) {
@@ -424,9 +424,9 @@ function wbCountByDate(filterFn) {
 
 // Tareas diarias, misiones principales y secundarias, cada una por día.
 var WB_MISSION_LINES = [
-    { key: 'daily',     name: 'Tareas diarias',        color: '#d9b968' },
-    { key: 'main',      name: 'Misiones principales',  color: '#cc7f3e' },
-    { key: 'secondary', name: 'Misiones secundarias',  color: '#e6dcb8' }
+    { key: 'daily',     name: 'Tareas diarias',        color: 'var(--c-daily)' },
+    { key: 'main',      name: 'Misiones principales',  color: 'var(--c-main)' },
+    { key: 'secondary', name: 'Misiones secundarias',  color: 'var(--c-secondary)' }
 ];
 
 function wbMissionSeries() {
@@ -494,7 +494,7 @@ function wbLineChartSVG(days, values, cfg) {
     var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="' + cfg.title + '">';
 
     cfg.ticks.forEach(function (t) {
-        svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + yAt(t) + '" y2="' + yAt(t) + '" stroke="rgba(227,220,200,0.06)"/>' +
+        svg += '<line x1="' + padL + '" x2="' + (W - padR) + '" y1="' + yAt(t) + '" y2="' + yAt(t) + '" style="stroke:rgba(var(--bone-rgb), 0.06)"/>' +
             '<text x="' + (padL - 8) + '" y="' + (yAt(t) + 4) + '" text-anchor="end" font-size="11" style="fill:var(--text-muted)">' + t + '</text>';
     });
 
@@ -506,14 +506,14 @@ function wbLineChartSVG(days, values, cfg) {
     series.forEach(function (s) {
         var seg = [];
         function flush() {
-            if (seg.length > 1) lines += '<polyline fill="none" stroke="' + s.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="' + seg.join(' ') + '"/>';
+            if (seg.length > 1) lines += '<polyline fill="none" style="stroke:' + s.color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="' + seg.join(' ') + '"/>';
             seg = [];
         }
         s.values.forEach(function (v, i) {
             if (v === null || v === undefined) { flush(); return; }
             var x = xAt(i).toFixed(1), y = yAt(v).toFixed(1);
             seg.push(x + ',' + y);
-            dots += '<circle cx="' + x + '" cy="' + y + '" r="4" fill="' + s.color + '"><title>' + wbPrettyDate(days[i]) + ': ' + (s.name ? s.name + ' — ' : '') + cfg.tooltip(v) + '</title></circle>';
+            dots += '<circle cx="' + x + '" cy="' + y + '" r="4" style="fill:' + s.color + '"><title>' + wbPrettyDate(days[i]) + ': ' + (s.name ? s.name + ' — ' : '') + cfg.tooltip(v) + '</title></circle>';
         });
         flush();
     });

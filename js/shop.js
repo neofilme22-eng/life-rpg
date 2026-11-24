@@ -75,7 +75,7 @@ function renderShop() {
     var pageItems = items.slice(startIndex, endIndex);
 
     if (totalItems === 0) {
-        container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1; font-family:\'Georgia\',\'Times New Roman\',serif; text-align:center; padding:20px 0;">No hay items que coincidan con tu búsqueda.</p>';
+        container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1; font-family:var(--font-body); text-align:center; padding:20px 0;">No hay items que coincidan con tu búsqueda.</p>';
         if (pagination) pagination.innerHTML = '';
         return;
     }
