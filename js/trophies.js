@@ -78,15 +78,15 @@
 
                             // Categorías: el color de cada una es el de su sistema en la app
                             var TROPHY_CATS = {
-                                nivel:    { label: 'Nivel',       color: '#c19847' },
-                                exp:      { label: 'Experiencia', color: '#e6dcb8' },
-                                misiones: { label: 'Misiones',    color: '#cc7f3e' },
-                                tareas:   { label: 'Tareas',      color: '#d9b968' },
-                                runas:    { label: 'Runas',       color: '#7ea7bd' },
-                                eventos:  { label: 'Eventos',     color: '#9c87ab' },
-                                metas:    { label: 'Metas',       color: '#b9c0ba' },
-                                animo:    { label: 'Ánimo',       color: '#86a96c' },
-                                dlc:      { label: 'DLC',         color: '#b0707c' }
+                                nivel:    { label: 'Nivel',       color: 'var(--brass)' },
+                                exp:      { label: 'Experiencia', color: 'var(--c-secondary)' },
+                                misiones: { label: 'Misiones',    color: 'var(--c-main)' },
+                                tareas:   { label: 'Tareas',      color: 'var(--c-daily)' },
+                                runas:    { label: 'Runas',       color: 'var(--celeste)' },
+                                eventos:  { label: 'Eventos',     color: 'var(--dusk)' },
+                                metas:    { label: 'Metas',       color: 'var(--silver)' },
+                                animo:    { label: 'Ánimo',       color: 'var(--lichen-light)' },
+                                dlc:      { label: 'DLC',         color: 'var(--rose)' }
                             };
 
                             function renderTrophies() {
@@ -114,7 +114,7 @@
                                 if (totalEl) totalEl.textContent = total;
 
                                 if (totalItems === 0) {
-                                    container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1; font-family:\'Georgia\',\'Times New Roman\',serif; text-align:center; padding:20px 0;">No hay trofeos que coincidan con tu búsqueda.</p>';
+                                    container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1 / -1; font-family:var(--font-body); text-align:center; padding:20px 0;">No hay trofeos que coincidan con tu búsqueda.</p>';
                                     if (pagination) pagination.innerHTML = '';
                                     return;
                                 }

@@ -22,7 +22,7 @@
                                 if (card && typeof triggerFxBurst === 'function') {
                                     var mult = getDifficultyMultipliers();
                                     var expPreview = Math.floor(boss.expReward * mult.exp);
-                                    triggerFxBurst(card, '+' + expPreview + ' EXP', '#b9c0ba', { big: true });
+                                    triggerFxBurst(card, '+' + expPreview + ' EXP', 'var(--silver)', { big: true });
                                     setTimeout(function () { defeatBoss(bossId); }, 650);
                                 } else {
                                     defeatBoss(bossId);

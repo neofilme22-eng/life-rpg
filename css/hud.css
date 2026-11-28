@@ -4,22 +4,22 @@
 
 /* ===== BOTÓN DE ACCIÓN PRINCIPAL UNIFICADO ===== */
 .action-btn {
-    color: #161e1b;
-    border: 1px solid rgba(193, 152, 71, 0.3);
+    color: var(--panel);
+    border: 1px solid rgba(var(--brass-rgb), 0.3);
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     font-size: 0.9rem;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 12px rgba(193, 152, 71, 0.1);
+    box-shadow: 0 2px 12px rgba(var(--brass-rgb), 0.1);
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     position: relative;
     overflow: hidden;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     letter-spacing: 0.3px;
-    background: linear-gradient(145deg, #975d36, #c19847);
-    border-color: rgba(193, 152, 71, 0.3);
+    background: linear-gradient(145deg, var(--rust), var(--brass));
+    border-color: rgba(var(--brass-rgb), 0.3);
 }
 
 .action-btn::before {
@@ -29,15 +29,15 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(227, 220, 200, 0.15), transparent);
+    background: linear-gradient(180deg, rgba(var(--bone-rgb), 0.15), transparent);
     pointer-events: none;
     border-radius: 8px;
 }
 
 .action-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(193, 152, 71, 0.25);
-    border-color: rgba(193, 152, 71, 0.5);
+    box-shadow: 0 4px 20px rgba(var(--brass-rgb), 0.25);
+    border-color: rgba(var(--brass-rgb), 0.5);
 }
 
 .action-btn:active:not(:disabled) {
@@ -53,45 +53,45 @@
 
 .action-btn.danger {
     background: var(--danger);
-    border-color: rgba(190, 82, 74, 0.3);
-    box-shadow: 0 2px 12px rgba(190, 82, 74, 0.1);
-    color: #e3dcc8;
+    border-color: rgba(var(--blood-rgb), 0.3);
+    box-shadow: 0 2px 12px rgba(var(--blood-rgb), 0.1);
+    color: var(--bone);
 }
 
 .action-btn.danger:hover:not(:disabled) {
-    box-shadow: 0 4px 20px rgba(190, 82, 74, 0.2);
-    border-color: rgba(190, 82, 74, 0.4);
+    box-shadow: 0 4px 20px rgba(var(--blood-rgb), 0.2);
+    border-color: rgba(var(--blood-rgb), 0.4);
 }
 
 .action-btn.warning {
     background: var(--warning);
-    border-color: rgba(175, 137, 61, 0.3);
-    box-shadow: 0 2px 12px rgba(175, 137, 61, 0.1);
-    color: #161e1b;
+    border-color: rgba(var(--brass-dark-rgb), 0.3);
+    box-shadow: 0 2px 12px rgba(var(--brass-dark-rgb), 0.1);
+    color: var(--panel);
 }
 
 .action-btn.warning:hover:not(:disabled) {
-    box-shadow: 0 4px 20px rgba(175, 137, 61, 0.2);
-    border-color: rgba(175, 137, 61, 0.4);
+    box-shadow: 0 4px 20px rgba(var(--brass-dark-rgb), 0.2);
+    border-color: rgba(var(--brass-dark-rgb), 0.4);
 }
 
 .action-btn.success {
     background: var(--success);
-    border-color: rgba(101, 131, 81, 0.3);
-    box-shadow: 0 2px 12px rgba(101, 131, 81, 0.1);
-    color: #e3dcc8;
+    border-color: rgba(var(--lichen-dark-rgb), 0.3);
+    box-shadow: 0 2px 12px rgba(var(--lichen-dark-rgb), 0.1);
+    color: var(--bone);
 }
 
 .action-btn.success:hover:not(:disabled) {
-    box-shadow: 0 4px 20px rgba(101, 131, 81, 0.2);
-    border-color: rgba(101, 131, 81, 0.4);
+    box-shadow: 0 4px 20px rgba(var(--lichen-dark-rgb), 0.2);
+    border-color: rgba(var(--lichen-dark-rgb), 0.4);
 }
 
 /* ===== BOTÓN DE RUNAS (AZUL - ESTILO ORO) ===== */
 .rune-channel-btn {
     background: transparent;
-    color: #71a79c;
-    border: 1px solid rgba(113, 167, 156, 0.2);
+    color: var(--verdigris);
+    border: 1px solid rgba(var(--verdigris-rgb), 0.2);
     padding: 5px 14px;
     border-radius: 6px;
     cursor: pointer;
@@ -100,11 +100,11 @@
     width: 100%;
     margin-top: 2px;
     transition: all 0.3s ease;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     letter-spacing: 0.5px;
     position: relative;
     overflow: hidden;
-    text-shadow: 0 0 20px rgba(113, 167, 156, 0.1);
+    text-shadow: 0 0 20px rgba(var(--verdigris-rgb), 0.1);
     z-index: 10;
 }
 
@@ -116,16 +116,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(113, 167, 156, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(var(--verdigris-rgb), 0.05), transparent);
     pointer-events: none;
     border-radius: 6px;
 }
 
 .rune-channel-btn:hover:not(:disabled) {
-    border-color: rgba(113, 167, 156, 0.4);
+    border-color: rgba(var(--verdigris-rgb), 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 2px 16px rgba(113, 167, 156, 0.15);
-    background: rgba(113, 167, 156, 0.03);
+    box-shadow: 0 2px 16px rgba(var(--verdigris-rgb), 0.15);
+    background: rgba(var(--verdigris-rgb), 0.03);
 }
 
 .rune-channel-btn:active:not(:disabled) {
@@ -137,13 +137,13 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
-    border-color: rgba(227, 220, 200, 0.05);
+    border-color: rgba(var(--bone-rgb), 0.05);
 }
 
 /* Versión completada (más tenue) */
 .rune-channel-btn.completed-btn {
-    color: rgba(113, 167, 156, 0.5);
-    border-color: rgba(113, 167, 156, 0.08);
+    color: rgba(var(--verdigris-rgb), 0.5);
+    border-color: rgba(var(--verdigris-rgb), 0.08);
     opacity: 0.6;
 }
 
@@ -156,18 +156,18 @@
     flex-direction: column;
     gap: 4px;
     padding: 14px 16px 16px 16px;
-    background: linear-gradient(160deg, rgba(21, 29, 27, 0.92), rgba(11, 16, 14, 0.96));
+    background: linear-gradient(160deg, rgba(var(--panel-rgb), 0.92), rgba(var(--ink-rgb), 0.96));
     border-radius: 12px;
-    border: 1px solid rgba(227, 220, 200, 0.06);
+    border: 1px solid rgba(var(--bone-rgb), 0.06);
     box-shadow: 
         0 4px 24px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(227, 220, 200, 0.03);
+        inset 0 1px 0 rgba(var(--bone-rgb), 0.03);
     position: relative;
     transition: all 0.3s ease;
 }
 
 .character-panel:hover {
-    border-color: rgba(156, 135, 171, 0.15);
+    border-color: rgba(var(--dusk-rgb), 0.15);
 }
 
 /* Borde decorativo superior */
@@ -178,7 +178,7 @@
     left: 25%;
     right: 25%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(156, 135, 171, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(var(--dusk-rgb), 0.2), transparent);
     pointer-events: none;
     border-radius: 0 0 2px 2px;
 }
@@ -197,13 +197,13 @@
     letter-spacing: 1px;
     color: var(--text-muted);
     opacity: 0.8;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
 }
 
 .section-ornament {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, rgba(156, 135, 171, 0.1), transparent);
+    background: linear-gradient(90deg, rgba(var(--dusk-rgb), 0.1), transparent);
     margin-left: 8px;
 }
 
@@ -224,16 +224,16 @@
 .bar-row .level-value {
     font-size: 2.1rem;
     font-weight: bold;
-    color: #b5a6c0;
+    color: var(--dusk-light);
     min-width: 18px;
     text-align: right;
     opacity: 0.7;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
 }
 
 .bar-row .bar-label {
     font-size: 0.7rem;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     color: var(--text-muted);
     opacity: 0.5;
     letter-spacing: 0.5px;
@@ -243,7 +243,7 @@
 
 .bar-row .bar-numbers {
     font-size: 0.7rem;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     color: var(--text-muted);
     opacity: 0.4;
     min-width: 55px;
@@ -265,14 +265,14 @@
     color: var(--text-muted);
     opacity: 0.3;
     min-width: 28px;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
 }
 
 /* Pista de la barra - FINA */
 .bar-track-thin {
     flex: 1;
     height: 6px;
-    background: rgba(227, 220, 200, 0.06);
+    background: rgba(var(--bone-rgb), 0.06);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -289,14 +289,14 @@
 
 /* --- Barra de VIDA --- */
 .hp-fill-thin {
-    background: linear-gradient(90deg, #702f2b, #a1443d);
-    box-shadow: 0 0 12px rgba(190, 82, 74, 0.15);
+    background: linear-gradient(90deg, var(--blood-dark), var(--blood-mid));
+    box-shadow: 0 0 12px rgba(var(--blood-rgb), 0.15);
 }
 
 /* --- Barra de EXPERIENCIA --- */
 .exp-fill-thin {
-    background: linear-gradient(90deg, #54455f, #8b739c);
-    box-shadow: 0 0 12px rgba(158, 138, 173, 0.15);
+    background: linear-gradient(90deg, var(--dusk-deep), var(--dusk-dark));
+    box-shadow: 0 0 12px rgba(var(--dusk-rgb), 0.15);
 }
 
 /* --- Estado crítico de HP --- */
@@ -323,25 +323,25 @@
 
 .radar-grid-ring {
     fill: none;
-    stroke: rgba(227, 220, 200, 0.07);
+    stroke: rgba(var(--bone-rgb), 0.07);
     stroke-width: 1;
 }
 
 .radar-axis-line {
-    stroke: rgba(227, 220, 200, 0.04);
+    stroke: rgba(var(--bone-rgb), 0.04);
     stroke-width: 1;
 }
 
 .radar-data-polygon {
-    fill: rgba(156, 135, 171, 0.2);
-    stroke: #9e8aad;
+    fill: rgba(var(--dusk-rgb), 0.2);
+    stroke: var(--dusk);
     stroke-width: 2;
     stroke-linejoin: round;
     transition: all 0.4s ease;
 }
 
 .radar-data-dot {
-    fill: #b5a6c0;
+    fill: var(--dusk-light);
     stroke: rgba(0, 0, 0, 0.6);
     stroke-width: 1.5;
 }
@@ -356,7 +356,7 @@
 .radar-label-name {
     fill: var(--text-muted);
     font-size: 11px;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     font-weight: bold;
     letter-spacing: 0.3px;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
@@ -367,7 +367,7 @@
     fill: var(--text);
     font-size: 11px;
     font-weight: bold;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
 }
 
@@ -383,7 +383,7 @@
          
     font-size: 0.85rem;
     color: var(--text-muted);
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
 }
 
 .panel-gold .gold-icon {
@@ -393,8 +393,8 @@
 .panel-gold .gold-value {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #c19847;
-    text-shadow: 0 0 20px rgba(193, 152, 71, 0.1);
+    color: var(--brass);
+    text-shadow: 0 0 20px rgba(var(--brass-rgb), 0.1);
 }
 
 /* ================================================================ */
@@ -403,16 +403,16 @@
 
 .mobile-toggle-btn {
     display: none;
-    color: #71a79c;
-    border: 1px solid rgba(113, 167, 156, 0.2);
+    color: var(--verdigris);
+    border: 1px solid rgba(var(--verdigris-rgb), 0.2);
     padding: 6px 18px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
     font-size: 0.85rem;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: var(--font-body);
     letter-spacing: 0.3px;
-    text-shadow: 0 0 20px rgba(113, 167, 156, 0.1);
+    text-shadow: 0 0 20px rgba(var(--verdigris-rgb), 0.1);
     white-space: nowrap;
     transition: all 0.3s ease;
     background: transparent;
@@ -428,16 +428,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, rgba(113, 167, 156, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(var(--verdigris-rgb), 0.05), transparent);
     pointer-events: none;
     border-radius: 6px;
 }
 
 .mobile-toggle-btn:hover {
-    border-color: rgba(113, 167, 156, 0.4);
+    border-color: rgba(var(--verdigris-rgb), 0.4);
     transform: translateY(-1px);
-    box-shadow: 0 2px 16px rgba(113, 167, 156, 0.15);
-    background: rgba(113, 167, 156, 0.03);
+    box-shadow: 0 2px 16px rgba(var(--verdigris-rgb), 0.15);
+    background: rgba(var(--verdigris-rgb), 0.03);
 }
 
 .mobile-toggle-btn:active {
@@ -446,19 +446,19 @@
 
 /* Versión atributos (morado) */
 .mobile-toggle-btn.attr-toggle {
-    color: #b5a6c0;
-    border-color: rgba(181, 166, 192, 0.2);
-    text-shadow: 0 0 20px rgba(181, 166, 192, 0.1);
+    color: var(--dusk-light);
+    border-color: rgba(var(--dusk-light-rgb), 0.2);
+    text-shadow: 0 0 20px rgba(var(--dusk-light-rgb), 0.1);
 }
 
 .mobile-toggle-btn.attr-toggle::before {
-    background: linear-gradient(180deg, rgba(181, 166, 192, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(var(--dusk-light-rgb), 0.05), transparent);
 }
 
 .mobile-toggle-btn.attr-toggle:hover {
-    border-color: rgba(181, 166, 192, 0.4);
-    box-shadow: 0 2px 16px rgba(181, 166, 192, 0.15);
-    background: rgba(181, 166, 192, 0.03);
+    border-color: rgba(var(--dusk-light-rgb), 0.4);
+    box-shadow: 0 2px 16px rgba(var(--dusk-light-rgb), 0.15);
+    background: rgba(var(--dusk-light-rgb), 0.03);
 }
 
 /* ===== PANEL DE PERSONAJE SOLO (las runas ahora son una pestaña aparte) ===== */

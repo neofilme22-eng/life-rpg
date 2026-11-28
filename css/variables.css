@@ -44,6 +44,58 @@
     --dusk: #9c87ab;           /* crepúsculo, lo raro */
     --rose: #b0707c;
 
+
+    /* ===== Canales RGB (para rgba(var(--x-rgb), alpha)) ===== */
+    --bone-rgb: 227, 220, 200;
+    --brass-rgb: 193, 152, 71;
+    --brass-dark-rgb: 175, 137, 61;
+    --brass-mid-rgb: 186, 145, 63;
+    --verdigris-rgb: 113, 167, 156;
+    --verdigris-light-rgb: 137, 182, 173;
+    --blood-rgb: 190, 82, 74;
+    --blood-mid-rgb: 161, 68, 61;
+    --lichen-rgb: 115, 149, 93;
+    --lichen-dark-rgb: 101, 131, 81;
+    --dusk-rgb: 156, 135, 171;
+    --dusk-light-rgb: 181, 166, 192;
+    --hosp-rgb: 111, 191, 159;
+    --rose-rgb: 187, 142, 150;
+    --rose-dark-rgb: 169, 114, 123;
+    --fog-rgb: 150, 158, 153;
+    --silver-rgb: 185, 192, 187;
+    --panel-rgb: 22, 30, 27;
+    --ink-rgb: 11, 16, 14;
+    --deep-green-rgb: 10, 21, 18;
+    --peach: #d9b968;
+    --peach-rgb: 217, 185, 104;
+
+    /* ===== Tonos auxiliares ===== */
+    --panel-0: #131918;
+    --panel: #161e1b;
+    --panel-2: #1a2320;
+    --panel-3: #222e2a;
+    --panel-4: #2b403c;
+    --deep: #080a09;
+    --deep-green: #0b1613;
+    --deep-warm: #120f09;
+    --deep-red: #120a09;
+    --brass-mid: #ba913f;
+    --blood-mid: #a1443d;
+    --blood-deep: #8a3b35;
+    --dusk-light: #b5a6c0;
+    --dusk-dark: #8b739c;
+    --dusk-deep: #54455f;
+    --dusk-hi: #c9bed1;
+    --lichen-dark: #658351;
+    --lichen-deep: #516941;
+    --lichen-light: #86a96c;
+    --hosp-mid: #3f8f74;
+    --hosp-hi: #d9efe6;
+    --rose-dark: #a9727b;
+    --silver-hi: #d3d9d4;
+    --page-bg: var(--ink);
+    --ui-emoji-filter: grayscale(1) sepia(0.55) saturate(0.9) brightness(0.95);
+
     /* Fuentes */
     --font-display: 'IM Fell English', 'Georgia', 'Times New Roman', serif;
     --font-body: 'Georgia', 'Times New Roman', serif;
@@ -63,21 +115,21 @@
     --rune-border: var(--verdigris-light);
     --gold: var(--brass);
     --gold-dark: var(--brass-dark);
-    --gold-glow: rgba(193, 152, 71, 0.15);
+    --gold-glow: rgba(var(--brass-rgb), 0.15);
     --boss-red: var(--blood);
     --sky-blue: var(--verdigris-light);
     --sky-dark: var(--verdigris);
-    --sky-glow: rgba(113, 167, 156, 0.15);
+    --sky-glow: rgba(var(--verdigris-rgb), 0.15);
     --sanctuary-gold: var(--brass);
     --sanctuary-gold-dark: var(--brass-dark);
     --sanctuary-silver: var(--bone-dim);
     --sanctuary-white: var(--bone);
-    --sanctuary-glow: rgba(193, 152, 71, 0.15);
-    --hud-border: rgba(193, 152, 71, 0.18);
-    --hud-glow: rgba(193, 152, 71, 0.05);
-    --card-border: rgba(227, 220, 200, 0.08);
-    --card-glow-start: rgba(193, 152, 71, 0.03);
-    --card-glow-end: rgba(113, 167, 156, 0.03);
+    --sanctuary-glow: rgba(var(--brass-rgb), 0.15);
+    --hud-border: rgba(var(--brass-rgb), 0.18);
+    --hud-glow: rgba(var(--brass-rgb), 0.05);
+    --card-border: rgba(var(--bone-rgb), 0.08);
+    --card-glow-start: rgba(var(--brass-rgb), 0.03);
+    --card-glow-end: rgba(var(--verdigris-rgb), 0.03);
     --romance: var(--rose);
     --social: var(--dusk);
     --work: var(--brass);

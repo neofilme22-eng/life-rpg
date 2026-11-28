@@ -77,7 +77,7 @@
                     var mult = getDifficultyMultipliers();
                     var expBoost = player.expBoost || 0;
                     var totalExp = Math.floor((mission.expReward + expBoost) * mult.exp);
-                    var color = mission.type === 'main' ? '#9c87ab' : '#71a79c';
+                    var color = mission.type === 'main' ? 'var(--dusk)' : 'var(--verdigris)';
 
                     if (card && typeof triggerFxBurst === 'function') {
                         triggerFxBurst(card, '+' + totalExp + ' EXP', color);

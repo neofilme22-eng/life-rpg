@@ -10,7 +10,7 @@ var THEMES = {
         desc: 'Detective melancólico: tinta, latón y niebla marina.',
         color: '#0b100f',
         icons: { favicon: 'assets/icons/icon-192.png', apple: 'assets/icons/apple-touch-icon.png', manifest: 'manifest.json' },
-        swatches: ['#c19847', '#be524a', '#71a79c', '#9c87ab', '#e3dcc8']
+        swatches: ['var(--brass)', '#be524a', 'var(--verdigris)', 'var(--dusk)', '#e3dcc8']
     },
     vice: {
         label: 'Vice City — Neón (GTA VI)',
