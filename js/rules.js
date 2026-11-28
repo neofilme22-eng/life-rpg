@@ -101,12 +101,12 @@ function renderRules() {
             { cells: ['Romper la Calma', '5 EXP al completar 2 minutos de una tarea pendiente (hasta 3 por día)'] },
             { cells: ['Contacto de la libreta', '3 a 15 EXP según la frecuencia (diaria 3, cada 3 días 6, semanal 10, mensual 15), solo si ya tocaba; tope 30 EXP por día'] }
         ]) +
-        '<p class="rules-p">Toda la EXP se multiplica por el modificador de EXP de la dificultad. Los trofeos (18 propios y uno por cada DLC) se desbloquean solos al cumplir su condición.</p>');
+        '<p class="rules-p">Toda la EXP se multiplica por el modificador de EXP de la dificultad. Los trofeos (18 propios, los que declare cada DLC y un platino por DLC) se desbloquean solos al cumplir su condición.</p>');
 
     // ---- Art. VI: JSON
     html += rulesSection('Art. VI — Formato de los JSON',
         rulesTable(['Tipo', 'Estructura'], [
-            { cells: ['Misiones (DLC)', '<span class="rules-code">{ dlcName, trophyIcon, trophyName, missions: [ { title, type: "main" | "secondary", attr, expReward, goldReward } ] }</span>'] },
+            { cells: ['DLC con historia (versión 2)', '<span class="rules-code">{ format: 2, dlcName, file, story: { title }, missions: [ { key, type: "main" | "secondary", attr, title, expReward, goldReward, unlocksChapter? } ], chapters: [ { id, slot | (special, afterSlot), title, text: [..], unlock, onlyIf?, choices?: [ { id, label, set?, if? } ] } ], endings: [ { id, title, text, if? | default } ], trophies: [ { id, name, icon?, tier?, secret?, if } ] }</span>'] },
             { cells: ['Eventos', '<span class="rules-code">[ { title, type: "dungeon", icon, image, start, duration (horas), levelRequired, tasks: [..], expReward, goldReward, damage, period } ]</span>'] },
             { cells: ['Metas', '<span class="rules-code">{ bosses: [ { name, icon, image, tasks: [..], expReward, goldReward, damage, deadline: "AAAA-MM-DD" } ] }</span>'] },
             { cells: ['Runas', '<span class="rules-code">{ runeSetName, runes: [ { title, icon, attr, expReward, goldReward, damage } ] }</span>'] }

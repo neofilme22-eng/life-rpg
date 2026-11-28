@@ -74,9 +74,16 @@
                         if (player.petMaxHealth === undefined) player.petMaxHealth = 100;
                         if (player.gameOver === undefined) player.gameOver = false;
                         if (player.lastRuneReset === undefined) player.lastRuneReset = null;
-                        if (!player.storyChapters) player.storyChapters = [];
-                        if (!player.storyRead) player.storyRead = [];
-                        if (!player.storyChoices) player.storyChoices = {};
+                        // Historia: ahora vive dentro de cada DLC. Se descartan los campos viejos y
+                        // los DLC de formato antiguo (sin historia), que ya no son compatibles.
+                        ['storyChapters', 'storyRead', 'storyChoices', 'storyMeta', 'storyVersion', 'storyCampaigns', 'storyActive'].forEach(function (k) { delete player[k]; });
+                        if (!player.dlcs) player.dlcs = [];
+                        if (!player.rawMissions) player.rawMissions = [];
+                        var oldNames = player.dlcs.filter(function (d) { return !d.chapters; }).map(function (d) { return d.name; });
+                        if (oldNames.length) {
+                            player.dlcs = player.dlcs.filter(function (d) { return !!d.chapters; });
+                            player.rawMissions = player.rawMissions.filter(function (m) { return oldNames.indexOf(m.dlcName) === -1; });
+                        }
                         if (player.lastActiveDate === undefined) player.lastActiveDate = null;
                         if (player.lastZeroMissionDayPenalty === undefined) player.lastZeroMissionDayPenalty = null;
                         if (player.missionExpPct === undefined) player.missionExpPct = 0;

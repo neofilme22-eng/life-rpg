@@ -26,31 +26,6 @@
                                 }
                             }
 
-                            function checkDLCCompletion(dlcName) {
-                                var trophyId = 'dlc_' + dlcName.replace(/\s+/g, '_');
-                                if (player.dlcTrophies.indexOf(dlcName) !== -1) return;
-
-                                var dlcMissions = player.rawMissions.filter(function (m) { return m.dlcName === dlcName; });
-                                if (dlcMissions.length === 0) return;
-
-                                var allCompleted = dlcMissions.every(function (m) { return m.completed; });
-
-                                if (allCompleted) {
-                                    player.dlcTrophies.push(dlcName);
-                                    var trophyDef = dynamicTrophyDefinitions.find(function (t) { return t.id === trophyId; });
-                                    if (trophyDef && player.trophies.indexOf(trophyId) === -1) {
-                                        player.trophies.push(trophyId);
-                                        console.log('🏆 ¡Trofeo de DLC desbloqueado! ' + trophyDef.icon + ' ' + trophyDef.name);
-                                        setTimeout(function () {
-                                            addLogEntry('trophy', 'Trofeo "' + trophyDef.name + '" desbloqueado', 'DLC: ' + dlcName, 0, 0, null);
-                                            showToast('¡Trofeo "' + trophyDef.name + '" desbloqueado por DLC "' + dlcName + '"!', 'success', 'Trofeo');
-                                        }, 400);
-                                        saveGame();
-                                        renderTrophies();
-                                    }
-                                }
-                            }
-
                             function getFilteredTrophies() {
                                 var searchInput = document.getElementById('trophy-search');
                                 var filterSelect = document.getElementById('trophy-filter');
@@ -68,6 +43,7 @@
 
                                 if (searchTerm) {
                                     trophies = trophies.filter(function (t) {
+                                        if (t.secret && player.trophies.indexOf(t.id) === -1) return false;   // los secretos no se filtran por nombre
                                         return t.name.toLowerCase().indexOf(searchTerm) !== -1 ||
                                             t.desc.toLowerCase().indexOf(searchTerm) !== -1;
                                     });
@@ -128,15 +104,19 @@
                                     card.className = 'trophy-card ' + (isUnlocked ? 'unlocked' : 'locked');
 
                                     var cat = TROPHY_CATS[trophy.cat] || TROPHY_CATS.dlc;
+                                    var isSecret = trophy.secret && !isUnlocked;
+                                    var shownName = isSecret ? '???' : trophy.name;
+                                    var shownDesc = isSecret ? 'Trofeo secreto' : trophy.desc;
+                                    var shownIcon = isSecret ? '❔' : trophy.icon;
                                     var number = allDefs.findIndex(function (d) { return d.id === trophy.id; }) + 1;
                                     card.style.setProperty('--tc', cat.color);
 
                                     card.innerHTML = `
-                    <div class="trophy-top"><span class="trophy-no">N.º ${number < 10 ? '0' + number : number}</span><span class="trophy-cat">${cat.label}</span></div>
+                    <div class="trophy-top"><span class="trophy-no">N.º ${number < 10 ? '0' + number : number}</span><span class="trophy-cat">${trophy.catLabel || cat.label}</span></div>
                     <div class="trophy-ribbon"></div>
-                    <div class="trophy-icon">${renderIconHTML(trophy.icon, '🏆')}</div>
-                    <div class="trophy-name">${trophy.name}</div>
-                    <div class="trophy-desc">${trophy.desc}</div>
+                    <div class="trophy-icon">${renderIconHTML(shownIcon, '🏆')}</div>
+                    <div class="trophy-name">${escapeHtml(shownName)}</div>
+                    <div class="trophy-desc">${escapeHtml(shownDesc)}</div>
                     <div class="trophy-status">${isUnlocked ? 'Desbloqueado' : 'Bloqueado'}</div>
                 `;
 

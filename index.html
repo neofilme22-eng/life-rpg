@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="css/contacts.css">
     <link rel="stylesheet" href="css/rules.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/story.css">
     <link rel="stylesheet" href="css/vice.css">
 </head>
 
@@ -229,17 +230,27 @@
                 </div>
             </div>
 
-            <!-- MISIONES DLC -->
+            <!-- MISIONES PRINCIPALES: una por cada DLC activo, en orden -->
             <div class="section-box">
                 <div class="section-header">
-                    <span class="section-title">Tablón de Campañas — Misiones DLCs</span>
+                    <span class="section-title">Misiones Principales</span>
+                    <span class="section-ornament"></span>
+                </div>
+                <br>
+                <div id="main-mission-container" class="mission-grid"></div>
+            </div>
+
+            <!-- MISIONES SECUNDARIAS: 3 al azar, opcionales -->
+            <div class="section-box">
+                <div class="section-header">
+                    <span class="section-title">Misiones Secundarias</span>
                     <span class="section-ornament"></span>
                 </div>
                 <br>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; margin-bottom: 10px;">
-                    <button class="btn-random" onclick="rerollMissions()">Re-roll Misiones</button>
+                    <button class="btn-random" onclick="rerollMissions()">Renovar secundarias</button>
                 </div>
-                <div id="mission-container" class="mission-grid"></div>
+                <div id="secondary-mission-container" class="mission-grid"></div>
             </div>
 
             <!-- DESHABILITADO: Santuario del Enfoque (Pomodoro). Para reactivarlo: sacá el <template> y poné FEATURES.pomodoro = true en js/config.js -->
@@ -802,12 +813,7 @@
                     <span class="section-ornament"></span>
                 </div>
                
-                <details class="wb-dropdown" open>
-                    <summary>Expediente 1208 <span class="wb-sub">Puerto Calma</span> <span class="wb-sub" id="story-progress"></span></summary>
-                    <div class="wb-dropdown-body">
-                        <div id="story-container"></div>
-                    </div>
-                </details>
+                <div id="story-campaigns"></div>
             </div>
         </div>
 
@@ -972,6 +978,7 @@
     <script src="js/hud.js"></script>
     <script src="js/tabs.js"></script>
     <script src="js/logbook.js"></script>
+    <script src="js/dlc-core.js"></script>
     <script src="js/story.js"></script>
     <script src="js/runes.js"></script>
     <script src="js/daily-missions.js"></script>

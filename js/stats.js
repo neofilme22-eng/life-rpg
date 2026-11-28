@@ -6,10 +6,7 @@
                                     if (!container) return;
 
                                     var totalDlcs = player.dlcs.length;
-                                    var completedDlcs = player.dlcs.filter(function (dlc) {
-                                        var missions = player.rawMissions.filter(function (m) { return m.dlcName === dlc.name; });
-                                        return missions.length > 0 && missions.every(function (m) { return m.completed; });
-                                    }).length;
+                                    var completedDlcs = player.dlcs.filter(function (dlc) { return dlc.closed; }).length;
 
                                     var totalMisiones = player.rawMissions.length;
                                     var misionesCompletadas = player.rawMissions.filter(function (m) { return m.completed; }).length;

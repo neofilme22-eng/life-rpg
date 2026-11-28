@@ -1,212 +1,153 @@
-                // ===== FUNCIONES DE MISIONES DLC =====
-                // ============================================================
+// ============================================================
+// ===== MISIONES DE LOS DLC =====
+// Principales: una por cada DLC activo, en orden (cadena).
+// Secundarias: 3 en total, al azar; el re-roll solo toca estas.
+// ============================================================
 
-                function refreshMissions() {
-                    var availableMain = player.rawMissions.filter(function (m) { return m.type === 'main' && !m.completed; });
-                    if (availableMain.length > 0) {
-                        var mainToShow = Math.min(MAX_MAIN_MISSIONS, availableMain.length);
-                        var shuffledMain = availableMain.slice().sort(function () { return 0.5 - Math.random(); });
-                        var selectedMain = shuffledMain.slice(0, mainToShow);
-                        activeMainIds = selectedMain.map(function (m) { return m.id; });
-                    } else {
-                        activeMainIds = [];
-                    }
+function rerollMissions() {
+    if (player.gameOver) {
+        showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
+        return;
+    }
+    var pool = secondaryPool();
+    if (pool.length === 0) {
+        showToast('No hay misiones secundarias disponibles.', 'warning', 'Misiones');
+        return;
+    }
+    // Sortea de nuevo evitando repetir las que ya se veían (si alcanzan las demás)
+    var others = pool.filter(function (m) { return activeSecondaryIds.indexOf(m.id) === -1; });
+    var source = others.length >= Math.min(MAX_SECONDARY_MISSIONS, pool.length) ? others : pool;
+    activeSecondaryIds = shuffled(source).slice(0, MAX_SECONDARY_MISSIONS).map(function (m) { return m.id; });
 
-                    var availableSec = player.rawMissions.filter(function (m) { return m.type === 'secondary' && !m.completed; });
-                    if (availableSec.length > 0) {
-                        var secToShow = Math.min(MAX_SECONDARY_MISSIONS, availableSec.length);
-                        var shuffledSec = availableSec.slice().sort(function () { return 0.5 - Math.random(); });
-                        var selectedSec = shuffledSec.slice(0, secToShow);
-                        activeSecondaryIds = selectedSec.map(function (m) { return m.id; });
-                    } else {
-                        activeSecondaryIds = [];
-                    }
-                }
+    saveGame();
+    renderMissions();
+    showToast('Secundarias renovadas.', 'info', 'Renovar');
+}
 
-                function rerollMissions() {
-                    if (player.gameOver) {
-                        showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
-                        return;
-                    }
+function handleMissionCardClick(event, id) {
+    if (player.gameOver) {
+        completeMission(id);
+        return;
+    }
 
-                    var availableMain = player.rawMissions.filter(function (m) { return m.type === 'main' && !m.completed; });
-                    var availableSec = player.rawMissions.filter(function (m) { return m.type === 'secondary' && !m.completed; });
+    var mission = player.rawMissions.find(function (m) { return m.id === id; });
+    if (!mission || mission.completed) {
+        completeMission(id);
+        return;
+    }
 
-                    if (availableMain.length === 0 && availableSec.length === 0) {
-                        showToast('No hay misiones disponibles. Instala DLCs desde Configuración.', 'warning', 'Misiones');
-                        return;
-                    }
+    var card = event.currentTarget.closest('.mission-card');
+    var mult = getDifficultyMultipliers();
+    var expBoost = player.expBoost || 0;
+    var totalExp = Math.floor((mission.expReward + expBoost) * mult.exp);
+    var color = mission.type === 'main' ? 'var(--dusk)' : 'var(--verdigris)';
 
-                    var mainSelected = [];
-                    var secSelected = [];
+    if (card && typeof triggerFxBurst === 'function') {
+        triggerFxBurst(card, '+' + totalExp + ' EXP', color);
+        setTimeout(function () { completeMission(id); }, 400);
+    } else {
+        completeMission(id);
+    }
+}
 
-                    if (availableMain.length > 0) {
-                        var mainToShow = Math.min(MAX_MAIN_MISSIONS, availableMain.length);
-                        var shuffledMain = availableMain.slice().sort(function () { return 0.5 - Math.random(); });
-                        mainSelected = shuffledMain.slice(0, mainToShow);
-                    }
+function completeMission(id) {
+    if (player.gameOver) {
+        showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
+        return;
+    }
 
-                    if (availableSec.length > 0) {
-                        var secToShow = Math.min(MAX_SECONDARY_MISSIONS, availableSec.length);
-                        var shuffledSec = availableSec.slice().sort(function () { return 0.5 - Math.random(); });
-                        secSelected = shuffledSec.slice(0, secToShow);
-                    }
+    var mission = player.rawMissions.find(function (m) { return m.id === id; });
+    if (!mission || mission.completed) return;
+    var dlc = getDlcByName(mission.dlcName);
+    // Solo se pueden cumplir las que se ven (DLC activo; la principal de turno)
+    if (!isDlcLive(dlc)) return;
+    if (mission.type === 'main') {
+        var current = currentMainMission(dlc);
+        if (!current || current.id !== mission.id) return;
+    }
 
-                    activeMainIds = mainSelected.map(function (m) { return m.id; });
-                    activeSecondaryIds = secSelected.map(function (m) { return m.id; });
+    mission.completed = true;
+    mission.completedAt = Date.now();
 
-                    saveGame();
-                    renderMissions();
+    var expBoost = player.expBoost || 0;
+    var goldBoost = player.goldBoost || 0;
+    gainRewards(mission.expReward + expBoost, (mission.goldReward || 0) + goldBoost, mission.attr, 'mission',
+        (mission.type === 'main' ? 'Misión principal "' : 'Misión secundaria "') + mission.title + '"', 'DLC: ' + mission.dlcName);
 
-                    showToast('Misiones actualizadas!', 'info', 'Re-roll');
-                }
+    if (mission.type === 'secondary') {
+        activeSecondaryIds = activeSecondaryIds.filter(function (mid) { return mid !== id; });
+    }
 
-                function handleMissionCardClick(event, id) {
-                    if (player.gameOver) {
-                        completeMission(id);
-                        return;
-                    }
+    // Primero la historia (abre capítulos), después el cierre del DLC y los trofeos
+    if (typeof checkStoryUnlocks === 'function') checkStoryUnlocks(true);
+    checkDlcClosure(mission.dlcName);
+    refreshSecondaries();
+    if (typeof checkStoryUnlocks === 'function') checkStoryUnlocks(true);
 
-                    var mission = player.rawMissions.find(function (m) { return m.id === id; });
-                    if (!mission || mission.completed) {
-                        completeMission(id);
-                        return;
-                    }
+    saveGame();
+    renderMissions();
+    updateHUD();
+    checkAndUnlockTrophies();
 
-                    var card = event.currentTarget.closest('.mission-card');
-                    var mult = getDifficultyMultipliers();
-                    var expBoost = player.expBoost || 0;
-                    var totalExp = Math.floor((mission.expReward + expBoost) * mult.exp);
-                    var color = mission.type === 'main' ? 'var(--dusk)' : 'var(--verdigris)';
+    showToast('Misión "' + mission.title + '" completada!', 'success', 'Misión');
+}
 
-                    if (card && typeof triggerFxBurst === 'function') {
-                        triggerFxBurst(card, '+' + totalExp + ' EXP', color);
-                        setTimeout(function () { completeMission(id); }, 400);
-                    } else {
-                        completeMission(id);
-                    }
-                }
+function missionCardHTML(m, extraHead) {
+    var expBoost = player.expBoost || 0;
+    var mult = getDifficultyMultipliers();
+    return `
+        <div class="mission-card-content">
+            <div class="mission-card-head">
+                <span class="mission-dlc-name">${escapeHtml(m.dlcName)}${extraHead || ''}</span>
+                <span class="mission-attr-display">${(attrNames[m.attr] || m.attr).replace(/^([^\p{L}\s]+)\s+(.+)$/u, '<span class="ui-emoji">$1</span> $2')}</span>
+            </div>
+            <div class="mission-title">${escapeHtml(m.title)}</div>
+            <div class="mission-card-spacer"></div>
+            <div class="mission-footer">
+                <span class="reward-chip">Recompensa: +${Math.floor((m.expReward + expBoost) * mult.exp)} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
+                <button class="mission-complete-btn" onclick="handleMissionCardClick(event, '${m.id}')" ${player.gameOver ? 'disabled' : ''}>Completar</button>
+            </div>
+        </div>`;
+}
 
-                function completeMission(id) {
-                    if (player.gameOver) {
-                        showToast('Estás en Game Over. Debes reiniciar tu partida.', 'error', 'Error');
-                        return;
-                    }
+function renderMissions() {
+    var mainBox = document.getElementById('main-mission-container');
+    var secBox = document.getElementById('secondary-mission-container');
+    if (!mainBox || !secBox) return;
 
-                    var mission = player.rawMissions.find(function (m) { return m.id === id; });
-                    if (mission && !mission.completed) {
-                        var dlcName = mission.dlcName;
+    refreshSecondaries();
 
-                        mission.completed = true;
+    // ----- Principales: una por DLC activo -----
+    mainBox.innerHTML = '';
+    var live = (player.dlcs || []).filter(isDlcLive);
+    var shown = 0;
+    live.forEach(function (dlc) {
+        var m = currentMainMission(dlc);
+        if (!m) return;
+        shown++;
+        var mains = dlcMissions(dlc).filter(function (x) { return x.type === 'main'; });
+        var done = mains.filter(function (x) { return x.completed; }).length;
+        var card = document.createElement('div');
+        card.className = 'mission-card main';
+        card.innerHTML = missionCardHTML(m, ' <span class="mission-progress">· ' + (done + 1) + '/' + mains.length + '</span>');
+        mainBox.appendChild(card);
+    });
+    if (shown === 0) {
+        var anyDlc = (player.dlcs || []).length > 0;
+        mainBox.innerHTML = '<div class="event-empty" style="grid-column: 1 / -1;">' +
+            (anyDlc ? 'No hay DLC activos. Activa uno desde la pestaña Historia.' : 'Instala un DLC desde Configuración para obtener misiones.') + '</div>';
+    }
 
-                        var expBoost = player.expBoost || 0;
-                        var goldBoost = player.goldBoost || 0;
-                        gainRewards(mission.expReward + expBoost, mission.goldReward + goldBoost, mission.attr, 'mission', (mission.type === 'main' ? 'Misión principal "' : 'Misión secundaria "') + mission.title + '"', 'DLC: ' + dlcName);
-                        checkCampaignCompletion();
-                        checkDLCCompletion(dlcName);
-
-                        if (mission.type === 'main') {
-                            activeMainIds = activeMainIds.filter(function (mid) { return mid !== id; });
-                            var availableMain = player.rawMissions.filter(function (m) {
-                                return m.type === 'main' && !m.completed && activeMainIds.indexOf(m.id) === -1;
-                            });
-                            if (availableMain.length > 0) {
-                                var shuffled = availableMain.slice().sort(function () { return 0.5 - Math.random(); });
-                                var newMain = shuffled[0];
-                                activeMainIds.push(newMain.id);
-                            }
-                        } else if (mission.type === 'secondary') {
-                            activeSecondaryIds = activeSecondaryIds.filter(function (mid) { return mid !== id; });
-                            var availableSec = player.rawMissions.filter(function (m) {
-                                return m.type === 'secondary' && !m.completed && activeSecondaryIds.indexOf(m.id) === -1;
-                            });
-                            if (availableSec.length > 0) {
-                                var shuffled = availableSec.slice().sort(function () { return 0.5 - Math.random(); });
-                                var newSec = shuffled[0];
-                                activeSecondaryIds.push(newSec.id);
-                            }
-                        }
-
-                        saveGame();
-                        renderMissions();
-                        updateHUD();
-                        checkAndUnlockTrophies();
-
-                        showToast('Misión "' + mission.title + '" completada!', 'success', 'Misión');
-                    }
-                }
-
-                function checkCampaignCompletion() {
-                    var allMissions = player.rawMissions;
-                    if (allMissions.length > 0 && allMissions.every(function (m) { return m.completed; })) {
-                        showToast('¡FELICIDADES! Has completado todas las misiones de tus DLCs activos.', 'success', '¡Logro!');
-                        checkAndUnlockTrophies();
-                    }
-                }
-
-                function renderMissions() {
-                    var container = document.getElementById('mission-container');
-                    if (!container) return;
-                    container.innerHTML = '';
-
-                    var displayMissions = player.rawMissions.filter(function (m) {
-                        if (m.completed) return false;
-                        if (m.type === 'main') return activeMainIds.indexOf(m.id) !== -1;
-                        if (m.type === 'secondary') return activeSecondaryIds.indexOf(m.id) !== -1;
-                        return false;
-                    });
-
-                    if (displayMissions.length === 0) {
-                        var availableMain = player.rawMissions.filter(function (m) { return m.type === 'main' && !m.completed; });
-                        var availableSec = player.rawMissions.filter(function (m) { return m.type === 'secondary' && !m.completed; });
-
-                        if (availableMain.length > 0 || availableSec.length > 0) {
-                            refreshMissions();
-                            renderMissions();
-                            return;
-                        }
-
-                        container.innerHTML = `
-                    <div class="event-empty" style="grid-column: 1 / -1;">
-                        No hay misiones activas. 
-                        ${(availableMain.length === 0 && availableSec.length === 0) ?
-                                'Instala DLCs desde Configuración para obtener misiones.' :
-                                'Usa el botón "Re-roll" para ver nuevas misiones.'}
-                    </div>`;
-                        return;
-                    }
-
-                    var sortedMissions = displayMissions.slice().sort(function (a, b) {
-                        if (a.type === 'main' && b.type === 'secondary') return -1;
-                        if (a.type === 'secondary' && b.type === 'main') return 1;
-                        return 0;
-                    });
-
-                    sortedMissions.forEach(function (m) {
-                        var expBoost = player.expBoost || 0;
-                        var goldBoost = player.goldBoost || 0;
-                        var mult = getDifficultyMultipliers();
-
-                        var card = document.createElement('div');
-                        card.className = 'mission-card ' + m.type;
-
-                        card.innerHTML = `
-                    <div class="mission-card-content">
-                        <div class="mission-card-head">
-                            <span class="mission-dlc-name">${m.dlcName}</span>
-                            <span class="mission-attr-display">${(attrNames[m.attr] || m.attr).replace(/^([^\p{L}\s]+)\s+(.+)$/u, '<span class="ui-emoji">$1</span> $2')}</span>
-                        </div>
-                        <div class="mission-title">${m.title}</div>
-                        <div class="mission-card-spacer"></div>
-                        <div class="mission-footer">
-                            <span class="reward-chip">Recompensa: +${Math.floor((m.expReward + expBoost) * mult.exp)} EXP ${expBoost > 0 ? '(bono +' + expBoost + ')' : ''}</span>
-                            <button class="mission-complete-btn" onclick="handleMissionCardClick(event, '${m.id}')" ${player.gameOver ? 'disabled' : ''}>Completar</button>
-                        </div>
-                    </div>
-                `;
-
-                        container.appendChild(card);
-                    });
-                }
-
-                // ============================================================
+    // ----- Secundarias: 3 en total -----
+    secBox.innerHTML = '';
+    var secs = activeSecondaryIds.map(function (id) { return player.rawMissions.find(function (m) { return m.id === id; }); }).filter(Boolean);
+    secs.forEach(function (m) {
+        var card = document.createElement('div');
+        card.className = 'mission-card secondary';
+        card.innerHTML = missionCardHTML(m, '');
+        secBox.appendChild(card);
+    });
+    if (secs.length === 0) {
+        secBox.innerHTML = '<div class="event-empty" style="grid-column: 1 / -1;">No hay misiones secundarias por ahora.</div>';
+    }
+}

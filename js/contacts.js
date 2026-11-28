@@ -163,7 +163,6 @@ function saveContact() {
     contactFormFill(null);
     saveGame();
     renderContacts();
-    if (typeof checkStoryUnlocks === 'function') setTimeout(checkStoryUnlocks, 200);
 }
 
 function editContact(id) {
@@ -219,5 +218,4 @@ function markContact(id) {
     }
     saveGame();
     renderContacts();
-    if (typeof checkStoryUnlocks === 'function') setTimeout(checkStoryUnlocks, 200);
 }

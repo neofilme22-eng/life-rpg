@@ -19,75 +19,29 @@
                                                 content = content.substring(1);
                                             }
 
-                                            var dlcData = JSON.parse(content);
-
-                                            if (!dlcData.dlcName || !dlcData.missions || !Array.isArray(dlcData.missions)) {
-                                                showToast('Formato de JSON inválido. Asegúrate de que tenga "dlcName" y "missions".', 'error', 'Error');
+                                            var build = buildDlcFromJson(JSON.parse(content));
+                                            if (build.errors.length) {
+                                                console.error('Errores del DLC:', build.errors);
+                                                showToast('No se pudo instalar el DLC: ' + build.errors.slice(0, 3).join(' · ') +
+                                                    (build.errors.length > 3 ? ' (y ' + (build.errors.length - 3) + ' más, mira la consola)' : ''), 'error', 'DLC');
                                                 return;
                                             }
+                                            if (build.warnings.length) console.warn('Avisos del DLC:', build.warnings);
 
-                                            var dlcName = dlcData.dlcName || "DLC Sin Nombre";
-                                            var missionsArray = dlcData.missions;
-                                            var trophyIcon = dlcData.trophyIcon || "🏆";
-                                            var trophyName = dlcData.trophyName || dlcName + " Completado";
-
-                                            var countMain = 0;
-                                            var countSec = 0;
-
-                                            missionsArray.forEach(function (m) {
-                                                var mId = 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
-                                                var type = m.type || 'secondary';
-                                                if (type === 'main') countMain++;
-                                                else countSec++;
-
-                                                player.rawMissions.push({
-                                                    id: mId,
-                                                    dlcName: dlcName,
-                                                    title: m.title || "Misión de DLC",
-                                                    type: type,
-                                                    attr: m.attr || "disciplina",
-                                                    expReward: m.expReward || 10,
-                                                    goldReward: m.goldReward || 5,
-                                                    completed: false
-                                                });
-                                            });
-
-                                            player.dlcs.push({
-                                                name: dlcName,
-                                                total: missionsArray.length,
-                                                main: countMain,
-                                                secondary: countSec,
-                                                trophyIcon: trophyIcon,
-                                                trophyName: trophyName
-                                            });
-
-                                            var trophyId = 'dlc_' + dlcName.replace(/\s+/g, '_');
-                                            dynamicTrophyDefinitions = dynamicTrophyDefinitions.filter(function (t) { return t.id !== trophyId; });
-
-                                            dynamicTrophyDefinitions.push({
-                                                id: trophyId,
-                                                icon: trophyIcon,
-                                                name: trophyName,
-                                                desc: 'Completa todas las misiones del DLC "' + dlcName + '"',
-                                                check: function (p) {
-                                                    var missions = p.rawMissions.filter(function (m) { return m.dlcName === dlcName; });
-                                                    return missions.length > 0 && missions.every(function (m) { return m.completed; });
-                                                }
-                                            });
-
-                                            refreshMissions();
+                                            installDlcBuild(build);
+                                            refreshSecondaries();
                                             renderMissions();
+                                            renderStory();
                                             saveGame();
                                             renderTrophies();
                                             renderDLCImportList();
 
-                                            showToast('🚀 ¡DLC "' + dlcName + '" instalado con éxito! 🏆 Trofeo: ' + trophyIcon + ' ' + trophyName, 'success', 'DLC');
+                                            showToast('¡DLC "' + build.dlc.name + '" instalado! Expediente ' + build.dlc.file + ': ' + build.dlc.storyTitle, 'success', 'DLC');
 
                                             setTimeout(function () {
-                                                checkDLCCompletion(dlcName);
+                                                checkStoryUnlocks();
                                                 checkAndUnlockTrophies();
                                             }, 200);
-
                                         } catch (error) {
                                             showToast('Error al leer el archivo JSON: ' + error.message, 'error', 'Error');
                                             console.error("Error detallado:", error);
@@ -332,6 +286,7 @@
                                             updateHUD();
                                             renderRunes();
                                             renderMissions();
+                                            renderStory();
                                             renderDailyMissions();
                                             renderBosses();
                                             renderBestiary();
@@ -364,21 +319,18 @@
                                     showModal(
                                         '',
                                         'Eliminar Todos los DLCs',
-                                        '¿Eliminar TODOS los DLCs (' + player.dlcs.length + ') y sus misiones?',
+                                        '¿Eliminar TODOS los DLCs (' + player.dlcs.length + '), con sus misiones, historias y progreso?',
                                         'Eliminar',
                                         function () {
-                                            var dlcNames = player.dlcs.map(function (d) { return d.name; });
-                                            player.rawMissions = player.rawMissions.filter(function (m) { return dlcNames.indexOf(m.dlcName) === -1; });
-                                            player.dlcs = [];
-                                            dynamicTrophyDefinitions = dynamicTrophyDefinitions.filter(function (t) { return t.id.indexOf('dlc_') !== 0; });
-                                            player.dlcTrophies = [];
-
-                                            refreshMissions();
+                                            player.dlcs.map(function (d) { return d.name; }).forEach(removeDlcByName);
+                                            activeSecondaryIds = [];
+                                            refreshSecondaries();
                                             renderMissions();
+                                            renderStory();
                                             saveGame();
                                             renderTrophies();
                                             renderDLCImportList();
-                                            showToast('Todos los DLCs y sus misiones eliminados.', 'info', 'DLCs');
+                                            showToast('Todos los DLCs eliminados.', 'info', 'DLCs');
                                         },
                                         true
                                     );
@@ -389,23 +341,20 @@
                                 // permitimos eliminar cada uno individualmente.
                                 function renderDLCImportList() {
                                     var packs = (player.dlcs || []).map(function (d) {
-                                        return { id: d.name, name: d.name, count: d.total };
+                                        return { id: d.name, name: d.name + ' (Exp. ' + d.file + ')', count: d.total };
                                     });
                                     renderImportPackList('dlc-import-list', packs, deleteDLCPack);
                                 }
 
                                 function deleteDLCPack(dlcName) {
-                                    player.rawMissions = player.rawMissions.filter(function (m) { return m.dlcName !== dlcName; });
-                                    player.dlcs = player.dlcs.filter(function (d) { return d.name !== dlcName; });
-                                    var trophyId = 'dlc_' + dlcName.replace(/\s+/g, '_');
-                                    dynamicTrophyDefinitions = dynamicTrophyDefinitions.filter(function (t) { return t.id !== trophyId; });
-
-                                    refreshMissions();
+                                    removeDlcByName(dlcName);
+                                    refreshSecondaries();
                                     renderMissions();
+                                    renderStory();
                                     saveGame();
                                     renderTrophies();
                                     renderDLCImportList();
-                                    showToast('DLC "' + dlcName + '" eliminado.', 'info', 'DLCs');
+                                    showToast('DLC "' + dlcName + '" eliminado junto con su historia y su progreso.', 'info', 'DLCs');
                                 }
 
                                 // ============================================================
@@ -447,9 +396,6 @@
                                                     player = backup.player;
                                                     activeMainIds = backup.activeMainIds || [];
                                                     activeSecondaryIds = backup.activeSecondaryIds || [];
-                                                    if (backup.dynamicTrophyDefinitions) {
-                                                        dynamicTrophyDefinitions = backup.dynamicTrophyDefinitions;
-                                                    }
                                                     if (backup.SHOP_ITEMS) {
                                                         SHOP_ITEMS = backup.SHOP_ITEMS;
                                                     }
@@ -473,6 +419,18 @@
                                                 if (player.gameOver === undefined) player.gameOver = false;
                                                 if (player.lastRuneReset === undefined) player.lastRuneReset = null;
 
+                                                // Historia dentro de cada DLC: se descartan campos viejos y DLC de formato antiguo
+                                                ['storyChapters', 'storyRead', 'storyChoices', 'storyMeta', 'storyVersion', 'storyCampaigns', 'storyActive'].forEach(function (k) { delete player[k]; });
+                                                if (!player.dlcs) player.dlcs = [];
+                                                if (!player.rawMissions) player.rawMissions = [];
+                                                var oldDlcNames = player.dlcs.filter(function (d) { return !d.chapters; }).map(function (d) { return d.name; });
+                                                if (oldDlcNames.length) {
+                                                    player.dlcs = player.dlcs.filter(function (d) { return !!d.chapters; });
+                                                    player.rawMissions = player.rawMissions.filter(function (m) { return oldDlcNames.indexOf(m.dlcName) === -1; });
+                                                }
+                                                rebuildDlcTrophies();
+                                                refreshSecondaries();
+
                                                 eventosCache = player.events || [];
 
                                                 resetPomodoro();
@@ -480,6 +438,7 @@
                                                 saveGame();
                                                 updateHUD();
                                                 renderMissions();
+                                                renderStory();
                                                 renderDailyMissions();
                                                 renderRunes();
                                                 renderBosses();

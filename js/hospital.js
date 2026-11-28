@@ -106,7 +106,6 @@ function hospitalApplyHeal(item, kind) {
     if (typeof addLogEntry === 'function') addLogEntry('heal', (kind === 'med' ? 'Medicina "' : 'Tratamiento "') + item.name + '"', '+' + healed + ' HP', 0, 0, null);
     if (typeof updateHUD === 'function') updateHUD();
     saveGame();
-    if (typeof checkStoryUnlocks === 'function') setTimeout(checkStoryUnlocks, 200);
     showToast(item.name + ': +' + healed + ' HP', 'success', kind === 'med' ? 'Farmacia' : 'Tratamiento');
     return healed;
 }

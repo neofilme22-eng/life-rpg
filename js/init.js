@@ -76,25 +76,8 @@
                                     // Renovar eventos periódicos al cargar
                                     renovarEventosPeriodicos();
 
-                                    if ((activeMainIds.length === 0 || activeSecondaryIds.length === 0) && player.rawMissions.length > 0) {
-                                        refreshMissions();
-                                    }
-
-                                    player.dlcs.forEach(function (dlc) {
-                                        var trophyId = 'dlc_' + dlc.name.replace(/\s+/g, '_');
-                                        if (!dynamicTrophyDefinitions.find(function (t) { return t.id === trophyId; })) {
-                                            dynamicTrophyDefinitions.push({
-                                                id: trophyId,
-                                                icon: dlc.trophyIcon || "🏆",
-                                                name: dlc.trophyName || (dlc.name + ' Completado'),
-                                                desc: 'Completa todas las misiones del DLC "' + dlc.name + '"',
-                                                check: function (p) {
-                                                    var missions = p.rawMissions.filter(function (m) { return m.dlcName === dlc.name; });
-                                                    return missions.length > 0 && missions.every(function (m) { return m.completed; });
-                                                }
-                                            });
-                                        }
-                                    });
+                                    rebuildDlcTrophies();
+                                    refreshSecondaries();
 
                                     resetPomodoro();
                                     startDailyCheckInterval();
