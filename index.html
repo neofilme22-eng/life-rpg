@@ -7,11 +7,10 @@
     <title>Life RPG CRM</title>
 
     <!-- ===== PWA ===== -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" id="app-manifest" href="manifest.json">
     <meta name="theme-color" content="#0b100f">
-    <script>try{var __t=localStorage.getItem('life_rpg_theme');if(__t&&__t!=='noir'){document.documentElement.setAttribute('data-theme',__t);}}catch(e){}</script>
-    <link rel="icon" href="assets/icons/icon-192.png">
-    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" id="app-favicon" href="assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" id="app-apple-icon" href="assets/icons/apple-touch-icon.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -45,7 +44,6 @@
     <link rel="stylesheet" href="css/contacts.css">
     <link rel="stylesheet" href="css/rules.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/vice.css">
 </head>
 
 <body>
@@ -117,7 +115,7 @@
                 <div id="attribute-radar-container" class="attribute-radar-container"></div>
 
                 <div
-                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(var(--bone-rgb), 0.05), transparent); margin: 15px 0;">
+                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(227,220,200,0.05), transparent); margin: 15px 0;">
                 </div>
             
                 <!-- DESHABILITADO: contador de ORO (todo es por EXP). Para reactivarlo: sacá el <template> y poné FEATURES.gold = true en js/config.js -->
@@ -212,12 +210,12 @@
                     <br>
 
                     <div class="daily-mission-form"
-                        style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(var(--bone-rgb), 0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04); align-items:center;">
+                        style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; background:rgba(227,220,200,0.02); padding:10px 12px; border-radius:8px; border:1px solid rgba(227,220,200,0.04); align-items:center;">
                         <input type="text" id="daily-title" placeholder="Título de la tarea..." maxlength="60"
-                            style="flex:3; min-width:180px; background:rgba(var(--bone-rgb), 0.03); border:1px solid rgba(var(--bone-rgb), 0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:var(--font-body); font-size:0.85rem;">
+                            style="flex:3; min-width:180px; background:rgba(227,220,200,0.03); border:1px solid rgba(227,220,200,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem;">
                         <div class="time-input-wrap" style="position:relative; flex:1; min-width:100px;">
                             <input type="time" id="daily-time"
-                                style="width:100%; background:rgba(var(--bone-rgb), 0.03); border:1px solid rgba(var(--bone-rgb), 0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:var(--font-body); font-size:0.85rem; position:relative; box-sizing:border-box;">
+                                style="width:100%; background:rgba(227,220,200,0.03); border:1px solid rgba(227,220,200,0.06); border-radius:6px; padding:6px 10px; color:var(--text); font-family:'Georgia','Times New Roman',serif; font-size:0.85rem; position:relative; box-sizing:border-box;">
                         </div>
                         <button class="action-btn" onclick="addDailyMission()"
                             style="font-size:0.8rem; padding:6px 14px; flex:0 0 auto;">
@@ -281,19 +279,19 @@
                     <div id="custom-settings"
                         style="display:none; text-align:center; margin:6px 0 10px 0; gap:10px; flex-wrap:wrap; justify-content:center;">
                         <div
-                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(var(--bone-rgb), 0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
+                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(227,220,200,0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
                             <label
-                                style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-body);">Enfoque:</label>
+                                style="font-size:0.8rem; color:var(--text-muted); font-family:'Georgia','Times New Roman',serif;">Enfoque:</label>
                             <input type="number" id="custom-focus" value="25" min="1" max="180"
-                                style="width:50px; background:var(--surface-2); border:1px solid var(--panel-3); border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:var(--font-body);">
+                                style="width:50px; background:#1b2622; border:1px solid #26312d; border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:'Georgia','Times New Roman',serif;">
                             min
                         </div>
                         <div
-                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(var(--bone-rgb), 0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(var(--bone-rgb), 0.04);">
+                            style="display:inline-flex; align-items:center; gap:8px; background:rgba(227,220,200,0.02); padding:6px 14px; border-radius:8px; border:1px solid rgba(227,220,200,0.04);">
                             <label
-                                style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-body);">Descanso:</label>
+                                style="font-size:0.8rem; color:var(--text-muted); font-family:'Georgia','Times New Roman',serif;">Descanso:</label>
                             <input type="number" id="custom-break" value="5" min="1" max="60"
-                                style="width:50px; background:var(--surface-2); border:1px solid var(--panel-3); border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:var(--font-body);">
+                                style="width:50px; background:#1b2622; border:1px solid #26312d; border-radius:4px; color:var(--text); padding:4px 6px; text-align:center; font-family:'Georgia','Times New Roman',serif;">
                             min
                         </div>
                         <button class="sanctuary-btn sanctuary-btn-start" style="padding:6px 20px; font-size:0.8rem;"
@@ -317,7 +315,7 @@
                     </div>
 
                     <div
-                        style="text-align:center; margin-top:25px; font-size:0.7rem; color:var(--text-muted); opacity:0.4; font-family:var(--font-body);">
+                        style="text-align:center; margin-top:25px; font-size:0.7rem; color:var(--text-muted); opacity:0.4; font-family:'Georgia','Times New Roman',serif;">
                         ✠ “La constancia es la virtud del guerrero” ✠
                     </div>
                 </div>
@@ -340,7 +338,7 @@
                 <!-- DESHABILITADO: contador de PP. Para reactivarlo: sacá el <template> y poné FEATURES.pp = true en js/config.js -->
                 <template data-disabled="pp">
                 <div
-                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(var(--bone-rgb), 0.05), transparent); margin: 15px 0;">
+                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(227,220,200,0.05), transparent); margin: 15px 0;">
                 </div>
                 <div class="panel-gold">
                     <div class="shop-gold-display pp-badge">
@@ -380,7 +378,7 @@
                 </div>
 
                 <div
-                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(var(--bone-rgb), 0.05), transparent); margin: 15px 0;">
+                    style="height: 1px; background: linear-gradient(90deg, transparent, rgba(227,220,200,0.05), transparent); margin: 15px 0;">
                 </div>
                 </template>
 
@@ -531,7 +529,7 @@
                         <span class="section-ornament"></span>
                     </div>
                     <span id="bestiary-counts"
-                        style="color: var(--text-muted); font-size: 0.9rem; font-family:var(--font-body);">0 registradas</span>
+                        style="color: var(--text-muted); font-size: 0.9rem; font-family:'Georgia','Times New Roman',serif;">0 registradas</span>
                 </div>
 
                 <div class="bestiary-filters">
@@ -649,7 +647,7 @@
                             </div>
                         </div>
                         <div
-                            style="margin-top: 10px; font-size:0.7rem; color:var(--text-muted); opacity:0.4; text-align:center; font-family:var(--font-body);">
+                            style="margin-top: 10px; font-size:0.7rem; color:var(--text-muted); opacity:0.4; text-align:center; font-family:'Georgia','Times New Roman',serif;">
                             Haz clic en un slot para desequipar el objeto
                         </div>
                     </div>
@@ -671,7 +669,7 @@
                         </div>
                         <div id="inventory-pagination" class="pagination"></div>
                         <div
-                            style="margin-top: 10px; font-size:0.7rem; color:var(--text-muted); opacity:0.3; text-align:center; font-family:var(--font-body);">
+                            style="margin-top: 10px; font-size:0.7rem; color:var(--text-muted); opacity:0.3; text-align:center; font-family:'Georgia','Times New Roman',serif;">
                             Haz clic en un objeto para equiparlo (si es equipable) o usa el botón "Usar" para consumibles.
                         </div>
                     </div>
@@ -844,19 +842,6 @@
 
                 <div class="config-grid">
                     <div class="config-card">
-                        <div class="config-title">Tema visual</div>
-                        <br>
-                        <select class="config-select" id="config-theme" onchange="applyTheme(this.value)">
-                            <option value="noir">Noir — Bahía Ceniza</option>
-                            <option value="vice">Vice City — Neón (GTA VI)</option>
-                        </select>
-                        <div style="font-size:0.7rem; color:var(--text-muted); opacity:0.7; margin-top:8px;">
-                            <span id="theme-desc"></span>
-                        </div>
-                        <div class="theme-swatches" id="theme-swatches"></div>
-                    </div>
-
-                    <div class="config-card">
                         <div class="config-title">Dificultad</div>
                         <br>
                         <select class="config-select" id="config-difficulty" onchange="applyDifficulty(this.value)">
@@ -867,7 +852,7 @@
                         </select>
 
                         <div
-                            style="font-size:0.7rem; color:var(--text-muted); opacity:0.5; margin-top:4px; font-family:var(--font-body);">
+                            style="font-size:0.7rem; color:var(--text-muted); opacity:0.5; margin-top:4px; font-family:'Georgia','Times New Roman',serif;">
                             <br>
                             <span id="difficulty-desc">Experiencia normal, balance estándar.</span>
                         </div>
@@ -910,7 +895,7 @@
                         <div class="config-import-list" id="events-import-list"></div>
                         <div class="config-actions">
                             <button class="action-btn danger" onclick="clearAllEvents()"
-                                style="border-color:rgba(var(--blood-rgb), 0.15); background:rgba(var(--blood-rgb), 0.08); color:var(--danger); padding:6px 16px;">
+                                style="border-color:rgba(190,82,74,0.15); background:rgba(190,82,74,0.08); color:var(--danger); padding:6px 16px;">
                                 Eliminar Todas</button>
                         </div>
                     </div>
@@ -929,18 +914,18 @@
                         </div>
                     </div>
 
-                    <div class="config-card" style="border-color:rgba(var(--blood-rgb), 0.2);">
+                    <div class="config-card" style="border-color:rgba(190,82,74,0.2);">
                         <div class="config-title" style="color:var(--danger);">Zona de Peligro</div>
                         <br>
                         <div class="config-actions">
                             <button class="action-btn danger" onclick="resetFullGame()"
-                                style="border-color:rgba(var(--blood-rgb), 0.3); background:rgba(var(--blood-rgb), 0.08); color:var(--danger); font-weight:bold; padding:8px 16px;">
+                                style="border-color:rgba(190,82,74,0.3); background:rgba(190,82,74,0.08); color:var(--danger); font-weight:bold; padding:8px 16px;">
                                 Borrar Partida
                             </button>
                         </div>
                         <br>
                         <div
-                            style="font-size:0.65rem; color:var(--text-muted); opacity:0.4; margin-top:4px; font-family:var(--font-body);">
+                            style="font-size:0.65rem; color:var(--text-muted); opacity:0.4; margin-top:4px; font-family:'Georgia','Times New Roman',serif;">
                             Esto eliminará TODOS los datos: personaje, runas, misiones, metas, eventos, tienda,
                             trofeos y diario.
                         </div>
@@ -967,7 +952,6 @@
     <script src="js/config.js"></script>
     <script src="js/ui-feedback.js"></script>
     <script src="js/settings.js"></script>
-    <script src="js/theme.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/hud.js"></script>
     <script src="js/tabs.js"></script>

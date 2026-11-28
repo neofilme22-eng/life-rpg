@@ -1,7 +1,7 @@
         /* ===== BITÁCORA ===== */
         .logbook-entry {
-            background: rgba(var(--bone-rgb), 0.02);
-            border: 1px solid rgba(var(--bone-rgb), 0.05);
+            background: rgba(227, 220, 200, 0.02);
+            border: 1px solid rgba(227, 220, 200, 0.05);
             border-radius: 8px;
             margin-bottom: 6px;
             transition: all 0.3s ease;
@@ -9,8 +9,8 @@
         }
 
         .logbook-entry:hover {
-            border-color: rgba(var(--bone-rgb), 0.1);
-            background: rgba(var(--bone-rgb), 0.03);
+            border-color: rgba(227, 220, 200, 0.1);
+            background: rgba(227, 220, 200, 0.03);
         }
 
         .logbook-entry-header {
@@ -27,7 +27,7 @@
         }
 
         .logbook-entry-header:hover {
-            background: rgba(var(--bone-rgb), 0.02);
+            background: rgba(227, 220, 200, 0.02);
         }
 
         .logbook-entry-header .entry-left {
@@ -47,13 +47,13 @@
             font-weight: bold;
             font-size: 0.8rem;
             color: var(--text);
-            font-family: var(--font-body);
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 
         .logbook-entry-header .entry-summary {
             font-size: 0.65rem;
             color: var(--text-muted);
-            font-family: var(--font-body);
+            font-family: 'Georgia', 'Times New Roman', serif;
             opacity: 0.7;
             flex: 2;
             min-width: 150px;
@@ -83,7 +83,7 @@
             font-size: 0.8rem;
             color: var(--text-muted);
             line-height: 1.5;
-            font-family: var(--font-body);
+            font-family: 'Georgia', 'Times New Roman', serif;
             white-space: pre-wrap;
             word-break: break-word;
         }
@@ -96,7 +96,7 @@
 
         .logbook-entry-body .log-detail {
             padding: 2px 0;
-            border-bottom: 1px solid rgba(var(--bone-rgb), 0.03);
+            border-bottom: 1px solid rgba(227, 220, 200, 0.03);
             display: flex;
             flex-wrap: wrap;
             align-items: baseline;
@@ -148,6 +148,6 @@
             opacity: 0.5;
             font-style: italic;
             padding: 30px 0;
-            font-family: var(--font-body);
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
 

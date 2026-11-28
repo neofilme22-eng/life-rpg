@@ -5,7 +5,7 @@
 // así que todo lo que necesita la app queda guardado localmente.
 // ============================================================
 
-const CACHE_VERSION = 'life-rpg-v13';
+const CACHE_VERSION = 'life-rpg-v12';
 const CACHE_NAME = CACHE_VERSION;
 
 const APP_SHELL = [
@@ -39,6 +39,9 @@ const APP_SHELL = [
     "assets/champs/timidez.jpg",
     "assets/icons/apple-touch-icon.png",
     "assets/icons/icon-192.png",
+    "assets/icons/vice-192.png",
+    "assets/icons/vice-512.png",
+    "assets/icons/vice-apple-touch-icon.png",
     "assets/icons/icon-512.png",
     "css/base.css",
     "css/bosses.css",
@@ -64,7 +67,6 @@ const APP_SHELL = [
     "css/stats.css",
     "css/trophies.css",
     "css/variables.css",
-    "css/vice.css",
     "css/wellbeing.css",
     "index.html",
     "js/battles.js",
@@ -92,7 +94,6 @@ const APP_SHELL = [
     "js/runes.js",
     "js/sanctuary.js",
     "js/settings.js",
-    "js/theme.js",
     "js/shop.js",
     "js/social.js",
     "js/stats.js",
@@ -103,7 +104,8 @@ const APP_SHELL = [
     "js/ui-feedback.js",
     "js/utils.js",
     "js/wellbeing.js",
-    "manifest.json"
+    "manifest.json",
+    "manifest-vice.json"
 ];
 
 // ===== INSTALL: precachear todos los archivos =====

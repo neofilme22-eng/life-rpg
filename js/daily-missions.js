@@ -107,7 +107,7 @@
                     var totalExp = Math.floor((8 + expBoost) * mult.exp);
 
                     if (card && typeof triggerFxBurst === 'function') {
-                        triggerFxBurst(card, '+' + totalExp + ' EXP', 'var(--brass)');
+                        triggerFxBurst(card, '+' + totalExp + ' EXP', '#c19847');
                         setTimeout(function () { completeDailyMission(id); }, 400);
                     } else {
                         completeDailyMission(id);
@@ -228,7 +228,7 @@
 
                     if (missions.length === 0) {
                         container.innerHTML = `
-                    <div style="color:var(--text-muted); opacity:0.5; text-align:center; font-style:italic; font-family:var(--font-body); padding:20px 0;">
+                    <div style="color:var(--text-muted); opacity:0.5; text-align:center; font-style:italic; font-family:'Georgia','Times New Roman',serif; padding:20px 0;">
                         No hay tareas para hoy. ¡Crea una para empezar!
                     </div>
                 `;

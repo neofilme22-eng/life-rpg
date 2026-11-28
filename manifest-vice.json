@@ -1,0 +1,37 @@
+{
+  "name": "Life RPG",
+  "short_name": "Life RPG",
+  "description": "Un expediente abierto en un pueblo que no quiere ser resuelto",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B0F2B",
+  "theme_color": "#0B0F2B",
+  "icons": [
+    {
+      "src": "assets/icons/vice-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/vice-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/vice-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/vice-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

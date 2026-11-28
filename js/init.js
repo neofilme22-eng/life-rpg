@@ -28,7 +28,7 @@
                                                 petLevel.textContent += ' ' + healthPercent + '%';
                                                 petContainer.style.borderColor = 'var(--danger)';
                                             } else {
-                                                petContainer.style.borderColor = 'rgba(var(--verdigris-rgb), 0.2)';
+                                                petContainer.style.borderColor = 'rgba(113, 167, 156, 0.2)';
                                             }
                                             var scale = 1 + (player.level / 50);
                                             petContainer.style.transform = 'scale(' + Math.min(scale, 1.6) + ')';
@@ -36,7 +36,7 @@
                                             petEmoji.textContent = '';
                                             petLevel.textContent = 'Nv. 1';
                                             petContainer.style.transform = 'scale(1)';
-                                            petContainer.style.borderColor = 'rgba(var(--verdigris-rgb), 0.2)';
+                                            petContainer.style.borderColor = 'rgba(113, 167, 156, 0.2)';
                                         }
                                     }
 

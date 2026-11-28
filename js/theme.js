@@ -9,12 +9,14 @@ var THEMES = {
         label: 'Noir — Bahía Ceniza',
         desc: 'Detective melancólico: tinta, latón y niebla marina.',
         color: '#0b100f',
+        icons: { favicon: 'assets/icons/icon-192.png', apple: 'assets/icons/apple-touch-icon.png', manifest: 'manifest.json' },
         swatches: ['#c19847', '#be524a', '#71a79c', '#9c87ab', '#e3dcc8']
     },
     vice: {
         label: 'Vice City — Neón (GTA VI)',
         desc: 'Atardecer en Ocean Drive: rosa sunset, cian vice, púrpura neón y durazno Miami.',
         color: '#0B0F2B',
+        icons: { favicon: 'assets/icons/vice-192.png', apple: 'assets/icons/vice-apple-touch-icon.png', manifest: 'manifest-vice.json' },
         swatches: ['#FF5CA8', '#00F0FF', '#BC6CFF', '#FFB86B', '#0B0F2B'],
         fonts: 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Rajdhani:wght@500;600;700&family=Righteous&family=Yellowtail&display=swap'
     }
@@ -38,6 +40,14 @@ function applyTheme(name, persist) {
 
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', t.color);
+
+    // Icono de la app: favicon, icono de iOS y manifest (icono al instalar la PWA)
+    if (t.icons) {
+        var setHref = function (id, href) { var el = document.getElementById(id); if (el && el.getAttribute('href') !== href) el.setAttribute('href', href); };
+        setHref('app-favicon', t.icons.favicon);
+        setHref('app-apple-icon', t.icons.apple);
+        setHref('app-manifest', t.icons.manifest);
+    }
 
     if (persist !== false) {
         try { localStorage.setItem('life_rpg_theme', name); } catch (e) { }
